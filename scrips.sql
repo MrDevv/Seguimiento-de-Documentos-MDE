@@ -18,11 +18,11 @@ insert into Documento(NroDocumento, asunto, folios, codEstado, codTipoDocumento,
 values('9844', 'Deducción', 1, 3, 1, '30-05-2024')
 
 -- Envio
-insert into Envio(fechaEnvio, codAdministrado, codEstado, nroDocumento)
+insert into Envio(fechaEnvio, codAdministrado, codEstado)
 values('30-05-2024', 1, 5, '9844')
 
 -- Recepcion
-insert into Recepcion(fechaRecepcion, codAdministrado, codEstado, nroDocumento)
+insert into Recepcion(fechaRecepcion, codAdministrado, codEstado)
 values('01-06-2024', 2, 1, '9844')
 
 -- Movimientos
@@ -36,20 +36,21 @@ select * from Administrado
 select * from TipoDocumento
 select * from Documento
 select * from Envio
-select * from Recepcion
-select * from movimiento
+select * from Recepcion;
+select * from movimiento;
 
 
 
 -- consulta seguimiento
-
 select d.NroDocumento, d.asunto, d.folios, tp.descripcion as 'Tipo Documento',
 e.fechaEnvio as 'Fecha Derivacion', a.nombres as 'Administrador Origen', 
 r.fechaRecepcion as 'Fecha Recepcion', ar.nombres as 'Administrado Recepcion'
-from movimiento as m
+from Movimiento as m
 inner join Documento as d on m.NroDocumento = d.NroDocumento
 inner join TipoDocumento as tp on d.codTipoDocumento = tp.codTipoDocumento
-inner join Envio as e on d.NroDocumento = e.nroDocumento
-inner join Recepcion as r on d.NroDocumento = r.nroDocumento
+inner join Envio as e on m.codEnvio = e.codEnvio
+inner join Recepcion as r on m.codRecepcion = r.codRecepcion
 inner join Administrado as a on e.codAdministrado = a.codAdministrado
 inner join Administrado as ar on r.codAdministrado = ar.codAdministrado
+
+select * from Movimiento
