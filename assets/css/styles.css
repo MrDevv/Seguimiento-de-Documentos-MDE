@@ -1,6 +1,16 @@
+:root{
+    --bg-color-principal: #056251;
+    --bg-color: #E6E6E6;
+}
+
+html{
+    box-sizing: border-box;
+}
+
 
 *{
     font-family: "Inter", sans-serif;
+    box-sizing: inherit;
 }
 
 body{
@@ -8,15 +18,22 @@ body{
     padding: 0;
 }
 
+/* Globales */
+h1, h2, h3{
+    margin: 0;
+}
+/* ------- */
+
 .container{
     display: flex;
     width: 100%;
     height: 100vh;
     overflow: hidden;
-    background-color: #F8F9FC;
+
 }
 
 .navbar{
+    width: 13%;
     background-color: #085A4B;
     display: flex;
     flex-direction: column;
@@ -26,12 +43,13 @@ body{
 }
 
 .navbar .logo{
+    width: 100%;
     background-color: #fff;
     flex: 20%;
 }
 
 .navbar .logo img {
-    width: 200px;
+    width: 100%;
 }
 
 .navbar .menu{
@@ -67,21 +85,81 @@ body{
     background-color: #0C7260;
 }
 
-/* estilos login */
-body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f4f4f4;
-    margin: 0;
+.header{
+    background: var(--bg-color-principal);
 }
 
+.content{
+    width: 87%;
+    display: flex;
+    flex-direction: column;
+}
+
+.header{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.header h1{
+    width: 35%;
+    line-height: 1.4;
+    font-size: 15px;
+    font-weight: 500;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.header span{
+    font-weight: 500;
+
+}
+
+.container_userDetails_logout{
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    gap: 20px;
+}
+
+.userDetails{
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+}
+
+.fondo_blanco{
+    position: absolute;
+    top: -200px;
+    right: -220px;
+    width: 1000px;
+    height: 800px;
+    background-color: #fff;
+    transform: rotate(45deg);
+}
+
+
+.main{
+    padding: 15px;
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    background: var(--bg-color);
+}
+
+/* estilos login */
 .login-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
     background-color: #fff;
-    border-radius: 8px;
+    border-radius: 80px 30px 80px 30px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     width: 800px;
@@ -89,7 +167,7 @@ body {
 }
 
 .login-left {
-    background-color: #005f6a;
+    background-color: var(--bg-color-principal);
     color: white;
     display: flex;
     flex-direction: column;
@@ -100,24 +178,33 @@ body {
     text-align: center;
 }
 
-.logo {
-    width: 100%;
+.logo-login {
+    width: 80%;
     margin-bottom: 20px;
 }
 
 .login-right {
-    padding: 40px;
+    display: flex;
+    flex-direction: column;
     width: 50%;
-    text-align: left;
+    padding: 30px 50px;
 }
 
-.login-right2 {
+.login-right .login-title {
+    text-transform: uppercase;
     text-align: center;
-    color: #004f5a;
+    font-size: 18px;
+    margin-bottom: 30px;
+    color: var(--bg-color-principal);
 }
 
-h2, h3 {
-    margin-bottom: 20px;
+.login-right h3{
+    font-size: 18px;
+}
+
+.login-right p,
+.login-right form label{
+    font-size: 13px;
 }
 
 label {
@@ -127,30 +214,43 @@ label {
 }
 
 input {
+    background: rgba(245, 245, 245, 0.44);
     width: 100%;
+    display: block;
     padding: 10px;
     margin-bottom: 10px;
-    border: 1px solid #ccc;
+    border: 0 solid #ccc;
+    border-bottom: 2px solid #ccc;
     border-radius: 4px;
+}
+
+input:focus-visible{
+    outline: none;
+    border-bottom: 2px solid var(--bg-color-principal);
+    /*outline: 1px auto var(--bg-color-principal);*/
 }
 
 button {
     width: 100%;
-    padding: 10px;
+    padding: 13px 10px;
     border: none;
-    border-radius: 4px;
-    background-color: #005f6a;
+    border-radius: 10px;
+    background-color: var(--bg-color-principal);
     color: white;
     font-size: 16px;
     cursor: pointer;
+    margin-top: 20px;
 }
 
 button:hover {
     background-color: #004f5a;
 }
 
-#message {
-    margin-top: 20px;
-    color: red;
+/* inicio */
+.inicio{
+    width: 100%;
+    height: fit-content;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 10px;
 }
-
