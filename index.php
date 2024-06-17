@@ -1,13 +1,19 @@
 <?php
+session_start();
 require_once 'autoload.php';
 
 require_once 'config/parameters.php';
 require_once 'views/layouts/head.php';
-require_once 'views/layouts/navbar.php';
-require_once 'views/layouts/content.php';
+
+function show_error(){
+    $error = new ErrorController();
+    $error->index();
+}
 
 if(isset($_GET['controller'])){
     $nombre_controlador = $_GET['controller'].'Controller';
+}elseif(!isset($_GET["controller"]) && !isset($_GET["action"]) && !isset($_SESSION["autenticado"])){
+    $nombre_controlador = controller_login;
 }elseif(!isset($_GET["controller"]) && !isset($_GET["action"])){
     $nombre_controlador = controller_default;
 }
@@ -23,7 +29,12 @@ if(class_exists($nombre_controlador)){
     if(isset($_GET['action']) && method_exists($controlador, $_GET['action'])){
         $action = $_GET['action'];
         $controlador->$action();
+    }elseif(!isset($_GET["controller"]) && !isset($_GET["action"]) && !isset($_SESSION["autenticado"])){
+        $action_default = action_login;
+        $controlador->$action_default();
     }elseif(!isset($_GET["controller"]) && !isset($_GET["action"])){
+        require_once 'views/layouts/navbar.php';
+        require_once 'views/layouts/content.php';
         $action_default = action_default;
         $controlador->$action_default();
     }
