@@ -1,6 +1,7 @@
 :root{
     --bg-color-principal: #056251;
     --bg-color: #E6E6E6;
+    --font-principal: "Inter", sans-serif;
 }
 
 html{
@@ -9,7 +10,7 @@ html{
 
 
 *{
-    font-family: "Inter", sans-serif;
+    font-family: var(--font-principal);
     box-sizing: inherit;
 }
 
@@ -101,6 +102,7 @@ h1, h2, h3{
     padding: 20px;
     position: relative;
     overflow: hidden;
+    align-items: center;
 }
 
 .header h1{
@@ -120,16 +122,24 @@ h1, h2, h3{
 .container_userDetails_logout{
     z-index: 1;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-content: center;
-    gap: 20px;
+    align-items: center;
+    gap: 50px;
 }
 
 .userDetails{
     display: flex;
-    flex-wrap: wrap;
-    align-content: center;
+    height: 100%;
+    align-items: center;
+    gap: 10px;
+}
+
+.userDetails svg{
+    width: 40px;
+}
+
+.container_userDetails_logout svg{
+    width: 40px;
+    cursor: pointer;
 }
 
 .fondo_blanco{
@@ -142,6 +152,26 @@ h1, h2, h3{
     transform: rotate(45deg);
 }
 
+@media screen and (max-width: 1500px){
+    .header{
+        padding: 10px 20px;
+    }
+
+    .header h1{
+        font-size: 13px;
+    }
+
+    .fondo_blanco{
+        position: absolute;
+        top: -200px;
+        right: -500px;
+        width: 1000px;
+        height: 800px;
+        background-color: #fff;
+        transform: rotate(45deg);
+    }
+
+}
 
 .main{
     padding: 15px;
@@ -250,7 +280,16 @@ button:hover {
 .inicio{
     width: 100%;
     height: fit-content;
-    padding: 20px;
+    padding: 60px 20px;
     background: #ffffff;
     border-radius: 10px;
+}
+
+.inicio h1{
+    font-size: 25px;
+}
+
+.inicio p{
+    color: rgb(0,0,0, 60%);
+    font-weight: 600;
 }
