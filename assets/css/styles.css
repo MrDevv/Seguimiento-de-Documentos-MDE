@@ -239,6 +239,14 @@ a{
         transform: rotate(45deg);
     }
 
+    .navbar .menu .option p, .navbar .menu .option a {
+        font-size: 13px;
+    }
+
+    .navbar .menu .option>:last-child {
+        gap: 5px;
+    }
+
 }
 
 .main{
