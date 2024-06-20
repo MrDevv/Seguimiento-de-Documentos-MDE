@@ -4,7 +4,7 @@
     </div>
     <div class="menu">
         <div>
-            <div class="option" id="optionInicio">
+            <div class="option selected" id="optionInicio">
                 <svg width="31" height="29" viewBox="0 0 31 29" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <rect width="31" height="29" fill="url(#pattern0_2339_10)" />
                     <defs>
