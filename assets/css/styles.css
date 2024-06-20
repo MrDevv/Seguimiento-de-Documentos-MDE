@@ -2,6 +2,7 @@
     --bg-color-principal: #056251;
     --bg-color: #E6E6E6;
     --font-principal: "Inter", sans-serif;
+    --bg-color-btn-selected: #0C7260;
 }
 
 html{
@@ -22,6 +23,10 @@ body{
 /* Globales */
 h1, h2, h3{
     margin: 0;
+}
+
+a{
+    text-decoration: none;
 }
 /* ------- */
 
@@ -58,31 +63,95 @@ h1, h2, h3{
     flex-direction: column;
     padding: 10px;
     flex: 80%;
+    gap: 10px;
 }
 
 .navbar .menu .option{
     display: flex;
-    gap: 10px;
+    gap: 5px;
     align-items: center;
-    color: #fff;
-    font-weight: 500;
     cursor: pointer;
     border-radius: 10px;
     padding: 0 5px;
 }
 
+.navbar .menu .option .svgOption{
+    width: 10px;
+}
+
 .navbar .menu .option svg{
-    flex: 30%;
+    transition: all .3s ease-in-out;
+}
+
+.open{
+    transform: rotate(90deg);
 }
 
 .navbar .menu .option>:last-child{
     flex: 70%;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 10px;
 }
 
+/* arreglar EL COLOR DE INICIO Y EL TAMAÑO*/
+.navbar .menu .option p,
+.navbar .menu .option a{
+    font-size: 15px;
+    color: #fff;
+    font-weight: 500;
+}
+
 .navbar .menu .option:hover{
+    background-color: #0C7260;
+}
+
+.navbar .menu .submenu{
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: all .3s ease-in-out;
+}
+.navbar .submenu .options{
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.showOptions{
+    grid-template-rows: 1fr !important;
+}
+
+.options{
+    display: flex;
+    flex-direction: column;
+    padding: 0 10px;
+    gap: 10px;
+}
+
+.openPaddingOptions{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.options a{
+    padding: 10px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.options a:hover{
+    background-color: #0C7260;
+}
+
+.options a span{
+    margin-right: 5px;
+}
+
+.selected{
     background-color: #0C7260;
 }
 
@@ -116,7 +185,6 @@ h1, h2, h3{
 
 .header span{
     font-weight: 500;
-
 }
 
 .container_userDetails_logout{
