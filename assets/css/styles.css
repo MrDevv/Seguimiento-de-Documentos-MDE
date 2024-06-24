@@ -72,7 +72,7 @@ a{
     align-items: center;
     cursor: pointer;
     border-radius: 10px;
-    padding: 0 5px;
+    padding: 0 10px 0 5px;
 }
 
 .navbar .menu .option .svgOption{
@@ -126,7 +126,7 @@ a{
     display: flex;
     flex-direction: column;
     padding: 0 10px;
-    gap: 10px;
+    gap: 5px;
 }
 
 .openPaddingOptions{
@@ -135,12 +135,14 @@ a{
 }
 
 .options a{
+    display: flex;
     padding: 10px;
     border-radius: 10px;
     text-decoration: none;
     color: #fff;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 500;
+    line-height: 1.3;
 }
 
 .options a:hover{
@@ -149,6 +151,10 @@ a{
 
 .options a span{
     margin-right: 5px;
+}
+
+.options a span svg{
+    width: 8px;
 }
 
 .selected{
@@ -255,6 +261,27 @@ a{
     height: 100vh;
     justify-content: center;
     background: var(--bg-color);
+}
+
+/* Pagina de Error */
+.containerError{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.containerError h3{
+    font-size: 40px;
+    text-transform: uppercase;
+}
+
+.containerError p{
+    font-size: 30px;
+    font-weight: 700;
+    color: #FF0000;
 }
 
 /* estilos login */
@@ -369,3 +396,153 @@ button:hover {
     color: rgb(0,0,0, 60%);
     font-weight: 600;
 }
+
+/* ESTILOS DOCUMENTOS */
+
+/* -------------- PENDIENTES DE RECEPCION --------------- */
+
+/*              HEADER             */
+.containerPendientesRecepcion{
+    width: 100%;
+}
+
+.pendientesRecepcion_header{
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.pendientesRecepcion_header h2{
+    text-transform: uppercase;
+}
+
+.pendientesRecepcion_header p:nth-child(2){
+    color: var(--bg-color-principal);
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+.pendientesRecepcion_header .fecha_busqueda{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pendientesRecepcion_header .fecha_busqueda .fecha p,
+.pendientesRecepcion_header .fecha_busqueda .fecha input{
+    margin: 0;
+}
+
+.pendientesRecepcion_header .fecha_busqueda .fecha p{
+    margin-bottom: 10px;
+}
+
+.pendientesRecepcion_header .fecha_busqueda .busqueda{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #fff;
+    height: fit-content;
+    border-radius: 10px;
+    padding-left: 5px;
+}
+
+.pendientesRecepcion_header .fecha_busqueda .busqueda input{
+    margin: 0;
+}
+
+/*              BODY             */
+.pendientesRecepcion_body table{
+    width: 100%;
+    border-spacing: 0;
+}
+
+
+.pendientesRecepcion_body table thead tr{
+    background-color: #fff;
+    font-size: 14px;
+}
+
+.pendientesRecepcion_body table thead tr th{
+    font-weight: 600;
+    padding: 10px 5px;
+}
+
+.pendientesRecepcion_body table thead tr th:nth-child(1){
+    width: 100px;
+}
+
+.pendientesRecepcion_body table thead tr th:nth-child(6){
+    width: 60px;
+}
+
+.pendientesRecepcion_body table tbody tr{
+    text-align: center;
+    font-size: 13px;
+}
+
+.pendientesRecepcion_body table tbody tr td{
+    padding: 5px 0;
+}
+
+.pendientesRecepcion_body table tbody tr td:first-child{
+    color: #FF0000;
+    font-weight: 600;
+}
+
+.pendientesRecepcion_body table tbody tr td:nth-child(8) span{
+    padding: 5px 3px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    background-color: #39AFF1;
+}
+
+.pendientesRecepcion_body table tbody tr:nth-child(even){
+    background-color: #fff;
+}
+
+.pendientesRecepcion_body table tbody tr .actions{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding-top: 5px;
+}
+
+.pendientesRecepcion_body table tbody tr .actions .action{
+    display: flex;
+    align-items: flex-end;
+    cursor: pointer;
+    position: relative;
+}
+
+.pendientesRecepcion_body table tbody tr .actions .action .tooltip{
+    position: absolute;
+    width: 120px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    top: -30px;
+    left: -45px;
+    padding: 5px;
+    font-size: 10px;
+    cursor: none;
+    display: none;
+    background-color: #A3A3A3;
+}
+
+.pendientesRecepcion_body table tbody tr .actions .action .tooltip span{
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    bottom: -5px;
+    background-color: #A3A3A3;
+    transform: rotate(40deg);
+    border-right: 1px solid #000;
+    border-bottom: 1px solid #000;
+}
+
+.pendientesRecepcion_body table tbody tr .actions .action:hover .tooltip{
+    display: block;
+}
+

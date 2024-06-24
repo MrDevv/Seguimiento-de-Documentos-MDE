@@ -6,3 +6,4 @@ define("action_default", "index");
 
 define("controller_login", "usuariocontroller");
 define("action_login", "index");
+define("action_logout", "logout");

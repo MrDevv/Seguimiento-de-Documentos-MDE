@@ -49,6 +49,18 @@ select * from movimiento;
 
 update Recepcion set fechaRecepcion = NULL where codRecepcion = 1
 
+-- consulta documentos pendientes de recepcion
+select d.NroDocumento 'NUMERO DE DOCUMENTO', d.folios 'FOLIOS', d.asunto 'ASUNTO', tp.descripcion 'TIPO DOCUMENTO',
+aro.descripcion 'AREA ORIGEN', concat(a.nombres, ' ', a.apellidos) 'ADMINISTRADO ORIGEN', e.fechaEnvio 'FECHA DERIVACION',  e.observacion 'OBSERVACION', ee.descripcion 'ESTADO ENVIO'
+from Movimiento as m
+inner join Documento as d on m.NroDocumento = d.NroDocumento
+inner join TipoDocumento as tp on d.codTipoDocumento = tp.codTipoDocumento
+inner join Envio as e on m.codEnvio = e.codEnvio
+inner join Administrado as a on e.codAdministrado = a.codAdministrado
+inner join Estado as ee on ee.codEstado = e.codEstado
+inner join Area aro on aro.codArea = a.codArea
+where ee.descripcion = 'derivado';
+
 -- consulta detalle movimiento de un documento
 select d.NroDocumento 'NUMERO DE DOCUMENTO', d.folios 'FOLIOS', d.asunto 'ASUNTO', tp.descripcion 'TIPO DOCUMENTO',
 aro.descripcion 'AREA ORIGEN', a.nombres 'ADMINISTRADO ORIGEN', e.fechaEnvio 'FECHA DERIVACION',  e.observacion 'OBSERVACION', ee.descripcion 'ESTADO ENVIO',
