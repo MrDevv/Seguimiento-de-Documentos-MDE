@@ -263,6 +263,27 @@ a{
     background: var(--bg-color);
 }
 
+/* Pagina de Error */
+.containerError{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.containerError h3{
+    font-size: 40px;
+    text-transform: uppercase;
+}
+
+.containerError p{
+    font-size: 30px;
+    font-weight: 700;
+    color: #FF0000;
+}
+
 /* estilos login */
 .login-container {
     position: absolute;
