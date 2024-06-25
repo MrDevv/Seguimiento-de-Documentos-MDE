@@ -546,3 +546,81 @@ button:hover {
     display: block;
 }
 
+/* EStilo de registro administrados */
+
+.container-registro-administrado{
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.container-registro-administrado h2{
+    text-align: left;
+    margin-bottom: 10px;
+}
+.container-registro-administrado form div:first-child{
+    margin-bottom: 15px
+}
+
+.container-registro-administrado form .section h3{
+    background-color: #00695c;
+    color: white;
+    padding: 10px 5px;
+    text-align: left;
+    font-size: 15px;
+}
+
+.form-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    gap: 5%;
+    padding-left: 5px;
+}
+
+.form-group label {
+    margin-bottom: 5px;
+    display: flex;
+    flex-direction: column;
+    width: 10%; 
+
+} 
+
+.form-group input, .form-group select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 5px;
+    width: 50%;  
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.container-registro-administrado form button {
+    padding: 10px 20px;
+    background-color: #00695c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 20%;
+}
+
+.container-registro-administrado form button:hover {
+    background-color: #004d40;
+}
+
+
+
+
+
+
+
+
+
