@@ -340,13 +340,13 @@ a{
     font-size: 13px;
 }
 
-label {
+.login-container label {
     display: block;
     margin: 10px 0 5px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
-input {
+input{
     background: rgba(245, 245, 245, 0.44);
     width: 100%;
     display: block;
@@ -363,7 +363,7 @@ input:focus-visible{
     /*outline: 1px auto var(--bg-color-principal);*/
 }
 
-button {
+.login-container button {
     width: 100%;
     padding: 13px 10px;
     border: none;
@@ -375,7 +375,7 @@ button {
     margin-top: 20px;
 }
 
-button:hover {
+.login-container button:hover {
     background-color: #004f5a;
 }
 

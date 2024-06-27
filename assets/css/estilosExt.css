@@ -1,0 +1,51 @@
+
+
+.containerRegistroTipoDocumento{
+    width: 600px;
+    max-width: 600px;
+    height: fit-content;
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 70px;
+}
+
+.containerRegistroTipoDocumento h2{
+    margin-bottom: 20px;
+    background-color: var(--bg-color-principal);
+    padding: 10px;
+    color: #fff;
+    font-size: 17px;
+}
+
+.containerRegistroTipoDocumento .body{
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+.containerRegistroTipoDocumento .body input{
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.containerRegistroTipoDocumento .body label:first-child{
+    flex: 1;
+}
+
+.containerRegistroTipoDocumento .body input:last-child{
+    flex: 2;
+    margin: 0;
+}
+
+.containerRegistroTipoDocumento input[type="submit"]{
+    cursor: pointer;
+    background-color: var(--bg-color-principal);
+    color: #fff;
+    width: 30%;
+    margin: auto;
+    margin-bottom: 10px;
+}

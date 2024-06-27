@@ -31,7 +31,9 @@ if(class_exists($nombre_controlador)){
             if ($action == "logout" || $action == "login"){
                 $controlador->$action();
             }else if(isset($_SESSION["autenticado"])){
-                $controlador->estilosNavBar();
+                if (method_exists($controlador, "estilosNavBar")){
+                    $controlador->estilosNavBar();
+                }
                 require_once 'views/layouts/navbar.php';
                 require_once 'views/layouts/content.php';
                 $controlador->$action();

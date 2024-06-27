@@ -21,11 +21,7 @@
         </div>
 
         <div>
-            <div class="option
-            <?php if($_SESSION['optionActive'] == "administrado"):?>
-                selected
-            <?php endif;?>"
-            id="optionAdministrados">
+            <div class="option <?= $_SESSION['optionActive'] == "administrado" ? "selected" : "" ?>" id="optionAdministrados">
                 <div class="containerIconOption">
                     <svg width="31" height="29" viewBox="0 0 31 29" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                         <rect width="31" height="29" fill="url(#pattern0_2339_8)"/>
@@ -109,13 +105,13 @@
                         </span>
                         Opcion 2
                     </a>
-                    <a href="#">
+                    <a href="<?=base_url?>tipoDocumento/crear">
                         <span>
                             <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M5.5 11C6.95869 11 8.35764 10.4205 9.38909 9.38909C10.4205 8.35764 11 6.95869 11 5.5C11 4.04131 10.4205 2.64236 9.38909 1.61091C8.35764 0.579463 6.95869 0 5.5 0C4.04131 0 2.64236 0.579463 1.61091 1.61091C0.579463 2.64236 0 4.04131 0 5.5C0 6.95869 0.579463 8.35764 1.61091 9.38909C2.64236 10.4205 4.04131 11 5.5 11Z" fill="white"/>
                             </svg>
                         </span>
-                        Opcion 3
+                        Registrar Nuevo Tipo de Documento
                     </a>
                 </div>
             </div>
