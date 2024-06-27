@@ -548,9 +548,8 @@ button:hover {
 
 /* EStilo de registro administrados */
 
-.container-registro-administrado,
-.container-registro-area{
-    width: 50%;
+.container-registro-administrado{
+    width: 100%;
     background-color: #e0e0e0;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -626,6 +625,68 @@ button:hover {
 
 
 
+/* contenedor de los modales */
+
+
+.modal-container{
+    z-index: 2;
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.83);
+}
+
+.modals{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* modal confirmar recepcion */
+.modalConfirmar{
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+.modalConfirmar .header{
+    width: 200px;
+    margin: 10px auto;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg-color);
+}
+
+.modalConfirmar .header svg{
+    width: 50%;
+}
+
+.modalConfirmar .body .mensaje{
+    padding: 30px 20px;
+}
+
+.modalConfirmar .body form{
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+}
+
+.modalConfirmar .body form input{
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.modalConfirmar .body form input:first-child{
+    background-color: var(--bg-color-principal);
+}
+
+.modalConfirmar .body form input:last-child{
+    background-color: var(--bg-color);
+}
 
 
 

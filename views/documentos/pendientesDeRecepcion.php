@@ -43,7 +43,7 @@
                     <td> <?= $result["OBSERVACION"] ?> </td>
                     <td> <span>Pendiente de Recepcion</span> </td>
                     <td class="actions">
-                        <div class="action">
+                        <div class="action" onclick=modalConfirmarRecepcion()>
                             <span class="tooltip">Confirmar Recepción <span class="triangulo"></span></span>
                             <svg width="37" height="34" viewBox="0 0 37 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <g filter="url(#filter0_d_2424_38)">
