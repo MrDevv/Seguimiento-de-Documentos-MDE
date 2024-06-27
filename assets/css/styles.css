@@ -549,10 +549,13 @@ input:focus-visible{
 /* EStilo de registro administrados */
 
 .container-registro-administrado{
-    width: 80%;
-    background-color: #f1f1f1;
+    width: 100%;
+    background-color: #e0e0e0;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    height: fit-content;
+    padding-bottom: 10px;
+    
 }
 
 .container-registro-administrado h2{
@@ -563,8 +566,9 @@ input:focus-visible{
     margin-bottom: 15px
 }
 
-.container-registro-administrado form .section h3{
-    background-color: #00695c;
+.container-registro-administrado form .section h3,
+.container-registro-area form .section h3{
+    background-color: var(--bg-color-principal);
     color: white;
     padding: 10px 5px;
     text-align: left;
@@ -601,7 +605,8 @@ input:focus-visible{
     justify-content: center;
 }
 
-.container-registro-administrado form button {
+.container-registro-administrado form button, 
+.container-registro-area form button {
     padding: 10px 20px;
     background-color: #00695c;
     color: white;
@@ -615,6 +620,10 @@ input:focus-visible{
 .container-registro-administrado form button:hover {
     background-color: #004d40;
 }
+
+/* EStilo de registro administrados */
+
+
 
 /* contenedor de los modales */
 
