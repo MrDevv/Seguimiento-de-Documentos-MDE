@@ -112,14 +112,9 @@
         <div>
             <div class="option <?= ($_SESSION['optionActive'] == "tipoDocumento") ? "selected" : ""?>" id="optionTipoDocumentos">
                 <div class="containerIconOption">
-                    <svg width="31" height="29" viewBox="0 0 31 29" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                        <rect width="31" height="29" fill="url(#pattern0_2339_5)"/>
-                        <defs>
-                            <pattern id="pattern0_2339_5" patternContentUnits="objectBoundingBox" width="1" height="1">
-                                <use xlink:href="#image0_2339_5" transform="matrix(0.00974462 0 0 0.0104167 0.0322581 0)"/>
-                            </pattern>
-                            <image id="image0_2339_5" width="96" height="96" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAAAsTAAALEwEAmpwYAAABxUlEQVR4nO3XIXLEQBBD0ebJ3v8siwK25lwKCJ4KsNVuafSoiX51DXBVREREREREaMJ8bwDf5QoaFoBXOYKOZXkEaFl2R4CeZXUEaFo2R9gVTttjewRsTNtje4Rd2bQ9tkfYVU3bY3uEXdG0PQA+/xzhI/nHLHSALwA/di9B5QD1983vCEoHsDyC2gHsjqB4AKsjqB7A5gjKB7A4gsoBbjDzP2G3dtqem7xrmt3SaXvuUtNMGwqymmbaUOQAOcDRL+C4Lpmhrl0yQ127ZIa6dskMde2SGeradWUoHsLuasWIZGN3tWJEsrG7WjEi2dhdrRiRbOyuVoxINnZXK5mhrl0yQ127ZIa6dskMde2SGeraJTPUtevKUDyE3dWKEcnG7mrFiGRjd7ViRLKxu1oxItnYXa0YkWzsrlYyQ127ZIa6dskMde2SGeraJTPUtUtmqGvXlaF4CLurFSOSjd3VihHJxu5qxYhkY3e1YkSysbtaMSLZ2F2tZIa6dskMde2SGeraJTPUtUtmqGuXzFDXLpmhrl0yQ127ZIa6dskMde2SGeraJTPUtQuHqWlwmJoGh6lpcJiaBoepaXCYioiIiIiIiJL0Cz6P4ItXKcNWAAAAAElFTkSuQmCC"/>
-                        </defs>
+                    <svg width="31" height="28" viewBox="0 0 31 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M25.1875 12.0996V22.75C25.1875 23.4462 24.8813 24.1139 24.3363 24.6062C23.7913 25.0984 23.052 25.375 22.2812 25.375H8.71875C7.94796 25.375 7.20875 25.0984 6.66372 24.6062C6.11869 24.1139 5.8125 23.4462 5.8125 22.75V5.25C5.8125 4.55381 6.11869 3.88613 6.66372 3.39384C7.20875 2.90156 7.94796 2.625 8.71875 2.625H14.6978C15.2114 2.62507 15.7041 2.80938 16.0673 3.13742L24.6202 10.8626C24.9834 11.1907 25.1874 11.6356 25.1875 12.0996Z" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+                        <path d="M15.5 3.0625V9.625C15.5 10.0891 15.7041 10.5342 16.0675 10.8624C16.4308 11.1906 16.9236 11.375 17.4375 11.375H24.7031" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </div>
                 <div>

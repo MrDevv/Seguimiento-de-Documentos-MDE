@@ -1,12 +1,27 @@
 <div class="containerRegistroTipoDocumento">
     <h2>Editar Tipo de Documento</h2>
-    <form id="registrarTipoDocumentoForm" action="<?=base_url?>tipoDocumento/registrar" method="post">
-        <!--        <form id="registrarTipoDocumentoForm" action="--><?php //=base_url?><!--tipoDocumentoAJX/index" method="post">-->
-        <!--            <input type="hidden" name="modulo_tipoDoc" value="registrar">-->
+    <form id="registrarTipoDocumentoForm" action="<?=base_url?>tipoDocumento/actualizar" method="post">
         <div class="body">
             <label>Tipo de documento:</label>
-            <input type="text" name="tipoDocumento" id="tipoDocumento" autocomplete="off" placeholder="ejemplo: informe" required>
+            <input
+                    style="display: none"
+                    type="number"
+                    name="codTipoDocumento"
+                    value="<?= $tipoDocumentoDB[0]['codTipoDocumento']?>"
+                    required
+            >
+            <input
+                    type="text"
+                    name="tipoDocumento"
+                    id="tipoDocumento"
+                    autocomplete="off"
+                    placeholder="ejemplo: informe"
+                    value="<?=trim($tipoDocumentoDB[0]['descripcion'])?>"
+                    maxlength="20"
+                    required>
         </div>
         <input type="submit" value="Actualizar">
     </form>
+
+<!--    --><?php //var_dump($tipoDocumentoDB[0]['descripcion']);?>
 </div>
