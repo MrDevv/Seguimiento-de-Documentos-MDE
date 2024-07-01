@@ -90,25 +90,31 @@ class Documento{
         return $results;
     }
 
-    public  function registrarNuevoDocumento(){
+    public  function guardarNuevoDocumento(){
         $sql = "INSERT INTO TipoDocumento(descripcion) values(:descripcion)";
+        $sql = "INSERT INTO Documento(NroDocumento, asunto, folios, codTipoDocumento, fechaRegistro) ".
+                "values(:nroDocumento, :asunto, :folios, :codTipoDocumento, :fechaRegistro)";
 
         try {
             $stmt = DataBase::connect()->prepare($sql);
 
-            $stmt->bindParam(":descripcion", $this->descripcion, PDO::PARAM_STR);
+            $stmt->bindParam(":nroDocumento", $this->nroDocumento, PDO::PARAM_STR);
+            $stmt->bindParam(":asunto", $this->asunto, PDO::PARAM_STR);
+            $stmt->bindParam(":folios", $this->folios, PDO::PARAM_INT);
+            $stmt->bindParam(":codTipoDocumento", $this->tipoDocumento, PDO::PARAM_INT);
+            $stmt->bindParam(":fechaRegistro", $this->fechaRegistro, PDO::PARAM_STR);
 
             $stmt->execute();
 
             return [
                 'status' => 'success',
-                'message' => 'Tipo documento registrado',
+                'message' => 'Documento registrado',
                 'action' => 'registrar'
             ];
         }catch (PDOException $e){
             return [
                 'status' => 'failed',
-                'message' => 'Ocurrio un error al momento de registrar el tipo de documento',
+                'message' => 'Ocurrio un error al momento de registrar el documento',
                 'action' => 'registrar',
                 'info' => $e->getMessage()
             ];

@@ -24,7 +24,7 @@
 .containerRegistroDocumento .body{
     display: flex;
     margin-bottom: 20px;
-    padding: 20px;
+    padding: 20px 50px;
 }
 
 .containerRegistroDocumento .body {
@@ -33,7 +33,8 @@
 
 .containerRegistroDocumento .body .row{
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
+    margin: 0;
 }
 
 .containerRegistroDocumento .body .row div{
@@ -41,12 +42,31 @@
     flex-direction: column;
 }
 
+.containerRegistroTipoDocumento .body input,
 .containerRegistroDocumento .body .row input,
 .containerRegistroDocumento .body .row select{
     background-color: #fff;
     padding: 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    margin-bottom: 0;
+}
+
+.containerRegistroDocumento .body .row input[type="date"]{
+    width: 227.6px;
+}
+
+.containerRegistroDocumento .body .row:last-child{
+    justify-content: left;
+}
+
+.containerRegistroDocumento .body input[type="submit"]{
+    cursor: pointer;
+    width: 50%;
+    margin: auto;
+    background-color: var(--bg-color-principal);
+    color: #fff;
+    margin-top: 30px;
 }
 
 .containerRegistroDocumento .body .row select{
