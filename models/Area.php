@@ -26,11 +26,21 @@ class Area {
     }
 
     public function registrarArea(){
+        $sql = "#";
+
+        $stm = DataBase::connect()->query($sql);
+
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $results;
+    }
+
+    public function listarArea(){
         $sql = "SELECT a.codArea, a.descripcion, e.descripcion AS estado ". 
                 "FROM Area a ".
                 "JOIN Estado e ON a.codEstado = e.codEstado;";
 
-        $stm = DataBase::connect()->query($sql);
+        $stmt = DataBase::connect()->query($sql);
 
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
