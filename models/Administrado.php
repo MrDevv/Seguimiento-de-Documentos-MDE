@@ -1,17 +1,26 @@
 <?php
 
 class Administrado{
+    private $codAdmistrado;
     private $Nombre;
     private $Area;
     private $Apellidos;
     private $Estado;
     private $Telefono;
+    private $codUsuario;
 
-    private $Usuario;
-    private $Contrasenia;
 
     public function __construct(){
 
+    }
+
+    public function getCodAdministrado(){
+        return $this->getCodAdministrado;
+    }
+
+    public function setCodAdministrado($codAdministrado){
+        $this->codAdministrado = $codAdministrado;
+        
     }
 
     public function getNombre(){
@@ -54,43 +63,45 @@ class Administrado{
         $this->Telefono = $Telefono;
     }
 
-    public function getUsuario(){
+    public function getCodUsuario(){
         return $this->Usuario;
     }
 
-    public function setUsuario($usuario){
-        $this->Uusuario = $Usuario;
+    public function setCodUsuario($codUsuario){
+        $this->CodUsuario = $codUsuario;
     }
 
-    public function getContrasenia(){
-        return $this->Contrasenia;
-    }
-
-    public function setContrasenia($contrasenia){
-        $this->Contrasenia = $Contrasenia;
-    }
 
     public function registrarNuevoAdministrado(){
-        $sql = "#";
+        $sql = "INSERT INTO Administrado(codAdministrado, nombres, codArea, apellidos, codEstado, telefono, codUsuario) 
+        values(:codAdministrado, :nombres, :codArea, :apellidos, :codEstado, :telefono, :codUsuario)";
 
-        $stmt = DataBase::connect()->query($sql);
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
 
-        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
-        return $results;
-    }
+            $stmt->bindParam(":codAdministrado", $this->codAdministrado, PDO::PARAM_STR);
+            $stmt->bindParam(":nombres", $this->nombres, PDO::PARAM_STR);
+            $stmt->bindParam(":codArea", $this->codArea, PDO::PARAM_STR);
+            $stmt->bindParam(":apellidos", $this->apellidos, PDO::PARAM_STR);
+            $stmt->bindParam(":codEstado", $this->codEstado, PDO::PARAM_STR);
+            $stmt->bindParam(":telefono", $this->telefono, PDO::PARAM_STR);
+            $stmt->bindParam(":codUsuario", $this->codUsuario, PDO::PARAM_STR);
 
-    public function editar(){
-        if (isset($_GET["cod"])){
-            $codAdmiistrado = $_GET['cod'];
+            $stmt->execute();
 
-            var_dump($codAdministrado);
-            require_once "views/administrado/editarAdministrado.php";
-        }else{
-//            Redirecciona a la vista de listado
-            $this->redirect();
+            return [
+                'status' => 'success',
+                'message' => 'Administrado registrado',
+                'action' => 'registrar'
+            ];
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => 'Ocurrio un error al momento de registrar el Administrado',
+                'action' => 'registrar',
+                'info' => $e->getMessage()
+            ];
         }
-        
     }
 
     public function listarAdministrado(){
@@ -105,6 +116,73 @@ class Administrado{
 
         return $results;
     }
+
+    public function buscarAdministrado(){
+        $sql = "SELECT * FROM Administrado WHERE CodAdministrado = :codAdministrado";
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
+
+            $stmt->bindParam(":codAdministrado", $this->codAdministrado, PDO::PARAM_INT);
+
+            $stmt->execute();
+
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if (sizeof($results) == 0){
+                return [
+                    'status' => 'not found',
+                    'message' => 'No existe una Area con este código',
+                    'action' => 'buscar'
+                ];
+            }
+
+            return $results;
+
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => 'Ocurrio un error al momento de registrar el administrado',
+                'action' => 'buscar',
+                'info' => $e->getMessage()
+            ];
+        }
+    }
+
+    public function actualizarAdministrado(){
+        $sql = "UPDATE Administrado SET nombre = :nombre, codArea = :codArea, apellidos = :apellidos, codEstado = :codEstado, telefono = :telefono, codUsuario = :codUsuario WHERE CodAdministrado = :codAdministrado";
+
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
+
+            $stmt->bindParam(":codAdministrado", $this->codAdministrado, PDO::PARAM_STR);
+            $stmt->bindParam(":nombres", $this->nombres, PDO::PARAM_STR);
+            $stmt->bindParam(":codArea", $this->codArea, PDO::PARAM_STR);
+            $stmt->bindParam(":apellidos", $this->apellidos, PDO::PARAM_STR);
+            $stmt->bindParam(":codEstado", $this->codEstado, PDO::PARAM_STR);
+            $stmt->bindParam(":telefono", $this->telefono, PDO::PARAM_STR);
+            $stmt->bindParam(":codUsuario", $this->codUsuario, PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            return [
+                'status' => 'success',
+                'message' => 'Administrado actualizada',
+                'action' => 'actualizar'
+            ];
+
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => 'Ocurrio un error al momento de actualizar el administrado',
+                'action' => 'actualizar',
+                'info' => $e->getMessage()
+            ];
+        }
+    }
+
+
+
+
 
     /*$stmt = DataBase::connect()->query($sql);
 
