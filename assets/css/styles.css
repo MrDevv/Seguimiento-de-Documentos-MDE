@@ -546,10 +546,10 @@ input:focus-visible{
     display: block;
 }
 
-/* EStilo de registro administrados */
+/* EStilo de registro administrados y area */
 
 .container-registro-administrado{
-    width: 100%;
+    width: 80%;
     background-color: #e0e0e0;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -562,8 +562,16 @@ input:focus-visible{
     text-align: left;
     margin-bottom: 10px;
 }
-.container-registro-administrado form div:first-child{
+.container-registro-administrado, form div:first-child{
     margin-bottom: 15px
+}
+
+.container-registro-area{
+    padding-bottom: 10px;
+    justify-content: center;
+    align-items: center;
+    display: flex; 
+    height: 100%; 
 }
 
 .container-registro-administrado form .section h3,
@@ -573,6 +581,14 @@ input:focus-visible{
     padding: 10px 5px;
     text-align: left;
     font-size: 15px;
+    
+}
+
+.containerRegistroArea {
+    width: 67%;
+    border: 1px solid grey;
+    border-radius: 5px;
+    padding: 5px;
 }
 
 .form-group {
@@ -603,6 +619,8 @@ input:focus-visible{
 .button-container {
     display: flex;
     justify-content: center;
+    padding: 10px 20px;  
+    
 }
 
 .container-registro-administrado form button, 
@@ -614,14 +632,14 @@ input:focus-visible{
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
-    width: 20%;
+    width: 30%;
 }
 
 .container-registro-administrado form button:hover {
     background-color: #004d40;
 }
 
-/* EStilo de registro administrados */
+/* EStilo de registro area */
 
 
 

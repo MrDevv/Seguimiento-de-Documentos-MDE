@@ -5,7 +5,7 @@
                 <h3>Datos Generales</h3>
                 <div class="form-group">
                     <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" name="nombre" value="Rodrigo">
+                    <input type="text" id="nombre" name="nombre" value="Rodrigo"><br>
                 </div>
 
                 <div class="form-group">
@@ -16,12 +16,12 @@
                             <option value="">GAT</option>
                             <option value="">Mesa de partes</option>
                                 <!-- Agrega más opciones según sea necesario -->
-                        </select>
+                        </select><br>
                 </div>
                 
                 <div class="form-group">
                     <label for="apellidos">Apellidos:</label>
-                    <input type="text" id="apellidos" name="apellidos" value="Estrada León">
+                    <input type="text" id="apellidos" name="apellidos" value="Estrada León"><br>
                 </div>
 
                 <div class="form-group">
@@ -30,11 +30,11 @@
                             <option value="habilitado">Seleccione</option>
                             <option value="habilitado">Proceso</option>
                                 <!-- Agrega más opciones según sea necesario -->
-                        </select>
+                        </select><br>
                 </div>
                 <div class="form-group">
                     <label for="telefono">Teléfono:</label>
-                    <input type="text" id="telefono" name="telefono">
+                    <input type="text" id="telefono" name="telefono"><br>
                 </div>
             </div>
 
@@ -42,11 +42,11 @@
                 <h3>Datos de Usuario</h3>
                 <div class="form-group">
                     <label for="usuario">Usuario:</label>
-                    <input type="text" id="usuario" name="usuario" value="restradal" disabled>
+                    <input type="text" id="usuario" name="usuario" value="restradal" disabled><br>
                 </div>
                 <div class="form-group">
                     <label for="contrasena">Contraseña:</label>
-                    <input type="password" id="contrasena" name="contrasena" class="user-input">
+                    <input type="password" id="contrasena" name="contrasena" class="user-input"><br>
                 </div>
             </div>
 

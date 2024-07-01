@@ -1,15 +1,15 @@
-<div class="container-registro-area">
-    <form>
-        <div class="section">
-        <h3>Registro Area</h3>
-            <div class="form-group">
+<div class="containerRegistroTipoDocumento">
+    <form id="registrarAreaForm" action="<?=base_url?>area/registrar" method="post">
+        <div>
+        <h2>Registro Area</h2>
+            <div class="body">
                 <label for="nombre">Descripción:</label>
                 <input type="text" id="descripcion" name="descripcion" value="">
              </div>
 
-             <div class="form-group">
+             <div class="body">
                 <label for="estado">Estado:</label>
-                    <select id="estado" name="estado">
+                    <select class="containerRegistroArea" id="estado" name="estado">
                         <option value="habilitado">Seleccione</option>
                         <option value="habilitado">Habilitado</option>
                         <option value="habilitado">Deshabilitado</option>
@@ -17,9 +17,7 @@
                     </select>
                 </div>
 
-                <div class="button-container">
-                    <button type="submit">Registrar</button>
-            </div>
+                <input type="submit" value="Registrar">
         </div>
 
     </form>
