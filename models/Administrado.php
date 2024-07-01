@@ -71,15 +71,38 @@ class Administrado{
     }
 
     public function registrarNuevoAdministrado(){
-        $sql = "SELECT a.nombres, a.apellidos, a.telefono, ar.descripcion AS area, e.descripcion AS estado ".
-                "FROM Administrado a".
-                "JOIN Area ar ON a.codArea = ar.codArea".
-                "JOIN Estado e ON a.codEstado = e.codEstado;";
+        $sql = "#";
 
         $stmt = DataBase::connect()->query($sql);
 
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
+        return $results;
+    }
+
+    public function editar(){
+        if (isset($_GET["cod"])){
+            $codAdmiistrado = $_GET['cod'];
+
+            var_dump($codAdministrado);
+            require_once "views/administrado/editarAdministrado.php";
+        }else{
+//            Redirecciona a la vista de listado
+            $this->redirect();
+        }
+        
+    }
+
+    public function listarAdministrado(){
+        $sql = "SELECT  a.codAdministrado, a.nombres, a.apellidos, a.telefono, ar.descripcion AS area, e.descripcion AS estado ".
+                "FROM Administrado a ".
+                "JOIN Area ar ON a.codArea = ar.codArea ".
+                "JOIN Estado e ON a.codEstado = e.codEstado; ";
+
+        $stmt = DataBase::connect()->query($sql);
+
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
         return $results;
     }
 

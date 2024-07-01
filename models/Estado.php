@@ -20,7 +20,7 @@ class Estado {
         $this->getDescripcion = $descripcion;
     }
 
-    public function listarEstadosHabilitadoInhabilitado(){
+    public static function listarEstadosHabilitadoInhabilitado(){
         $sql = "select *
                 from Estado e where descripcion = 'Habilitado' OR descripcion = 'Deshabilitado'";
 
