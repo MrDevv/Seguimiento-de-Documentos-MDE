@@ -83,27 +83,10 @@ class Documento{
                 "inner join Area aro on aro.codArea = a.codArea ".
                 "where ee.descripcion = 'derivado'";
 
-
         $stmt = DataBase::connect()->query($sql);
 
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         return $results;
-
-        /*
-        $stmt = sqlsrv_query(DataBase::connect(), $sql);
-
-        if ($stmt === false) {
-            die(print_r(sqlsrv_errors(), true));
-        }
-
-        var_dump(sqlsrv_fetch_array($stmt));
-
-        // Procesar los resultados de la consulta
-        while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
-            var_dump($row["NUMERO DE DOCUMENTO"]);
-            echo $row . "\n";
-        }
-        */
     }
 }

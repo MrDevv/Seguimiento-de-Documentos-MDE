@@ -49,3 +49,41 @@
     margin: auto;
     margin-bottom: 10px;
 }
+
+/* Estilos de registro error */
+.containerMensajeRegistro{
+    background-color: #fff;
+    height: min-content;
+    max-width: 300px;
+    margin-top: 100px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.containerMensajeRegistro .header{
+    width: 300px;
+    background-color: transparent;
+}
+
+.containerMensajeRegistro .body{
+    background-color: #c9c9c9;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    padding: 10px;
+}
+
+.containerMensajeRegistro .body p{
+    text-align: center;
+    margin: 0;
+    font-weight: 500;
+    /*margin-bottom: 10px;*/
+}
+
+.containerMensajeRegistro .body a{
+    border-radius: 5px;
+    margin: auto;
+    padding: 10px 15px;
+    color: #fff;
+    background-color: var(--bg-color-principal);
+}
