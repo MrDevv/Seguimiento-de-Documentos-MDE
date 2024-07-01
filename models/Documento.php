@@ -89,4 +89,29 @@ class Documento{
 
         return $results;
     }
+
+    public  function registrarNuevoDocumento(){
+        $sql = "INSERT INTO TipoDocumento(descripcion) values(:descripcion)";
+
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
+
+            $stmt->bindParam(":descripcion", $this->descripcion, PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            return [
+                'status' => 'success',
+                'message' => 'Tipo documento registrado',
+                'action' => 'registrar'
+            ];
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => 'Ocurrio un error al momento de registrar el tipo de documento',
+                'action' => 'registrar',
+                'info' => $e->getMessage()
+            ];
+        }
+    }
 }

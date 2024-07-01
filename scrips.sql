@@ -14,7 +14,7 @@ insert into Administrado(nombres, apellidos, telefono, codArea, codUsuario, codE
 values('Andrea', 'Vasquez Rojas', '912001111', 1, 2, 3)
 
 -- Documentos
-insert into Documento(NroDocumento, asunto, folios, codEstado, codTipoDocumento, fechaRegistro)
+insert into Documento(NroDocumento, asunto, folios, codTipoDocumento, fechaRegistro)
 values('9844', 'Deducción', 1, 3, 1, '30-05-2024')
 
 ----- movimiento 1
@@ -37,6 +37,17 @@ values('01-06-2024', 2, 1, '9844')
 insert into Movimiento(codEnvio, codRecepcion, NroDocumento)
 values(1, 1, '9844')
 
+-- Documento 2
+insert into Documento(NroDocumento, asunto, folios, codTipoDocumento, fechaRegistro)
+values('9854', 'Deducción', 1, 2, '30-05-2024')
+
+-- movimineto 1
+insert into Recepcion(fechaRecepcion, codAdministrado, codEstado)
+values('01-07-2024', 1, 2);
+
+insert into Envio()
+
+
 select * from area
 select * from Estado
 select * from Usuario
@@ -51,15 +62,19 @@ update Recepcion set fechaRecepcion = NULL where codRecepcion = 1
 
 -- consulta documentos pendientes de recepcion
 select d.NroDocumento 'NUMERO DE DOCUMENTO', d.folios 'FOLIOS', d.asunto 'ASUNTO', tp.descripcion 'TIPO DOCUMENTO',
-aro.descripcion 'AREA ORIGEN', concat(a.nombres, ' ', a.apellidos) 'ADMINISTRADO ORIGEN', e.fechaEnvio 'FECHA DERIVACION',  e.observacion 'OBSERVACION', ee.descripcion 'ESTADO ENVIO'
+aro.descripcion 'AREA ORIGEN', concat(a.nombres, ' ', a.apellidos) 'ADMINISTRADO ORIGEN', r.codRecepcion 'FECHA RECEPCION',  e.observacion 'OBSERVACION', ee.descripcion 'ESTADO ENVIO'
 from Movimiento as m
 inner join Documento as d on m.NroDocumento = d.NroDocumento
 inner join TipoDocumento as tp on d.codTipoDocumento = tp.codTipoDocumento
 inner join Envio as e on m.codEnvio = e.codEnvio
+inner join Recepcion as r on m.codRecepcion = r.codRecepcion
 inner join Administrado as a on e.codAdministrado = a.codAdministrado
 inner join Estado as ee on ee.codEstado = e.codEstado
 inner join Area aro on aro.codArea = a.codArea
-where ee.descripcion = 'derivado';
+where ee.descripcion = 'recepcionado';
+
+-- consulta documentos recepcionados
+select * from
 
 -- consulta detalle movimiento de un documento
 select d.NroDocumento 'NUMERO DE DOCUMENTO', d.folios 'FOLIOS', d.asunto 'ASUNTO', tp.descripcion 'TIPO DOCUMENTO',

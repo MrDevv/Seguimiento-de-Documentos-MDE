@@ -1,4 +1,4 @@
-<div class="containerRegistroTipoDocumento">
+<div class="containerRegistroDocumento">
     <h2>Registrar Documento</h2>
     <div class="body">
         <div class="row">
