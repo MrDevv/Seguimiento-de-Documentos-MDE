@@ -39,6 +39,7 @@ class Area {
                 'status' => 'success',
                 'message' => 'Area registrada',
                 'action' => 'registrar',
+                'module' => 'area',
                 'info' => ''
             ];
         }catch (PDOException $e){
@@ -46,6 +47,7 @@ class Area {
                 'status' => 'failed',
                 'message' => 'Ocurrio un error al momento de registrar el Area',
                 'action' => 'registrar',
+                'module' => 'area',
                 'info' => $e->getMessage()
             ];
         }
@@ -75,7 +77,9 @@ class Area {
                 return [
                     'status' => 'not found',
                     'message' => 'No existe una Area con este código',
-                    'action' => 'buscar'
+                    'action' => 'buscar',
+                    'module' => 'area',
+                    'info' => ''
                 ];
             }
 
@@ -86,6 +90,7 @@ class Area {
                 'status' => 'failed',
                 'message' => 'Ocurrio un error al momento de registrar el area',
                 'action' => 'buscar',
+                'module' => 'area',
                 'info' => $e->getMessage()
             ];
         }
@@ -105,7 +110,9 @@ class Area {
             return [
                 'status' => 'success',
                 'message' => 'Area actualizada',
-                'action' => 'actualizar'
+                'action' => 'actualizar',
+                'module' => 'area',
+                'info' => ''
             ];
 
         }catch (PDOException $e){
@@ -113,6 +120,7 @@ class Area {
                 'status' => 'failed',
                 'message' => 'Ocurrio un error al momento de actualizar el area',
                 'action' => 'actualizar',
+                'module' => 'area',
                 'info' => $e->getMessage()
             ];
         }

@@ -22,7 +22,7 @@
     </div>
     <div class="body">
             <p class="mensaje"> <?= $_SESSION['response']['message'] ?></p>
-            <a href="<?=base_url?>tipoDocumento/<?=$ruta?>">Regresar</a>
+            <a href="<?=base_url?><?=$_SESSION['response']['module']?>/<?=$ruta?>">Regresar</a>
         </form>
     </div>
 </div>
