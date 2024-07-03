@@ -20,34 +20,42 @@ class DocumentoController{
 
     public function registrar(){
         if (isset($_POST)){
-
             $estadoOjb = new EstadoController();
-
             $nroDocumento = isset($_POST['nroDocumento']) ? trim($_POST['nroDocumento']) : false;
-            $asunto = isset($_POST['asunto']) ? trim($_POST['asunto']) : false;
-            $folios = isset($_POST['folios']) ? trim($_POST['folios']) : false;
-            $tipoDocumento = isset($_POST['tipoDocumento']) ? trim($_POST['tipoDocumento']) : false;
-            $fechaRegistro = $this->obtenerFechaActual();
-            $usuario = 1;   // usuario logeado
-            $estado = $estadoOjb->getIdEstadoActivo();
 
-            if ($nroDocumento && $asunto && $folios && $tipoDocumento && $fechaRegistro && $usuario && $estado){
-                $documentoObj = new Documento();
-                $documentoObj->setNumDocumento($nroDocumento);
-                $documentoObj->setAsunto($asunto);
-                $documentoObj->setFolios($folios);
-                $documentoObj->setTipoDocumento($tipoDocumento);
-                $documentoObj->setFechaRegistro($fechaRegistro);
-                $documentoObj->setUsuario($usuario);
-                $documentoObj->setEstado((int) $estado);
+            $documentoObj = new Documento();
+            $documentoObj->setNumDocumento(trim($nroDocumento));
 
-               // var_dump($documentoObj);
-                //$response [status, message, info]
-                $response = $documentoObj->guardarNuevoDocumento();
+            $response = $documentoObj->existeDocumento();
+            if ($response){
                 $_SESSION['response'] = $response;
                 require_once "views/modals/alerta.php";
+                exit();
             }
+
+                $asunto = isset($_POST['asunto']) ? trim($_POST['asunto']) : false;
+                $folios = isset($_POST['folios']) ? trim($_POST['folios']) : false;
+                $tipoDocumento = isset($_POST['tipoDocumento']) ? trim($_POST['tipoDocumento']) : false;
+                $fechaRegistro = $this->obtenerFechaActual();
+                $usuario = 1;   // usuario logeado
+                $estado = $estadoOjb->getIdEstadoActivo();
+
+                if ($nroDocumento && $asunto && $folios && $tipoDocumento && $fechaRegistro && $usuario && $estado){
+                    $documentoObj->setAsunto(trim($asunto));
+                    $documentoObj->setFolios(trim($folios));
+                    $documentoObj->setTipoDocumento($tipoDocumento);
+                    $documentoObj->setFechaRegistro($fechaRegistro);
+                    $documentoObj->setUsuario($usuario);
+                    $documentoObj->setEstado((int) $estado);
+
+                    // var_dump($documentoObj);
+                    //$response [status, message, info]
+                    $response = $documentoObj->guardarNuevoDocumento();
+                    $_SESSION['response'] = $response;
+                    require_once "views/modals/alerta.php";
+                }
         }
+
     }
 
     public function pendientesDeRecepcion(){
