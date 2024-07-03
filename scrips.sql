@@ -1,14 +1,17 @@
 
+select * from Documento
 
 
 ------------------- CONSULTAS AVANZADAS DEL SISTEMA -------------------
 
--- Modulo de DOCUMENTOS
+----- Modulo de DOCUMENTOS
+
+-- buscar si un ya documento existe
+select * from Documento where NumDocumento = '9012'
 
 
 
-
--- Modulo de USUARIOS
+----- Modulo de USUARIOS
 
 -- listar usuarios del sistema
 select u.codUsuario, u.nombreUsuario 'usuario', e.descripcion 'estado',
