@@ -1,6 +1,6 @@
 <?php
 require_once('models/Estado.php');
-$estado = new Estado();
+$estado = new EstadoController();
 $estados= $estado->listarEstadosHabilitadoInhabilitado();
 
 ?>
@@ -13,7 +13,7 @@ $estados= $estado->listarEstadosHabilitadoInhabilitado();
                 <input 
                 type="text"  
                 name="area" 
-                value="<?=$response [0]['descripcion']?>">
+                value="<?=$response[0]['descripcion']?>">
 
                 <input
                     style="display: none"
@@ -24,21 +24,6 @@ $estados= $estado->listarEstadosHabilitadoInhabilitado();
             >
 
              </div>
-
-             <div class="body">
-                <label for="estado">Estado:</label>
-                    <select class="containerRegistroArea" id="estado" name="estado">
-                        <?php foreach ($estados as $result):?>
-                        <option 
-                        value="<?=$result['codEstado']?>"
-                        <?=$result['codEstado']==$response[0]['codEstado']?"selected":''?>
-                        >
-                        <?=$result['descripcion']?>
-                    </option>
-                        
-                        <?php endforeach; ?>
-                    </select>
-                </div>
 
                 <input type="submit" value="Actualizar">
         </div>

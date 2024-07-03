@@ -9,7 +9,6 @@
             <tr>
                 <th>Id</th>
                 <th>Descripcion</th>
-                <th>Estado</th>
                 <th>Acciones</th>
             </tr>
             </thead>
@@ -19,7 +18,6 @@
                 <tr>
                     <td> <?=$result["codArea"]?> </td>
                     <td> <?=$result["descripcion"]?> </td>
-                    <td> <?=$result["estado"]?> </td>
                     <td class="actions">
                         <a class="action" href="<?=base_url?>area/editar?cod=<?=$result["codArea"]?>">
                             <span class="tooltip">Editar <span class="triangulo"></span></span>

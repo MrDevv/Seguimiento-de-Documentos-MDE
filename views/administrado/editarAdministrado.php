@@ -1,6 +1,6 @@
 <?php
 require_once('models/Estado.php');
-$estado = new Estado();
+$estado = new EstadoController();
 $estados= $estado->listarEstadosHabilitadoInhabilitado();
 ?>
 <div class="container-registro-administrado">

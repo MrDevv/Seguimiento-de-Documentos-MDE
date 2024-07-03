@@ -38,9 +38,8 @@ class AreaController{
     public function actualizar(){
         $codArea = isset($_POST['codArea']) ? (int) $_POST['codArea'] : false;
         $area = isset($_POST['area']) ? trim($_POST['area']) : false;
-        $estado = isset($_POST['estado']) ? trim($_POST['estado']) : false;
 
-        if (!$codArea || !$area || !$estado){
+        if (!$codArea || !$area){
             $this->redirect();
             exit();
         }
@@ -48,7 +47,6 @@ class AreaController{
             $areaObj = new Area();
             $areaObj->setCodArea($codArea);
             $areaObj->setDescripcion($area);
-            $areaObj->setEstado($estado);
 
             $response = $areaObj->actualizarArea();
 
@@ -69,19 +67,15 @@ class AreaController{
     }
 
     public function registrar(){
-        
-
         if (isset($_POST)){
             $area = isset($_POST['area']) ? trim($_POST['area']) : false;
-            $estado = isset($_POST['estado']) ? trim($_POST['estado']) : false;
 
-            if ($area && $estado){
+            if ($area ){
                 $areaObj = new Area();
                 $areaObj->setDescripcion($area);
-                $areaObj->setEstado($estado);
 //                $response [status, message, info]
                 $response = $areaObj->registrarArea();
-//                var_dump($response);
+                //var_dump($response);
                 $_SESSION['response'] = $response;
                 require_once "views/modals/alerta.php";
             }

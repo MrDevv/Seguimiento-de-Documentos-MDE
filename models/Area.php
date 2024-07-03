@@ -2,7 +2,6 @@
 
 class Area {
     private $descripcion;
-    private $estado;
     private $codArea;
 
     public function __construct(){
@@ -17,15 +16,6 @@ class Area {
         $this->descripcion = $descripcion;
     }
 
-    public function getEstado(){
-        return $this->estado;
-    }
-
-    public function setEstado($estado){
-        $this->estado = $estado;
-        
-    }
-
     public function getCodArea(){
         return $this->codArea;
     }
@@ -36,20 +26,20 @@ class Area {
     }
 
     public function registrarArea(){
-        $sql = "INSERT INTO Area(descripcion, codEstado) values(:descripcion, :codEstado)";
+        $sql = "INSERT INTO Area(descripcion) values(:descripcion)";
 
         try {
             $stmt = DataBase::connect()->prepare($sql);
 
             $stmt->bindParam(":descripcion", $this->descripcion, PDO::PARAM_STR);
-            $stmt->bindParam(":codEstado", $this->estado, PDO::PARAM_STR);
 
             $stmt->execute();
 
             return [
                 'status' => 'success',
                 'message' => 'Area registrada',
-                'action' => 'registrar'
+                'action' => 'registrar',
+                'info' => ''
             ];
         }catch (PDOException $e){
             return [
@@ -62,9 +52,7 @@ class Area {
     }
 
     public function listarArea(){
-        $sql = "SELECT a.codArea, a.descripcion, e.descripcion AS estado ". 
-                "FROM Area a ".
-                "JOIN Estado e ON a.codEstado = e.codEstado;";
+        $sql = "SELECT * FROM Area";
 
         $stmt = DataBase::connect()->query($sql);
 
@@ -104,14 +92,13 @@ class Area {
     }
 
     public function actualizarArea(){
-        $sql = "UPDATE Area SET descripcion = :descripcion, codEstado = :codEstado WHERE CodArea = :codArea";
+        $sql = "UPDATE Area SET descripcion = :descripcion WHERE CodArea = :codArea";
 
         try {
             $stmt = DataBase::connect()->prepare($sql);
 
             $stmt->bindParam(":descripcion", $this->descripcion, PDO::PARAM_STR);
             $stmt->bindParam(":codArea", $this->codArea, PDO::PARAM_INT);
-            $stmt->bindParam(":codEstado", $this->estado, PDO::PARAM_INT);
 
             $stmt->execute();
 
