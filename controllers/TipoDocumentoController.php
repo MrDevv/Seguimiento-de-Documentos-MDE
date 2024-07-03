@@ -73,6 +73,11 @@ class TipoDocumentoController{
         }
     }
 
+    public function getTipoDocumentos(){
+        $tipoDocumentoObj = new TipoDocumento();
+        return $tipoDocumentoObj->listarTipoDocumentos();
+    }
+
     public function estilosNavBar(){
         $_SESSION["optionActive"] = "tipoDocumento";
     }

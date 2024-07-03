@@ -1,6 +1,7 @@
 <?php
 require_once "models/Documento.php";
-require_once "models/TipoDocumento.php";
+require_once "TipoDocumentoController.php";
+require_once "EstadoController.php";
 
 class DocumentoController{
 
@@ -10,34 +11,41 @@ class DocumentoController{
 
     public function crear(){
         $fechaActual = $this->obtenerFechaActual();
-        $tipoDocObj = new tipoDocumento();
-        $tiposDocumentos = $tipoDocObj->listarTipoDocumentos();
+
+        $tipoDocObj = new TipoDocumentoController();
+        $tiposDocumentos = $tipoDocObj->getTipoDocumentos();
 
         require_once "views/documentos/registrarDocumento.php";
     }
 
     public function registrar(){
         if (isset($_POST)){
+
+            $estadoOjb = new EstadoController();
+
             $nroDocumento = isset($_POST['nroDocumento']) ? trim($_POST['nroDocumento']) : false;
             $asunto = isset($_POST['asunto']) ? trim($_POST['asunto']) : false;
             $folios = isset($_POST['folios']) ? trim($_POST['folios']) : false;
             $tipoDocumento = isset($_POST['tipoDocumento']) ? trim($_POST['tipoDocumento']) : false;
             $fechaRegistro = $this->obtenerFechaActual();
+            $usuario = 1;   // usuario logeado
+            $estado = $estadoOjb->getIdEstadoActivo();
 
-            if ($nroDocumento && $asunto && $folios && $tipoDocumento && $fechaRegistro){
+            if ($nroDocumento && $asunto && $folios && $tipoDocumento && $fechaRegistro && $usuario && $estado){
                 $documentoObj = new Documento();
-                $documentoObj->setNroDocumento($nroDocumento);
+                $documentoObj->setNumDocumento($nroDocumento);
                 $documentoObj->setAsunto($asunto);
                 $documentoObj->setFolios($folios);
                 $documentoObj->setTipoDocumento($tipoDocumento);
                 $documentoObj->setFechaRegistro($fechaRegistro);
+                $documentoObj->setUsuario($usuario);
+                $documentoObj->setEstado((int) $estado);
 
-//                var_dump($documentoObj);
-//                $response [status, message, info]
+               // var_dump($documentoObj);
+                //$response [status, message, info]
                 $response = $documentoObj->guardarNuevoDocumento();
-                var_dump($response);
-                //$_SESSION['response'] = $response;
-                //require_once "views/modals/alerta.php";
+                $_SESSION['response'] = $response;
+                require_once "views/modals/alerta.php";
             }
         }
     }

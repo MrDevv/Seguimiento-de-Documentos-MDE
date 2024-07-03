@@ -21,15 +21,23 @@ class Estado {
     }
 
     public static function listarEstadosHabilitadoInhabilitado(){
-        $sql = "select *
-                from Estado e where descripcion = 'Habilitado' OR descripcion = 'Deshabilitado'";
+        $sql = "select * from Estado";
 
         $stmt = DataBase::connect()->query($sql);
 
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
         return $results;
+    }
 
+    public static function getIdEstadoActivo(){
+        $sql = "select codEstado from Estado where descripcion = 1";
+
+        $stmt = DataBase::connect()->query($sql);
+
+        $results = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $results['codEstado'];
     }
 
 }

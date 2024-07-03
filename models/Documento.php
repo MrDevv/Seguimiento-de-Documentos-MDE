@@ -1,15 +1,15 @@
 <?php
 
 class Documento{
-    private $nroDocumento;
+    private $numDocumento;
     private $asunto;
     private $folios;
     private $tipoDocumento;
     private $fechaRegistro;
+    private $usuario;
+    private $estado;
 
-    public function __construct()
-    {
-    }
+    public function __construct(){}
 
     /*
     public function __construct($nroDocumento, $asunto, $folios, TipoDocumento $tipoDocumento, $fechaRegistro){
@@ -20,14 +20,14 @@ class Documento{
         $this->fechaRegistro = $fechaRegistro;
     }*/
 
-    public function getNroDocumento()
+    public function getNumDocumento()
     {
-        return $this->nroDocumento;
+        return $this->numDocumento;
     }
 
-    public function setNroDocumento($nroDocumento)
+    public function setNumDocumento($numDocumento)
     {
-        $this->nroDocumento = $nroDocumento;
+        $this->numDocumento = $numDocumento;
     }
 
     public function getAsunto()
@@ -70,6 +70,21 @@ class Documento{
         $this->fechaRegistro = $fechaRegistro;
     }
 
+    public function getUsuario(){
+        return $this->usuario;
+    }
+
+    public function setUsuario($usuario){
+        $this->usuario = $usuario;
+    }
+
+    public function getEstado(){
+        return $this->estado;
+    }
+
+    public function setEstado($estado){
+        $this->estado = $estado;
+    }
 
     public function getDocumentosPendientesRecepcion(){
         $sql = "select d.NroDocumento 'NUMERO DE DOCUMENTO', d.folios 'FOLIOS', d.asunto 'ASUNTO', tp.descripcion 'TIPO DOCUMENTO',".
@@ -91,18 +106,20 @@ class Documento{
     }
 
     public  function guardarNuevoDocumento(){
-        $sql = "INSERT INTO TipoDocumento(descripcion) values(:descripcion)";
-        $sql = "INSERT INTO Documento(NroDocumento, asunto, folios, codTipoDocumento, fechaRegistro) ".
-                "values(:nroDocumento, :asunto, :folios, :codTipoDocumento, :fechaRegistro)";
+
+        $sql = "INSERT INTO Documento(NumDocumento, asunto, folios, codTipoDocumento, fechaRegistro, codUsuario, codEstado) ".
+                "values(:numDocumento, :asunto, :folios, :codTipoDocumento, :fechaRegistro, :usuario, :estado)";
 
         try {
             $stmt = DataBase::connect()->prepare($sql);
 
-            $stmt->bindParam(":nroDocumento", $this->nroDocumento, PDO::PARAM_STR);
+            $stmt->bindParam(":numDocumento", $this->numDocumento, PDO::PARAM_STR);
             $stmt->bindParam(":asunto", $this->asunto, PDO::PARAM_STR);
             $stmt->bindParam(":folios", $this->folios, PDO::PARAM_INT);
             $stmt->bindParam(":codTipoDocumento", $this->tipoDocumento, PDO::PARAM_INT);
             $stmt->bindParam(":fechaRegistro", $this->fechaRegistro, PDO::PARAM_STR);
+            $stmt->bindParam(":usuario", $this->usuario, PDO::PARAM_INT);
+            $stmt->bindParam(":estado", $this->estado, PDO::PARAM_INT);
 
             $stmt->execute();
 

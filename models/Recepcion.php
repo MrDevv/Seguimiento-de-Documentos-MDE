@@ -48,7 +48,7 @@ class Recepcion{
 
         if ($nroDocumento && $asunto && $folios && $tipoDocumento && $fechaRegistro){
             $documentoObj = new Documento();
-            $documentoObj->setNroDocumento($nroDocumento);
+            $documentoObj->setNumDocumento($nroDocumento);
             $documentoObj->setAsunto($asunto);
             $documentoObj->setFolios($folios);
             $documentoObj->setTipoDocumento($tipoDocumento);
