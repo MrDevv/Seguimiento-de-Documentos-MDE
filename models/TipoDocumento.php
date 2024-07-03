@@ -39,13 +39,15 @@ class TipoDocumento{
             return [
                 'status' => 'success',
                 'message' => 'Tipo documento registrado',
-                'action' => 'registrar'
+                'action' => 'registrar',
+                'module' => 'tipoDocumento'
             ];
         }catch (PDOException $e){
             return [
                 'status' => 'failed',
                 'message' => 'Ocurrio un error al momento de registrar el tipo de documento',
                 'action' => 'registrar',
+                'module' => 'tipoDocumento',
                 'info' => $e->getMessage()
             ];
         }
@@ -76,7 +78,8 @@ class TipoDocumento{
                 return [
                     'status' => 'not found',
                     'message' => 'No existe un tipo documento con este código',
-                    'action' => 'buscar'
+                    'action' => 'buscar',
+                    'module' => 'tipoDocumento'
                 ];
             }
 
@@ -87,6 +90,7 @@ class TipoDocumento{
                 'status' => 'failed',
                 'message' => 'Ocurrio un error al momento de registrar el tipo de documento',
                 'action' => 'buscar',
+                'module' => 'tipoDocumento',
                 'info' => $e->getMessage()
             ];
         }
@@ -106,7 +110,8 @@ class TipoDocumento{
             return [
                 'status' => 'success',
                 'message' => 'Tipo documento actualizado',
-                'action' => 'actualizar'
+                'action' => 'actualizar',
+                'module' => 'tipoDocumento'
             ];
 
         }catch (PDOException $e){
@@ -114,6 +119,7 @@ class TipoDocumento{
                 'status' => 'failed',
                 'message' => 'Ocurrio un error al momento de actualizar el tipo de documento',
                 'action' => 'actualizar',
+                'module' => 'tipoDocumento',
                 'info' => $e->getMessage()
             ];
         }
@@ -133,12 +139,14 @@ class TipoDocumento{
             return [
                 'status' => 'success',
                 'message' => 'Tipo documento registrado',
+                'module' => 'tipoDocumento',
             ];
         }catch (PDOException $e){
             return [
                 'status' => 'failed',
                 'message' => 'Ocurrio un error al momento de registrar el tipo de documento',
                 'action' => '',
+                'module' => 'tipoDocumento',
                 'info' => $e->getMessage()
             ];
         }
