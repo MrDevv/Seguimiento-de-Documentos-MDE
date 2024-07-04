@@ -40,4 +40,14 @@ class Estado {
         return $results['codEstado'];
     }
 
+    public static function getIdEstadoInactivo(){
+        $sql = "select codEstado from Estado where descripcion = 0";
+
+        $stmt = DataBase::connect()->query($sql);
+
+        $results = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $results['codEstado'];
+    }
+
 }

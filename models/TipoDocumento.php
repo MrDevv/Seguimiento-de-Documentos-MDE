@@ -58,6 +58,8 @@ class TipoDocumento{
 
         $stmt = DataBase::connect()->query($sql);
 
+        $stmt->execute();
+
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         return $results;

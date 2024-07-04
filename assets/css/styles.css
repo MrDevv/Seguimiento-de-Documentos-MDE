@@ -28,6 +28,10 @@ h1, h2, h3{
 a{
     text-decoration: none;
 }
+
+.disabled{
+    background-color: #e7e7e7 !important;
+}
 /* ------- */
 
 .container{
@@ -399,6 +403,16 @@ input:focus-visible{
 
 /* ESTILOS DOCUMENTOS */
 
+.finished{
+    background-color: #fa7575;
+    border: 1px solid #d91212;
+}
+
+.follow{
+    background-color: #33cb67;
+    border: 1px solid var(--bg-color-principal);
+}
+
 /* -------------- PENDIENTES DE RECEPCION --------------- */
 
 /*              HEADER             */
@@ -451,23 +465,27 @@ input:focus-visible{
 }
 
 /*              BODY             */
-.pendientesRecepcion_body table{
+.pendientesRecepcion_body table,
+.listadoDocumentos_body table{
     width: 100%;
     border-spacing: 0;
 }
 
 
-.pendientesRecepcion_body table thead tr{
+.pendientesRecepcion_body table thead tr,
+.listadoDocumentos_body table thead tr{
     background-color: #fff;
     font-size: 14px;
 }
 
-.pendientesRecepcion_body table thead tr th{
+.pendientesRecepcion_body table thead tr th,
+.listadoDocumentos_body table thead tr th{
     font-weight: 600;
     padding: 10px 5px;
 }
 
-.pendientesRecepcion_body table thead tr th:nth-child(1){
+.pendientesRecepcion_body table thead tr th:nth-child(1),
+.listadoDocumentos_body table thead tr th:nth-child(1){
     width: 100px;
 }
 
@@ -475,52 +493,58 @@ input:focus-visible{
     width: 60px;
 }
 
-.pendientesRecepcion_body table tbody tr{
+.pendientesRecepcion_body table tbody tr,
+.listadoDocumentos_body table tbody tr{
     text-align: center;
     font-size: 13px;
 }
 
-.pendientesRecepcion_body table tbody tr td{
+.pendientesRecepcion_body table tbody tr td,
+.listadoDocumentos_body table tbody tr td{
     padding: 5px 0;
 }
 
-.pendientesRecepcion_body table tbody tr td:first-child{
+.pendientesRecepcion_body table tbody tr td:first-child,
+.listadoDocumentos_body table tbody tr td:first-child{
     color: #FF0000;
     font-weight: 600;
 }
 
-.pendientesRecepcion_body table tbody tr td:nth-child(8) span{
+.pendientesRecepcion_body table tbody tr td .estado,
+.listadoDocumentos_body table tbody tr td .estado{
     padding: 5px 3px;
-    border: 1px solid #000;
     border-radius: 5px;
-    background-color: #39AFF1;
 }
 
-.pendientesRecepcion_body table tbody tr:nth-child(even){
+.pendientesRecepcion_body table tbody tr:nth-child(even),
+.listadoDocumentos_body table tbody tr:nth-child(even){
     background-color: #fff;
 }
 
-.pendientesRecepcion_body table tbody tr .actions{
+.pendientesRecepcion_body table tbody tr .actions,
+.listadoDocumentos_body table tbody tr .actions{
     display: flex;
     justify-content: space-around;
     align-items: center;
     padding-top: 5px;
 }
 
-.pendientesRecepcion_body table tbody tr .actions .action{
+.pendientesRecepcion_body table tbody tr .actions .action,
+.listadoDocumentos_body table tbody tr .actions .action{
     display: flex;
     align-items: flex-end;
     cursor: pointer;
     position: relative;
 }
 
-.pendientesRecepcion_body table tbody tr .actions .action .tooltip{
+.pendientesRecepcion_body table tbody tr .actions .action .tooltip,
+.listadoDocumentos_body table tbody tr .actions .action .tooltip{
     position: absolute;
     width: 120px;
     border: 1px solid #000;
     border-radius: 5px;
     top: -30px;
-    left: -45px;
+    left: -50px;
     padding: 5px;
     font-size: 10px;
     cursor: none;
@@ -528,7 +552,8 @@ input:focus-visible{
     background-color: #A3A3A3;
 }
 
-.pendientesRecepcion_body table tbody tr .actions .action .tooltip span{
+.pendientesRecepcion_body table tbody tr .actions .action .tooltip .triangulo,
+.listadoDocumentos_body table tbody tr .actions .action .tooltip .triangulo{
     position: absolute;
     width: 10px;
     height: 10px;
@@ -542,8 +567,13 @@ input:focus-visible{
     border-bottom: 1px solid #000;
 }
 
-.pendientesRecepcion_body table tbody tr .actions .action:hover .tooltip{
+.pendientesRecepcion_body table tbody tr .actions .action:hover .tooltip,
+.listadoDocumentos_body table tbody tr .actions .action:hover .tooltip{
     display: block;
+}
+
+.actions a{
+    color: #000;
 }
 
 /* EStilo de registro administrados y area */
@@ -698,7 +728,7 @@ input:focus-visible{
     font-weight: 500;
 }
 
-.modalConfirmar .body form input:first-child{
+.modalConfirmar .body form input[type="submit"]{
     background-color: var(--bg-color-principal);
 }
 
