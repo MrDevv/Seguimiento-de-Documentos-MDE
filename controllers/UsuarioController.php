@@ -1,5 +1,7 @@
 <?php
 
+require_once "models/Area.php";
+require_once "models/Usuario.php";
 
 class UsuarioController{
 
@@ -23,7 +25,7 @@ class UsuarioController{
     public function crear(){  
         $areaObj= new Area();
         $areas=$areaObj->listarArea();
-        require_once "views/ususario/registro.php";
+        require_once "views/usuario/registro.php";
     }
 
     public function editar(){
@@ -45,7 +47,7 @@ class UsuarioController{
 
     function buscar($codUsuario){
         $usuario = new Usuario();
-        $ususario->setCodUsuario($codUsuario);
+        $usuario->setCodUsuario($codUsuario);
 
         $response = $usuario->buscarUsuario();
 
@@ -63,7 +65,7 @@ class UsuarioController{
         $rol = isset($_POST['rol']) ? trim($_POST['rol']) : false;
         $estado = isset($_POST['estado']) ? trim($_POST['estado']) : false;
 
-        if (!$codArea || !$area || !$estado){
+        if (!$codUsuario || !$nombreUsuario || !$estado){
             $this->redirect();
             exit();
         }
@@ -82,8 +84,10 @@ class UsuarioController{
     function listar(){
         $usuarioObj = new Usuario();
         $listadoUsuario = $usuarioObj->listarUsuario();
+        // varificar los campos que retorna la consulta
+        var_dump($listadoUsuario);
 
-        require_once "views/usuario/listarUsuario.php";
+        //require_once "views/usuario/listarUsuario.php";
     }
 
     public function registroNuevaUsuario(){
@@ -102,5 +106,16 @@ class UsuarioController{
                 require_once "views/modals/alerta.php";
             }
         }
+    }
+
+    public function estilosNavBar(){
+        $_SESSION["optionActive"] = "usuario";
+    }
+
+    public function redirect(){
+        echo '<script type="text/javascript">
+        window.location.href = "listar";
+        </script>';
+//        header('Location:'.base_url."tipoDocumento/crear");
     }
 }

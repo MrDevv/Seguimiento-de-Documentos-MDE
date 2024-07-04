@@ -80,8 +80,9 @@ class Usuario {
         }
     }
 
-    public function listarUusario(){
-        $sql = "SELECT * FROM TipoDocumento";
+    public function listarUsuario(){
+        // agregar la consulta correcta
+        $sql = "SELECT * FROM Usuario";
 
         $stmt = DataBase::connect()->query($sql);
 

@@ -19,6 +19,7 @@
             <?php foreach ($listadoUsuario as $result):?>
                 <!--            --><?php //var_dump($result); ?>
                 <tr>
+                    <!-- mapear los campos del objeto -->
                     <td> <?=$result["nombres"]?> </td>
                     <td> <?=$result["apellidos"]?> </td>
                     <td> <?=$result["telefono"]?> </td>
