@@ -403,6 +403,16 @@ input:focus-visible{
 
 /* ESTILOS DOCUMENTOS */
 
+.finished{
+    background-color: #fa7575;
+    border: 1px solid #d91212;
+}
+
+.follow{
+    background-color: #33cb67;
+    border: 1px solid var(--bg-color-principal);
+}
+
 /* -------------- PENDIENTES DE RECEPCION --------------- */
 
 /*              HEADER             */
@@ -503,9 +513,7 @@ input:focus-visible{
 .pendientesRecepcion_body table tbody tr td .estado,
 .listadoDocumentos_body table tbody tr td .estado{
     padding: 5px 3px;
-    border: 1px solid #000;
     border-radius: 5px;
-    background-color: #33cb67;
 }
 
 .pendientesRecepcion_body table tbody tr:nth-child(even),
@@ -536,7 +544,7 @@ input:focus-visible{
     border: 1px solid #000;
     border-radius: 5px;
     top: -30px;
-    left: -45px;
+    left: -50px;
     padding: 5px;
     font-size: 10px;
     cursor: none;
@@ -720,7 +728,7 @@ input:focus-visible{
     font-weight: 500;
 }
 
-.modalConfirmar .body form input:first-child{
+.modalConfirmar .body form input[type="submit"]{
     background-color: var(--bg-color-principal);
 }
 

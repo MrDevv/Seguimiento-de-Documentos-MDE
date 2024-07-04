@@ -137,8 +137,6 @@ class DocumentoController{
         $response = $documentoObj->actualizar();
 
         $_SESSION['response'] = $response;
-//        var_dump($documentoObj);
-        var_dump($response);
         require_once "views/modals/alerta.php";
     }
 
@@ -148,6 +146,58 @@ class DocumentoController{
         $resultsPendientesRecepcion = $documentosPendienteRecepcion->getDocumentosPendientesRecepcion();
 
         require_once "views/documentos/pendientesDeRecepcion.php";
+    }
+
+    public function finalizarSeguimiento(){
+        if(isset($_POST['codDocumento'])){
+            $numDocumento = $_POST['codDocumento'];
+
+            $this->buscar(trim($numDocumento));
+            $estadoCodInactivo = Estado::getIdEstadoInactivo();
+            $documentoObj = new Documento();
+            $documentoObj->setNumDocumento($numDocumento);
+            $documentoObj->setEstado($estadoCodInactivo);
+
+            $response = $documentoObj->cambiarEstadoDocumento();
+
+            if ($response['status'] == 'failed'){
+                $_SESSION['response'] = $response;
+                require_once "views/modals/alerta.php";
+                exit();
+            }
+
+            $this->redirect();
+
+        }else{
+            $this->redirect();
+            exit();
+        }
+    }
+
+    public function reanudarSeguimiento(){
+        if(isset($_POST['codDocumento'])){
+            $numDocumento = $_POST['codDocumento'];
+
+            $this->buscar(trim($numDocumento));
+            $estadoCodInactivo = Estado::getIdEstadoActivo();
+            $documentoObj = new Documento();
+            $documentoObj->setNumDocumento($numDocumento);
+            $documentoObj->setEstado($estadoCodInactivo);
+
+            $response = $documentoObj->cambiarEstadoDocumento();
+
+            if ($response['status'] == 'failed'){
+                $_SESSION['response'] = $response;
+                require_once "views/modals/alerta.php";
+                exit();
+            }
+
+            $this->redirect();
+
+        }else{
+            $this->redirect();
+            exit();
+        }
     }
 
     public function estilosNavBar(){
