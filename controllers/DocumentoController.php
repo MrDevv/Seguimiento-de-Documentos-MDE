@@ -40,10 +40,12 @@ class DocumentoController{
 
             $documentoObj = new Documento();
             $documentoObj->setNumDocumento(trim($nroDocumento));
-
-
+            
             $response = $documentoObj->existeDocumento();
-            if ($response){
+
+            if (count($response['data']) > 0){
+                $response['status'] = 'warning';
+                $response['message'] = '¡El documento que intenta registrar ya existe!';
                 $_SESSION['response'] = $response;
                 require_once "views/modals/alerta.php";
                 exit();
