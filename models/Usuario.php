@@ -2,7 +2,7 @@
 
 class Usuario {
     private $codUsuario;
-    private $usuario;
+    private $nombreUsuario;
     private $rol;
     private $password;
     private $codEstado;
@@ -19,12 +19,12 @@ class Usuario {
         $this->codUsuario = $codUsuario;
     }
 
-    public function getUsuario(){
-        return $this->usuario;
+    public function getNombreUsuario(){
+        return $this->nombreUsuario;
     }
 
-    public function setUsuario($usuario){
-        $this->usuario = $usuario;
+    public function setNombreUsuario($nombreUsuario){
+        $this->nombreUsuario = $nombreUsuario;
     }
 
     public function getRol(){
@@ -52,12 +52,13 @@ class Usuario {
     }
 
     public function registrarUsuario(){
-        $sql = "INSERT INTO Usuario(usuario, rol, password, codEstado) values(:usuario, :rol, :password, :codEstado)";
+        $sql = "INSERT INTO Usuario(codUsuario, nombreUsuario, rol, password, codEstado) values(:codUsuario, :nombreUsuario, :rol, :password, :codEstado)";
 
         try {
             $stmt = DataBase::connect()->prepare($sql);
 
-            $stmt->bindParam(":usuario", $this->usuario, PDO::PARAM_STR);
+            $stmt->bindParam(":codUsuario", $this->ncodUsuario, PDO::PARAM_STR);
+            $stmt->bindParam(":nombreUsuario", $this->nombreUsuario, PDO::PARAM_STR);
             $stmt->bindParam(":rol", $this->rol, PDO::PARAM_STR);
             $stmt->bindParam(":password", $this->password, PDO::PARAM_STR);
             $stmt->bindParam(":codEstado", $this->estado, PDO::PARAM_STR);
@@ -72,20 +73,61 @@ class Usuario {
         }catch (PDOException $e){
             return [
                 'status' => 'failed',
-                'message' => 'Ocurrio un error al momento de registrar el Area',
+                'message' => 'Ocurrio un error al momento de registrar el Usuario',
                 'action' => 'registrar',
                 'info' => $e->getMessage()
             ];
         }
     }
 
+    public function listarUusario(){
+        $sql = "SELECT * FROM TipoDocumento";
+
+        $stmt = DataBase::connect()->query($sql);
+
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $results;
+    }
+
+    public function buscarUsuario(){
+        $sql = "SELECT * FROM Uusario WHERE CodUsuario = :codUsuario";
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
+
+            $stmt->bindParam(":codUsuario", $this->codUsuario, PDO::PARAM_INT);
+
+            $stmt->execute();
+
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if (sizeof($results) == 0){
+                return [
+                    'status' => 'not found',
+                    'message' => 'No existe un usuario',
+                    'action' => 'buscar'
+                ];
+            }
+
+            return $results;
+
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => 'Ocurrio un error al momento de registrar al usuario',
+                'action' => 'buscar',
+                'info' => $e->getMessage()
+            ];
+        }
+    }
+
     public function actualizarUsuario(){
-        $sql = "UPDATE Usuario SET usuario = :usuario, rol = :rol, password = :password, codEstado = :codEstado WHERE CodUsuario = :codUsuario";
+        $sql = "UPDATE Usuario SET nombreUsuario = :nombreUsuario, rol = :rol, password = :password, codEstado = :codEstado WHERE CodUsuario = :codUsuario";
 
         try {
             $stmt = DataBase::connect()->prepare($sql);
 
-            $stmt->bindParam(":usuario", $this->ususario, PDO::PARAM_STR);
+            $stmt->bindParam(":nombreUsuario", $this->nombreUsusario, PDO::PARAM_STR);
             $stmt->bindParam(":rol", $this->rol, PDO::PARAM_INT);
             $stmt->bindParam(":password", $this->password, PDO::PARAM_INT);
             $stmt->bindParam(":codEstado", $this->estado, PDO::PARAM_INT);
@@ -95,18 +137,24 @@ class Usuario {
 
             return [
                 'status' => 'success',
-                'message' => 'Usuario actualizada',
+                'message' => 'Usuario actualizado',
                 'action' => 'actualizar'
             ];
 
         }catch (PDOException $e){
             return [
                 'status' => 'failed',
-                'message' => 'Ocurrio un error al momento de actualizar el usuario',
+                'message' => 'Ocurrio un error al momento de actualizar al usuario',
                 'action' => 'actualizar',
                 'info' => $e->getMessage()
             ];
         }
     }
+
+    /*$stmt = DataBase::connect()->query($sql);
+
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    return $results; */
 
 }
