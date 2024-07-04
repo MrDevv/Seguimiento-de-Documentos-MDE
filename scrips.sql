@@ -1,5 +1,6 @@
 
 select * from Documento
+select * from Estado
 
 
 ------------------- CONSULTAS AVANZADAS DEL SISTEMA -------------------
@@ -31,6 +32,9 @@ where d.NumDocumento = '9012'
 -- actualizar un documento
 update Documento set asunto = 'asunto ac', folios = 3, codTipoDocumento = 3
 where NumDocumento = '9012'
+
+-- actualizar el estado al documento para finalizar su seguimiento
+update Documento set codEstado = 1 where NumDocumento = '9012';
 
 
 
