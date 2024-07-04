@@ -3,7 +3,7 @@ require_once('models/Estado.php');
 $estado = new Estado();
 $estados= $estado->listarEstadosHabilitadoInhabilitado();
 ?>
-<div class="containerRegistroDocumento">
+<div class="containerRegistroUsuario">
     <h2>Registro de Usuarios</h2>
     <div class="body">
         <form action="<?=base_url?>usuario/registrar" method="post">

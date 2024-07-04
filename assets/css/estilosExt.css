@@ -1,7 +1,8 @@
-/*Estilos Tipo Documento y Documento */
+/*Estilos Tipo Documento, Documento, Usuario */
 
 .containerRegistroTipoDocumento,
-.containerRegistroDocumento{
+.containerRegistroDocumento,
+.containerRegistroUsuario{
     width: 600px;
     max-width: 600px;
     height: fit-content;
@@ -11,8 +12,13 @@
     margin-top: 70px;
 }
 
+.containerRegistroUsuario{
+    margin-top: 0;
+}
+
 .containerRegistroTipoDocumento h2,
-.containerRegistroDocumento h2{
+.containerRegistroDocumento h2,
+.containerRegistroUsuario h2{
     margin-bottom: 20px;
     background-color: var(--bg-color-principal);
     padding: 10px;
@@ -21,30 +27,36 @@
 }
 
 .containerRegistroTipoDocumento .body,
-.containerRegistroDocumento .body{
+.containerRegistroDocumento .body,
+.containerRegistroUsuario .body{
     display: flex;
     margin-bottom: 20px;
     padding: 20px 50px;
 }
 
-.containerRegistroDocumento .body {
+.containerRegistroDocumento .body,
+.containerRegistroUsuario .body{
     flex-direction: column;
 }
 
-.containerRegistroDocumento .body .row{
+.containerRegistroDocumento .body .row,
+.containerRegistroUsuario .body .row{
     display: flex;
     justify-content: space-between;
     margin: 0;
 }
 
-.containerRegistroDocumento .body .row div{
+.containerRegistroDocumento .body .row div,
+.containerRegistroUsuario .body .row div{
     display: flex;
     flex-direction: column;
 }
 
 .containerRegistroTipoDocumento .body input,
 .containerRegistroDocumento .body .row input,
-.containerRegistroDocumento .body .row select{
+.containerRegistroDocumento .body .row select,
+.containerRegistroUsuario .body .row select,
+.containerRegistroUsuario .body .row input{
     background-color: #fff;
     padding: 5px;
     border: 1px solid #ccc;
@@ -56,7 +68,8 @@
     width: 227.6px;
 }
 
-.containerRegistroDocumento .body .row:last-child{
+.containerRegistroDocumento .body .row:last-child,
+.containerRegistroUsuario .body .row:last-child{
     justify-content: left;
 }
 
@@ -69,7 +82,8 @@
     margin-top: 30px;
 }
 
-.containerRegistroDocumento .body .row select{
+.containerRegistroDocumento .body .row select,
+.containerRegistroUsuario .body .row select{
     width: 227.6px;
 }
 
@@ -82,7 +96,8 @@
     margin: 0;
 }
 
-.containerRegistroTipoDocumento input[type="submit"]{
+.containerRegistroTipoDocumento input[type="submit"],
+.containerRegistroUsuario input[type="submit"]{
     cursor: pointer;
     background-color: var(--bg-color-principal);
     color: #fff;

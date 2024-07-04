@@ -40,7 +40,7 @@ class DocumentoController{
 
             $documentoObj = new Documento();
             $documentoObj->setNumDocumento(trim($nroDocumento));
-            
+
             $response = $documentoObj->existeDocumento();
 
             if (count($response['data']) > 0){
