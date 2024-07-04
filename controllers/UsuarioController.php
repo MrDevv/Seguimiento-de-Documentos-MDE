@@ -19,4 +19,88 @@ class UsuarioController{
 
         header('Location:'.base_url);
     }
+
+    public function crear(){  
+        $areaObj= new Area();
+        $areas=$areaObj->listarArea();
+        require_once "views/ususario/registro.php";
+    }
+
+    public function editar(){
+        if (isset($_GET["cod"])){
+            $codUsuario = $_GET['cod'];
+            $response = $this->buscar($codUsuario);
+//            var_dump($response);
+            $areaObj= new Area();
+            $areas=$areaObj->listarArea();
+
+ //          var_dump($areas);
+            require_once "views/usuario/editarUsuario.php";
+        }else{
+//            Redirecciona a la vista de listado
+            $this->redirect();
+        }
+        
+    }
+
+    function buscar($codUsuario){
+        $usuario = new Usuario();
+        $ususario->setCodUsuario($codUsuario);
+
+        $response = $usuario->buscarUsuario();
+
+        if (isset($response['message'])){
+            $_SESSION['response'] = $response;
+            require_once "views/modals/alerta.php";
+            exit();
+        }
+        return $response;
+    }
+
+    public function actualizar(){
+        $codUsuario = isset($_POST['codUsuario']) ? (int) $_POST['codUsuario'] : false;
+        $nombreUsuario = isset($_POST['nombreUsuario']) ? trim($_POST['nombreUsuario']) : false;
+        $rol = isset($_POST['rol']) ? trim($_POST['rol']) : false;
+        $estado = isset($_POST['estado']) ? trim($_POST['estado']) : false;
+
+        if (!$codArea || !$area || !$estado){
+            $this->redirect();
+            exit();
+        }
+
+            $areaObj = new Area();
+            $areaObj->setCodArea($codArea);
+            $areaObj->setDescripcion($area);
+            $areaObj->setEstado($estado);
+
+            $response = $areaObj->actualizarArea();
+
+            $_SESSION['response'] = $response;
+            require_once "views/modals/alerta.php";
+    }
+
+    function listar(){
+        $usuarioObj = new Usuario();
+        $listadoUsuario = $usuarioObj->listarUsuario();
+
+        require_once "views/usuario/listarUsuario.php";
+    }
+
+    public function registroNuevaUsuario(){
+        $_SESSION["registro"] = "habilitado";
+
+        if (isset($_POST)){
+            $usuario = isset($_POST['usuario']) ? $_POST['USUARIO'] : false;
+
+            if ($usuario){
+                $usuarioObj = new Usuario();
+                $usuarioObj->setNombreUsuario($usuario);
+//                $response [status, message, info]
+                $response = $usuarioObj->guardarUsuario();
+//                var_dump($response);
+                $_SESSION['response'] = $response;
+                require_once "views/modals/alerta.php";
+            }
+        }
+    }
 }

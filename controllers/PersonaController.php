@@ -1,25 +1,25 @@
 <?php
-require_once "models/Administrado.php";
+require_once "models/Persona.php";
 require_once "models/Area.php";
 
-class AdministradoController{
+class PersonaController{
 
     public function crear(){  
         $areaObj= new Area();
         $areas=$areaObj->listarArea();
-        require_once "views/administrado/registro.php";
+        require_once "views/persona/registro.php";
     }
 
     public function editar(){
         if (isset($_GET["cod"])){
-            $codAdministrado = $_GET['cod'];
-            $response = $this->buscar($codAdministrado);
+            $codPersona = $_GET['cod'];
+            $response = $this->buscar($codPersona);
 //            var_dump($response);
             $areaObj= new Area();
             $areas=$areaObj->listarArea();
 
  //          var_dump($areas);
-            require_once "views/administrado/editarAdministrado.php";
+            require_once "views/persona/editarPersona.php";
         }else{
 //            Redirecciona a la vista de listado
             $this->redirect();
@@ -27,11 +27,11 @@ class AdministradoController{
         
     }
 
-    function buscar($codAdministrado){
-        $administrado = new Administrado();
-        $administrado->setCodAdministrado($codAdministrado);
+    function buscar($codPersona){
+        $persona = new Persona();
+        $persona->setCodPersona($codPersona);
 
-        $response = $administrado->buscarAdministrado();
+        $response = $persona->buscarPersona();
 
         if (isset($response['message'])){
             $_SESSION['response'] = $response;
@@ -42,12 +42,11 @@ class AdministradoController{
     }
 
     public function actualizar(){
-        $codAdministra = isset($_POST['codAdministrado']) ? (int) $_POST['codAdministrado'] : false;
-        $administrado = isset($_POST['administrado']) ? trim($_POST['administrado']) : false;
+        $codPersona = isset($_POST['codPersona']) ? (int) $_POST['codPersona'] : false;
         $nombre = isset($_POST['nombre']) ? trim($_POST['nombre']) : false;
-        $codArea = isset($_POST['codArea']) ? trim($_POST['codArea']) : false;
         $apellidos = isset($_POST['apellidos']) ? trim($_POST['apellidos']) : false;
-        $estado = isset($_POST['estado']) ? trim($_POST['estado']) : false;
+        $telefono = isset($_POST['telefono']) ? trim($_POST['telefono']) : false;
+        $dni = isset($_POST['dni']) ? trim($_POST['dni']) : false;
         $estado = isset($_POST['estado']) ? trim($_POST['estado']) : false;
 
         if (!$codArea || !$area || !$estado){
@@ -66,29 +65,18 @@ class AdministradoController{
             require_once "views/modals/alerta.php";
     }
 
-    function listar(){
 
-        $administradoObj = new Administrado();
-        $listadoAdministrado = $administradoObj->listarAdministrado();
-
-//        var_dump($listadoArea);
-
-        require_once "views/administrado/listarAdministrado.php";
-
-
-    }
-
-    public function registroNuevoAdministrado(){
+    public function registroNuevaPersona(){
         $_SESSION["registro"] = "habilitado";
 
         if (isset($_POST)){
-            $administrado = isset($_POST['administrado']) ? $_POST['ADMINISTRADO'] : false;
+            $persona = isset($_POST['persona']) ? $_POST['PERSONA'] : false;
 
-            if ($administrado){
-                $administradoObj = new Administrado();
-                $administradoObj->setNombre($administrado);
+            if ($persona){
+                $personaObj = new Persona();
+                $personaObj->setNombre($persona);
 //                $response [status, message, info]
-                $response = $administradoObj->guardarAdministrado();
+                $response = $personaObj->guardarPersona();
 //                var_dump($response);
                 $_SESSION['response'] = $response;
                 require_once "views/modals/alerta.php";
@@ -99,7 +87,7 @@ class AdministradoController{
     
 
     public function estilosNavBar(){
-        $_SESSION["optionActive"] = "administrado";
+        $_SESSION["optionActive"] = "persona";
     }
 
     public function redirect()
