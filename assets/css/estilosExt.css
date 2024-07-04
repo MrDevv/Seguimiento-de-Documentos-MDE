@@ -14,6 +14,14 @@
 
 .containerRegistroUsuario{
     margin-top: 0;
+    width: 800px;
+    max-width: 800px;
+}
+
+.containerRegistroUsuario .body form .data{
+    display: flex;
+    gap: 20px;
+
 }
 
 .containerRegistroTipoDocumento h2,
@@ -26,12 +34,22 @@
     font-size: 17px;
 }
 
+.containerRegistroUsuario h2{
+    margin: 0;
+}
+
 .containerRegistroTipoDocumento .body,
 .containerRegistroDocumento .body,
 .containerRegistroUsuario .body{
     display: flex;
     margin-bottom: 20px;
     padding: 20px 50px;
+}
+
+.containerRegistroUsuario .body{
+    margin-bottom: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .containerRegistroDocumento .body,
@@ -46,17 +64,26 @@
     margin: 0;
 }
 
+.containerRegistroUsuario .body .row{
+    gap: 10px;
+}
+
 .containerRegistroDocumento .body .row div,
 .containerRegistroUsuario .body .row div{
     display: flex;
     flex-direction: column;
 }
 
+.containerRegistroUsuario .body .row div{
+    margin-bottom: 5px;
+}
+
 .containerRegistroTipoDocumento .body input,
 .containerRegistroDocumento .body .row input,
 .containerRegistroDocumento .body .row select,
 .containerRegistroUsuario .body .row select,
-.containerRegistroUsuario .body .row input{
+.containerRegistroUsuario .body .row input,
+.containerRegistroUsuario .body .column select{
     background-color: #fff;
     padding: 5px;
     border: 1px solid #ccc;
@@ -82,6 +109,11 @@
     margin-top: 30px;
 }
 
+.containerRegistroUsuario .body input[type="submit"]{
+    margin-top: 20px
+}
+
+
 .containerRegistroDocumento .body .row select,
 .containerRegistroUsuario .body .row select{
     width: 227.6px;
@@ -104,6 +136,14 @@
     width: 30%;
     margin: auto;
     margin-bottom: 10px;
+}
+
+.asuntoDocumento{
+    width: 250px;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /* Estilos de registro error */

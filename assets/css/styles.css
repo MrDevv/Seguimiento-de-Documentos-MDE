@@ -489,6 +489,10 @@ input:focus-visible{
     width: 100px;
 }
 
+.listadoDocumentos_body table thead tr th:nth-child(3){
+    width: 250px;
+}
+
 .pendientesRecepcion_body table thead tr th:nth-child(6){
     width: 60px;
 }
