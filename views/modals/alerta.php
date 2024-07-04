@@ -6,6 +6,9 @@
         case "actualizar":
             $ruta = 'listar';
             break;
+        case "buscar":
+            $ruta = 'crear';
+            break;
 }
 ?>
 

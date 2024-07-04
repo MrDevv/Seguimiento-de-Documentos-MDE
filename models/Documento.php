@@ -123,28 +123,127 @@ class Documento{
     }
 
     public function existeDocumento(){
-        $response = false;
+        $sql = "select d.NumDocumento, tp.descripcion 'tipo documento', d.asunto, d.folios, d.fechaRegistro, ".
+                "CONCAT(p.nombres ,p.apellidos) 'usuario registrador', e.descripcion 'estado' ".
+                "from Documento d ".
+                "inner join TipoDocumento tp on d.codTipoDocumento = tp.codTipoDocumento ".
+                "inner join UsuarioArea ua on d.codUsuario = ua.codUsuario ".
+                "inner join Usuario u on ua.codEstado = u.codUsuario ".
+                "inner join Persona p on u.codPersona = p.codPersona ".
+                "inner join Estado e on d.codEstado = e.codEstado ".
+                "where d.NumDocumento = :numDocumento";
 
-        $sql = "select * from Documento where NumDocumento = :numDocumento";
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
+            $stmt->bindParam(":numDocumento", $this->numDocumento, PDO::PARAM_STR);
+            $stmt->execute();
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $stmt = DataBase::connect()->prepare($sql);
+            if (count($results) > 0){
+                return [
+                    'status' => 'success',
+                    'message' => '¡Documento encontrado!',
+                    'action' => 'buscar',
+                    'module' => 'documento',
+                    'data' => $results,
+                    'info' => ''
+                ];
+            }
 
-        $stmt->bindParam(":numDocumento", $this->numDocumento, PDO::PARAM_STR);
-
-        $stmt->execute();
-
-        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        if (count($results) > 0){
             return [
-                'status' => 'warning',
-                'message' => '¡El documento ya se encuentra registrado!',
-                'action' => 'registrar',
+                'status' => 'success',
+                'message' => '¡No se encontraron resultados!',
+                'action' => 'buscar',
                 'module' => 'documento',
+                'data' => [],
                 'info' => ''
             ];
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => 'Ocurrio un error al momento de buscar un documento',
+                'action' => 'buscar',
+                'module' => 'documento',
+                'info' => $e->getMessage()
+            ];
         }
+    }
 
-        return $response;
+    public function actualizar(){
+        $sql = "update Documento set asunto = :asunto, folios = :folios, codTipoDocumento = :codTipoDocumento ".
+                "where NumDocumento = :numDocumento";
+
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
+            $stmt->bindParam('asunto', $this->asunto, PDO::PARAM_STR);
+            $stmt->bindParam('folios', $this->folios, PDO::PARAM_INT);
+            $stmt->bindParam(":codTipoDocumento", $this->tipoDocumento, PDO::PARAM_INT);
+            $stmt->bindParam('numDocumento', $this->numDocumento, PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            return [
+                'status' => 'success',
+                'message' => 'Documento actualizado',
+                'action' => 'actualizar',
+                'module' => 'documento'
+            ];
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => 'Ocurrio un error al momento de actualizar el documento',
+                'action' => 'actualizar',
+                'module' => 'documento',
+                'info' => $e->getMessage()
+            ];
+        }
+    }
+
+    public function listarDocumentos(){
+        $sql = "select d.NumDocumento, tp.descripcion 'tipo documento', d.asunto, d.folios, d.fechaRegistro, ".
+                "CONCAT(p.nombres ,p.apellidos) 'usuario registrador', e.descripcion 'estado' ".
+                "from Documento d ".
+                "inner join TipoDocumento tp on d.codTipoDocumento = tp.codTipoDocumento ".
+                "inner join UsuarioArea ua on d.codUsuario = ua.codUsuario ".
+                "inner join Usuario u on ua.codEstado = u.codUsuario ".
+                "inner join Persona p on u.codPersona = p.codPersona ".
+                "inner join Estado e on d.codEstado = e.codEstado";
+
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
+
+            $stmt->execute();
+
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if (count($results)>0){
+                return [
+                    'status' => 'success',
+                    'message' => 'listado correcto',
+                    'action' => 'listar',
+                    'module' => 'documento',
+                    'data' => $results,
+                    'info' => ''
+                ];
+            }
+
+            return [
+                'status' => 'success',
+                'message' => 'no se encontraron registros',
+                'action' => 'listar',
+                'module' => 'documento',
+                'data' => [],
+                'info' => ''
+            ];
+
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => 'Ocurrio un error al momento de listar los documentos',
+                'action' => 'listar',
+                'module' => 'documento',
+                'info' => $e->getMessage()
+            ];
+        }
     }
 }
