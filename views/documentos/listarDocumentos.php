@@ -24,7 +24,7 @@
                 <tr>
                     <td> <?=$result["NumDocumento"]?> </td>
                     <td> <?=$result["tipo documento"]?> </td>
-                    <td> <?=$result["asunto"]?> </td>
+                    <td class="asuntoDocumento"> <?=$result["asunto"]?> </td>
                     <td> <?=$result["folios"]?> </td>
                     <td> <?=$result["fechaRegistro"]?> </td>
                     <td> <?=$result["usuario registrador"]?> </td>
