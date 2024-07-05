@@ -9,15 +9,15 @@ class Estado {
     }
 
     public function setCodEstado($codEstado){
-        $this->getCodEstado = $codEstado;
+        $this->codEstado = $codEstado;
     }
 
     public function getDescripcion(){
-        return $this->Descripcion;
+        return $this->descripcion;
     }
 
     public function setDescripcion($descripcion){
-        $this->getDescripcion = $descripcion;
+        $this->descripcion = $descripcion;
     }
 
     public static function listarEstadosHabilitadoInhabilitado(){
