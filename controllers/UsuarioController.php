@@ -38,8 +38,10 @@ class UsuarioController{
     }
 
     public function  logout(){
+        $_SESSION['user'] = false;
         $_SESSION['autenticado'] = false;
         unset($_SESSION['autenticado']);
+        unset($_SESSION['user']);
 
         header('Location:'.base_url);
     }
