@@ -20,6 +20,7 @@
             </div>
         </div>
 
+        <?php if (trim($_SESSION['user']['rol']) == 'administrador'):  ?>
         <div>
             <div class="option <?= $_SESSION['optionActive'] == "administrado" ? "selected" : "" ?>" id="optionAdministrados">
                 <div class="containerIconOption">
@@ -59,6 +60,7 @@
                 </div>
             </div>
         </div>
+        <?php endif;  ?>
 
         <div>
             <div class="option <?= ($_SESSION['optionActive'] == "documento") ? "selected" : ""?>" id="optionDocumentos">
@@ -117,6 +119,7 @@
             </div>
         </div>
 
+        <?php if (trim($_SESSION['user']['rol']) == 'administrador'):  ?>
         <div>
             <div class="option <?= ($_SESSION['optionActive'] == "tipoDocumento") ? "selected" : ""?>" id="optionTipoDocumentos">
                 <div class="containerIconOption">
@@ -152,7 +155,9 @@
                 </div>
             </div>
         </div>
+        <?php endif;  ?>
 
+        <?php if (trim($_SESSION['user']['rol']) == 'administrador'):  ?>
         <div>
             <div class="option <?= ($_SESSION['optionActive'] == "area") ? "selected" : ""?>" id="optionAreas">
                 <div class="containerIconOption">
@@ -193,6 +198,7 @@
                 </div>
             </div>
         </div>
+        <?php endif;  ?>
     </div>
 </div>
 

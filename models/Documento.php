@@ -199,7 +199,7 @@ class Documento{
                 "inner join Usuario u on ua.codUsuario = u.codUsuario ".
                 "inner join Persona p on u.codPersona = p.codPersona ".
                 "inner join Estado e on d.codEstado = e.codEstado ".
-                "order by d.fechaRegistro, d.horaRegistro DESC";
+                "order by d.fechaRegistro DESC, d.horaRegistro DESC";
 
         try {
             $stmt = DataBase::connect()->prepare($sql);
