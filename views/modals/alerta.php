@@ -1,13 +1,14 @@
 <?php
     switch ($_SESSION['response']['action']) {
+        case "buscar":
         case "registrar":
             $ruta = 'crear';
             break;
         case "actualizar":
             $ruta = 'listar';
             break;
-        case "buscar":
-            $ruta = 'crear';
+        default:
+            $ruta = "listar";
             break;
 }
 ?>
