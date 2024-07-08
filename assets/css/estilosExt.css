@@ -144,4 +144,9 @@
     background-color: var(--bg-color-principal);
 }
 
+.new {
+    background-color: #fff;
+    border: 1px solid #4b4b4b;
+}
+
 /* Estilos documento */

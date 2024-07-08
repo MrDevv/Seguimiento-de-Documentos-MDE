@@ -31,7 +31,7 @@ class Estado {
     }
 
     public static function getIdEstadoActivo(){
-        $sql = "select codEstado from Estado where descripcion = 1";
+        $sql = "select codEstado from Estado where descripcion = 'a'";
 
         $stmt = DataBase::connect()->query($sql);
 
@@ -41,7 +41,17 @@ class Estado {
     }
 
     public static function getIdEstadoInactivo(){
-        $sql = "select codEstado from Estado where descripcion = 0";
+        $sql = "select codEstado from Estado where descripcion = 'i'";
+
+        $stmt = DataBase::connect()->query($sql);
+
+        $results = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $results['codEstado'];
+    }
+
+    public static function getIdEstadoNuevo(){
+        $sql = "select codEstado from Estado where descripcion = 'n'";
 
         $stmt = DataBase::connect()->query($sql);
 
