@@ -211,11 +211,21 @@ a{
     gap: 10px;
 }
 
+.userDetails div span .username{
+    font-weight: 300;
+}
+
+.userDetails div .username_rol{
+    display: flex;
+    justify-content: left;
+    font-size: 12px;
+}
+
 .userDetails svg{
     width: 40px;
 }
 
-.container_userDetails_logout svg{
+.container_userDetails_logout a svg{
     width: 40px;
     cursor: pointer;
 }
