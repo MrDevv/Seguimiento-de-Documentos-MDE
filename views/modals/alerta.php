@@ -25,9 +25,13 @@
     </div>
     <div class="body">
             <p class="mensaje"> <?= $_SESSION['response']['message'] ?></p>
-            <a href="<?=base_url?><?=$_SESSION['response']['module']?>/<?=$ruta?>">Regresar</a>
+            <?php if ($_SESSION['response']['action'] == 'login'): ?>
+                <a href="<?=base_url?>">Aceptar</a>
+            <?php else: ?>
+                <a href="<?=base_url?><?=$_SESSION['response']['module']?>/<?=$ruta?>">Regresar</a>
+            <?php endif; ?>
         </form>
     </div>
 </div>
 
-<?php var_dump($_SESSION['response']['info']); ?>
+<?php //var_dump($_SESSION['response']['info']); ?>

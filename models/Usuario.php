@@ -51,6 +51,50 @@ class Usuario {
         $this->codEstado = $codEstado;
     }
 
+    public function autenticarUsuario(){
+        $sql = "select u.nombreUsuario, u.password, r.descripcion 'rol' ".
+                "from Usuario u ".
+                "inner join Rol r on u.codRol = r.codRol ".
+                "where u.nombreUsuario = :nombreUsuario and u.password = :password";
+
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
+            $stmt->bindParam('nombreUsuario', $this->nombreUsuario, PDO::PARAM_STR);
+            $stmt->bindParam('password', $this->password, PDO::PARAM_STR);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if (count($result) == 0){
+                return [
+                    'status' => 'success',
+                    'message' => 'Credenciales incorrectas',
+                    'action' => 'login',
+                    'module' => '',
+                    'data' => [],
+                    'info' => '',
+                ];
+            }
+
+            return [
+                'status' => 'success',
+                'message' => 'inicio de sesión correcto',
+                'action' => 'login',
+                'module' => '',
+                'data' => $result,
+                'info' => '',
+            ];
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => 'Ocurrio un error al momento de iniciar sesión',
+                'action' => 'login',
+                'module' => '',
+                'data' => [],
+                'info' => $e->getMessage()
+            ];
+        }
+    }
+
     public function registrarUsuario(){
         $sql = "INSERT INTO Usuario(codUsuario, nombreUsuario, rol, password, codEstado) values(:codUsuario, :nombreUsuario, :rol, :password, :codEstado)";
 
