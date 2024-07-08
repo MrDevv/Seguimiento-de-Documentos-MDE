@@ -11,6 +11,11 @@ values ('Julio', 'Rojas', '949839321', '78592323', 2)
 
 select * from Persona
 select * from Usuario
+select * from Envio order by fechaEnvio desc, horaEnvio desc
+
+update usuario set codRol = 2 where codUsuario = 3
+
+
 select * from UsuarioArea
 
 insert into Usuario (nombreUsuario, password, codRol, codPersona, codEstado)
@@ -27,7 +32,7 @@ select * from Movimiento
 ----- Modulo de DOCUMENTOS
 
 -- listar todos los documentos
-select d.NumDocumento, tp.descripcion 'tipo documento', d.asunto, d.folios, d.fechaRegistro,
+select d.NumDocumento, tp.descripcion 'tipo documento', d.asunto, d.folios, d.fechaRegistro, d.horaRegistro,
 CONCAT(p.nombres ,p.apellidos) 'usuario registrador', e.descripcion 'estado'
 from Documento d
 inner join TipoDocumento tp on d.codTipoDocumento = tp.codTipoDocumento
@@ -35,7 +40,8 @@ inner join UsuarioArea ua on d.codUsuario = ua.codUsuario
 inner join Usuario u on ua.codUsuario = u.codUsuario
 inner join Persona p on u.codPersona = p.codPersona
 inner join Estado e on d.codEstado = e.codEstado
-order by d.fechaRegistro DESC;
+where ua.codUsuario LIKE '%3%'
+order by d.fechaRegistro, d.horaRegistro DESC;
 
 
 -- buscar un documento por su numero
