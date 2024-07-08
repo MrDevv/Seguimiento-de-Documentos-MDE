@@ -149,4 +149,8 @@
     border: 1px solid #4b4b4b;
 }
 
+.invisible{
+    display: none;
+}
+
 /* Estilos documento */

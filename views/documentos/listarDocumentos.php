@@ -51,7 +51,7 @@
                     </td>
                     <td class="actions">
                         <?php if ($result['estado'] == 'n'):?>
-                            <a class="action" href="<?=base_url?>documento/editar?doc=<?=$result["NumDocumento"]?>">
+                            <a class="action" href="<?=base_url?>envio/nuevoEnvio?doc=<?=$result["NumDocumento"]?>">
                                 <span class="tooltip">Enviar documento <span class="triangulo"></span></span>
                                 <svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <g filter="url(#filter0_d_2426_28)">

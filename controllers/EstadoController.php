@@ -8,6 +8,14 @@ class EstadoController{
         return Estado::getIdEstadoActivo();
     }
 
+    public function getIdEstadoInactivo(){
+        return Estado::getIdEstadoInactivo();
+    }
+
+    public function getIdEstadoNuevo(){
+        return Estado::getIdEstadoNuevo();
+    }
+
     public function listarEstadosHabilitadoInhabilitado(){
         return Estado::listarEstadosHabilitadoInhabilitado();
     }

@@ -85,7 +85,13 @@ class TipoDocumento{
                 ];
             }
 
-            return $results;
+            return [
+                'status' => 'success',
+                'message' => '¡Se encontró el tipo documento!',
+                'action' => 'buscar',
+                'module' => 'tipoDocumento',
+                'data' => $results
+            ];
 
         }catch (PDOException $e){
             return [

@@ -4,8 +4,14 @@ require_once "TipoDocumentoController.php";
 require_once "EstadoController.php";
 
 class DocumentoController{
+    private $envioModel;
+
+    public function __construct(){
+
+    }
 
     public function obtenerFechaActual(){
+        date_default_timezone_set('America/Lima');
         return date('Y-m-d');
     }
 
@@ -56,7 +62,7 @@ class DocumentoController{
                 $tipoDocumento = isset($_POST['tipoDocumento']) ? trim($_POST['tipoDocumento']) : false;
                 $fechaRegistro = $this->obtenerFechaActual();
                 $usuario = 1;   // usuario logeado
-                $estado = $estadoOjb->getIdEstadoActivo();
+                $estado = $estadoOjb->getIdEstadoNuevo();
 
                 if ($nroDocumento && $asunto && $folios && $tipoDocumento && $fechaRegistro && $usuario && $estado){
                     $documentoObj->setAsunto(trim($asunto));
@@ -142,14 +148,6 @@ class DocumentoController{
         require_once "views/modals/alerta.php";
     }
 
-    public function pendientesDeRecepcion(){
-        $documentosPendienteRecepcion = new Documento();
-
-        $resultsPendientesRecepcion = $documentosPendienteRecepcion->getDocumentosPendientesRecepcion();
-
-        require_once "views/documentos/pendientesDeRecepcion.php";
-    }
-
     public function finalizarSeguimiento(){
         if(isset($_POST['codDocumento'])){
             $numDocumento = $_POST['codDocumento'];
@@ -176,15 +174,23 @@ class DocumentoController{
         }
     }
 
+    public function iniciarSeguimiento(int $numDocumento){
+        $estadoCodActivo = Estado::getIdEstadoActivo();
+        $documentoObj = new Documento();
+        $documentoObj->setNumDocumento($numDocumento);
+        $documentoObj->setEstado($estadoCodActivo);
+        $documentoObj->cambiarEstadoDocumento();
+    }
+
     public function reanudarSeguimiento(){
         if(isset($_POST['codDocumento'])){
             $numDocumento = $_POST['codDocumento'];
 
             $this->buscar(trim($numDocumento));
-            $estadoCodInactivo = Estado::getIdEstadoActivo();
+            $estadoCodActivo = Estado::getIdEstadoActivo();
             $documentoObj = new Documento();
             $documentoObj->setNumDocumento($numDocumento);
-            $documentoObj->setEstado($estadoCodInactivo);
+            $documentoObj->setEstado($estadoCodActivo);
 
             $response = $documentoObj->cambiarEstadoDocumento();
 

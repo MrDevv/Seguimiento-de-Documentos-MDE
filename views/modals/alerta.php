@@ -30,4 +30,4 @@
     </div>
 </div>
 
-<?php //var_dump($_SESSION['response']['info']); ?>
+<?php var_dump($_SESSION['response']['info']); ?>

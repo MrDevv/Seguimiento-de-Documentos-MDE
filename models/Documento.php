@@ -67,25 +67,6 @@ class Documento{
         $this->estado = $estado;
     }
 
-    public function getDocumentosPendientesRecepcion(){
-        $sql = "select d.NroDocumento 'NUMERO DE DOCUMENTO', d.folios 'FOLIOS', d.asunto 'ASUNTO', tp.descripcion 'TIPO DOCUMENTO',".
-                "aro.descripcion 'AREA ORIGEN', concat(a.nombres, ' ', a.apellidos) 'ADMINISTRADO ORIGEN', e.fechaEnvio 'FECHA DERIVACION',  e.observacion 'OBSERVACION', ee.descripcion 'ESTADO ENVIO' ".
-                "from Movimiento as m ".
-                "inner join Documento as d on m.NroDocumento = d.NroDocumento ".
-                "inner join TipoDocumento as tp on d.codTipoDocumento = tp.codTipoDocumento ".
-                "inner join Envio as e on m.codEnvio = e.codEnvio ".
-                "inner join Administrado as a on e.codAdministrado = a.codAdministrado ".
-                "inner join Estado as ee on ee.codEstado = e.codEstado ".
-                "inner join Area aro on aro.codArea = a.codArea ".
-                "where ee.descripcion = 'derivado'";
-
-        $stmt = DataBase::connect()->query($sql);
-
-        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        return $results;
-    }
-
     public function guardarNuevoDocumento(){
 
         $sql = "INSERT INTO Documento(NumDocumento, asunto, folios, codTipoDocumento, fechaRegistro, codUsuario, codEstado) ".
@@ -207,7 +188,8 @@ class Documento{
                 "inner join UsuarioArea ua on d.codUsuario = ua.codUsuario ".
                 "inner join Usuario u on ua.codEstado = u.codUsuario ".
                 "inner join Persona p on u.codPersona = p.codPersona ".
-                "inner join Estado e on d.codEstado = e.codEstado";
+                "inner join Estado e on d.codEstado = e.codEstado ".
+                "order by d.fechaRegistro DESC";
 
         try {
             $stmt = DataBase::connect()->prepare($sql);
