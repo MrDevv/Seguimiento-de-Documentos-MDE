@@ -32,7 +32,7 @@ CONCAT(p.nombres ,p.apellidos) 'usuario registrador', e.descripcion 'estado'
 from Documento d
 inner join TipoDocumento tp on d.codTipoDocumento = tp.codTipoDocumento
 inner join UsuarioArea ua on d.codUsuario = ua.codUsuario
-inner join Usuario u on ua.codEstado = u.codUsuario
+inner join Usuario u on ua.codUsuario = u.codUsuario
 inner join Persona p on u.codPersona = p.codPersona
 inner join Estado e on d.codEstado = e.codEstado
 order by d.fechaRegistro DESC;
@@ -135,6 +135,7 @@ where a.codArea = 1 and ua.codUsuarioArea != 4
 
 ----- Modulo de USUARIOS
 select * from Usuario
+select * from Documento
 
 -- autenticar usuario
 select ua.codUsuario, u.nombreUsuario, CONCAT(p.nombres, p.apellidos) 'nombres',

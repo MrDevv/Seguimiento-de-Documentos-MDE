@@ -15,10 +15,20 @@ class DocumentoController{
         return date('Y-m-d');
     }
 
+    public function obtenerHoraActual(){
+        date_default_timezone_set('America/Lima');
+        return date('H:i');
+    }
+
     public function listar(){
         $documentoObj = new Documento();
 
-        $response = $documentoObj->listarDocumentos();
+        if(trim($_SESSION['user']['rol']) == 'administrador'){
+            $response = $documentoObj->listarDocumentosAdministrador();
+        }else if(trim($_SESSION['user']['rol']) == 'usuario'){
+            $documentoObj->setUsuario((int) $_SESSION['user']['codUsuario']);
+            $response = $documentoObj->listarDocumentos();
+        }
 
         if ($response['status'] == 'failed'){
             $_SESSION['response'] = $response;
@@ -61,7 +71,8 @@ class DocumentoController{
                 $folios = isset($_POST['folios']) ? trim($_POST['folios']) : false;
                 $tipoDocumento = isset($_POST['tipoDocumento']) ? trim($_POST['tipoDocumento']) : false;
                 $fechaRegistro = $this->obtenerFechaActual();
-                $usuario = 1;   // usuario logeado
+                $horaRegistro = $this->obtenerHoraActual();
+                $usuario = $_SESSION['user']['codUsuario'];
                 $estado = $estadoOjb->getIdEstadoNuevo();
 
                 if ($nroDocumento && $asunto && $folios && $tipoDocumento && $fechaRegistro && $usuario && $estado){
@@ -69,10 +80,12 @@ class DocumentoController{
                     $documentoObj->setFolios(trim($folios));
                     $documentoObj->setTipoDocumento($tipoDocumento);
                     $documentoObj->setFechaRegistro($fechaRegistro);
-                    $documentoObj->setUsuario($usuario);
+                    $documentoObj->setHoraRegistro($horaRegistro);
+                    $documentoObj->setUsuario((int) $usuario);
                     $documentoObj->setEstado((int) $estado);
 
-                    // var_dump($documentoObj);
+//                     var_dump($documentoObj);
+//                     exit();
                     //$response [status, message, info]
                     $response = $documentoObj->guardarNuevoDocumento();
                     $_SESSION['response'] = $response;

@@ -6,6 +6,7 @@ class Documento{
     private $folios;
     private $tipoDocumento;
     private $fechaRegistro;
+    private $horaRegistro;
     private $usuario;
     private $estado;
 
@@ -51,6 +52,14 @@ class Documento{
         $this->fechaRegistro = $fechaRegistro;
     }
 
+    public function getHoraRegistro(){
+        return $this->horaRegistro;
+    }
+
+    public function setHoraRegistro($horaRegistro): void{
+        $this->horaRegistro = $horaRegistro;
+    }
+
     public function getUsuario(){
         return $this->usuario;
     }
@@ -69,8 +78,8 @@ class Documento{
 
     public function guardarNuevoDocumento(){
 
-        $sql = "INSERT INTO Documento(NumDocumento, asunto, folios, codTipoDocumento, fechaRegistro, codUsuario, codEstado) ".
-                "values(:numDocumento, :asunto, :folios, :codTipoDocumento, :fechaRegistro, :usuario, :estado)";
+        $sql = "INSERT INTO Documento(NumDocumento, asunto, folios, codTipoDocumento, fechaRegistro, horaRegistro, codUsuario, codEstado) ".
+                "values(:numDocumento, :asunto, :folios, :codTipoDocumento, :fechaRegistro, :horaRegistro, :usuario, :estado)";
 
         try {
             $stmt = DataBase::connect()->prepare($sql);
@@ -80,6 +89,7 @@ class Documento{
             $stmt->bindParam(":folios", $this->folios, PDO::PARAM_INT);
             $stmt->bindParam(":codTipoDocumento", $this->tipoDocumento, PDO::PARAM_INT);
             $stmt->bindParam(":fechaRegistro", $this->fechaRegistro, PDO::PARAM_STR);
+            $stmt->bindParam(":horaRegistro", $this->horaRegistro, PDO::PARAM_STR);
             $stmt->bindParam(":usuario", $this->usuario, PDO::PARAM_INT);
             $stmt->bindParam(":estado", $this->estado, PDO::PARAM_INT);
 
@@ -180,19 +190,71 @@ class Documento{
         }
     }
 
-    public function listarDocumentos(){
+    public function listarDocumentosAdministrador(){
         $sql = "select d.NumDocumento, tp.descripcion 'tipo documento', d.asunto, d.folios, d.fechaRegistro, ".
                 "CONCAT(p.nombres ,p.apellidos) 'usuario registrador', e.descripcion 'estado' ".
                 "from Documento d ".
                 "inner join TipoDocumento tp on d.codTipoDocumento = tp.codTipoDocumento ".
                 "inner join UsuarioArea ua on d.codUsuario = ua.codUsuario ".
-                "inner join Usuario u on ua.codEstado = u.codUsuario ".
+                "inner join Usuario u on ua.codUsuario = u.codUsuario ".
                 "inner join Persona p on u.codPersona = p.codPersona ".
                 "inner join Estado e on d.codEstado = e.codEstado ".
-                "order by d.fechaRegistro DESC";
+                "order by d.horaRegistro DESC";
 
         try {
             $stmt = DataBase::connect()->prepare($sql);
+
+            $stmt->execute();
+
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if (count($results)>0){
+                return [
+                    'status' => 'success',
+                    'message' => 'listado correcto',
+                    'action' => 'listar',
+                    'module' => 'documento',
+                    'data' => $results,
+                    'info' => ''
+                ];
+            }
+
+            return [
+                'status' => 'success',
+                'message' => 'no se encontraron registros',
+                'action' => 'listar',
+                'module' => 'documento',
+                'data' => [],
+                'info' => ''
+            ];
+
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => 'Ocurrio un error al momento de listar los documentos',
+                'action' => 'listar',
+                'module' => 'documento',
+                'info' => $e->getMessage()
+            ];
+        }
+    }
+
+    public function listarDocumentos(){
+        $sql =  "select d.NumDocumento, tp.descripcion 'tipo documento', d.asunto, d.folios, d.fechaRegistro, ".
+                "CONCAT(p.nombres ,p.apellidos) 'usuario registrador', e.descripcion 'estado' ".
+                "from Documento d ".
+                "inner join TipoDocumento tp on d.codTipoDocumento = tp.codTipoDocumento ".
+                "inner join UsuarioArea ua on d.codUsuario = ua.codUsuario ".
+                "inner join Usuario u on ua.codUsuario = u.codUsuario ".
+                "inner join Persona p on u.codPersona = p.codPersona ".
+                "inner join Estado e on d.codEstado = e.codEstado ".
+                "where ua.codUsuario = :codUsuario ".
+                "order by d.horaRegistro DESC";
+
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
+
+            $stmt->bindParam('codUsuario', $this->usuario, PDO::PARAM_INT);
 
             $stmt->execute();
 
