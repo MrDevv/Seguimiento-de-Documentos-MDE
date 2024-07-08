@@ -6,19 +6,43 @@ require_once "models/Usuario.php";
 
 class UsuarioController{
 
+    private Usuario $usuarioModel;
+
+    public function __construct(){
+        $this->usuarioModel = new Usuario();
+    }
+
     public function index(){
         require_once 'views/login/index.php';
     }
 
     public function login(){
-        $_SESSION['autenticado'] = true;
+        if ($_POST){
+            $username = trim($_POST['username']);
+            $password = trim($_POST['password']);
 
-        header('Location:'.base_url);
+            $this->usuarioModel->setNombreUsuario($username);
+            $this->usuarioModel->setPassword($password);
+            $response = $this->usuarioModel->autenticarUsuario();
+
+            if (count($response['data']) == 0){
+                $response['status'] = 'not found';
+                $_SESSION['response'] = $response;
+                require_once "views/modals/alerta.php";
+                exit();
+            }
+
+            $_SESSION['user'] = $response['data'][0];
+            $_SESSION['autenticado'] = true;
+            header('Location:'.base_url);
+        }
     }
 
     public function  logout(){
+        $_SESSION['user'] = false;
         $_SESSION['autenticado'] = false;
         unset($_SESSION['autenticado']);
+        unset($_SESSION['user']);
 
         header('Location:'.base_url);
     }

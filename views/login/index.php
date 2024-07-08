@@ -8,10 +8,10 @@
             <p>Ingresa tus datos para iniciar sesión</p>
             <form action="<?=base_url?>usuario/login" method="post">
                 <label for="username">Usuario:</label>
-                <input type="text" required>
+                <input type="text" name="username" required>
 
                 <label for="password">Contraseña:</label>
-                <input type="password" required> </br>
+                <input type="password" name="password" required> </br>
 
                 <button type="submit">Ingresar</button>
             </form>

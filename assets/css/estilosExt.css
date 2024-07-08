@@ -148,12 +148,17 @@
 
 /* Estilos de registro error */
 .containerMensajeRegistro{
-    background-color: #fff;
+    width: 100%;
+    background-color: #ffffff;
     height: min-content;
     max-width: 300px;
+    margin: auto;
     margin-top: 100px;
     border-radius: 10px;
     overflow: hidden;
+    -webkit-box-shadow: -1px 12px 77px -27px rgba(0,0,0,0.75);
+    -moz-box-shadow: -1px 12px 77px -27px rgba(0,0,0,0.75);
+    box-shadow: -1px 12px 77px -27px rgba(0,0,0,0.75);
 }
 
 .containerMensajeRegistro .header{
@@ -182,6 +187,15 @@
     padding: 10px 15px;
     color: #fff;
     background-color: var(--bg-color-principal);
+}
+
+.new {
+    background-color: #fff;
+    border: 1px solid #4b4b4b;
+}
+
+.invisible{
+    display: none;
 }
 
 /* Estilos documento */

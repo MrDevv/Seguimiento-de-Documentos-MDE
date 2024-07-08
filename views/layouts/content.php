@@ -4,7 +4,12 @@
         <h1>Sistema de seguimiento de documentos internos y externos</h1>
         <div class="container_userDetails_logout">
             <div class="userDetails">
-                <span>Miguel Vega Perez</span>
+                <div>
+                    <span> <?php echo $_SESSION['user']['nombres'] ?> <span class="username">(<?php echo trim($_SESSION['user']['nombreUsuario'])?>)</span> </span>
+                    <div class="username_rol">
+                        <span>  <?php echo $_SESSION['user']['area'] ?> - <?php echo $_SESSION['user']['rol'] ?> </span>
+                    </div>
+                </div>
                 <svg width="56" height="51" viewBox="0 0 56 51" fill="no ne" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <rect y="-3" width="56" height="54" fill="url(#pattern0_2334_17)"/>
                     <defs>

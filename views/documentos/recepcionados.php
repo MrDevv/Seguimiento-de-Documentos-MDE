@@ -19,17 +19,18 @@
     <div class="pendientesRecepcion_body">
         <table>
             <thead>
-                <tr>
-                    <th>N° Documento</th>
-                    <th>Folios</th>
-                    <th>Tipo Documento</th>
-                    <th>Area Origen</th>
-                    <th>Usuario Origen</th>
-                    <th>Fecha Derivacion</th>
-                    <th>Observacion</th>
-                    <th>Estado</th>
-                    <th>Acciones</th>
-                </tr>
+            <tr>
+                <th>N° Documento</th>
+                <th>Folios</th>
+                <th>Tipo Documento</th>
+                <th>Area Origen</th>
+                <th>Usuario Origen</th>
+                <th>Fecha Envio</th>
+                <th>Hora Envio</th>
+                <th>Observacion</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
             </thead>
             <tbody>
             <?php foreach ($response['data'] as $result): ?>
@@ -40,6 +41,7 @@
                     <td> <?= $result["area origen"] ?> </td>
                     <td> <?= $result["usuario origen"] ?> </td>
                     <td> <?= $result["fechaEnvio"] ?> </td>
+                    <td> <?= $result["hora envio"] ?> </td>
                     <td> <?= $result["observaciones"] ?> </td>
                     <td> <span> Pendiente de Recepcion </span> </td>
                     <td class="actions">

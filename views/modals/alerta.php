@@ -1,13 +1,14 @@
 <?php
     switch ($_SESSION['response']['action']) {
+        case "buscar":
         case "registrar":
             $ruta = 'crear';
             break;
         case "actualizar":
             $ruta = 'listar';
             break;
-        case "buscar":
-            $ruta = 'crear';
+        default:
+            $ruta = "listar";
             break;
 }
 ?>
@@ -24,7 +25,11 @@
     </div>
     <div class="body">
             <p class="mensaje"> <?= $_SESSION['response']['message'] ?></p>
-            <a href="<?=base_url?><?=$_SESSION['response']['module']?>/<?=$ruta?>">Regresar</a>
+            <?php if ($_SESSION['response']['action'] == 'login'): ?>
+                <a href="<?=base_url?>">Aceptar</a>
+            <?php else: ?>
+                <a href="<?=base_url?><?=$_SESSION['response']['module']?>/<?=$ruta?>">Regresar</a>
+            <?php endif; ?>
         </form>
     </div>
 </div>
