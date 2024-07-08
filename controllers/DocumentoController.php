@@ -187,12 +187,16 @@ class DocumentoController{
         }
     }
 
-    public function iniciarSeguimiento(int $numDocumento){
+    public function iniciarSeguimiento(string $numDocumento){
         $estadoCodActivo = Estado::getIdEstadoActivo();
         $documentoObj = new Documento();
         $documentoObj->setNumDocumento($numDocumento);
         $documentoObj->setEstado($estadoCodActivo);
-        $documentoObj->cambiarEstadoDocumento();
+        $response = $documentoObj->cambiarEstadoDocumento();
+        if ($response['status'] == 'failed'){
+            $_SESSION['response'] = $response;
+            require_once "views/modals/alerta.php";
+        }
     }
 
     public function reanudarSeguimiento(){

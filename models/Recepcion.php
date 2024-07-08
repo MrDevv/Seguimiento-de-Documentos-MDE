@@ -1,67 +1,96 @@
 <?php
 
 class Recepcion{
-    private $codRecepcion;
-    private $fechaRecepcion;
-    private $codAdministrado;
-    private $codEstado;
+    private int $codRecepcion;
+    private int $codEnvio;
+    private string $fechaRecepcion;
+    private string $horaRecepcion;
+    private int $codUsuarioRecepcion;
+    private int $codEstado;
 
-    public function getCodRecepcion(){
+    public function getCodRecepcion(): int{
         return $this->codRecepcion;
     }
 
-    public function setCodRecepcion($codRecepcion){
+    public function setCodRecepcion(int $codRecepcion): void{
         $this->codRecepcion = $codRecepcion;
     }
 
-    public function getFechaRecepcion()
-    {
+    public function getCodEnvio(): int{
+        return $this->codEnvio;
+    }
+
+    public function setCodEnvio(int $codEnvio): void{
+        $this->codEnvio = $codEnvio;
+    }
+
+    public function getFechaRecepcion(): string{
         return $this->fechaRecepcion;
     }
 
-    public function setFechaRecepcion($fechaRecepcion){
+    public function setFechaRecepcion(string $fechaRecepcion): void{
         $this->fechaRecepcion = $fechaRecepcion;
     }
 
-    public function getCodAdministrado(){
-        return $this->codAdministrado;
+    public function getHoraRecepcion(): string{
+        return $this->horaRecepcion;
     }
 
-    public function setCodAdministrado($codAdministrado){
-        $this->codAdministrado = $codAdministrado;
+    public function setHoraRecepcion(string $horaRecepcion): void{
+        $this->horaRecepcion = $horaRecepcion;
     }
 
-    public function getCodEstado(){
+    public function getCodUsuarioRecepcion(): int{
+        return $this->codUsuarioRecepcion;
+    }
+
+    public function setCodUsuarioRecepcion(int $codUsuarioRecepcion): void{
+        $this->codUsuarioRecepcion = $codUsuarioRecepcion;
+    }
+
+    public function getCodEstado(): int{
         return $this->codEstado;
     }
 
-    public function setCodEstado($codEstado){
+    public function setCodEstado(int $codEstado): void{
         $this->codEstado = $codEstado;
     }
 
     public function registrarRecepcion(){
-        $nroDocumento = isset($_POST['nroDocumento']) ? trim($_POST['nroDocumento']) : false;
-        $asunto = isset($_POST['asunto']) ? trim($_POST['asunto']) : false;
-        $folios = isset($_POST['folios']) ? trim($_POST['folios']) : false;
-        $tipoDocumento = isset($_POST['tipoDocumento']) ? trim($_POST['tipoDocumento']) : false;
-        $fechaRegistro = $this->obtenerFechaActual();
+        $sql = "insert into Recepcion(codEnvio, fechaRecepcion, horaRecepcion, codEstado, codUsuarioRecepcion) ".
+                "values(:codEnvio, :fechaRecepcion, :horaRecepcion, :codEstado, :codUsuarioRecepcion)";
 
-        if ($nroDocumento && $asunto && $folios && $tipoDocumento && $fechaRegistro){
-            $documentoObj = new Documento();
-            $documentoObj->setNumDocumento($nroDocumento);
-            $documentoObj->setAsunto($asunto);
-            $documentoObj->setFolios($folios);
-            $documentoObj->setTipoDocumento($tipoDocumento);
-            $documentoObj->setFechaRegistro($fechaRegistro);
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
 
-//                var_dump($documentoObj);
-//                $response [status, message, info]
-            $response = $documentoObj->guardarNuevoDocumento();
-            var_dump($response);
-            //$_SESSION['response'] = $response;
-            //require_once "views/modals/alerta.php";
+            $stmt->bindParam('codEnvio', $this->codEnvio, PDO::PARAM_INT);
+            $stmt->bindParam('horaRecepcion', $this->horaRecepcion, PDO::PARAM_STR);
+            $stmt->bindParam('fechaRecepcion', $this->fechaRecepcion, PDO::PARAM_STR);
+            $stmt->bindParam('codEstado', $this->codEstado, PDO::PARAM_INT);
+            $stmt->bindParam('codUsuarioRecepcion', $this->codUsuarioRecepcion, PDO::PARAM_INT);
+
+            $stmt->execute();
+
+            return [
+                'status' => 'success',
+                'message' => '¡Se registro la recepcion!',
+                'action' => 'recepcionar',
+                'module' => 'documento',
+                'data' => [],
+                'info' => ''
+            ];
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => '¡Ocurrio un error al momento de registrar la recepcionar del documento!',
+                'action' => 'recepcionar',
+                'module' => 'documento',
+                'info' => $e->getMessage()
+            ];
         }
 
     }
+
+
 
 }

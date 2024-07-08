@@ -302,14 +302,27 @@ class Documento{
 
             $stmt->execute();
 
-            return [
-                'status' => 'success',
-                'message' => '¡Se cambió el estado del documento!',
-                'action' => 'listar',
-                'module' => 'documento',
-                'data' => [],
-                'info' => ''
-            ];
+            if ($stmt->rowCount() > 0) {
+                return [
+                    'status' => 'success',
+                    'message' => '¡Se cambió el estado del documento!',
+                    'action' => 'listar',
+                    'module' => 'documento',
+                    'data' => [],
+                    'info' => ''
+                ];
+            } else {
+                return [
+                    'status' => 'failed',
+                    'message' => '¡No se pudo cambiar el estado del documento!',
+                    'action' => 'listar',
+                    'module' => 'documento',
+                    'data' => [],
+                    'info' => ''
+                ];
+            }
+
+
         }catch (PDOException $e){
             return [
                 'status' => 'failed',

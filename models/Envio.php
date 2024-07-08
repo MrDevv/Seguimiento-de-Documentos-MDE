@@ -95,6 +95,7 @@ class Envio{
         $this->codUsuarioAreaDestino = $codUsuarioAreaDestino;
     }
 
+    // cambiar
     public function getDocumentosPendientesRecepcion(int $codUsuarioDestino, int $codAreaDestino){
         $sql = "SELECT e.codEnvio, ".
             "e.fechaEnvio, ".
@@ -162,6 +163,7 @@ class Envio{
         }
     }
 
+    // cambiar
     public function getDocumentosRecepcionados(int $codUsuarioOrigen, int $codAreaOrigen, int $codEstadoEnvio){
         $sql = "select e.codEnvio, ".
                 "LEFT(CONVERT(VARCHAR, e.horaEnvio, 108), 5) AS 'hora envio', ".
@@ -229,7 +231,8 @@ class Envio{
                 "values (:fechaEnvio, :horaEnvio, :folios, :observaciones, :codEstado, :codMovimiento, :numDocumento, :codUsuarioEnvio, :codUsuarioDestino)";
 
         try {
-            $stmt = DataBase::connect()->prepare($sql);
+            $db = DataBase::connect();
+            $stmt = $db->prepare($sql);
 
             $stmt->bindParam('fechaEnvio', $this->fechaEnvio, PDO::PARAM_STR);
             $stmt->bindParam('horaEnvio', $this->horaEnvio, PDO::PARAM_STR);
@@ -243,12 +246,14 @@ class Envio{
 
             $stmt->execute();
 
+            $lastInsertId = $db->lastInsertId();
+
             return [
                 'status' => 'success',
                 'message' => '¡Documento enviado!',
                 'action' => 'enviar',
                 'module' => 'documento',
-                'data' => [],
+                'data' => ['id' => $lastInsertId],
                 'info' => ''
             ];
 
@@ -258,6 +263,57 @@ class Envio{
                 'message' => '¡Ocurrio un error al momento de enviar el documento!',
                 'action' => 'enviar',
                 'module' => 'documento',
+                'data' => [],
+                'info' => $e->getMessage()
+            ];
+        }
+    }
+
+    public function obtenerDocumentosEnviados(){
+        $sql = "select e.codEnvio, ".
+            "LEFT(CONVERT(VARCHAR, e.horaEnvio, 108), 5) AS 'hora envio', ".
+            "e.fechaEnvio, ".
+            "e.folios, ".
+            "e.observaciones, ".
+            "d.NumDocumento, ".
+            "td.descripcion 'tipo documento', ".
+            "CONCAT(pd.nombres, pd.apellidos) 'usuario destino', ".
+            "ad.descripcion 'area destino' ".
+            "from Recepcion r ".
+            "inner join Envio e on r.codEnvio = e.codEnvio ".
+            "INNER JOIN Documento d ON e.NumDocumento = d.NumDocumento ".
+            "INNER JOIN TipoDocumento td ON d.codTipoDocumento = td.codTipoDocumento ".
+            "INNER JOIN UsuarioArea uad ON e.codUsuarioDestino = uad.codUsuario ".
+            "INNER JOIN Usuario ud ON uad.codUsuario = ud.codUsuario ".
+            "INNER JOIN Persona pd ON ud.codPersona = pd.codPersona ".
+            "INNER JOIN Area ad ON uad.codArea = ad.codArea ".
+            "where e.codUsuarioEnvio= :codUsuarioEnvio and r.codEstado = :codEstado";
+
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
+
+            $stmt->bindParam('codUsuarioEnvio', $this->codUsuarioAreaEnvio, PDO::PARAM_INT);
+            $stmt->bindParam('codEstado', $this->codEstado, PDO::PARAM_INT);
+
+            $stmt->execute();
+
+            $response = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return [
+                'status' => 'success',
+                'message' => '¡Se registro la recepcion!',
+                'action' => 'recepcionar',
+                'module' => 'documento',
+                'data' => $response,
+                'info' => ''
+            ];
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => '¡Ocurrio un error al momento de registrar la recepcionar del documento!',
+                'action' => 'recepcionar',
+                'module' => 'documento',
+                'data' => [],
                 'info' => $e->getMessage()
             ];
         }

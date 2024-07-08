@@ -4,6 +4,7 @@ require_once "models/Envio.php";
 require_once "models/Usuario.php";
 require_once "models/Area.php";
 require_once "models/Estado.php";
+require_once "models/Recepcion.php";
 
 require_once "models/UsuarioArea.php";
 require_once "MovimientoController.php";
@@ -20,7 +21,7 @@ class EnvioController{
 //    private Area $areaDestinoModel;
     private Estado $estadoModel;
     private Area $areaModel;
-
+    private Recepcion $recepcionModel;
     private MovimientoController $movimientoController;
     private DocumentoController $documentoController;
 
@@ -30,6 +31,7 @@ class EnvioController{
         $this->areaModel = new Area();
         $this->movimientoController = new MovimientoController();
         $this->documentoController = new DocumentoController();
+        $this->recepcionModel = new Recepcion();
 
 //        $this->documentoModel = new Documento();
 //        $this->usuarioAreaOrigenModel = new UsuarioArea();
@@ -139,15 +141,32 @@ class EnvioController{
             $this->envioModel->setCodMovimiento($movimiento);
             $this->envioModel->setNumDocumento($numDocumento);
             $this->envioModel->setCodUsuarioAreaDestino($usuarioAreaDestino);
-            $this->envioModel->setCodUsuarioAreaEnvio(2);
+            $this->envioModel->setCodUsuarioAreaEnvio((int) $_SESSION['user']['codUsuario']);
 
 //            var_dump($this->envioModel);
 //            exit();
 
             $response = $this->envioModel->registrarEnvio();
             $this->documentoController->iniciarSeguimiento($numDocumento);
+
+        $this->recepcionModel->setFechaRecepcion($this->obtenerFechaActual());
+        $this->recepcionModel->setHoraRecepcion($this->obtenerHoraActual());
+        $this->recepcionModel->setCodEnvio((int) $response['data']['id']);
+        $this->recepcionModel->setCodEstado(Estado::getIdEstadoInactivo());
+        $this->recepcionModel->setCodUsuarioRecepcion($usuarioAreaDestino);
+        $this->recepcionModel->registrarRecepcion();
+
             $_SESSION['response'] = $response;
             require_once "views/modals/alerta.php";
+    }
+
+    // accion para obtener los documentos enviados
+    public function enviados(){
+        $this->envioModel->setCodEstado(Estado::getIdEstadoInactivo());
+        $this->envioModel->setCodUsuarioAreaEnvio((int) $_SESSION['user']['codUsuario']);
+        $response = $this->envioModel->obtenerDocumentosEnviados();
+
+        require_once "views/documentos/enviados.php";
     }
 
     public function obtenerFechaActual(){
