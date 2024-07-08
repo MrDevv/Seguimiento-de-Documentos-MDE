@@ -7,11 +7,14 @@
         <table>
             <thead>
             <tr>
-                <th>Nombre</th>
-                <th>Apellidos</th>
-                <th>Telefono</th>
-                <th>DNI</th>
+                <th>CodUsuario</th>
+                <th>Usuario</th>
                 <th>Estado</th>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>DNI</th>
+                <th>Telefono</th>
+                <th>Area</th>
                 <th>Acciones</th>
             </tr>
             </thead>
@@ -20,11 +23,14 @@
                 <!--            --><?php //var_dump($result); ?>
                 <tr>
                     <!-- mapear los campos del objeto -->
+                    <td> <?=$result["codUsuario"]?> </td>
+                    <td> <?=$result["usuario"]?> </td>
+                    <td> <?=$result["estado"]?> </td>
                     <td> <?=$result["nombres"]?> </td>
                     <td> <?=$result["apellidos"]?> </td>
-                    <td> <?=$result["telefono"]?> </td>
                     <td> <?=$result["dni"]?> </td>
-                    <td> <?=$result["estado"]?> </td>
+                    <td> <?=$result["telefono"]?> </td>
+                    <td> <?=$result["area"]?> </td>
                     <td class="actions">
                         <a class="action" href="<?=base_url?>usuario/editar?cod=<?=$result["codUsuario"]?>">
                             <span class="tooltip">Editar <span class="triangulo"></span></span>

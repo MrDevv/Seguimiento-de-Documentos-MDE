@@ -1,6 +1,7 @@
 <?php
 
 require_once "models/Area.php";
+require_once "models/Rol.php";
 require_once "models/Usuario.php";
 
 class UsuarioController{
@@ -25,16 +26,18 @@ class UsuarioController{
     public function crear(){  
         $areaObj= new Area();
         $areas=$areaObj->listarArea();
+        $rolObj= new Rol();
+        $roles=$rolObj->listarRoles();
         require_once "views/usuario/registro.php";
     }
 
     public function editar(){
         if (isset($_GET["cod"])){
             $codUsuario = $_GET['cod'];
+    
             $response = $this->buscar($codUsuario);
-//            var_dump($response);
-            $areaObj= new Area();
-            $areas=$areaObj->listarArea();
+            $rolObj= new Rol();
+            $roles=$rolObj->listarRoles();
 
  //          var_dump($areas);
             require_once "views/usuario/editarUsuario.php";
@@ -84,17 +87,16 @@ class UsuarioController{
     function listar(){
         $usuarioObj = new Usuario();
         $listadoUsuario = $usuarioObj->listarUsuario();
-        // varificar los campos que retorna la consulta
-        var_dump($listadoUsuario);
 
-        //require_once "views/usuario/listarUsuario.php";
+        // varificar los campos que retorna la consulta
+        //var_dump($listadoUsuario);
+
+        require_once "views/usuario/listarUsuario.php";
     }
 
     public function registroNuevaUsuario(){
-        $_SESSION["registro"] = "habilitado";
-
         if (isset($_POST)){
-            $usuario = isset($_POST['usuario']) ? $_POST['USUARIO'] : false;
+            $usuario = isset($_POST['usuario']) ? $_POST['usuario'] : false;
 
             if ($usuario){
                 $usuarioObj = new Usuario();

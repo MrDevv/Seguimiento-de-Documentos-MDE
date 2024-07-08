@@ -4,9 +4,9 @@ $estado = new Estado();
 $estados= $estado->listarEstadosHabilitadoInhabilitado();
 ?>
 <div class="containerRegistroUsuario">
-    <h2>Registro de Usuarios</h2>
+    <h2>Editar Usuario</h2>
     <div class="body">
-        <form action="<?=base_url?>usuario/registrar" method="post">
+        <form action="<?=base_url?>usuario/actualizar" method="post">
             <h3>Datos Generales</h3><br>
             <div class="row">
                 <div>
@@ -33,22 +33,7 @@ $estados= $estado->listarEstadosHabilitadoInhabilitado();
                 </div>
 
             </div>
-            <div class="row">
-                <div>
-                    <label for="estado">Estado:</label>
-                    <select id="estado" name="estado">
-                        <?php foreach ($estados as $result):?>
-                        <option 
-                        value="<?=$result['codEstado']?>"
-                        >
-                        <?=$result['descripcion']?>
-                    </option>
-                        
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-
-            </div>
+            
 
             <h3>Datos de Usuario</h3><br>
             <div class="row">
@@ -64,23 +49,17 @@ $estados= $estado->listarEstadosHabilitadoInhabilitado();
             <div class="row">
                 <div>
                         <label for="contrasena">Rol:</label>
-                        <input type="text" id="rol" name="rol">
+                        <select id="rol" name="rol">
+                                    <?php foreach ($roles as $result):?>
+                                    <option 
+                                    value="<?=$result['codRol']?>"
+                                    >
+                                    <?=$result['descripcion']?>
+                                </option>
+                                    
+                                    <?php endforeach; ?>
+                        </select>
                 </div>
-                <div>
-                    <label for="estado">Estado:</label>
-                    <select id="estado" name="estado">
-                        <?php foreach ($estados as $result):?>
-                        <option 
-                        value="<?=$result['codEstado']?>"
-                        >
-                        <?=$result['descripcion']?>
-                    </option>
-                        
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-
-
             </div>
             
             <input type="submit" value="Actualizar">
