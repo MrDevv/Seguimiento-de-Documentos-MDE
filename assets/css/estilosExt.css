@@ -140,7 +140,7 @@
 
 .asuntoDocumento{
     width: 250px;
-    display: block;
+    display: table-caption;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

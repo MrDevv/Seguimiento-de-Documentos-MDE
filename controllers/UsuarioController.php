@@ -16,6 +16,12 @@ class UsuarioController{
         require_once 'views/login/index.php';
     }
 
+    public function cambiarAreaUsuario(){
+        $areaObj= new Area();
+        $areas=$areaObj->listarArea();
+        require_once "views/usuario/cambiarAreaUsuario.php";
+    }
+
     public function login(){
         if ($_POST){
             $username = trim($_POST['username']);
@@ -118,18 +124,30 @@ class UsuarioController{
         require_once "views/usuario/listarUsuario.php";
     }
 
-    public function registroNuevaUsuario(){
+    public function registrarUsuario(){
         if (isset($_POST)){
             $usuario = isset($_POST['usuario']) ? $_POST['usuario'] : false;
+            $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : false;
+            $apellido = isset($_POST['apellidos']) ? $_POST['apellidos'] : false;
+            $telefono = isset($_POST['telefono']) ? $_POST['telefono'] : false;
+            $dni = isset($_POST['dni']) ? $_POST['dni'] : false;
+            $contrasena = isset($_POST['contrasena']) ? $_POST['contrasena'] : false;
+            $rol = isset($_POST['rol']) ? $_POST['rol'] : false;
+            $area = isset($_POST['area']) ? $_POST['area'] : false;
 
-            if ($usuario){
+        
+            if ($usuario && $nombre && $apellido ){
                 $usuarioObj = new Usuario();
                 $usuarioObj->setNombreUsuario($usuario);
+
+                var_dump($usuarioObj);
 //                $response [status, message, info]
-                $response = $usuarioObj->guardarUsuario();
+                //$response = $usuarioObj->guardarUsuario();
 //                var_dump($response);
-                $_SESSION['response'] = $response;
-                require_once "views/modals/alerta.php";
+                //$_SESSION['response'] = $response;
+                //require_once "views/modals/alerta.php";
+            }else{
+                echo "campos incompletos";
             }
         }
     }
