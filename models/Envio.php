@@ -277,7 +277,7 @@ class Envio{
             "e.observaciones, ".
             "d.NumDocumento, ".
             "td.descripcion 'tipo documento', ".
-            "CONCAT(pd.nombres, pd.apellidos) 'usuario destino', ".
+            "CONCAT(pd.nombres, ' ',pd.apellidos) 'usuario destino', ".
             "ad.descripcion 'area destino' ".
             "from Recepcion r ".
             "inner join Envio e on r.codEnvio = e.codEnvio ".
