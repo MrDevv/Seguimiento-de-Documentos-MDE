@@ -101,7 +101,7 @@ class Recepcion{
             "es.descripcion 'estado recepcion', ".
             "d.NumDocumento, ".
             "td.descripcion 'tipo documento', ".
-            "CONCAT(pe.nombres, pe.apellidos) 'usuario origen', ".
+            "CONCAT(pe.nombres, ' ' ,pe.apellidos) 'usuario origen', ".
             "ae.descripcion 'area origen', ".
             "CONCAT(pd.nombres, pd.apellidos) 'usuario destino', ".
             "ad.descripcion 'area destino' ".

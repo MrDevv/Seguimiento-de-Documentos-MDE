@@ -48,7 +48,12 @@
                     <td> <?= $result["fechaEnvio"] ?> </td>
                     <td> <?= $result["hora envio"] ?> </td>
                     <td> <?= $result["observaciones"] ?> </td>
-                    <td> <span> <?= $result["estado recepcion"] == 'i' ? 'Pendiente de Recepcion' : 'Recepcionado' ?> </span> </td>
+                    <td>
+                        <span
+                                class="pendienteRecepcion">
+                            <?= $result["estado recepcion"] == 'i' ? 'Pendiente de Recepcion' : 'Recepcionado' ?>
+                        </span>
+                    </td>
                     <td class="actions">
                         <div class="action" onclick="modalConfirmarRecepcion(<?=$result["codRecepcion"];?>)">
                             <span class="tooltip">Confirmar Recepción <span class="triangulo"></span></span>

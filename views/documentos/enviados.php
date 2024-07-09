@@ -49,7 +49,11 @@
                     <td> <?= $result["fechaEnvio"] ?> </td>
                     <td> <?= $result["hora envio"] ?> </td>
                     <td> <?= $result["observaciones"] ?> </td>
-                    <td> <span> <?= $result["estado recepcion"] == 'i' ? "Pendiente de Recepcion" : "Recepcionado" ?> </span> </td>
+                    <td>
+                        <span class="<?= $result["estado recepcion"] == 'i' ? "pendienteRecepcion" : "recepcionado" ?> ">
+                            <?= $result["estado recepcion"] == 'i' ? "Pendiente de Recepcion" : "Recepcionado" ?>
+                        </span>
+                    </td>
                     <td class="actions">
                         <?php if ($result["estado recepcion"] == 'i'): ?>
                             <a class="action" href="<?=base_url?>documento/editar?doc=<?=$result["NumDocumento"]?>">

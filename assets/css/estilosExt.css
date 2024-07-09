@@ -203,4 +203,20 @@
     padding: 30px !important;
 }
 
+/* Estilos para los estados de los documentos */
+
+.pendienteRecepcion{
+    padding: 5px 5px;
+    border-radius: 5px;
+    background-color: #39AFF1;
+    border: 1px solid #107fbd;
+}
+
+.recepcionado{
+    padding: 5px 5px;
+    border-radius: 5px;
+    background-color: #09dc50;
+    border: 1px solid #059133;
+}
+
 /* Estilos documento */

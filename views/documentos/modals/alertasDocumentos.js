@@ -1,5 +1,5 @@
 async function modalConfirmarRecepcion(idRecepcion) {
-
+    console.log(idRecepcion)
     try {
         const baseUrl = "http://localhost/Seguimiento-de-Documentos-MDE/";
         const response = await fetch(`${baseUrl}views/documentos/modals/confirmarRecepcion.php`);
