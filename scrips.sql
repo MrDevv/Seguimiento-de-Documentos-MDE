@@ -1,30 +1,47 @@
+----------- INSERT DE DATOS INICIALES DEL SISTEMA
 
-select * from Documento
-select * from Estado
+-- Estados del sistema
+insert into Estado(descripcion) values('n'), ('a'), ('i');
 
-insert into Estado(descripcion) values('n');
+-- Roles del sistema
+insert into Rol(descripcion) values('administrador'), ('usuario');
 
-update estado set descripcion = 'a' where codEstado = 2
+-- Movimientos del sistema
+insert into Movimiento(descripcion) values('deducción');
 
+-- Areas del Sistema
+insert into Area(descripcion) values('rentas'),('recursos humanos'),('GAT');
+
+-- Tipo Documento
+insert into TipoDocumento(descripcion) values('memorando'),('carta'),('oficio'),('denuncia')
+
+-- Personas
 insert into Persona (nombres, apellidos, telefono, dni, codEstado)
-values ('Julio', 'Rojas', '949839321', '78592323', 2)
+values 
+('Larri Rodrigo', 'Estrada Leon', '949839321', '78592323', 2),
+('Miguel Angel', 'Vega Perez', '958443234', '74293456', 2);
 
-select * from Persona
-select * from Usuario
-select * from Envio order by fechaEnvio desc, horaEnvio desc
-
-update usuario set codRol = 2 where codUsuario = 3
-
-
-select * from UsuarioArea
 
 insert into Usuario (nombreUsuario, password, codRol, codPersona, codEstado)
-values ('jrojas', '1234', 1, 3, 2)
+values 
+('lestradal', 'admin123', 1, 1, 2),
+('mvegap', 'admin123', 1, 2, 2)
 
 insert into UsuarioArea (codUsuario, codArea, codEstado)
-values(3, 1, 2)
+values
+(1, 1, 2),
+(2, 2, 2)
 
-select * from Movimiento
+
+
+
+
+
+
+
+
+
+
 
 
 ------------------- CONSULTAS AVANZADAS DEL SISTEMA -------------------
