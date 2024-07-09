@@ -12,13 +12,6 @@ require_once "DocumentoController.php";
 
 class EnvioController{
     private Envio $envioModel;
-//    private Documento $documentoModel;
-//    private UsuarioArea $usuarioAreaOrigenModel;
-//    private UsuarioArea $usuarioAreaDestinoModel;
-//    private Usuario $usuarioOrigenModel;
-//    private Usuario $usuarioDestinoModel;
-//    private Area $areaOrigenModel;
-//    private Area $areaDestinoModel;
     private Estado $estadoModel;
     private Area $areaModel;
     private Recepcion $recepcionModel;
@@ -32,28 +25,6 @@ class EnvioController{
         $this->movimientoController = new MovimientoController();
         $this->documentoController = new DocumentoController();
         $this->recepcionModel = new Recepcion();
-
-//        $this->documentoModel = new Documento();
-//        $this->usuarioAreaOrigenModel = new UsuarioArea();
-//        $this->usuarioAreaDestinoModel = new UsuarioArea();
-//        $this->usuarioOrigenModel = new Usuario();
-//        $this->usuarioDestinoModel = new Usuario();
-//        $this->areaOrigenModel = new Area();
-//        $this->areaDestinoModel = new Area();
-//        $this->estadoModel = new Estado();
-    }
-    public function pendientesDeRecepcion(){
-        $response = $this->envioModel->getDocumentosPendientesRecepcion(2, 2);
-
-        if ($response['status'] == 'failed'){
-            $_SESSION['response'] = $response;
-            require_once "views/modals/alerta.php";
-            exit();
-        }
-
-//        var_dump($response);
-
-        require_once "views/documentos/pendientesDeRecepcion.php";
     }
 
     public function recepcionados(){

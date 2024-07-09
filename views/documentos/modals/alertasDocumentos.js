@@ -1,4 +1,4 @@
-async function modalConfirmarRecepcion(idDocumento) {
+async function modalConfirmarRecepcion(idRecepcion) {
 
     try {
         const baseUrl = "http://localhost/Seguimiento-de-Documentos-MDE/";
@@ -8,12 +8,19 @@ async function modalConfirmarRecepcion(idDocumento) {
             throw new Error("Error al cargar la modal");
         }
 
-
         const data = await response.text();
 
         const modalContainer = document.createElement("div");
         modalContainer.classList.add("modal-container")
         modalContainer.innerHTML = data;
+
+        document.body.appendChild(modalContainer);
+
+        let codigo = document.querySelector("#codRecepcion");
+
+        console.log(codigo)
+
+        codigo.value = idRecepcion
 
         document.body.appendChild(modalContainer);
     }catch (e) {
