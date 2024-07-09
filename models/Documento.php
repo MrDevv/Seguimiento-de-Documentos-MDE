@@ -192,7 +192,7 @@ class Documento{
 
     public function listarDocumentosAdministrador(){
         $sql = "select d.NumDocumento, tp.descripcion 'tipo documento', d.asunto, d.folios, d.fechaRegistro, ".
-                "CONCAT(p.nombres ,p.apellidos) 'usuario registrador', e.descripcion 'estado' ".
+                "CONCAT(p.nombres ,' ',p.apellidos) 'usuario registrador', e.descripcion 'estado' ".
                 "from Documento d ".
                 "inner join TipoDocumento tp on d.codTipoDocumento = tp.codTipoDocumento ".
                 "inner join UsuarioArea ua on d.codUsuario = ua.codUsuario ".
@@ -241,7 +241,7 @@ class Documento{
 
     public function listarDocumentos(){
         $sql =  "select d.NumDocumento, tp.descripcion 'tipo documento', d.asunto, d.folios, d.fechaRegistro, ".
-                "CONCAT(p.nombres ,p.apellidos) 'usuario registrador', e.descripcion 'estado' ".
+                "CONCAT(p.nombres ,' ',p.apellidos) 'usuario registrador', e.descripcion 'estado' ".
                 "from Documento d ".
                 "inner join TipoDocumento tp on d.codTipoDocumento = tp.codTipoDocumento ".
                 "inner join UsuarioArea ua on d.codUsuario = ua.codUsuario ".
