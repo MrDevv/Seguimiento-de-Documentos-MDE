@@ -80,21 +80,23 @@ where NumDocumento = '9012'
 update Documento set codEstado = 1 where NumDocumento = '9012';
 
 -- listar documentos pendientes de recepcion para un usuario y una area determinada
-SELECT e.codEnvio, 
+SELECT r.codRecepcion,
+	   e.codEnvio, 
        LEFT(CONVERT(VARCHAR, e.horaEnvio, 108), 5) AS 'hora envio', 
 	   e.fechaEnvio,
        e.folios, 
        e.observaciones,
-       es.descripcion 'estado envio', 
+       es.descripcion 'estado recepcion', 
        d.NumDocumento, 
        td.descripcion 'tipo documento',
-       CONCAT(pe.nombres, pe.apellidos) 'usuario origen', 
+       CONCAT(pe.nombres, ' ',pe.apellidos) 'usuario origen', 
        ae.descripcion 'area origen',
-       CONCAT(pe.nombres, pe.apellidos) 'usuario destino', 
+       CONCAT(pd.nombres, pd.apellidos) 'usuario destino', 
        ad.descripcion 'area destino'
-FROM Envio e
+FROM Recepcion r
+INNER JOIN Envio e ON r.codEnvio = r.codEnvio
 -- Datos del estado
-INNER JOIN Estado es ON e.codEstado = es.codEstado
+INNER JOIN Estado es ON r.codEstado = es.codEstado
 -- Datos del documento
 INNER JOIN Documento d ON e.NumDocumento = d.NumDocumento
 -- Datos del tipo documento
@@ -111,24 +113,30 @@ INNER JOIN Usuario ud ON uad.codUsuario = ud.codUsuario
 INNER JOIN Persona pd ON ud.codPersona = pd.codPersona
 -- Área destino 
 INNER JOIN Area ad ON uad.codArea = ad.codArea
-where ud.codUsuario = 2 and ad.codArea = 2
+where ud.codUsuario = 1 and r.codEstado = 3
+
+
+select * from Usuario
+select * from Estado
 
 -- listar documentos recepcionados de un usuario y una area determinada
-SELECT e.codEnvio, 
+SELECT r.codRecepcion, 
+	   r.codEnvio, 
        LEFT(CONVERT(VARCHAR, e.horaEnvio, 108), 5) AS 'hora envio', 
 	   e.fechaEnvio,
        e.folios, 
        e.observaciones,
-       es.descripcion 'estado envio', 
+       es.descripcion 'estado recepcion', 
        d.NumDocumento, 
        td.descripcion 'tipo documento',
        CONCAT(pe.nombres, pe.apellidos) 'usuario origen', 
        ae.descripcion 'area origen',
        CONCAT(pe.nombres, pe.apellidos) 'usuario destino', 
        ad.descripcion 'area destino'
-FROM Envio e
+FROM Recepcion r
+INNER JOIN Envio e ON r.codEnvio = e.codEnvio
 -- Datos del estado
-INNER JOIN Estado es ON e.codEstado = es.codEstado
+INNER JOIN Estado es ON r.codEstado = es.codEstado
 -- Datos del documento
 INNER JOIN Documento d ON e.NumDocumento = d.NumDocumento
 -- Datos del tipo documento
@@ -145,7 +153,7 @@ INNER JOIN Usuario ud ON uad.codUsuario = ud.codUsuario
 INNER JOIN Persona pd ON ud.codPersona = pd.codPersona
 -- Área destino 
 INNER JOIN Area ad ON uad.codArea = ad.codArea
-where ue.codUsuario = 2 and ae.codArea = 2 and e.codEstado = 2
+where uad.codUsuario = 2 AND e.codEstado = 2
 
 -- obtener documentos enviados por un usuario con estado pendiente de recepcion
 select e.codEnvio, 
@@ -172,7 +180,7 @@ INNER JOIN Persona pd ON ud.codPersona = pd.codPersona
 INNER JOIN Area ad ON uad.codArea = ad.codArea
 -- Estado de la recepcion
 INNER JOIN Estado er ON r.codEstado = er.codEstado
-where e.codUsuarioEnvio = 1 
+where e.codUsuarioEnvio = 1
 
 
 

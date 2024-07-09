@@ -27,17 +27,6 @@ class EnvioController{
         $this->recepcionModel = new Recepcion();
     }
 
-    public function recepcionados(){
-        $envioObj = new Envio();
-        $codEstadoEnvio = (int) Estado::getIdEstadoInactivo();
-
-        $response = $envioObj->getDocumentosRecepcionados(2, 2, $codEstadoEnvio);
-
-//        var_dump($response);
-
-        require_once "views/documentos/recepcionados.php";
-    }
-
     public function nuevoEnvio(){
         if (isset($_GET["doc"])){
             $documentoDB = new Documento();

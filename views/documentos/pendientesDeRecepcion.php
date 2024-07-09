@@ -40,6 +40,7 @@
             <?php else: ?>
                 <?php foreach ($response['data'] as $result): ?>
                 <tr>
+                    <td> <?= $result['N° envio'] ?> </td>
                     <td> <?= $result['NumDocumento'] ?> </td>
                     <td> <?= $result['folios'] ?> </td>
                     <td> <?= $result['tipo documento'] ?> </td>

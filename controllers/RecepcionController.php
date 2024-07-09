@@ -42,9 +42,19 @@ class RecepcionController{
             exit();
         }
 
-//        var_dump($response);
-
         require_once "views/documentos/pendientesDeRecepcion.php";
+    }
+
+    public function recepcionados(){
+        $response = $this->recepcionModel->listarDocumentosRecepcionados((int) $_SESSION['user']['codUsuario'], Estado::getIdEstadoActivo());
+
+        if ($response['status'] == 'failed'){
+            $_SESSION['response'] = $response;
+            require_once "views/modals/alerta.php";
+            exit();
+        }
+
+        require_once "views/documentos/recepcionados.php";
     }
 
     public function confirmarRecepcion(){
