@@ -278,7 +278,8 @@ class Envio{
             "d.NumDocumento, ".
             "td.descripcion 'tipo documento', ".
             "CONCAT(pd.nombres, ' ',pd.apellidos) 'usuario destino', ".
-            "ad.descripcion 'area destino' ".
+            "ad.descripcion 'area destino', ".
+            "er.descripcion 'estado recepcion' ".
             "from Recepcion r ".
             "inner join Envio e on r.codEnvio = e.codEnvio ".
             "INNER JOIN Documento d ON e.NumDocumento = d.NumDocumento ".
@@ -287,13 +288,13 @@ class Envio{
             "INNER JOIN Usuario ud ON uad.codUsuario = ud.codUsuario ".
             "INNER JOIN Persona pd ON ud.codPersona = pd.codPersona ".
             "INNER JOIN Area ad ON uad.codArea = ad.codArea ".
-            "where e.codUsuarioEnvio= :codUsuarioEnvio and r.codEstado = :codEstado";
+            "INNER JOIN Estado er ON r.codEstado = er.codEstado ".
+            "where e.codUsuarioEnvio= :codUsuarioEnvio";
 
         try {
             $stmt = DataBase::connect()->prepare($sql);
 
             $stmt->bindParam('codUsuarioEnvio', $this->codUsuarioAreaEnvio, PDO::PARAM_INT);
-            $stmt->bindParam('codEstado', $this->codEstado, PDO::PARAM_INT);
 
             $stmt->execute();
 

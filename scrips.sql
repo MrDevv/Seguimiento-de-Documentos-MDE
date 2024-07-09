@@ -147,6 +147,40 @@ INNER JOIN Persona pd ON ud.codPersona = pd.codPersona
 INNER JOIN Area ad ON uad.codArea = ad.codArea
 where ue.codUsuario = 2 and ae.codArea = 2 and e.codEstado = 2
 
+-- obtener documentos enviados por un usuario con estado pendiente de recepcion
+select e.codEnvio, 
+       LEFT(CONVERT(VARCHAR, e.horaEnvio, 108), 5) AS 'hora envio', 
+	   e.fechaEnvio,
+       e.folios, 
+       e.observaciones,
+	   d.NumDocumento, 
+       td.descripcion 'tipo documento',
+	   CONCAT(pd.nombres, ' ' ,pd.apellidos) 'usuario destino', 
+       ad.descripcion 'area destino',
+	   er.descripcion 'estado recepcion'
+from Recepcion r
+inner join Envio e on r.codEnvio = e.codEnvio
+-- Datos del documento
+INNER JOIN Documento d ON e.NumDocumento = d.NumDocumento
+-- Datos del tipo documento
+INNER JOIN TipoDocumento td ON d.codTipoDocumento = td.codTipoDocumento
+-- Usuario destino
+INNER JOIN UsuarioArea uad ON e.codUsuarioDestino = uad.codUsuario
+INNER JOIN Usuario ud ON uad.codUsuario = ud.codUsuario
+INNER JOIN Persona pd ON ud.codPersona = pd.codPersona
+-- Área destino 
+INNER JOIN Area ad ON uad.codArea = ad.codArea
+-- Estado de la recepcion
+INNER JOIN Estado er ON r.codEstado = er.codEstado
+where e.codUsuarioEnvio = 1 
+
+
+
+
+
+
+
+
 ---- Modulo de AREAS
 -- listar todos los usuarios de una area determinada excepto el usuario logeado
 select ua.codUsuarioArea, concat(p.nombres, p.apellidos) 'usuario' 

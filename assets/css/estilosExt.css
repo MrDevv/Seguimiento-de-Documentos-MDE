@@ -198,4 +198,9 @@
     display: none;
 }
 
+.mensajeSinRegistros{
+    font-size: 20px;
+    padding: 30px !important;
+}
+
 /* Estilos documento */

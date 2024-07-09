@@ -19,7 +19,13 @@
             </tr>
             </thead>
             <tbody>
-            <?php foreach ($response['data'] as $result):?>
+
+            <?php if (count($response['data']) == 0): ?>
+                <tr>
+                    <td colspan="10" class="mensajeSinRegistros"> Aún no existen registros </td>
+                </tr>
+            <?php else: ?>
+              <?php foreach ($response['data'] as $result):?>
                 <!--            --><?php //var_dump($result); ?>
                 <tr>
                     <td> <?=$result["NumDocumento"]?> </td>
@@ -106,6 +112,7 @@
                     </td>
                 </tr>
             <?php endforeach; ?>
+            <?php endif; ?>
             </tbody>
         </table>
     </div>
