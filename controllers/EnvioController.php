@@ -38,6 +38,8 @@ class EnvioController{
             $areas = $this->areaModel->listarArea();
             $fechaActual = $this->obtenerFechaActual();
             $horaActual = $this->obtenerHoraActual();
+
+            $codRecepcion = isset($_GET["recep"]) ? ($_GET["recep"]) : false;
             require_once "views/documentos/registrarEnvio.php";
         }else{
             $this->goBack();
@@ -52,6 +54,7 @@ class EnvioController{
                 $movimiento = isset($_POST['movimiento']) ? $_POST['movimiento'] : false;
                 $area = isset($_POST['area']) ? $_POST['area'] : false;
                 $observacion = isset($_POST['observacion']) ? $_POST['observacion'] : false;
+                $codRecepcion = isset($_POST['codRecepcion']) ? $_POST['codRecepcion'] : false;
 
 
                 $sql = "select ua.codUsuarioArea, concat(p.nombres, p.apellidos) 'usuario' 
@@ -108,6 +111,14 @@ class EnvioController{
 
             $response = $this->envioModel->registrarEnvio();
             $this->documentoController->iniciarSeguimiento($numDocumento);
+
+        $codRecepcion = isset($_POST['codRecepcion']) ? $_POST['codRecepcion'] : false;
+
+        if ($codRecepcion){
+            $this->recepcionModel->setCodRecepcion((int) $codRecepcion);
+            $this->recepcionModel->setCodEstado(Estado::getIdEstadoEviado());
+            $this->recepcionModel->cambiarEstadoRecepcion();
+        }
 
         $this->recepcionModel->setFechaRecepcion($this->obtenerFechaActual());
         $this->recepcionModel->setHoraRecepcion($this->obtenerHoraActual());

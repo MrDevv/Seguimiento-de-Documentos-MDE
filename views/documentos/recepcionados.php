@@ -53,11 +53,12 @@
                     <td>
                         <span
                                 class="recepcionado">
-                            <?= $result["estado recepcion"] == 'i' ? 'Pendiente de Recepcion' : 'Pendiente de Envio' ?>
+                            <?= $result["estado recepcion"] == 'i' ? 'Pendiente de Recepcion' : 'Recepcionado' ?>
                         </span>
                     </td>
                     <td class="actions">
-                        <a class="action" href="<?=base_url?>envio/nuevoEnvio?doc=<?=$result["NumDocumento"]?>">
+                        <?php if ($result["estado recepcion"] == 'a'):?>
+                        <a class="action" href="<?=base_url?>envio/nuevoEnvio?doc=<?=$result["NumDocumento"]?>&recep=<?=$result["codRecepcion"]?>">
                             <span class="tooltip">Enviar documento <span class="triangulo"></span></span>
                             <svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <g filter="url(#filter0_d_2426_28)">
@@ -83,6 +84,7 @@
                                 </defs>
                             </svg>
                         </a>
+                        <?php endif; ?>
                         <div class="action">
                             <span class="tooltip">Ver Seguimiento <span class="triangulo"></span></span>
                             <svg width="39" height="34" viewBox="0 0 39 34" fill="none" xmlns="http://www.w3.org/2000/svg">

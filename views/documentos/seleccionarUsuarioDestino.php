@@ -19,6 +19,14 @@
             </div>
             <div>
                 <input
+                        class="disabled invisible"
+                        type="text"
+                        name="codRecepcion"
+                        value="<?php echo trim($codRecepcion) ?>"
+                        readonly
+                        required
+                >
+                <input
                         class="disabled"
                         type="text"
                         name="nroDocumento"

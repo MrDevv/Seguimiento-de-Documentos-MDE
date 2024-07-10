@@ -2,6 +2,14 @@
     <h2>Enviar Documento</h2>
     <div class="body">
         <form action="<?=base_url?>envio/usuarioDestino" method="post">
+            <input
+                    class="disabled invisible"
+                    type="text"
+                    name="codRecepcion"
+                    value="<?php echo trim($codRecepcion) ?>"
+                    readonly
+                    required
+            >
             <div class="row">
                 <div>
                     <label>Nro. Documento</label>
