@@ -20,6 +20,7 @@
         <table>
             <thead>
                 <tr>
+                    <th>Cod Recepcion</th>
                     <th>N° Documento</th>
                     <th>Folios</th>
                     <th>Tipo Documento</th>
@@ -40,7 +41,7 @@
             <?php else: ?>
                 <?php foreach ($response['data'] as $result): ?>
                 <tr>
-                    <td> <?= $result['N° envio'] ?> </td>
+                    <td> <?= $result['codRecepcion'] ?> </td>
                     <td> <?= $result['NumDocumento'] ?> </td>
                     <td> <?= $result['folios'] ?> </td>
                     <td> <?= $result['tipo documento'] ?> </td>

@@ -1,7 +1,8 @@
 ----------- INSERT DE DATOS INICIALES DEL SISTEMA
 
 -- Estados del sistema
-insert into Estado(descripcion) values('n'), ('a'), ('i');
+insert into Estado(descripcion) values('n'), ('a'), ('i'), ('e');
+
 
 -- Roles del sistema
 insert into Rol(descripcion) values('administrador'), ('usuario');
@@ -80,26 +81,24 @@ where NumDocumento = '9012'
 update Documento set codEstado = 1 where NumDocumento = '9012';
 
 -- listar documentos pendientes de recepcion para un usuario y una area determinada
-SELECT r.codRecepcion,
-	   e.codEnvio, 
-       LEFT(CONVERT(VARCHAR, e.horaEnvio, 108), 5) AS 'hora envio', 
-	   e.fechaEnvio,
-       e.folios, 
-       e.observaciones,
-       es.descripcion 'estado recepcion', 
-       d.NumDocumento, 
-       td.descripcion 'tipo documento',
-       CONCAT(pe.nombres, ' ',pe.apellidos) 'usuario origen', 
-       ae.descripcion 'area origen',
-       CONCAT(pd.nombres, pd.apellidos) 'usuario destino', 
-       ad.descripcion 'area destino'
+SELECT 
+	r.codRecepcion,
+	e.codEnvio,
+	LEFT(CONVERT(VARCHAR, e.horaEnvio, 108), 5) AS 'hora envio',
+	e.fechaEnvio,
+    e.folios, 
+    e.observaciones,
+	er.descripcion 'estado recepcion',
+	e.NumDocumento,
+	td.descripcion 'tipo documento',
+	CONCAT(pe.nombres, ' ',pe.apellidos) 'usuario origen', 
+    ae.descripcion 'area origen',
+	CONCAT(pd.nombres, pd.apellidos) 'usuario destino', 
+    ad.descripcion 'area destino'
 FROM Recepcion r
-INNER JOIN Envio e ON r.codEnvio = r.codEnvio
--- Datos del estado
-INNER JOIN Estado es ON r.codEstado = es.codEstado
--- Datos del documento
+INNER JOIN Envio e ON r.codEnvio = e.codEnvio
+INNER JOIN Estado er ON r.codEstado = er.codEstado
 INNER JOIN Documento d ON e.NumDocumento = d.NumDocumento
--- Datos del tipo documento
 INNER JOIN TipoDocumento td ON d.codTipoDocumento = td.codTipoDocumento
 -- Usuario origen
 INNER JOIN UsuarioArea uae ON e.codUsuarioEnvio = uae.codUsuario
@@ -113,33 +112,31 @@ INNER JOIN Usuario ud ON uad.codUsuario = ud.codUsuario
 INNER JOIN Persona pd ON ud.codPersona = pd.codPersona
 -- Área destino 
 INNER JOIN Area ad ON uad.codArea = ad.codArea
-where ud.codUsuario = 1 and r.codEstado = 3
+WHERE r.codUsuarioRecepcion LIKE '%%' AND r.codEstado = 3
 
 
 select * from Usuario
 select * from Estado
 
 -- listar documentos recepcionados de un usuario y una area determinada
-SELECT r.codRecepcion, 
-	   r.codEnvio, 
-       LEFT(CONVERT(VARCHAR, e.horaEnvio, 108), 5) AS 'hora envio', 
-	   e.fechaEnvio,
-       e.folios, 
-       e.observaciones,
-       es.descripcion 'estado recepcion', 
-       d.NumDocumento, 
-       td.descripcion 'tipo documento',
-       CONCAT(pe.nombres, pe.apellidos) 'usuario origen', 
-       ae.descripcion 'area origen',
-       CONCAT(pe.nombres, pe.apellidos) 'usuario destino', 
-       ad.descripcion 'area destino'
+SELECT 
+	r.codRecepcion,
+	e.codEnvio,
+	LEFT(CONVERT(VARCHAR, e.horaEnvio, 108), 5) AS 'hora envio',
+	e.fechaEnvio,
+    e.folios, 
+    e.observaciones,
+	er.descripcion 'estado recepcion',
+	e.NumDocumento,
+	td.descripcion 'tipo documento',
+	CONCAT(pe.nombres, ' ',pe.apellidos) 'usuario origen', 
+    ae.descripcion 'area origen',
+	CONCAT(pd.nombres, pd.apellidos) 'usuario destino', 
+    ad.descripcion 'area destino'
 FROM Recepcion r
 INNER JOIN Envio e ON r.codEnvio = e.codEnvio
--- Datos del estado
-INNER JOIN Estado es ON r.codEstado = es.codEstado
--- Datos del documento
+INNER JOIN Estado er ON r.codEstado = er.codEstado
 INNER JOIN Documento d ON e.NumDocumento = d.NumDocumento
--- Datos del tipo documento
 INNER JOIN TipoDocumento td ON d.codTipoDocumento = td.codTipoDocumento
 -- Usuario origen
 INNER JOIN UsuarioArea uae ON e.codUsuarioEnvio = uae.codUsuario
@@ -153,7 +150,7 @@ INNER JOIN Usuario ud ON uad.codUsuario = ud.codUsuario
 INNER JOIN Persona pd ON ud.codPersona = pd.codPersona
 -- Área destino 
 INNER JOIN Area ad ON uad.codArea = ad.codArea
-where uad.codUsuario = 2 AND e.codEstado = 2
+WHERE r.codUsuarioRecepcion LIKE '%2%' AND r.codEstado = 2
 
 -- obtener documentos enviados por un usuario con estado pendiente de recepcion
 select e.codEnvio, 
@@ -180,7 +177,7 @@ INNER JOIN Persona pd ON ud.codPersona = pd.codPersona
 INNER JOIN Area ad ON uad.codArea = ad.codArea
 -- Estado de la recepcion
 INNER JOIN Estado er ON r.codEstado = er.codEstado
-where e.codUsuarioEnvio = 1
+where e.codUsuarioEnvio = 2
 
 
 
