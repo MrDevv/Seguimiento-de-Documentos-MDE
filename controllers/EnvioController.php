@@ -56,36 +56,68 @@ class EnvioController{
                 $observacion = isset($_POST['observacion']) ? $_POST['observacion'] : false;
                 $codRecepcion = isset($_POST['codRecepcion']) ? $_POST['codRecepcion'] : false;
 
+                $response = $this->obtenerUsuariosPorArea($area, (int) $_SESSION['user']['codUsuario']);
 
-                $sql = "select ua.codUsuarioArea, concat(p.nombres, p.apellidos) 'usuario' 
+                if (count($response['data']) == 0){
+                    $response['status'] = 'warning';
+                    $response['module'] = 'documento';
+                    $_SESSION['response'] = $response;
+                    require_once "views/modals/alerta.php";
+                    exit();
+                }
+
+                require_once "views/documentos/seleccionarUsuarioDestino.php";
+        }else{
+            $this->goBack();
+        }
+    }
+
+//    colocar funcion en la case de UsuarioArea
+    public function obtenerUsuariosPorArea(int $codArea, int $codUsuarioArea){
+        $sql = "select ua.codUsuarioArea, concat(p.nombres, ' ' ,p.apellidos) 'usuario' 
                         from UsuarioArea ua 
                         inner join Area a on ua.codArea = a.codArea
                         inner join Usuario u on ua.codUsuario = u.codUsuario
                         inner join Persona p on u.codPersona = p.codPersona 
-                        where a.codArea = :codArea and ua.codUsuarioArea != 4";
+                        where a.codArea = :codArea and ua.codUsuarioArea != :codUsuarioArea ";
 
-                $stmt = DataBase::connect()->prepare($sql);
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
 
-                $stmt->bindParam('codArea', $area, PDO::PARAM_INT);
+            $stmt->bindParam('codArea', $codArea, PDO::PARAM_INT);
+            $stmt->bindParam('codUsuarioArea', $codUsuarioArea, PDO::PARAM_INT);
 
-                 $stmt->execute();
+            $stmt->execute();
 
-                 $usuarios =$stmt->fetchAll(PDO::FETCH_ASSOC);
+            $results =$stmt->fetchAll(PDO::FETCH_ASSOC);
 
-                 if (count($usuarios) == 0){
-                     $_SESSION['response'] = [
-                         'status' => 'failed',
-                         'message' => 'No existen usuarios en el area seleccionada',
-                         'action' => '',
-                         'module' => 'documento'
-                     ];
-                     require_once "views/modals/alerta.php";
-                     exit();
-                 }
+            if (count($results)>0){
+                return [
+                    'status' => 'success',
+                    'message' => 'listado de usuarios correcto',
+                    'action' => 'listar',
+                    'module' => 'usuarioArea',
+                    'data' => $results,
+                    'info' => ''
+                ];
+            }
 
-            require_once "views/documentos/seleccionarUsuarioDestino.php";
-        }else{
-            $this->goBack();
+            return [
+                'status' => 'success',
+                'message' => 'no se encontraron usuarios en esta area',
+                'action' => 'listar',
+                'module' => 'usuarioArea',
+                'data' => [],
+                'info' => ''
+            ];
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => 'Ocurrio un error al momento de listar los usuarios del area',
+                'action' => 'listar',
+                'module' => 'usuarioArea',
+                'info' => $e->getMessage()
+            ];
         }
     }
 

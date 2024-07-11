@@ -240,16 +240,7 @@ class Documento{
     }
 
     public function listarDocumentos(){
-        $sql =  "select d.NumDocumento, tp.descripcion 'tipo documento', d.asunto, d.folios, d.fechaRegistro, ".
-                "CONCAT(p.nombres ,' ',p.apellidos) 'usuario registrador', e.descripcion 'estado' ".
-                "from Documento d ".
-                "inner join TipoDocumento tp on d.codTipoDocumento = tp.codTipoDocumento ".
-                "inner join UsuarioArea ua on d.codUsuario = ua.codUsuario ".
-                "inner join Usuario u on ua.codUsuario = u.codUsuario ".
-                "inner join Persona p on u.codPersona = p.codPersona ".
-                "inner join Estado e on d.codEstado = e.codEstado ".
-                "where ua.codUsuario = :codUsuario ".
-                "order by d.fechaRegistro, d.horaRegistro DESC";
+        $sql =  "{CALL sp_listarDocumentos(:codUsuario)}";
 
         try {
             $stmt = DataBase::connect()->prepare($sql);

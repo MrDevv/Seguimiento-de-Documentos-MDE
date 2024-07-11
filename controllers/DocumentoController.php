@@ -25,7 +25,8 @@ class DocumentoController{
         $documentoObj = new Documento();
 
         if(trim($_SESSION['user']['rol']) == 'administrador'){
-            $response = $documentoObj->listarDocumentosAdministrador();
+//            $response = $documentoObj->listarDocumentosAdministrador();
+            $response = $documentoObj->listarDocumentos();
         }else if(trim($_SESSION['user']['rol']) == 'usuario'){
             $documentoObj->setUsuario((int) $_SESSION['user']['codUsuario']);
             $response = $documentoObj->listarDocumentos();

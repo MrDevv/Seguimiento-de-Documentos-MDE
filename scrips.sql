@@ -178,6 +178,8 @@ INNER JOIN Area ad ON uad.codArea = ad.codArea
 -- Estado de la recepcion
 INNER JOIN Estado er ON r.codEstado = er.codEstado
 where e.codUsuarioEnvio = 2
+order by e.fechaEnvio desc, e.horaEnvio desc;
+
 
 -- cancelar envio
 CREATE PROCEDURE sp_cancelarEnvio(
@@ -255,7 +257,7 @@ AS BEGIN
 				-- Estado de la recepcion
 				INNER JOIN Estado er ON r.codEstado = er.codEstado
 				where e.NumDocumento = @NumDocumento
-				ORDER BY e.fechaEnvio DESC, e.horaEnvio DESC
+				ORDER BY e.fechaEnvio ASC, e.horaEnvio ASC
 END
 
 
