@@ -63,6 +63,8 @@ class RecepcionController{
 
             $this->buscar(trim((int) $codRecepcion));
             $estadoCodActivo = Estado::getIdEstadoActivo();
+            $this->recepcionModel->setFechaRecepcion($this->obtenerFechaActual());
+            $this->recepcionModel->setHoraRecepcion($this->obtenerHoraActual());
             $this->recepcionModel->setCodRecepcion($codRecepcion);
             $this->recepcionModel->setCodEstado($estadoCodActivo);
 
@@ -84,6 +86,16 @@ class RecepcionController{
 
     public function estilosNavBar(){
         $_SESSION["optionActive"] = "documento";
+    }
+
+    public function obtenerFechaActual(){
+        date_default_timezone_set('America/Lima');
+        return date('Y-m-d');
+    }
+
+    public function obtenerHoraActual(){
+        date_default_timezone_set('America/Lima');
+        return date('H:i');
     }
 
     public function redirect(){

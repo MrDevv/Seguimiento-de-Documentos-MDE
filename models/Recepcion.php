@@ -57,15 +57,13 @@ class Recepcion{
     }
 
     public function registrarRecepcion(){
-        $sql = "insert into Recepcion(codEnvio, fechaRecepcion, horaRecepcion, codEstado, codUsuarioRecepcion) ".
-                "values(:codEnvio, :fechaRecepcion, :horaRecepcion, :codEstado, :codUsuarioRecepcion)";
+        $sql = "insert into Recepcion(codEnvio, codEstado, codUsuarioRecepcion) ".
+                "values(:codEnvio, :codEstado, :codUsuarioRecepcion)";
 
         try {
             $stmt = DataBase::connect()->prepare($sql);
 
             $stmt->bindParam('codEnvio', $this->codEnvio, PDO::PARAM_INT);
-            $stmt->bindParam('horaRecepcion', $this->horaRecepcion, PDO::PARAM_STR);
-            $stmt->bindParam('fechaRecepcion', $this->fechaRecepcion, PDO::PARAM_STR);
             $stmt->bindParam('codEstado', $this->codEstado, PDO::PARAM_INT);
             $stmt->bindParam('codUsuarioRecepcion', $this->codUsuarioRecepcion, PDO::PARAM_INT);
 
@@ -271,13 +269,15 @@ class Recepcion{
     }
 
     public function cambiarEstadoRecepcion(){
-        $sql = "update Recepcion set codEstado = :codEstado where codRecepcion = :codRecepcion";
+        $sql = "update Recepcion set codEstado = :codEstado, horaRecepcion = :horaRecepcion, fechaRecepcion = :fechaRecepcion where codRecepcion = :codRecepcion";
 
         try {
             $stmt = DataBase::connect()->prepare($sql);
 
             $stmt->bindParam('codEstado', $this->codEstado, PDO::PARAM_INT);
             $stmt->bindParam('codRecepcion', $this->codRecepcion, PDO::PARAM_INT);
+            $stmt->bindParam('fechaRecepcion', $this->fechaRecepcion, PDO::PARAM_STR);
+            $stmt->bindParam('horaRecepcion', $this->horaRecepcion, PDO::PARAM_STR);
 
             $stmt->execute();
 

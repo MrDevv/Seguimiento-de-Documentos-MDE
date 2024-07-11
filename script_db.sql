@@ -104,8 +104,8 @@ CREATE TABLE Envio(
 CREATE TABLE Recepcion(
 	codRecepcion INT NOT NULL IDENTITY(1,1),
 	codEnvio INT NOT NULL,
-	fechaRecepcion DATE NOT NULL,
-	horaRecepcion TIME NOT NULL,
+	fechaRecepcion DATE,
+	horaRecepcion TIME,
 	codUsuarioRecepcion INT NOT NULL,
 	codEstado INT NOT NULL,
 	PRIMARY KEY(codRecepcion),

@@ -106,9 +106,6 @@ class EnvioController{
             $this->envioModel->setCodUsuarioAreaDestino($usuarioAreaDestino);
             $this->envioModel->setCodUsuarioAreaEnvio((int) $_SESSION['user']['codUsuario']);
 
-//            var_dump($this->envioModel);
-//            exit();
-
             $response = $this->envioModel->registrarEnvio();
             $this->documentoController->iniciarSeguimiento($numDocumento);
 
@@ -120,12 +117,10 @@ class EnvioController{
             $this->recepcionModel->cambiarEstadoRecepcion();
         }
 
-        $this->recepcionModel->setFechaRecepcion($this->obtenerFechaActual());
-        $this->recepcionModel->setHoraRecepcion($this->obtenerHoraActual());
         $this->recepcionModel->setCodEnvio((int) $response['data']['id']);
         $this->recepcionModel->setCodEstado(Estado::getIdEstadoInactivo());
         $this->recepcionModel->setCodUsuarioRecepcion($usuarioAreaDestino);
-        $this->recepcionModel->registrarRecepcion();
+        $response = $this->recepcionModel->registrarRecepcion();
 
             $_SESSION['response'] = $response;
             require_once "views/modals/alerta.php";
