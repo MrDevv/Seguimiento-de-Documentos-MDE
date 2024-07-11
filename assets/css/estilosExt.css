@@ -240,4 +240,44 @@
     width: 15px;
 }
 
-/* Estilos documento */
+/* Estilos vista seguimiento documento */
+.infoGeneral{
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    background-color: #fff;
+    margin-bottom: 10px;
+    padding: 0 10px;
+    border-radius: 5px;
+}
+
+.infoGeneral span{
+    margin-left: 10px;
+}
+
+.infoGeneral div:first-child{
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.infoGeneral .containerInfoDoc p:first-child span{
+    color: #FF0000;
+}
+
+.infoGeneral .containerInfoDoc p:last-child span{
+    font-weight: 300;
+}
+
+.infoGeneral .containerEstadoDoc p span{
+    font-weight: 400;
+}
+
+.columArrow{
+    background-color: #E6E6E6;
+    width: 40px !important;
+}
+
+.columArrow svg{
+    width: 20px;
+}

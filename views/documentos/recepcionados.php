@@ -85,7 +85,7 @@
                             </svg>
                         </a>
                         <?php endif; ?>
-                        <div class="action">
+                        <a href="<?=base_url?>documento/seguimiento?doc=<?=$result["NumDocumento"]?>" class="action">
                             <span class="tooltip">Ver Seguimiento <span class="triangulo"></span></span>
                             <svg width="39" height="34" viewBox="0 0 39 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <g filter="url(#filter0_d_2424_32)">
@@ -109,8 +109,7 @@
                                     </filter>
                                 </defs>
                             </svg>
-
-                        </div>
+                        </a>
                         <div class="action">
                             <span class="tooltip">Ver Detalle <span class="triangulo"></span></span>
                             <svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">

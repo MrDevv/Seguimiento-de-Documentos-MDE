@@ -524,11 +524,11 @@ input:focus-visible{
     font-weight: 600;
 }
 
-.pendientesRecepcion_body table tbody tr td .estado,
-.listadoDocumentos_body table tbody tr td .estado{
+.estado{
     padding: 5px 3px;
     border-radius: 5px;
 }
+
 
 .pendientesRecepcion_body table tbody tr:nth-child(even),
 .listadoDocumentos_body table tbody tr:nth-child(even){

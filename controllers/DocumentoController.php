@@ -231,8 +231,10 @@ class DocumentoController{
             $this->documentoModel->setNumDocumento($_GET['doc']);
             $response = $this->documentoModel->verSeguimientoDocumento();
 
-            var_dump($response);
-            exit();
+            //var_dump($response);
+            //exit();
+
+            require_once "views/documentos/seguimientoDocumento.php";
 
         }
 
