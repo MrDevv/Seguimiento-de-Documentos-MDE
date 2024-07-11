@@ -219,4 +219,25 @@
     border: 1px solid #059133;
 }
 
+.description_btnNuevoDocumento{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btnNuevoDocumento{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background-color: var(--bg-color-principal);
+    padding: 12px;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btnNuevoDocumento svg{
+    width: 15px;
+}
+
 /* Estilos documento */

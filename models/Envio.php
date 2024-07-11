@@ -235,16 +235,16 @@ class Envio{
 
             return [
                 'status' => 'success',
-                'message' => '¡Se registro la recepcion!',
-                'action' => 'recepcionar',
-                'module' => 'documento',
+                'message' => '¡Se obtuvo correctamente los documentos enviados!',
+                'action' => 'listar',
+                'module' => 'envio',
                 'data' => $response,
                 'info' => ''
             ];
         }catch (PDOException $e){
             return [
                 'status' => 'failed',
-                'message' => '¡Ocurrio un error al momento de registrar la recepcionar del documento!',
+                'message' => '¡Ocurrio un error al momento de listar los documentos enviados!',
                 'action' => 'recepcionar',
                 'module' => 'documento',
                 'data' => [],
@@ -253,4 +253,31 @@ class Envio{
         }
     }
 
+    public function cancelarEnvio(){
+        $sql = "{CALL sp_cancelarEnvio(:codEnvio)}";
+
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
+            $stmt->bindParam('codEnvio', $this->codEnvio, PDO::PARAM_INT);
+            $stmt->execute();
+
+            return [
+                'status' => 'success',
+                'message' => '¡Se canceló el envio!',
+                'action' => 'eliminar',
+                'module' => 'envio',
+                'data' => [],
+                'info' => ''
+            ];
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => '¡Ocurrio un error al momento de cancelar el envio!',
+                'action' => 'eliminar',
+                'module' => 'envio',
+                'data' => [],
+                'info' => $e->getMessage()
+            ];
+        }
+    }
 }

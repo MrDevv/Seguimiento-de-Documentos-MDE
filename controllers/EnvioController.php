@@ -140,6 +140,16 @@ class EnvioController{
         require_once "views/documentos/enviados.php";
     }
 
+    public function cancelarEnvio(){
+        if (isset($_POST['codEnvio'])){
+            $this->envioModel->setCodEnvio($_POST['codEnvio']);
+            $this->envioModel->cancelarEnvio();
+
+            $this->redirect();
+        }
+
+    }
+
     public function obtenerFechaActual(){
         date_default_timezone_set('America/Lima');
         return date('Y-m-d');
@@ -157,6 +167,12 @@ class EnvioController{
     public function goBack(){
         echo '<script type="text/javascript">
         window.history.back();
+        </script>';
+    }
+
+    public function redirect(){
+        echo '<script type="text/javascript">
+        window.location.href = "enviados";
         </script>';
     }
 }

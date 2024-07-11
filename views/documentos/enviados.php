@@ -20,7 +20,7 @@
         <table>
             <thead>
             <tr>
-                <th>Cod Envio</th>
+                <th>Código Envio</th>
                 <th>N° Documento</th>
                 <th>Folios</th>
                 <th>Tipo Documento</th>
@@ -58,8 +58,8 @@
                     </td>
                     <td class="actions">
                         <?php if ($result["estado recepcion"] == 'i'): ?>
-                            <a class="action" href="<?=base_url?>documento/editar?doc=<?=$result["NumDocumento"]?>">
-                                <span class="tooltip">Cancelar Envio <span class="triangulo"></span></span>
+                            <div class="action" onclick="modalCancelarEnvio(<?=$result["codEnvio"]?>)">
+                                <span class="tooltip"> Cancelar Envio <span class="triangulo"></span></span>
                                 <svg width="37" height="34" viewBox="0 0 37 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <g filter="url(#filter0_d_2851_129)">
                                         <rect x="2" width="31" height="26" rx="5" fill="#F8F8F8"/>
@@ -78,7 +78,7 @@
                                         </filter>
                                     </defs>
                                 </svg>
-                            </a>
+                            </div>
                         <?php endif; ?>
                         <div class="action">
                             <span class="tooltip">Ver Seguimiento <span class="triangulo"></span></span>

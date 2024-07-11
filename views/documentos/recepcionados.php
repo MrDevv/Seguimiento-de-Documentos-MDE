@@ -20,7 +20,7 @@
         <table>
             <thead>
             <tr>
-                <th>N° Recepción</th>
+                <th>Código Recepción</th>
                 <th>N° Documento</th>
                 <th>Folios</th>
                 <th>Tipo Documento</th>
