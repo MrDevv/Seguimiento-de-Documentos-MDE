@@ -1,9 +1,9 @@
 
-<div class="containerPendientesRecepcion">
-    <div class="pendientesRecepcion_header">
+<div class="containerSeguimiento">
+    <div class="seguimiento_header">
         <h2>Ver Seguimiento de un Documento</h2>
     </div>
-    <div class="pendientesRecepcion_body">
+    <div class="seguimiento_body">
         <?php if (!$response['data']):?>
             <p class="mensajeSinRegistros">
                 El documento aún no ha sido enviado. Una vez que el documento sea enviado, podrá seguir su estado de seguimiento aquí.

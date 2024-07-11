@@ -2,7 +2,7 @@
 <div class="containerPendientesRecepcion">
     <div class="pendientesRecepcion_header">
         <h2>Bandeja de Entrada</h2>
-        <p>Lista de documentos pendientes de recepcion</p>
+        <p>Lista de documentos recepcionados</p>
         <div class="fecha_busqueda">
             <div class="fecha">
                 <p>Fecha de derivación</p>

@@ -52,7 +52,7 @@ class Usuario {
     }
 
     public function autenticarUsuario(){
-        $sql = "select ua.codUsuario, u.nombreUsuario, CONCAT(p.nombres, p.apellidos) 'nombres', ".
+        $sql = "select ua.codUsuario, u.nombreUsuario, CONCAT(p.nombres, ' ',p.apellidos) 'nombres', ".
                 "r.descripcion 'rol', a.descripcion 'area' ".
                 "from Usuario u ".
                 "inner join Rol r on u.codRol = r.codRol ".

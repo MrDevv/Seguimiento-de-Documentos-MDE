@@ -118,7 +118,8 @@ class Recepcion{
                     "INNER JOIN Usuario ud ON uad.codUsuario = ud.codUsuario ".
                     "INNER JOIN Persona pd ON ud.codPersona = pd.codPersona ".
                     "INNER JOIN Area ad ON uad.codArea = ad.codArea ".
-                    "WHERE r.codUsuarioRecepcion = :codUsuarioRecepcion AND r.codEstado = :codEstado";
+                    "WHERE r.codUsuarioRecepcion = :codUsuarioRecepcion AND r.codEstado = :codEstado ".
+                    "ORDER BY e.fechaEnvio DESC, e.horaEnvio DESC";
 
         try {
             $stmt = DataBase::connect()->prepare($sql);

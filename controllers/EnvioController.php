@@ -114,6 +114,8 @@ class EnvioController{
         if ($codRecepcion){
             $this->recepcionModel->setCodRecepcion((int) $codRecepcion);
             $this->recepcionModel->setCodEstado(Estado::getIdEstadoEviado());
+            $this->recepcionModel->setFechaRecepcion($this->obtenerFechaActual());
+            $this->recepcionModel->setHoraRecepcion($this->obtenerHoraActual());
             $this->recepcionModel->cambiarEstadoRecepcion();
         }
 

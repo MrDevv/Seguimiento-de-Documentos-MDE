@@ -255,12 +255,11 @@ AS BEGIN
 				-- Estado de la recepcion
 				INNER JOIN Estado er ON r.codEstado = er.codEstado
 				where e.NumDocumento = @NumDocumento
+				ORDER BY e.fechaEnvio DESC, e.horaEnvio DESC
 END
 
 
 EXEC sp_verSeguimientoDocumento @NumDocumento = '9013';
-
-
 
 ---- Modulo de AREAS
 -- listar todos los usuarios de una area determinada excepto el usuario logeado
