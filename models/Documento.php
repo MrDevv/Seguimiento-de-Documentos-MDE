@@ -333,4 +333,32 @@ class Documento{
             ];
         }
     }
+
+    public function verSeguimientoDocumento(){
+        $sql = "{CALL sp_verSeguimientoDocumento(:numDocumento)}";
+
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
+            $stmt->bindParam('numDocumento', $this->numDocumento, PDO::PARAM_STR);
+            $stmt->execute();
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return [
+                'status' => 'success',
+                'message' => '¡Se encontró el seguimiento del documento!',
+                'action' => 'ver',
+                'module' => 'documento',
+                'data' => $results,
+                'info' => ''
+            ];
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => 'Ocurrio un error al momento de ver el seguimiento del documento',
+                'action' => 'ver',
+                'module' => 'documento',
+                'info' => $e->getMessage()
+            ];
+        }
+    }
 }

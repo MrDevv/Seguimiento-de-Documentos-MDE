@@ -5,9 +5,10 @@ require_once "EstadoController.php";
 
 class DocumentoController{
     private $envioModel;
+    private $documentoModel;
 
     public function __construct(){
-
+        $this->documentoModel = new Documento();
     }
 
     public function obtenerFechaActual(){
@@ -223,6 +224,18 @@ class DocumentoController{
             $this->redirect();
             exit();
         }
+    }
+
+    public function seguimiento(){
+        if (isset($_GET['doc'])){
+            $this->documentoModel->setNumDocumento($_GET['doc']);
+            $response = $this->documentoModel->verSeguimientoDocumento();
+
+            var_dump($response);
+            exit();
+
+        }
+
     }
 
     public function estilosNavBar(){
