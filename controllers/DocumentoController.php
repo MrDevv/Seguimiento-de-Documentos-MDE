@@ -89,6 +89,7 @@ class DocumentoController{
 //                     exit();
                     //$response [status, message, info]
                     $response = $documentoObj->guardarNuevoDocumento();
+                    $response['action'] = '';
                     $_SESSION['response'] = $response;
                     require_once "views/modals/alerta.php";
                 }
