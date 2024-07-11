@@ -27,7 +27,7 @@
             <table>
                 <thead>
                 <tr>
-                    <th>Código Envio</th>
+                    <th>N° Movimiento</th>
                     <th>Folios</th>
                     <th>Area Origen</th>
                     <th>Usuario Origen</th>
@@ -48,9 +48,9 @@
                     </tr>
 
                 <?php else: ?>
-                    <?php foreach ($response['data'] as $result): ?>
+                    <?php foreach ($response['data'] as $index => $result): ?>
                         <tr>
-                            <td> <?= $result['codEnvio'] ?> </td>
+                            <td> <?= $index + 1 ?> </td>
                             <td> <?= $result['folios'] ?> </td>
                             <td> <?= $result["area origen"] ?> </td>
                             <td> <?= $result["usuario origen"] ?> </td>
