@@ -99,6 +99,54 @@ class UsuarioArea{
         }
     }
 
+    public function obtenerUsuariosPorArea(int $codArea, int $codUsuarioArea){
+        $sql = "select ua.codUsuarioArea, concat(p.nombres, ' ' ,p.apellidos) 'usuario' 
+                        from UsuarioArea ua 
+                        inner join Area a on ua.codArea = a.codArea
+                        inner join Usuario u on ua.codUsuario = u.codUsuario
+                        inner join Persona p on u.codPersona = p.codPersona 
+                        where a.codArea = :codArea and ua.codUsuarioArea != :codUsuarioArea ";
+
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
+
+            $stmt->bindParam('codArea', $codArea, PDO::PARAM_INT);
+            $stmt->bindParam('codUsuarioArea', $codUsuarioArea, PDO::PARAM_INT);
+
+            $stmt->execute();
+
+            $results =$stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if (count($results)>0){
+                return [
+                    'status' => 'success',
+                    'message' => 'listado de usuarios correcto',
+                    'action' => 'listar',
+                    'module' => 'usuarioArea',
+                    'data' => $results,
+                    'info' => ''
+                ];
+            }
+
+            return [
+                'status' => 'success',
+                'message' => 'no se encontraron usuarios en esta area',
+                'action' => 'listar',
+                'module' => 'usuarioArea',
+                'data' => [],
+                'info' => ''
+            ];
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => 'Ocurrio un error al momento de listar los usuarios del area',
+                'action' => 'listar',
+                'module' => 'usuarioArea',
+                'info' => $e->getMessage()
+            ];
+        }
+    }
+
 
 
 

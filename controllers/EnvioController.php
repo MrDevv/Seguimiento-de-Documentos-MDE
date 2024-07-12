@@ -15,6 +15,7 @@ class EnvioController{
     private Estado $estadoModel;
     private Area $areaModel;
     private Recepcion $recepcionModel;
+    private UsuarioArea $usuarioAreaModel;
     private MovimientoController $movimientoController;
     private DocumentoController $documentoController;
 
@@ -25,6 +26,7 @@ class EnvioController{
         $this->movimientoController = new MovimientoController();
         $this->documentoController = new DocumentoController();
         $this->recepcionModel = new Recepcion();
+        $this->usuarioAreaModel = new UsuarioArea();
     }
 
     public function nuevoEnvio(){
@@ -56,7 +58,7 @@ class EnvioController{
                 $observacion = isset($_POST['observacion']) ? $_POST['observacion'] : false;
                 $codRecepcion = isset($_POST['codRecepcion']) ? $_POST['codRecepcion'] : false;
 
-                $response = $this->obtenerUsuariosPorArea($area, (int) $_SESSION['user']['codUsuario']);
+                $response = $this->usuarioAreaModel->obtenerUsuariosPorArea($area, (int) $_SESSION['user']['codUsuario']);
 
                 if (count($response['data']) == 0){
                     $response['status'] = 'warning';
@@ -72,54 +74,7 @@ class EnvioController{
         }
     }
 
-//    colocar funcion en la case de UsuarioArea
-    public function obtenerUsuariosPorArea(int $codArea, int $codUsuarioArea){
-        $sql = "select ua.codUsuarioArea, concat(p.nombres, ' ' ,p.apellidos) 'usuario' 
-                        from UsuarioArea ua 
-                        inner join Area a on ua.codArea = a.codArea
-                        inner join Usuario u on ua.codUsuario = u.codUsuario
-                        inner join Persona p on u.codPersona = p.codPersona 
-                        where a.codArea = :codArea and ua.codUsuarioArea != :codUsuarioArea ";
 
-        try {
-            $stmt = DataBase::connect()->prepare($sql);
-
-            $stmt->bindParam('codArea', $codArea, PDO::PARAM_INT);
-            $stmt->bindParam('codUsuarioArea', $codUsuarioArea, PDO::PARAM_INT);
-
-            $stmt->execute();
-
-            $results =$stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            if (count($results)>0){
-                return [
-                    'status' => 'success',
-                    'message' => 'listado de usuarios correcto',
-                    'action' => 'listar',
-                    'module' => 'usuarioArea',
-                    'data' => $results,
-                    'info' => ''
-                ];
-            }
-
-            return [
-                'status' => 'success',
-                'message' => 'no se encontraron usuarios en esta area',
-                'action' => 'listar',
-                'module' => 'usuarioArea',
-                'data' => [],
-                'info' => ''
-            ];
-        }catch (PDOException $e){
-            return [
-                'status' => 'failed',
-                'message' => 'Ocurrio un error al momento de listar los usuarios del area',
-                'action' => 'listar',
-                'module' => 'usuarioArea',
-                'info' => $e->getMessage()
-            ];
-        }
-    }
 
     public function enviar(){
             $numDocumento = isset($_POST['nroDocumento']) ? $_POST['nroDocumento'] : false;
