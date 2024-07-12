@@ -9,7 +9,6 @@ class TipoDocumentoController{
         if (isset($_GET["doc"])){
             $codTipoDocumento = $_GET['doc'];
             $tipoDocumentoDB = $this->buscar($codTipoDocumento);
-//            var_dump($tipoDocumentoDB);
             require_once "views/tipoDocumento/editarTipoDocumento.php";
         }else{
 //            Redirecciona a la vista de listado
@@ -23,7 +22,7 @@ class TipoDocumentoController{
 
         $response = $tipoDocumento->buscarTipoDocumento();
 
-        if (isset($response['message'])){
+        if ($response['status'] == 'not found'){
             $_SESSION['response'] = $response;
             require_once "views/modals/alerta.php";
             exit();

@@ -7,7 +7,7 @@
                     style="display: none"
                     type="number"
                     name="codTipoDocumento"
-                    value="<?= $tipoDocumentoDB[0]['codTipoDocumento']?>"
+                    value="<?= $tipoDocumentoDB['data'][0]['codTipoDocumento']?>"
                     required
             >
             <input
@@ -16,7 +16,7 @@
                     id="tipoDocumento"
                     autocomplete="off"
                     placeholder="ejemplo: informe"
-                    value="<?=trim($tipoDocumentoDB[0]['descripcion'])?>"
+                    value="<?=trim($tipoDocumentoDB['data'][0]['descripcion'])?>"
                     maxlength="20"
                     required>
         </div>
