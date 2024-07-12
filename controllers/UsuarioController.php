@@ -3,6 +3,9 @@
 require_once "models/Area.php";
 require_once "models/Rol.php";
 require_once "models/Usuario.php";
+require_once "models/Persona.php";
+require_once "models/Estado.php";
+require_once "models/UsuarioArea.php";
 
 class UsuarioController{
 
@@ -17,9 +20,17 @@ class UsuarioController{
     }
 
     public function cambiarAreaUsuario(){
-        $areaObj= new Area();
-        $areas=$areaObj->listarArea();
-        require_once "views/usuario/cambiarAreaUsuario.php";
+        if (isset($_GET["cod"])){
+            $codUsuario = $_GET['cod'];
+
+            $areaObj= new Area();
+            $areas=$areaObj->listarArea();
+            require_once "views/usuario/cambiarAreaUsuario.php";
+
+        }else{
+//            Redirecciona a la vista de listado
+            $this->redirect();
+        }
     }
 
     public function login(){
@@ -69,7 +80,7 @@ class UsuarioController{
             $rolObj= new Rol();
             $roles=$rolObj->listarRoles();
 
- //          var_dump($areas);
+ //     
             require_once "views/usuario/editarUsuario.php";
         }else{
 //            Redirecciona a la vista de listado
@@ -92,63 +103,153 @@ class UsuarioController{
         return $response;
     }
 
-    public function actualizar(){
+    public function actualizarAreaUsuario(){
         $codUsuario = isset($_POST['codUsuario']) ? (int) $_POST['codUsuario'] : false;
-        $nombreUsuario = isset($_POST['nombreUsuario']) ? trim($_POST['nombreUsuario']) : false;
-        $rol = isset($_POST['rol']) ? trim($_POST['rol']) : false;
-        $estado = isset($_POST['estado']) ? trim($_POST['estado']) : false;
+        $area = isset($_POST['area']) ? (int) $_POST['area'] : false;
 
-        if (!$codUsuario || !$nombreUsuario || !$estado){
+        if (!$codUsuario || !$area){
             $this->redirect();
             exit();
         }
 
-            $areaObj = new Area();
-            $areaObj->setCodArea($codArea);
-            $areaObj->setDescripcion($area);
-            $areaObj->setEstado($estado);
+        $areaUsuarioObj = new UsuarioArea();
+        $areaUsuarioObj->setCodUsuarioArea($codUsuario);
+        //$areaUsuarioObj->setArea($codArea);
+        //$areaUsuarioObj->setEstado((int)Estado::getIdEstadoInactivo());
+        
+        //var_dump($areaUsuarioObj);
+        //exit();
+        $response = $areaUsuarioObj->actualizarEstado((int)Estado::getIdEstadoInactivo());
+        //$response = $areaUsuarioObj->actualizarArea((int)Estado::getIdEstadoInactivo());
 
-            $response = $areaObj->actualizarArea();
+        //$areaUsuarioObj->setUsuario($codUsuario);
+        //$areaUsuarioObj->setArea($area);
 
-            $_SESSION['response'] = $response;
-            require_once "views/modals/alerta.php";
+        $_SESSION['response'] = $response;
+        require_once "views/modals/alerta.php";
+
+    }
+
+    public function habilitarAreaUsuario(){
+        $codUsuario = isset($_GET['cod']) ? (int) $_GET['cod'] : false;
+        if (!$codUsuario){
+            $this->redirect();
+            exit();
+        }
+        $areaUsuarioObj = new UsuarioArea();
+        $areaUsuarioObj->setCodUsuarioArea($codUsuario);
+        
+        $response = $areaUsuarioObj->actualizarEstado((int)Estado::getIdEstadoActivo());
+        
+        $_SESSION['response'] = $response;
+        require_once "views/modals/alerta.php";
+
+    }
+
+    public function deshabilitarAreaUsuario(){
+        $codUsuario = isset($_GET['cod']) ? (int) $_GET['cod'] : false;
+        if (!$codUsuario){
+            $this->redirect();
+            exit();
+        }
+        $areaUsuarioObj = new UsuarioArea();
+        $areaUsuarioObj->setCodUsuarioArea($codUsuario);
+        
+        $response = $areaUsuarioObj->actualizarEstado((int)Estado::getIdEstadoInactivo());
+        
+        $_SESSION['response'] = $response;
+        require_once "views/modals/alerta.php";
+
     }
 
     function listar(){
         $usuarioObj = new Usuario();
         $listadoUsuario = $usuarioObj->listarUsuario();
 
-        // varificar los campos que retorna la consulta
-        //var_dump($listadoUsuario);
-
         require_once "views/usuario/listarUsuario.php";
     }
 
     public function registrarUsuario(){
         if (isset($_POST)){
+            $usuarioObj = new Usuario();
             $usuario = isset($_POST['usuario']) ? $_POST['usuario'] : false;
-            $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : false;
-            $apellido = isset($_POST['apellidos']) ? $_POST['apellidos'] : false;
+            $usuarioObj->setNombreUsuario($usuario);
+
+            $response = $usuarioObj->existeUsuario();
+            $contrasena = isset($_POST['password']) ? $_POST['password'] : false;
+            $confirmarContrasena = isset($_POST['confirm_password']) ? $_POST['confirm_password'] : false;
+            if ($contrasena != $confirmarContrasena) {
+                $response['status'] = 'warning';
+                $response['message'] = 'Las contraseñas no coinciden';
+                $_SESSION['response'] = $response;
+                require_once "views/modals/alerta.php";
+                exit();
+            }
+
+            if (count($response['data']) > 0){
+                $response['status'] = 'warning';
+                $response['message'] = '¡El usuario que intenta ingresar ya existe!';
+                $_SESSION['response'] = $response;
+                require_once "views/modals/alerta.php";
+                exit();
+            }
+
+            $personaObj = new Persona();
+            $nombres = isset($_POST['nombre']) ? $_POST['nombre'] : false;
+            $apellidos = isset($_POST['apellidos']) ? $_POST['apellidos'] : false;
             $telefono = isset($_POST['telefono']) ? $_POST['telefono'] : false;
             $dni = isset($_POST['dni']) ? $_POST['dni'] : false;
-            $contrasena = isset($_POST['contrasena']) ? $_POST['contrasena'] : false;
-            $rol = isset($_POST['rol']) ? $_POST['rol'] : false;
-            $area = isset($_POST['area']) ? $_POST['area'] : false;
 
-        
-            if ($usuario && $nombre && $apellido ){
-                $usuarioObj = new Usuario();
-                $usuarioObj->setNombreUsuario($usuario);
 
-                var_dump($usuarioObj);
-//                $response [status, message, info]
-                //$response = $usuarioObj->guardarUsuario();
-//                var_dump($response);
-                //$_SESSION['response'] = $response;
-                //require_once "views/modals/alerta.php";
+            if ($nombres && $apellidos && $telefono && $dni){
+                $personaObj->setNombres($nombres);
+                $personaObj->setApellidos($apellidos);
+                $personaObj->setTelefono($telefono);
+                $personaObj->setDni($dni);
+                $personaObj->setEstado(Estado::getIdEstadoInactivo());
+
+                $response = $personaObj->registrarNuevaPersona();
+                $idPersona = $response['info']['id'];
+
             }else{
                 echo "campos incompletos";
             }
+        
+            $usuario = isset($_POST['usuario']) ? $_POST['usuario'] : false;
+            $rol = isset($_POST['rol']) ? $_POST['rol'] : false;
+            $contrasena = isset($_POST['password']) ? $_POST['password'] : false;
+
+
+            if ($usuario && $rol && $contrasena){
+                $usuarioObj->setNombreUsuario($usuario);
+                $usuarioObj->setRol($rol);
+                $usuarioObj->setPassword($contrasena);
+                $usuarioObj->setCodPersona($idPersona);
+                $usuarioObj->setCodEstado(Estado::getIdEstadoActivo());
+
+                
+                $response = $usuarioObj->registrarUsuario();
+                $idUsuario = $response['data']['id'];
+ 
+                $_SESSION['response'] = $response;
+                require_once "views/modals/alerta.php";
+            }else{
+                echo "campos incompletos";
+            }
+
+
+            // REGISTRAR DATOS USUARIOAREA
+            $area = isset($_POST['area']) ? $_POST['area'] : false;
+
+            $objUsuarioArea = new UsuarioArea();
+            $objUsuarioArea->setUsuario($idUsuario);
+            $objUsuarioArea->setArea($area);
+            $objUsuarioArea->setEstado(Estado::getIdEstadoActivo());
+
+            $response = $objUsuarioArea->registrarUsuarioArea();
+            
+
+
         }
     }
 
@@ -162,4 +263,6 @@ class UsuarioController{
         </script>';
 //        header('Location:'.base_url."tipoDocumento/crear");
     }
+
+    
 }

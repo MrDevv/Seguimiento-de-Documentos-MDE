@@ -6,6 +6,7 @@ class Usuario {
     private $rol;
     private $password;
     private $codEstado;
+    private $codPersona;
 
     public function __construct(){
 
@@ -35,8 +36,8 @@ class Usuario {
         $this->rol = $rol;
     }
 
-    public function getPassword(){
-        return $this->password;
+    public function getContrasena(){
+        return $this->contrasena;
     }
 
     public function setPassword($password){
@@ -49,6 +50,55 @@ class Usuario {
 
     public function setCodEstado($codEstado){
         $this->codEstado = $codEstado;
+    }
+
+    public function getCodPersona(){
+        return $this->codPersona;
+    }
+
+    public function setCodPersona($codPersona){
+        $this->codPersona = $codPersona;
+    }
+
+    public function existeUsuario(){
+        $sql= "SELECT * ".
+              "FROM Usuario ".
+              "WHERE nombreUsuario = :nombreUsuario ";
+
+        try{
+            $stmt = DataBase::connect()->prepare($sql);
+            $stmt->bindParam(":nombreUsuario", $this->nombreUsuario, PDO::PARAM_STR);
+            $stmt->execute();
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC); 
+
+            if (count($results) > 0) {
+                return [
+                    'status' => 'success',
+                    'message' => '¡Usuario encontrado!',
+                    'action' => 'buscar',
+                    'module' => 'usuario',
+                    'data' => $results,
+                    'info' => ''
+                ];
+            }
+
+            return [
+                'status' => 'success',
+                'message' => '¡No se encontraron resultados!',
+                'action' => 'buscar',
+                'module' => 'usuario',
+                'data' => [],
+                'info' => ''
+            ];
+        }catch (PDOException $e) {
+            return [
+                'status' => 'failed',
+                'message' => 'Ocurrio un error al momento de buscar un usuario',
+                'action' => 'buscar',
+                'module' => 'usuario',
+                'info' => $e->getMessage()
+            ];
+        }
     }
 
     public function autenticarUsuario(){
@@ -100,29 +150,39 @@ class Usuario {
     }
 
     public function registrarUsuario(){
-        $sql = "INSERT INTO Usuario(codUsuario, nombreUsuario, rol, password, codEstado) values(:codUsuario, :nombreUsuario, :rol, :password, :codEstado)";
+        $sql = "INSERT INTO Usuario(nombreUsuario, codRol, codPersona, password, codEstado) ". 
+                "values(:nombreUsuario, :codRol, :codPersona, :password, :codEstado)";
 
         try {
-            $stmt = DataBase::connect()->prepare($sql);
+            $db = DataBase::connect();
+            $stmt =  $db->prepare($sql);
 
-            $stmt->bindParam(":codUsuario", $this->ncodUsuario, PDO::PARAM_STR);
-            $stmt->bindParam(":nombreUsuario", $this->nombreUsuario, PDO::PARAM_STR);
-            $stmt->bindParam(":rol", $this->rol, PDO::PARAM_STR);
-            $stmt->bindParam(":password", $this->password, PDO::PARAM_STR);
-            $stmt->bindParam(":codEstado", $this->estado, PDO::PARAM_STR);
+    
+            $stmt->bindParam("nombreUsuario", $this->nombreUsuario, PDO::PARAM_STR);
+            $stmt->bindParam("codRol", $this->rol, PDO::PARAM_INT);
+            $stmt->bindParam("codPersona", $this->codPersona, PDO::PARAM_INT);
+            $stmt->bindParam("password", $this->password, PDO::PARAM_STR);
+            $stmt->bindParam("codEstado", $this->codEstado, PDO::PARAM_STR);
 
             $stmt->execute();
+
+            $lastInsertId = $db->lastInsertId();
 
             return [
                 'status' => 'success',
                 'message' => 'Usuario registrado',
-                'action' => 'registrar'
+                'action' => 'registrar',
+                'module' => 'usuario',
+                'data' => ['id' => $lastInsertId],
+                'info' => ''
             ];
         }catch (PDOException $e){
             return [
                 'status' => 'failed',
                 'message' => 'Ocurrio un error al momento de registrar el Usuario',
                 'action' => 'registrar',
+                'module' => 'usuario',
+                'data' => [],
                 'info' => $e->getMessage()
             ];
         }
@@ -130,15 +190,15 @@ class Usuario {
 
     public function listarUsuario(){
         // agregar la consulta correcta
-        $sql = "select u.codUsuario, u.nombreUsuario 'usuario', e.descripcion 'estado',
-                p.nombres, p.apellidos, p.dni, p.telefono, a.descripcion 'area',
-                r.descripcion 'rol'
-                from UsuarioArea ua
-                inner join usuario u on ua.codUsuario = u.codUsuario
-                inner join Persona p on u.codPersona = p.codPersona
-                inner join area a on ua.codArea = a.codArea
-                inner join Estado e on u.codEstado = e.codEstado
-                inner join rol r on u.codRol = r.codRol";
+        $sql = "select ua.codUsuarioArea, u.codUsuario, u.nombreUsuario 'usuario', e.descripcion 'estado', ".
+                "p.nombres, p.apellidos, p.dni, p.telefono, a.descripcion 'area', ".
+                "r.descripcion 'rol' ".
+                "from UsuarioArea ua ".
+                "inner join usuario u on ua.codUsuario = u.codUsuario ".
+                "inner join Persona p on u.codPersona = p.codPersona ".
+                "inner join area a on ua.codArea = a.codArea ".
+                "inner join Estado e on ua.codEstado = e.codEstado ".
+                "inner join rol r on u.codRol = r.codRol";
 
         $stmt = DataBase::connect()->query($sql);
 

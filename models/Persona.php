@@ -2,11 +2,11 @@
 
 class Persona{
     private $codPersona;
-    private $Nombre;
-    private $Apellidos;
-    private $Telefono;
-    private $Dni;
-    private $Estado;
+    private $nombres;
+    private $apellidos;
+    private $telefono;
+    private $dni;
+    private $estado;
 
 
     public function __construct(){
@@ -14,7 +14,7 @@ class Persona{
     }
 
     public function getCodPersona(){
-        return $this->CodPersona;
+        return $this->codPersona;
     }
 
     public function setCodPersona($codPersona){
@@ -22,72 +22,78 @@ class Persona{
         
     }
 
-    public function getNombre(){
-        return $this->Nombre;
+    public function getNombres(){
+        return $this->nombres;
     }
 
-    public function setNombre($nombre){
-        $this->Nombre = $Nombre;
+    public function setNombres($nombres){
+        $this->nombres = $nombres;
     }
 
     public function getApellidos(){
-        return $this->Apellidos;
+        return $this->apellidos;
     }
 
     public function setApellidos($apellidos){
-        $this->Apellidos = $Apellidos;
+        $this->apellidos = $apellidos;
     }
 
     public function getTelefonoo(){
-        return $this->Telefono;
+        return $this->telefono;
     }
 
     public function setTelefono($telefono){
-        $this->Telefono = $Telefono;
+        $this->telefono = $telefono;
     }
 
     public function getEstado(){
-        return $this->Estado;
+        return $this->estado;
     }
 
     public function setEstado($estado){
-        $this->Estado = $Estado;
+        $this->estado = $estado;
     }
 
     public function getDni(){
-        return $this->Dni;
+        return $this->dni;
     }
 
     public function setDni($dni){
-        $this->Dni = $Dni;
+        $this->dni = $dni;
     }
 
     public function registrarNuevaPersona(){
-        $sql = "INSERT INTO Persona(codPersona, nombres, apellidos, telefono, dni, codEstado) 
-        values(:codPersona, :nombres, :apellidos, :telefono, :dni, :codEstado)";
+        $sql = "INSERT INTO Persona(nombres, apellidos, telefono, dni, codEstado) ". 
+                "values(:nombres, :apellidos, :telefono, :dni, :codEstado)";
 
         try {
-            $stmt = DataBase::connect()->prepare($sql);
+            $db = DataBase::connect();
+            $stmt = $db->prepare($sql);
 
-            $stmt->bindParam(":codPersona", $this->codPersona, PDO::PARAM_STR);
+
             $stmt->bindParam(":nombres", $this->nombres, PDO::PARAM_STR);
             $stmt->bindParam(":apellidos", $this->apellidos, PDO::PARAM_STR);
             $stmt->bindParam(":telefono", $this->telefono, PDO::PARAM_STR);
             $stmt->bindParam(":dni", $this->dni, PDO::PARAM_STR);
-            $stmt->bindParam(":codEstado", $this->codEstado, PDO::PARAM_STR);
+            $stmt->bindParam(":codEstado", $this->estado, PDO::PARAM_INT);
 
             $stmt->execute();
+
+            $idPersona = $db->lastInsertId();
 
             return [
                 'status' => 'success',
                 'message' => 'Persona registrada',
-                'action' => 'registrar'
+                'action' => 'registrar',
+                'module' => "persona",
+                'info' => ['id' => $idPersona]
             ];
         }catch (PDOException $e){
             return [
                 'status' => 'failed',
                 'message' => 'Ocurrio un error al momento de registrar a la persona',
                 'action' => 'registrar',
+                'module' => "persona",
                 'info' => $e->getMessage()
             ];
         }
@@ -125,7 +131,7 @@ class Persona{
     }
 
     public function actualizarPersona(){
-        $sql = "UPDATE Persona SET nombre = :nombre, apellidos = :apellidos, telefono = :telefono, dni = :dni, codEstado = :codEstado WHERE CodPersona = :codPersona";
+        $sql = "UPDATE Persona SET nombres = :nombres, apellidos = :apellidos, telefono = :telefono, dni = :dni, codEstado = :codEstado WHERE CodPersona = :codPersona";
 
         try {
             $stmt = DataBase::connect()->prepare($sql);

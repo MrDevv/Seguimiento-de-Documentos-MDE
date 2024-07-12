@@ -1,8 +1,9 @@
-<div class="containerRegistroUsuario">
+<div class="containerCambiarAreaUsuario">
     <div class="column">
         <h2>Cambiar Area de Usuario</h2><br>
-        <form action="<?=base_url?>usuario/actualizarArea" method="post">
+        <form action="<?=base_url?>usuario/actualizarAreaUsuario" method="post">
             <div>
+                <input type="text" readonly value="<?=$codUsuario ?>" hidden name="codUsuario">
                 <label for="area">Cambiar Area:</label>
                     <select id="area" name="area" required>
                     <?php foreach ($areas as $result):?>
