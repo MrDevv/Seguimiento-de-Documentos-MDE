@@ -1,7 +1,8 @@
 ----------- INSERT DE DATOS INICIALES DEL SISTEMA
 
 -- Estados del sistema
-insert into Estado(descripcion) values('n'), ('a'), ('i');
+insert into Estado(descripcion) values('n'), ('a'), ('i'), ('e');
+
 
 -- Roles del sistema
 insert into Rol(descripcion) values('administrador'), ('usuario');
@@ -80,24 +81,24 @@ where NumDocumento = '9012'
 update Documento set codEstado = 1 where NumDocumento = '9012';
 
 -- listar documentos pendientes de recepcion para un usuario y una area determinada
-SELECT e.codEnvio, 
-       LEFT(CONVERT(VARCHAR, e.horaEnvio, 108), 5) AS 'hora envio', 
-	   e.fechaEnvio,
-       e.folios, 
-       e.observaciones,
-       es.descripcion 'estado envio', 
-       d.NumDocumento, 
-       td.descripcion 'tipo documento',
-       CONCAT(pe.nombres, pe.apellidos) 'usuario origen', 
-       ae.descripcion 'area origen',
-       CONCAT(pe.nombres, pe.apellidos) 'usuario destino', 
-       ad.descripcion 'area destino'
-FROM Envio e
--- Datos del estado
-INNER JOIN Estado es ON e.codEstado = es.codEstado
--- Datos del documento
+SELECT 
+	r.codRecepcion,
+	e.codEnvio,
+	LEFT(CONVERT(VARCHAR, e.horaEnvio, 108), 5) AS 'hora envio',
+	e.fechaEnvio,
+    e.folios, 
+    e.observaciones,
+	er.descripcion 'estado recepcion',
+	e.NumDocumento,
+	td.descripcion 'tipo documento',
+	CONCAT(pe.nombres, ' ',pe.apellidos) 'usuario origen', 
+    ae.descripcion 'area origen',
+	CONCAT(pd.nombres, pd.apellidos) 'usuario destino', 
+    ad.descripcion 'area destino'
+FROM Recepcion r
+INNER JOIN Envio e ON r.codEnvio = e.codEnvio
+INNER JOIN Estado er ON r.codEstado = er.codEstado
 INNER JOIN Documento d ON e.NumDocumento = d.NumDocumento
--- Datos del tipo documento
 INNER JOIN TipoDocumento td ON d.codTipoDocumento = td.codTipoDocumento
 -- Usuario origen
 INNER JOIN UsuarioArea uae ON e.codUsuarioEnvio = uae.codUsuario
@@ -111,27 +112,31 @@ INNER JOIN Usuario ud ON uad.codUsuario = ud.codUsuario
 INNER JOIN Persona pd ON ud.codPersona = pd.codPersona
 -- 햞ea destino 
 INNER JOIN Area ad ON uad.codArea = ad.codArea
-where ud.codUsuario = 2 and ad.codArea = 2
+WHERE r.codUsuarioRecepcion LIKE '%%' AND r.codEstado = 3
+
+
+select * from Usuario
+select * from Estado
 
 -- listar documentos recepcionados de un usuario y una area determinada
-SELECT e.codEnvio, 
-       LEFT(CONVERT(VARCHAR, e.horaEnvio, 108), 5) AS 'hora envio', 
-	   e.fechaEnvio,
-       e.folios, 
-       e.observaciones,
-       es.descripcion 'estado envio', 
-       d.NumDocumento, 
-       td.descripcion 'tipo documento',
-       CONCAT(pe.nombres, pe.apellidos) 'usuario origen', 
-       ae.descripcion 'area origen',
-       CONCAT(pe.nombres, pe.apellidos) 'usuario destino', 
-       ad.descripcion 'area destino'
-FROM Envio e
--- Datos del estado
-INNER JOIN Estado es ON e.codEstado = es.codEstado
--- Datos del documento
+SELECT 
+	r.codRecepcion,
+	e.codEnvio,
+	LEFT(CONVERT(VARCHAR, e.horaEnvio, 108), 5) AS 'hora envio',
+	e.fechaEnvio,
+    e.folios, 
+    e.observaciones,
+	er.descripcion 'estado recepcion',
+	e.NumDocumento,
+	td.descripcion 'tipo documento',
+	CONCAT(pe.nombres, ' ',pe.apellidos) 'usuario origen', 
+    ae.descripcion 'area origen',
+	CONCAT(pd.nombres, pd.apellidos) 'usuario destino', 
+    ad.descripcion 'area destino'
+FROM Recepcion r
+INNER JOIN Envio e ON r.codEnvio = e.codEnvio
+INNER JOIN Estado er ON r.codEstado = er.codEstado
 INNER JOIN Documento d ON e.NumDocumento = d.NumDocumento
--- Datos del tipo documento
 INNER JOIN TipoDocumento td ON d.codTipoDocumento = td.codTipoDocumento
 -- Usuario origen
 INNER JOIN UsuarioArea uae ON e.codUsuarioEnvio = uae.codUsuario
@@ -145,7 +150,118 @@ INNER JOIN Usuario ud ON uad.codUsuario = ud.codUsuario
 INNER JOIN Persona pd ON ud.codPersona = pd.codPersona
 -- 햞ea destino 
 INNER JOIN Area ad ON uad.codArea = ad.codArea
-where ue.codUsuario = 2 and ae.codArea = 2 and e.codEstado = 2
+WHERE r.codUsuarioRecepcion LIKE '%2%' AND r.codEstado = 2
+
+-- obtener documentos enviados por un usuario con estado pendiente de recepcion
+select e.codEnvio, 
+       LEFT(CONVERT(VARCHAR, e.horaEnvio, 108), 5) AS 'hora envio', 
+	   e.fechaEnvio,
+       e.folios, 
+       e.observaciones,
+	   d.NumDocumento, 
+       td.descripcion 'tipo documento',
+	   CONCAT(pd.nombres, ' ' ,pd.apellidos) 'usuario destino', 
+       ad.descripcion 'area destino',
+	   er.descripcion 'estado recepcion'
+from Recepcion r
+inner join Envio e on r.codEnvio = e.codEnvio
+-- Datos del documento
+INNER JOIN Documento d ON e.NumDocumento = d.NumDocumento
+-- Datos del tipo documento
+INNER JOIN TipoDocumento td ON d.codTipoDocumento = td.codTipoDocumento
+-- Usuario destino
+INNER JOIN UsuarioArea uad ON e.codUsuarioDestino = uad.codUsuario
+INNER JOIN Usuario ud ON uad.codUsuario = ud.codUsuario
+INNER JOIN Persona pd ON ud.codPersona = pd.codPersona
+-- 햞ea destino 
+INNER JOIN Area ad ON uad.codArea = ad.codArea
+-- Estado de la recepcion
+INNER JOIN Estado er ON r.codEstado = er.codEstado
+where e.codUsuarioEnvio = 2
+order by e.fechaEnvio desc, e.horaEnvio desc;
+
+
+-- cancelar envio
+CREATE PROCEDURE sp_cancelarEnvio(
+	@codEnvio INT
+)
+AS BEGIN
+	DECLARE @codEstado INT;
+	DECLARE @codUltimaRecepcion INT;
+	DECLARE @NumDocumento VARCHAR(20);
+
+	SELECT @NumDocumento = NumDocumento FROM Envio WHERE codEnvio = @codEnvio;
+
+	DELETE FROM Recepcion where codEnvio = @codEnvio;
+	DELETE FROM Envio where codEnvio = @codEnvio
+
+	SELECT TOP 1 @codUltimaRecepcion = r.codRecepcion
+	FROM Recepcion r INNER JOIN envio e on r.codEnvio = e.codEnvio
+	WHERE e.NumDocumento = @NumDocumento
+	ORDER BY r.fechaRecepcion DESC, r.horaRecepcion DESC;
+
+	IF @codUltimaRecepcion IS NOT NULL
+	BEGIN
+		SELECT @codEstado = codEstado FROM Estado WHERE descripcion = 'a';
+		UPDATE Recepcion SET codEstado = @codEstado WHERE codRecepcion = @codUltimaRecepcion;
+	END
+	ELSE 
+	BEGIN
+		SELECT @codEstado = codEstado FROM Estado WHERE descripcion = 'n';
+		UPDATE Documento SET codEstado = @codEstado WHERE NumDocumento = @NumDocumento;
+	END
+END
+
+
+
+-- listar el seguimiento de un documento
+
+CREATE PROCEDURE sp_verSeguimientoDocumento(
+	@NumDocumento VARCHAR(20)
+)
+AS BEGIN
+	SELECT  e.codEnvio, 
+			   LEFT(CONVERT(VARCHAR, e.horaEnvio, 108), 5) AS 'hora envio', 
+			   e.fechaEnvio,
+			   e.folios, 
+			   e.observaciones,
+			   d.NumDocumento, 
+			   td.descripcion 'tipo documento',
+			   CONCAT(pe.nombres, ' ',pe.apellidos) 'usuario origen', 
+			   ae.descripcion 'area origen',
+			   CONCAT(pd.nombres, ' ' ,pd.apellidos) 'usuario destino', 
+			   ad.descripcion 'area destino',
+			   LEFT(CONVERT(VARCHAR, r.horaRecepcion, 108), 5) AS 'hora recepcion', 
+			   r.fechaRecepcion,
+			   er.descripcion 'estado recepcion',
+			   (SELECT e.descripcion FROM Documento AS d INNER JOIN Estado e ON d.codEstado = e.codEstado
+				WHERE NumDocumento = @NumDocumento) AS 'Estado Documento'
+				from Recepcion r
+				inner join Envio e on r.codEnvio = e.codEnvio
+				-- Datos del documento
+				INNER JOIN Documento d ON e.NumDocumento = d.NumDocumento
+				-- Datos del tipo documento
+				INNER JOIN TipoDocumento td ON d.codTipoDocumento = td.codTipoDocumento
+				-- Usuario origen
+				INNER JOIN UsuarioArea uae ON e.codUsuarioEnvio = uae.codUsuario
+				INNER JOIN Usuario ue ON uae.codUsuario = ue.codUsuario
+				INNER JOIN Persona pe ON ue.codPersona = pe.codPersona
+				-- 햞ea origen 
+				INNER JOIN Area ae ON uae.codArea = ae.codArea
+				-- Usuario destino
+				INNER JOIN UsuarioArea uad ON e.codUsuarioDestino = uad.codUsuario
+				INNER JOIN Usuario ud ON uad.codUsuario = ud.codUsuario
+				INNER JOIN Persona pd ON ud.codPersona = pd.codPersona
+				-- 햞ea destino 
+				INNER JOIN Area ad ON uad.codArea = ad.codArea
+				-- Estado de la recepcion
+				INNER JOIN Estado er ON r.codEstado = er.codEstado
+				where e.NumDocumento = @NumDocumento
+				ORDER BY e.fechaEnvio ASC, e.horaEnvio ASC
+END
+
+
+EXEC sp_verSeguimientoDocumento @NumDocumento = '9013';
 
 ---- Modulo de AREAS
 -- listar todos los usuarios de una area determinada excepto el usuario logeado

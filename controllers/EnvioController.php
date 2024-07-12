@@ -12,13 +12,6 @@ require_once "DocumentoController.php";
 
 class EnvioController{
     private Envio $envioModel;
-//    private Documento $documentoModel;
-//    private UsuarioArea $usuarioAreaOrigenModel;
-//    private UsuarioArea $usuarioAreaDestinoModel;
-//    private Usuario $usuarioOrigenModel;
-//    private Usuario $usuarioDestinoModel;
-//    private Area $areaOrigenModel;
-//    private Area $areaDestinoModel;
     private Estado $estadoModel;
     private Area $areaModel;
     private Recepcion $recepcionModel;
@@ -32,39 +25,6 @@ class EnvioController{
         $this->movimientoController = new MovimientoController();
         $this->documentoController = new DocumentoController();
         $this->recepcionModel = new Recepcion();
-
-//        $this->documentoModel = new Documento();
-//        $this->usuarioAreaOrigenModel = new UsuarioArea();
-//        $this->usuarioAreaDestinoModel = new UsuarioArea();
-//        $this->usuarioOrigenModel = new Usuario();
-//        $this->usuarioDestinoModel = new Usuario();
-//        $this->areaOrigenModel = new Area();
-//        $this->areaDestinoModel = new Area();
-//        $this->estadoModel = new Estado();
-    }
-    public function pendientesDeRecepcion(){
-        $response = $this->envioModel->getDocumentosPendientesRecepcion(2, 2);
-
-        if ($response['status'] == 'failed'){
-            $_SESSION['response'] = $response;
-            require_once "views/modals/alerta.php";
-            exit();
-        }
-
-//        var_dump($response);
-
-        require_once "views/documentos/pendientesDeRecepcion.php";
-    }
-
-    public function recepcionados(){
-        $envioObj = new Envio();
-        $codEstadoEnvio = (int) Estado::getIdEstadoInactivo();
-
-        $response = $envioObj->getDocumentosRecepcionados(2, 2, $codEstadoEnvio);
-
-//        var_dump($response);
-
-        require_once "views/documentos/recepcionados.php";
     }
 
     public function nuevoEnvio(){
@@ -78,6 +38,8 @@ class EnvioController{
             $areas = $this->areaModel->listarArea();
             $fechaActual = $this->obtenerFechaActual();
             $horaActual = $this->obtenerHoraActual();
+
+            $codRecepcion = isset($_GET["recep"]) ? ($_GET["recep"]) : false;
             require_once "views/documentos/registrarEnvio.php";
         }else{
             $this->goBack();
@@ -92,37 +54,70 @@ class EnvioController{
                 $movimiento = isset($_POST['movimiento']) ? $_POST['movimiento'] : false;
                 $area = isset($_POST['area']) ? $_POST['area'] : false;
                 $observacion = isset($_POST['observacion']) ? $_POST['observacion'] : false;
+                $codRecepcion = isset($_POST['codRecepcion']) ? $_POST['codRecepcion'] : false;
 
+                $response = $this->obtenerUsuariosPorArea($area, (int) $_SESSION['user']['codUsuario']);
 
-                $sql = "select ua.codUsuarioArea, concat(p.nombres, p.apellidos) 'usuario' 
+                if (count($response['data']) == 0){
+                    $response['status'] = 'warning';
+                    $response['module'] = 'documento';
+                    $_SESSION['response'] = $response;
+                    require_once "views/modals/alerta.php";
+                    exit();
+                }
+
+                require_once "views/documentos/seleccionarUsuarioDestino.php";
+        }else{
+            $this->goBack();
+        }
+    }
+
+//    colocar funcion en la case de UsuarioArea
+    public function obtenerUsuariosPorArea(int $codArea, int $codUsuarioArea){
+        $sql = "select ua.codUsuarioArea, concat(p.nombres, ' ' ,p.apellidos) 'usuario' 
                         from UsuarioArea ua 
                         inner join Area a on ua.codArea = a.codArea
                         inner join Usuario u on ua.codUsuario = u.codUsuario
                         inner join Persona p on u.codPersona = p.codPersona 
-                        where a.codArea = :codArea and ua.codUsuarioArea != 4";
+                        where a.codArea = :codArea and ua.codUsuarioArea != :codUsuarioArea ";
 
-                $stmt = DataBase::connect()->prepare($sql);
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
 
-                $stmt->bindParam('codArea', $area, PDO::PARAM_INT);
+            $stmt->bindParam('codArea', $codArea, PDO::PARAM_INT);
+            $stmt->bindParam('codUsuarioArea', $codUsuarioArea, PDO::PARAM_INT);
 
-                 $stmt->execute();
+            $stmt->execute();
 
-                 $usuarios =$stmt->fetchAll(PDO::FETCH_ASSOC);
+            $results =$stmt->fetchAll(PDO::FETCH_ASSOC);
 
-                 if (count($usuarios) == 0){
-                     $_SESSION['response'] = [
-                         'status' => 'failed',
-                         'message' => 'No existen usuarios en el area seleccionada',
-                         'action' => '',
-                         'module' => 'documento'
-                     ];
-                     require_once "views/modals/alerta.php";
-                     exit();
-                 }
+            if (count($results)>0){
+                return [
+                    'status' => 'success',
+                    'message' => 'listado de usuarios correcto',
+                    'action' => 'listar',
+                    'module' => 'usuarioArea',
+                    'data' => $results,
+                    'info' => ''
+                ];
+            }
 
-            require_once "views/documentos/seleccionarUsuarioDestino.php";
-        }else{
-            $this->goBack();
+            return [
+                'status' => 'success',
+                'message' => 'no se encontraron usuarios en esta area',
+                'action' => 'listar',
+                'module' => 'usuarioArea',
+                'data' => [],
+                'info' => ''
+            ];
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => 'Ocurrio un error al momento de listar los usuarios del area',
+                'action' => 'listar',
+                'module' => 'usuarioArea',
+                'info' => $e->getMessage()
+            ];
         }
     }
 
@@ -143,18 +138,23 @@ class EnvioController{
             $this->envioModel->setCodUsuarioAreaDestino($usuarioAreaDestino);
             $this->envioModel->setCodUsuarioAreaEnvio((int) $_SESSION['user']['codUsuario']);
 
-//            var_dump($this->envioModel);
-//            exit();
-
             $response = $this->envioModel->registrarEnvio();
             $this->documentoController->iniciarSeguimiento($numDocumento);
 
-        $this->recepcionModel->setFechaRecepcion($this->obtenerFechaActual());
-        $this->recepcionModel->setHoraRecepcion($this->obtenerHoraActual());
+        $codRecepcion = isset($_POST['codRecepcion']) ? $_POST['codRecepcion'] : false;
+
+        if ($codRecepcion){
+            $this->recepcionModel->setCodRecepcion((int) $codRecepcion);
+            $this->recepcionModel->setCodEstado(Estado::getIdEstadoEviado());
+            $this->recepcionModel->setFechaRecepcion($this->obtenerFechaActual());
+            $this->recepcionModel->setHoraRecepcion($this->obtenerHoraActual());
+            $this->recepcionModel->cambiarEstadoRecepcion();
+        }
+
         $this->recepcionModel->setCodEnvio((int) $response['data']['id']);
         $this->recepcionModel->setCodEstado(Estado::getIdEstadoInactivo());
         $this->recepcionModel->setCodUsuarioRecepcion($usuarioAreaDestino);
-        $this->recepcionModel->registrarRecepcion();
+        $response = $this->recepcionModel->registrarRecepcion();
 
             $_SESSION['response'] = $response;
             require_once "views/modals/alerta.php";
@@ -167,6 +167,16 @@ class EnvioController{
         $response = $this->envioModel->obtenerDocumentosEnviados();
 
         require_once "views/documentos/enviados.php";
+    }
+
+    public function cancelarEnvio(){
+        if (isset($_POST['codEnvio'])){
+            $this->envioModel->setCodEnvio($_POST['codEnvio']);
+            $this->envioModel->cancelarEnvio();
+
+            $this->redirect();
+        }
+
     }
 
     public function obtenerFechaActual(){
@@ -186,6 +196,12 @@ class EnvioController{
     public function goBack(){
         echo '<script type="text/javascript">
         window.history.back();
+        </script>';
+    }
+
+    public function redirect(){
+        echo '<script type="text/javascript">
+        window.location.href = "enviados";
         </script>';
     }
 }

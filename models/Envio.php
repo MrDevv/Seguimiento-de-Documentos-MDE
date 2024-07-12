@@ -95,137 +95,6 @@ class Envio{
         $this->codUsuarioAreaDestino = $codUsuarioAreaDestino;
     }
 
-    // cambiar
-    public function getDocumentosPendientesRecepcion(int $codUsuarioDestino, int $codAreaDestino){
-        $sql = "SELECT e.codEnvio, ".
-            "e.fechaEnvio, ".
-            "LEFT(CONVERT(VARCHAR, e.horaEnvio, 108), 5) 'hora envio', ".
-            "e.folios, ".
-            "e.observaciones, ".
-            "es.descripcion 'estado envio', ".
-            "d.NumDocumento, ".
-            "td.descripcion 'tipo documento', ".
-            "CONCAT(pe.nombres, pe.apellidos) 'usuario origen', ".
-            "ae.descripcion 'area origen', ".
-            "CONCAT(pd.nombres, pd.apellidos) 'usuario destino', ".
-            "ad.descripcion 'area destino' ".
-            "FROM Envio e ".
-            "INNER JOIN Estado es ON e.codEstado = es.codEstado ".
-            "INNER JOIN Documento d ON e.NumDocumento = d.NumDocumento ".
-            "INNER JOIN TipoDocumento td ON d.codTipoDocumento = td.codTipoDocumento ".
-            "INNER JOIN UsuarioArea uae ON e.codUsuarioEnvio = uae.codUsuario ".
-            "INNER JOIN Usuario ue ON uae.codUsuario = ue.codUsuario ".
-            "INNER JOIN Persona pe ON ue.codPersona = pe.codPersona ".
-            "INNER JOIN Area ae ON uae.codArea = ae.codArea ".
-            "INNER JOIN UsuarioArea uad ON e.codUsuarioDestino = uad.codUsuario ".
-            "INNER JOIN Usuario ud ON uad.codUsuario = ud.codUsuario ".
-            "INNER JOIN Persona pd ON ud.codPersona = pd.codPersona ".
-            "INNER JOIN Area ad ON uad.codArea = ad.codArea ".
-            "WHERE ud.codUsuario = :codUsuario and ad.codArea = :codArea";
-
-        try {
-            $stmt = DataBase::connect()->prepare($sql);
-
-            $stmt->bindParam('codUsuario', $codUsuarioDestino, PDO::PARAM_INT);
-            $stmt->bindParam('codArea', $codAreaDestino, PDO::PARAM_INT);
-
-            $stmt->execute();
-
-            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            if (count($results) > 0){
-                return [
-                    'status' => 'success',
-                    'message' => '¡Documentos encontrados!',
-                    'action' => 'buscar',
-                    'module' => 'documento',
-                    'data' => $results,
-                    'info' => ''
-                ];
-            }
-
-            return [
-                'status' => 'success',
-                'message' => '¡No se encontraron resultados!',
-                'action' => 'buscar',
-                'module' => 'documento',
-                'data' => [],
-                'info' => ''
-            ];
-        }catch (PDOException $e){
-            return [
-                'status' => 'failed',
-                'message' => '¡Ocurrio un error al momento de buscar los documento pendientes de recepcion!',
-                'action' => 'buscar',
-                'module' => 'documento',
-                'info' => $e->getMessage()
-            ];
-        }
-    }
-
-    // cambiar
-    public function getDocumentosRecepcionados(int $codUsuarioOrigen, int $codAreaOrigen, int $codEstadoEnvio){
-        $sql = "select e.codEnvio, ".
-                "LEFT(CONVERT(VARCHAR, e.horaEnvio, 108), 5) AS 'hora envio', ".
-                "e.fechaEnvio, ".
-                "e.folios, ".
-                "e.observaciones, ".
-                "es.descripcion 'estado envio', ".
-                "d.NumDocumento, ".
-                "td.descripcion 'tipo documento', ".
-                "CONCAT(pe.nombres, pe.apellidos) 'usuario origen', ".
-                "ae.descripcion 'area origen' ".
-                "from Envio e ".
-                "INNER JOIN Estado es ON e.codEstado = es.codEstado ".
-                "INNER JOIN Documento d ON e.NumDocumento = d.NumDocumento ".
-                "INNER JOIN TipoDocumento td ON d.codTipoDocumento = td.codTipoDocumento ".
-                "INNER JOIN UsuarioArea uae ON e.codUsuarioEnvio = uae.codUsuario ".
-                "INNER JOIN Usuario ue ON uae.codUsuario = ue.codUsuario ".
-                "INNER JOIN Persona pe ON ue.codPersona = pe.codPersona ".
-                "INNER JOIN Area ae ON uae.codArea = ae.codArea ".
-                "where ue.codUsuario = :codUsuario and ae.codArea = :codArea and e.codEstado = :codEstado";
-
-        try {
-            $stmt = DataBase::connect()->prepare($sql);
-
-            $stmt->bindParam('codUsuario', $codUsuarioOrigen, PDO::PARAM_INT);
-            $stmt->bindParam('codArea', $codAreaOrigen, PDO::PARAM_INT);
-            $stmt->bindParam('codEstado', $codEstadoEnvio, PDO::PARAM_INT);
-
-            $stmt->execute();
-
-            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            if (count($results) > 0){
-                return [
-                    'status' => 'success',
-                    'message' => '¡Documentos encontrados!',
-                    'action' => 'buscar',
-                    'module' => 'documento',
-                    'data' => $results,
-                    'info' => ''
-                ];
-            }
-
-            return [
-                'status' => 'success',
-                'message' => '¡No se encontraron resultados!',
-                'action' => 'buscar',
-                'module' => 'documento',
-                'data' => [],
-                'info' => ''
-            ];
-        }catch (PDOException $e){
-            return [
-                'status' => 'failed',
-                'message' => '¡Ocurrio un error al momento de buscar los documento recepcionados!',
-                'action' => 'buscar',
-                'module' => 'documento',
-                'info' => $e->getMessage()
-            ];
-        }
-    }
-
     public function registrarEnvio(){
         $sql = "insert into Envio (fechaEnvio, horaEnvio, folios, observaciones, codEstado, codMovimiento, NumDocumento, codUsuarioEnvio, codUsuarioDestino) ".
                 "values (:fechaEnvio, :horaEnvio, :folios, :observaciones, :codEstado, :codMovimiento, :numDocumento, :codUsuarioEnvio, :codUsuarioDestino)";
@@ -277,8 +146,9 @@ class Envio{
             "e.observaciones, ".
             "d.NumDocumento, ".
             "td.descripcion 'tipo documento', ".
-            "CONCAT(pd.nombres, pd.apellidos) 'usuario destino', ".
-            "ad.descripcion 'area destino' ".
+            "CONCAT(pd.nombres, ' ',pd.apellidos) 'usuario destino', ".
+            "ad.descripcion 'area destino', ".
+            "er.descripcion 'estado recepcion' ".
             "from Recepcion r ".
             "inner join Envio e on r.codEnvio = e.codEnvio ".
             "INNER JOIN Documento d ON e.NumDocumento = d.NumDocumento ".
@@ -287,13 +157,14 @@ class Envio{
             "INNER JOIN Usuario ud ON uad.codUsuario = ud.codUsuario ".
             "INNER JOIN Persona pd ON ud.codPersona = pd.codPersona ".
             "INNER JOIN Area ad ON uad.codArea = ad.codArea ".
-            "where e.codUsuarioEnvio= :codUsuarioEnvio and r.codEstado = :codEstado";
+            "INNER JOIN Estado er ON r.codEstado = er.codEstado ".
+            "where e.codUsuarioEnvio= :codUsuarioEnvio ".
+            "ORDER BY e.fechaEnvio DESC, e.horaEnvio DESC";
 
         try {
             $stmt = DataBase::connect()->prepare($sql);
 
             $stmt->bindParam('codUsuarioEnvio', $this->codUsuarioAreaEnvio, PDO::PARAM_INT);
-            $stmt->bindParam('codEstado', $this->codEstado, PDO::PARAM_INT);
 
             $stmt->execute();
 
@@ -301,16 +172,16 @@ class Envio{
 
             return [
                 'status' => 'success',
-                'message' => '¡Se registro la recepcion!',
-                'action' => 'recepcionar',
-                'module' => 'documento',
+                'message' => '¡Se obtuvo correctamente los documentos enviados!',
+                'action' => 'listar',
+                'module' => 'envio',
                 'data' => $response,
                 'info' => ''
             ];
         }catch (PDOException $e){
             return [
                 'status' => 'failed',
-                'message' => '¡Ocurrio un error al momento de registrar la recepcionar del documento!',
+                'message' => '¡Ocurrio un error al momento de listar los documentos enviados!',
                 'action' => 'recepcionar',
                 'module' => 'documento',
                 'data' => [],
@@ -319,4 +190,31 @@ class Envio{
         }
     }
 
+    public function cancelarEnvio(){
+        $sql = "{CALL sp_cancelarEnvio(:codEnvio)}";
+
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
+            $stmt->bindParam('codEnvio', $this->codEnvio, PDO::PARAM_INT);
+            $stmt->execute();
+
+            return [
+                'status' => 'success',
+                'message' => '¡Se canceló el envio!',
+                'action' => 'eliminar',
+                'module' => 'envio',
+                'data' => [],
+                'info' => ''
+            ];
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => '¡Ocurrio un error al momento de cancelar el envio!',
+                'action' => 'eliminar',
+                'module' => 'envio',
+                'data' => [],
+                'info' => $e->getMessage()
+            ];
+        }
+    }
 }

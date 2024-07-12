@@ -7,7 +7,7 @@
                 <div>
                     <label>Usuario Destino</label>
                     <select class="containerRegistroArea" name="usuarioAreaDestino">
-                        <?php foreach ($usuarios as $result):?>
+                        <?php foreach ($response['data'] as $result):?>
                             <option
                                     value="<?=$result['codUsuarioArea']?>"
                             >
@@ -18,6 +18,14 @@
                 </div>
             </div>
             <div>
+                <input
+                        class="disabled invisible"
+                        type="text"
+                        name="codRecepcion"
+                        value="<?php echo trim($codRecepcion) ?>"
+                        readonly
+                        required
+                >
                 <input
                         class="disabled"
                         type="text"

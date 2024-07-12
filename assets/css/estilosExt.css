@@ -198,4 +198,86 @@
     display: none;
 }
 
-/* Estilos documento */
+.mensajeSinRegistros{
+    font-size: 20px;
+    padding: 30px !important;
+}
+
+/* Estilos para los estados de los documentos */
+
+.pendienteRecepcion{
+    padding: 5px 5px;
+    border-radius: 5px;
+    background-color: #39AFF1;
+    border: 1px solid #107fbd;
+}
+
+.recepcionado{
+    padding: 5px 5px;
+    border-radius: 5px;
+    background-color: #09dc50;
+    border: 1px solid #059133;
+}
+
+.description_btnNuevoDocumento{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btnNuevoDocumento{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background-color: var(--bg-color-principal);
+    padding: 12px;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btnNuevoDocumento svg{
+    width: 15px;
+}
+
+/* Estilos vista seguimiento documento */
+.infoGeneral{
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    background-color: #fff;
+    margin-bottom: 10px;
+    padding: 0 10px;
+    border-radius: 5px;
+}
+
+.infoGeneral span{
+    margin-left: 10px;
+}
+
+.infoGeneral div:first-child{
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.infoGeneral .containerInfoDoc p:first-child span{
+    color: #FF0000;
+}
+
+.infoGeneral .containerInfoDoc p:last-child span{
+    font-weight: 300;
+}
+
+.infoGeneral .containerEstadoDoc p span{
+    font-weight: 400;
+}
+
+.columArrow{
+    background-color: #E6E6E6;
+    width: 40px !important;
+}
+
+.columArrow svg{
+    width: 20px;
+}

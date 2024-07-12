@@ -5,9 +5,10 @@ require_once "EstadoController.php";
 
 class DocumentoController{
     private $envioModel;
+    private $documentoModel;
 
     public function __construct(){
-
+        $this->documentoModel = new Documento();
     }
 
     public function obtenerFechaActual(){
@@ -24,7 +25,8 @@ class DocumentoController{
         $documentoObj = new Documento();
 
         if(trim($_SESSION['user']['rol']) == 'administrador'){
-            $response = $documentoObj->listarDocumentosAdministrador();
+//            $response = $documentoObj->listarDocumentosAdministrador();
+            $response = $documentoObj->listarDocumentos();
         }else if(trim($_SESSION['user']['rol']) == 'usuario'){
             $documentoObj->setUsuario((int) $_SESSION['user']['codUsuario']);
             $response = $documentoObj->listarDocumentos();
@@ -88,6 +90,7 @@ class DocumentoController{
 //                     exit();
                     //$response [status, message, info]
                     $response = $documentoObj->guardarNuevoDocumento();
+                    $response['action'] = '';
                     $_SESSION['response'] = $response;
                     require_once "views/modals/alerta.php";
                 }
@@ -223,6 +226,16 @@ class DocumentoController{
             $this->redirect();
             exit();
         }
+    }
+
+    public function seguimiento(){
+        if (isset($_GET['doc'])){
+            $this->documentoModel->setNumDocumento($_GET['doc']);
+            $response = $this->documentoModel->verSeguimientoDocumento();
+
+            require_once "views/documentos/seguimientoDocumento.php";
+        }
+
     }
 
     public function estilosNavBar(){

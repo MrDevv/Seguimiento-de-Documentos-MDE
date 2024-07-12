@@ -192,7 +192,7 @@ class Documento{
 
     public function listarDocumentosAdministrador(){
         $sql = "select d.NumDocumento, tp.descripcion 'tipo documento', d.asunto, d.folios, d.fechaRegistro, ".
-                "CONCAT(p.nombres ,p.apellidos) 'usuario registrador', e.descripcion 'estado' ".
+                "CONCAT(p.nombres ,' ',p.apellidos) 'usuario registrador', e.descripcion 'estado' ".
                 "from Documento d ".
                 "inner join TipoDocumento tp on d.codTipoDocumento = tp.codTipoDocumento ".
                 "inner join UsuarioArea ua on d.codUsuario = ua.codUsuario ".
@@ -240,16 +240,7 @@ class Documento{
     }
 
     public function listarDocumentos(){
-        $sql =  "select d.NumDocumento, tp.descripcion 'tipo documento', d.asunto, d.folios, d.fechaRegistro, ".
-                "CONCAT(p.nombres ,p.apellidos) 'usuario registrador', e.descripcion 'estado' ".
-                "from Documento d ".
-                "inner join TipoDocumento tp on d.codTipoDocumento = tp.codTipoDocumento ".
-                "inner join UsuarioArea ua on d.codUsuario = ua.codUsuario ".
-                "inner join Usuario u on ua.codUsuario = u.codUsuario ".
-                "inner join Persona p on u.codPersona = p.codPersona ".
-                "inner join Estado e on d.codEstado = e.codEstado ".
-                "where ua.codUsuario = :codUsuario ".
-                "order by d.fechaRegistro, d.horaRegistro DESC";
+        $sql =  "{CALL sp_listarDocumentos(:codUsuario)}";
 
         try {
             $stmt = DataBase::connect()->prepare($sql);
@@ -328,6 +319,34 @@ class Documento{
                 'status' => 'failed',
                 'message' => 'Ocurrio un error al momento de cambiar el estado del documento',
                 'action' => 'listar',
+                'module' => 'documento',
+                'info' => $e->getMessage()
+            ];
+        }
+    }
+
+    public function verSeguimientoDocumento(){
+        $sql = "{CALL sp_verSeguimientoDocumento(:numDocumento)}";
+
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
+            $stmt->bindParam('numDocumento', $this->numDocumento, PDO::PARAM_STR);
+            $stmt->execute();
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return [
+                'status' => 'success',
+                'message' => '¡Se encontró el seguimiento del documento!',
+                'action' => 'ver',
+                'module' => 'documento',
+                'data' => $results,
+                'info' => ''
+            ];
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => 'Ocurrio un error al momento de ver el seguimiento del documento',
+                'action' => 'ver',
                 'module' => 'documento',
                 'info' => $e->getMessage()
             ];

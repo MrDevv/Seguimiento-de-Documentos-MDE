@@ -20,30 +20,44 @@
         <table>
             <thead>
                 <tr>
+                    <th>Código Recepcion</th>
                     <th>N° Documento</th>
                     <th>Folios</th>
                     <th>Tipo Documento</th>
                     <th>Area Origen</th>
                     <th>Usuario Origen</th>
-                    <th>Fecha Derivacion</th>
+                    <th>Fecha Envio</th>
+                    <th>Hora Envio</th>
                     <th>Observacion</th>
                     <th>Estado</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-            <?php foreach ($response['data'] as $result): ?>
+            <?php if (count($response['data']) == 0): ?>
                 <tr>
+                    <td colspan="10" class="mensajeSinRegistros"> Aún no recibes documentos </td>
+                </tr>
+            <?php else: ?>
+                <?php foreach ($response['data'] as $result): ?>
+                <tr>
+                    <td> <?= $result['codRecepcion'] ?> </td>
                     <td> <?= $result['NumDocumento'] ?> </td>
                     <td> <?= $result['folios'] ?> </td>
                     <td> <?= $result['tipo documento'] ?> </td>
                     <td> <?= $result["area origen"] ?> </td>
                     <td> <?= $result["usuario origen"] ?> </td>
                     <td> <?= $result["fechaEnvio"] ?> </td>
+                    <td> <?= $result["hora envio"] ?> </td>
                     <td> <?= $result["observaciones"] ?> </td>
-                    <td> <span> Pendiente de Recepcion </span> </td>
+                    <td>
+                        <span
+                                class="pendienteRecepcion">
+                            <?= $result["estado recepcion"] == 'i' ? 'Pendiente de Recepcion' : 'Recepcionado' ?>
+                        </span>
+                    </td>
                     <td class="actions">
-                        <div class="action" onclick="modalConfirmarRecepcion(<?= $result["NumDocumento"];?>)">
+                        <div class="action" onclick="modalConfirmarRecepcion(<?=$result["codRecepcion"];?>)">
                             <span class="tooltip">Confirmar Recepción <span class="triangulo"></span></span>
                             <svg width="37" height="34" viewBox="0 0 37 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <g filter="url(#filter0_d_2424_38)">
@@ -117,6 +131,7 @@
                     </td>
                 </tr>
             <?php endforeach; ?>
+            <?php endif; ?>
             </tbody>
         </table>
     </div>

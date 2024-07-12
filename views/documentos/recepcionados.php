@@ -2,7 +2,7 @@
 <div class="containerPendientesRecepcion">
     <div class="pendientesRecepcion_header">
         <h2>Bandeja de Entrada</h2>
-        <p>Lista de documentos pendientes de recepcion</p>
+        <p>Lista de documentos recepcionados</p>
         <div class="fecha_busqueda">
             <div class="fecha">
                 <p>Fecha de derivación</p>
@@ -20,6 +20,7 @@
         <table>
             <thead>
             <tr>
+                <th>Código Recepción</th>
                 <th>N° Documento</th>
                 <th>Folios</th>
                 <th>Tipo Documento</th>
@@ -33,8 +34,14 @@
             </tr>
             </thead>
             <tbody>
-            <?php foreach ($response['data'] as $result): ?>
+            <?php if (count($response['data']) == 0): ?>
                 <tr>
+                    <td colspan="10" class="mensajeSinRegistros"> Aún no existen registros </td>
+                </tr>
+            <?php else: ?>
+                <?php foreach ($response['data'] as $result): ?>
+                <tr>
+                    <td> <?= $result['codRecepcion'] ?> </td>
                     <td> <?= $result['NumDocumento'] ?> </td>
                     <td> <?= $result['folios'] ?> </td>
                     <td> <?= $result['tipo documento'] ?> </td>
@@ -43,31 +50,42 @@
                     <td> <?= $result["fechaEnvio"] ?> </td>
                     <td> <?= $result["hora envio"] ?> </td>
                     <td> <?= $result["observaciones"] ?> </td>
-                    <td> <span> Pendiente de Recepcion </span> </td>
+                    <td>
+                        <span
+                                class="recepcionado">
+                            <?= $result["estado recepcion"] == 'i' ? 'Pendiente de Recepcion' : 'Recepcionado' ?>
+                        </span>
+                    </td>
                     <td class="actions">
-                        <div class="action" onclick="modalConfirmarRecepcion(<?= $result["NumDocumento"];?>)">
-                            <span class="tooltip">Confirmar Recepción <span class="triangulo"></span></span>
-                            <svg width="37" height="34" viewBox="0 0 37 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <g filter="url(#filter0_d_2424_38)">
-                                    <rect x="4" width="29" height="26" rx="5" fill="#F8F8F8"/>
-                                    <path d="M14.875 22.1216L7.37122 15.3941L10.7908 12.3283L14.875 16.0008L26.8133 5.28662L30.2329 8.35245L14.875 22.1216Z" fill="#36B434"/>
+                        <?php if ($result["estado recepcion"] == 'a'):?>
+                        <a class="action" href="<?=base_url?>envio/nuevoEnvio?doc=<?=$result["NumDocumento"]?>&recep=<?=$result["codRecepcion"]?>">
+                            <span class="tooltip">Enviar documento <span class="triangulo"></span></span>
+                            <svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g filter="url(#filter0_d_2426_28)">
+                                    <g clip-path="url(#clip0_2426_28)">
+                                        <rect x="2" width="30" height="26" rx="5" fill="white"/>
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M24.4887 6.51097L8.74874 11.4434L13.9925 14.0737L18.6162 10.0654C18.8508 9.86225 19.1688 9.74819 19.5004 9.74829C19.832 9.7484 20.15 9.86265 20.3844 10.0659C20.6188 10.2692 20.7504 10.5449 20.7502 10.8322C20.7501 11.1196 20.6183 11.3952 20.3837 11.5983L15.7587 15.6066L18.7962 20.1501L24.4887 6.51097ZM24.8925 4.07997C26.3862 3.61089 27.8337 4.86539 27.2925 6.15997L20.69 21.9821C20.1475 23.2799 18.1025 23.4381 17.3037 22.2431L13.2825 16.222L6.33499 12.7369C4.95624 12.0446 5.13874 10.2723 6.63624 9.80214L24.8925 4.07997Z" fill="#0C7260"/>
+                                    </g>
                                 </g>
                                 <defs>
-                                    <filter id="filter0_d_2424_38" x="0" y="0" width="37" height="34" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                    <filter id="filter0_d_2426_28" x="-2" y="0" width="38" height="34" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
                                         <feFlood flood-opacity="0" result="BackgroundImageFix"/>
                                         <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
                                         <feOffset dy="4"/>
                                         <feGaussianBlur stdDeviation="2"/>
                                         <feComposite in2="hardAlpha" operator="out"/>
                                         <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-                                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2424_38"/>
-                                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2424_38" result="shape"/>
+                                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2426_28"/>
+                                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2426_28" result="shape"/>
                                     </filter>
+                                    <clipPath id="clip0_2426_28">
+                                        <rect x="2" width="30" height="26" rx="5" fill="white"/>
+                                    </clipPath>
                                 </defs>
                             </svg>
-
-                        </div>
-                        <div class="action">
+                        </a>
+                        <?php endif; ?>
+                        <a href="<?=base_url?>documento/seguimiento?doc=<?=$result["NumDocumento"]?>" class="action">
                             <span class="tooltip">Ver Seguimiento <span class="triangulo"></span></span>
                             <svg width="39" height="34" viewBox="0 0 39 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <g filter="url(#filter0_d_2424_32)">
@@ -91,8 +109,7 @@
                                     </filter>
                                 </defs>
                             </svg>
-
-                        </div>
+                        </a>
                         <div class="action">
                             <span class="tooltip">Ver Detalle <span class="triangulo"></span></span>
                             <svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -119,6 +136,7 @@
                     </td>
                 </tr>
             <?php endforeach; ?>
+            <?php endif; ?>
             </tbody>
         </table>
     </div>

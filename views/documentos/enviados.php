@@ -2,7 +2,7 @@
 <div class="containerPendientesRecepcion">
     <div class="pendientesRecepcion_header">
         <h2>Bandeja de Entrada</h2>
-        <p>Lista de documentos pendientes de recepcion</p>
+        <p>Lista de documentos enviados</p>
         <div class="fecha_busqueda">
             <div class="fecha">
                 <p>Fecha de derivación</p>
@@ -20,11 +20,12 @@
         <table>
             <thead>
             <tr>
+                <th>Código Envio</th>
                 <th>N° Documento</th>
                 <th>Folios</th>
                 <th>Tipo Documento</th>
-                <th>Area Origen</th>
-                <th>Usuario Origen</th>
+                <th>Area Destino</th>
+                <th>Usuario Destino</th>
                 <th>Fecha Envio</th>
                 <th>Hora Envio</th>
                 <th>Observacion</th>
@@ -33,8 +34,15 @@
             </tr>
             </thead>
             <tbody>
-            <?php foreach ($response['data'] as $result): ?>
+            <?php if (count($response['data']) == 0): ?>
                 <tr>
+                    <td colspan="10" class="mensajeSinRegistros"> Aún no existen registros </td>
+                </tr>
+
+            <?php else: ?>
+                <?php foreach ($response['data'] as $result): ?>
+                <tr>
+                    <td> <?= $result['codEnvio'] ?> </td>
                     <td> <?= $result['NumDocumento'] ?> </td>
                     <td> <?= $result['folios'] ?> </td>
                     <td> <?= $result['tipo documento'] ?> </td>
@@ -43,31 +51,36 @@
                     <td> <?= $result["fechaEnvio"] ?> </td>
                     <td> <?= $result["hora envio"] ?> </td>
                     <td> <?= $result["observaciones"] ?> </td>
-                    <td> <span> Pendiente de Recepcion </span> </td>
+                    <td>
+                        <span class="<?= $result["estado recepcion"] == 'i' ? "pendienteRecepcion" : "recepcionado" ?> ">
+                            <?= $result["estado recepcion"] == 'i' ? "Pendiente de Recepcion" : "Recepcionado" ?>
+                        </span>
+                    </td>
                     <td class="actions">
-                        <div class="action" onclick="modalConfirmarRecepcion(<?= $result["NumDocumento"];?>)">
-                            <span class="tooltip">Confirmar Recepción <span class="triangulo"></span></span>
-                            <svg width="37" height="34" viewBox="0 0 37 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <g filter="url(#filter0_d_2424_38)">
-                                    <rect x="4" width="29" height="26" rx="5" fill="#F8F8F8"/>
-                                    <path d="M14.875 22.1216L7.37122 15.3941L10.7908 12.3283L14.875 16.0008L26.8133 5.28662L30.2329 8.35245L14.875 22.1216Z" fill="#36B434"/>
-                                </g>
-                                <defs>
-                                    <filter id="filter0_d_2424_38" x="0" y="0" width="37" height="34" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                                        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-                                        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-                                        <feOffset dy="4"/>
-                                        <feGaussianBlur stdDeviation="2"/>
-                                        <feComposite in2="hardAlpha" operator="out"/>
-                                        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-                                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2424_38"/>
-                                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2424_38" result="shape"/>
-                                    </filter>
-                                </defs>
-                            </svg>
-
-                        </div>
-                        <div class="action">
+                        <?php if ($result["estado recepcion"] == 'i'): ?>
+                            <div class="action" onclick="modalCancelarEnvio(<?=$result["codEnvio"]?>)">
+                                <span class="tooltip"> Cancelar Envio <span class="triangulo"></span></span>
+                                <svg width="37" height="34" viewBox="0 0 37 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g filter="url(#filter0_d_2851_129)">
+                                        <rect x="2" width="31" height="26" rx="5" fill="#F8F8F8"/>
+                                        <path d="M14.4 18L18 14.4L21.6 18L23 16.6L19.4 13L23 9.4L21.6 8L18 11.6L14.4 8L13 9.4L16.6 13L13 16.6L14.4 18ZM18 23C16.6167 23 15.3167 22.7373 14.1 22.212C12.8833 21.6867 11.825 20.9743 10.925 20.075C10.025 19.1757 9.31267 18.1173 8.788 16.9C8.26333 15.6827 8.00067 14.3827 8 13C7.99933 11.6173 8.262 10.3173 8.788 9.1C9.314 7.88267 10.0263 6.82433 10.925 5.925C11.8237 5.02567 12.882 4.31333 14.1 3.788C15.318 3.26267 16.618 3 18 3C19.382 3 20.682 3.26267 21.9 3.788C23.118 4.31333 24.1763 5.02567 25.075 5.925C25.9737 6.82433 26.6863 7.88267 27.213 9.1C27.7397 10.3173 28.002 11.6173 28 13C27.998 14.3827 27.7353 15.6827 27.212 16.9C26.6887 18.1173 25.9763 19.1757 25.075 20.075C24.1737 20.9743 23.1153 21.687 21.9 22.213C20.6847 22.739 19.3847 23.0013 18 23Z" fill="black"/>
+                                    </g>
+                                    <defs>
+                                        <filter id="filter0_d_2851_129" x="-2" y="0" width="39" height="34" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                                            <feOffset dy="4"/>
+                                            <feGaussianBlur stdDeviation="2"/>
+                                            <feComposite in2="hardAlpha" operator="out"/>
+                                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+                                            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2851_129"/>
+                                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2851_129" result="shape"/>
+                                        </filter>
+                                    </defs>
+                                </svg>
+                            </div>
+                        <?php endif; ?>
+                        <a href="<?=base_url?>documento/seguimiento?doc=<?=$result["NumDocumento"]?>" class="action">
                             <span class="tooltip">Ver Seguimiento <span class="triangulo"></span></span>
                             <svg width="39" height="34" viewBox="0 0 39 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <g filter="url(#filter0_d_2424_32)">
@@ -91,8 +104,7 @@
                                     </filter>
                                 </defs>
                             </svg>
-
-                        </div>
+                        </a>
                         <div class="action">
                             <span class="tooltip">Ver Detalle <span class="triangulo"></span></span>
                             <svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -119,6 +131,7 @@
                     </td>
                 </tr>
             <?php endforeach; ?>
+            <?php endif; ?>
             </tbody>
         </table>
     </div>

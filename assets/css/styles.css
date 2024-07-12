@@ -426,16 +426,19 @@ input:focus-visible{
 /* -------------- PENDIENTES DE RECEPCION --------------- */
 
 /*              HEADER             */
-.containerPendientesRecepcion{
+.containerPendientesRecepcion,
+.containerSeguimiento{
     width: 100%;
 }
 
-.pendientesRecepcion_header{
+.pendientesRecepcion_header,
+.seguimiento_header{
     width: 100%;
     margin-bottom: 20px;
 }
 
-.pendientesRecepcion_header h2{
+.pendientesRecepcion_header h2,
+.seguimiento_header h2{
     text-transform: uppercase;
 }
 
@@ -476,22 +479,29 @@ input:focus-visible{
 
 /*              BODY             */
 .pendientesRecepcion_body table,
-.listadoDocumentos_body table{
+.listadoDocumentos_body table,
+.seguimiento_body table{
     width: 100%;
     border-spacing: 0;
 }
 
 
 .pendientesRecepcion_body table thead tr,
-.listadoDocumentos_body table thead tr{
+.listadoDocumentos_body table thead tr,
+.seguimiento_body table thead tr{
     background-color: #fff;
     font-size: 14px;
 }
 
 .pendientesRecepcion_body table thead tr th,
-.listadoDocumentos_body table thead tr th{
+.listadoDocumentos_body table thead tr th,
+.seguimiento_body table thead tr th{
     font-weight: 600;
     padding: 10px 5px;
+}
+
+.seguimiento_body table thead tr th:nth-child(1){
+    width: 70px;
 }
 
 .pendientesRecepcion_body table thead tr th:nth-child(1),
@@ -508,35 +518,50 @@ input:focus-visible{
 }
 
 .pendientesRecepcion_body table tbody tr,
-.listadoDocumentos_body table tbody tr{
+.listadoDocumentos_body table tbody tr,
+.seguimiento_body table tbody tr{
     text-align: center;
     font-size: 13px;
 }
 
 .pendientesRecepcion_body table tbody tr td,
-.listadoDocumentos_body table tbody tr td{
+.listadoDocumentos_body table tbody tr td,
+.seguimiento_body table tbody tr td{
     padding: 5px 0;
 }
 
 .pendientesRecepcion_body table tbody tr td:first-child,
-.listadoDocumentos_body table tbody tr td:first-child{
+.listadoDocumentos_body table tbody tr td:first-child,
+.seguimiento_body table tbody tr td:first-child{
     color: #FF0000;
     font-weight: 600;
 }
 
-.pendientesRecepcion_body table tbody tr td .estado,
-.listadoDocumentos_body table tbody tr td .estado{
+.estado{
     padding: 5px 3px;
     border-radius: 5px;
 }
 
+
 .pendientesRecepcion_body table tbody tr:nth-child(even),
-.listadoDocumentos_body table tbody tr:nth-child(even){
+.listadoDocumentos_body table tbody tr:nth-child(even),
+.seguimiento_body table tbody tr:nth-child(even){
     background-color: #fff;
 }
 
+.seguimiento_body table{
+    border-collapse: collapse;
+}
+
+.seguimiento_body table tbody tr:last-child{
+    -webkit-box-shadow: 0px 0px 24px -3px rgba(5,98,81,1);
+    -moz-box-shadow: 0px 0px 24px -3px rgba(5,98,81,1);
+    box-shadow: 0px 0px 24px -3px rgba(5,98,81,1);
+}
+
 .pendientesRecepcion_body table tbody tr .actions,
-.listadoDocumentos_body table tbody tr .actions{
+.listadoDocumentos_body table tbody tr .actions,
+.seguimiento_body table tbody tr .actions{
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -544,7 +569,8 @@ input:focus-visible{
 }
 
 .pendientesRecepcion_body table tbody tr .actions .action,
-.listadoDocumentos_body table tbody tr .actions .action{
+.listadoDocumentos_body table tbody tr .actions .action,
+.seguimiento_body table tbody tr .actions .action{
     display: flex;
     align-items: flex-end;
     cursor: pointer;
@@ -552,13 +578,14 @@ input:focus-visible{
 }
 
 .pendientesRecepcion_body table tbody tr .actions .action .tooltip,
-.listadoDocumentos_body table tbody tr .actions .action .tooltip{
+.listadoDocumentos_body table tbody tr .actions .action .tooltip,
+.seguimiento_body table tbody tr .actions .action .tooltip{
     position: absolute;
     width: 120px;
     border: 1px solid #000;
     border-radius: 5px;
     top: -30px;
-    left: -50px;
+    left: -45px;
     padding: 5px;
     font-size: 10px;
     cursor: none;
@@ -567,7 +594,8 @@ input:focus-visible{
 }
 
 .pendientesRecepcion_body table tbody tr .actions .action .tooltip .triangulo,
-.listadoDocumentos_body table tbody tr .actions .action .tooltip .triangulo{
+.listadoDocumentos_body table tbody tr .actions .action .tooltip .triangulo,
+.seguimiento_body table tbody tr .actions .action .tooltip .triangulo{
     position: absolute;
     width: 10px;
     height: 10px;
@@ -582,7 +610,8 @@ input:focus-visible{
 }
 
 .pendientesRecepcion_body table tbody tr .actions .action:hover .tooltip,
-.listadoDocumentos_body table tbody tr .actions .action:hover .tooltip{
+.listadoDocumentos_body table tbody tr .actions .action:hover .tooltip,
+.seguimiento_body table tbody tr .actions .action:hover .tooltip{
     display: block;
 }
 

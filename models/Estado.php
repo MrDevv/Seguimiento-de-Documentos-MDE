@@ -64,4 +64,16 @@ class Estado {
         return $results['codEstado'];
     }
 
+    public static function getIdEstadoEviado(){
+        $sql = "select codEstado from Estado where descripcion = 'e'";
+
+        $stmt = DataBase::connect()->prepare($sql);
+
+        $stmt->execute();
+
+        $results = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $results['codEstado'];
+    }
+
 }
