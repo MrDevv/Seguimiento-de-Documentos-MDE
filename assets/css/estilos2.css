@@ -1,0 +1,221 @@
+/*Estilos Tipo Documento, Documento, Usuario */
+
+.containerRegistroTipoDocumento,
+.containerRegistroDocumento,
+.containerRegistroUsuario,
+.containerCambiarAreaUsuario{
+    width: 600px;
+    max-width: 600px;
+    height: fit-content;
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 70px;
+}
+
+.containerRegistroUsuario{
+    margin-top: 0;
+    width: 800px;
+    max-width: 800px;
+}
+
+.containerCambiarAreaUsuario{
+    margin-top: 0;
+    width: 400px;
+    max-width: 400px;
+ 
+}
+
+.containerCambiarAreaUsuario .body form{
+    display: flex;
+    gap: 20px;
+}
+
+.containerRegistroTipoDocumento h2,
+.containerRegistroDocumento h2,
+.containerRegistroUsuario h2,
+.containerCambiarAreaUsuario h2{
+    margin-bottom: 20px;
+    background-color: var(--bg-color-principal);
+    padding: 10px;
+    color: #fff;
+    font-size: 17px;
+}
+
+.containerRegistroUsuario h2{
+    margin: 0;
+}
+
+.containerRegistroTipoDocumento .body,
+.containerRegistroDocumento .body,
+.containerRegistroUsuario .body{
+    display: flex;
+    margin-bottom: 20px;
+    padding: 20px 50px;
+}
+
+.containerRegistroUsuario .body{
+    margin-bottom: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.containerRegistroDocumento .body,
+.containerRegistroUsuario .body{
+    flex-direction: column;
+}
+
+.containerRegistroDocumento .body .row,
+.containerRegistroUsuario .body .row{
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+}
+
+.containerRegistroUsuario .body .row{
+    gap: 10px;
+}
+
+.containerRegistroDocumento .body .row div,
+.containerRegistroUsuario .body .row div{
+    display: flex;
+    flex-direction: column;
+}
+
+.containerRegistroUsuario .body .row div{
+    margin-bottom: 5px;
+}
+
+.containerRegistroTipoDocumento .body input,
+.containerRegistroDocumento .body .row input,
+.containerRegistroDocumento .body .row select,
+.containerRegistroUsuario .body .row select,
+.containerRegistroUsuario .body .row input,
+.containerRegistroUsuario .body .column select,
+.containerCambiarAreaUsuario .column input{
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 0;
+}
+
+.containerRegistroDocumento .body .row input[type="date"]{
+    width: 227.6px;
+}
+
+.containerRegistroDocumento .body .row:last-child,
+.containerRegistroUsuario .body .row:last-child{
+    justify-content: space-between;
+}
+
+.containerRegistroDocumento .body input[type="submit"]{
+    cursor: pointer;
+    width: 50%;
+    margin: auto;
+    background-color: var(--bg-color-principal);
+    color: #fff;
+    margin-top: 30px;
+}
+
+.containerRegistroUsuario .body input[type="submit"]{
+    margin-top: 20px
+}
+
+
+.containerRegistroDocumento .body .row select,
+.containerRegistroUsuario .body .row select{
+    width: 227.6px;
+}
+
+.containerRegistroTipoDocumento .body label:first-child{
+    flex: 1;
+}
+
+.containerRegistroTipoDocumento .body input:last-child{
+    flex: 2;
+    margin: 0;
+}
+
+.containerRegistroTipoDocumento input[type="submit"],
+.containerRegistroUsuario input[type="submit"],
+.containerCambiarAreaUsuario input[type="submit"]{
+    cursor: pointer;
+    background-color: var(--bg-color-principal);
+    color: #fff;
+    width: 30%;
+    margin: auto;
+    margin-bottom: 10px;
+}
+
+.containerCambiarAreaUsuario a{
+    cursor: pointer;
+    background-color: var(--bg-color-principal);
+    color: #fff;
+    width: 30%;
+    margin: auto;
+    margin-bottom: 10px;
+}
+
+
+.asuntoDocumento{
+    width: 250px;
+    display: table-caption;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Estilos de registro error */
+.containerMensajeRegistro{
+    width: 100%;
+    background-color: #ffffff;
+    height: min-content;
+    max-width: 300px;
+    margin: auto;
+    margin-top: 100px;
+    border-radius: 10px;
+    overflow: hidden;
+    -webkit-box-shadow: -1px 12px 77px -27px rgba(0,0,0,0.75);
+    -moz-box-shadow: -1px 12px 77px -27px rgba(0,0,0,0.75);
+    box-shadow: -1px 12px 77px -27px rgba(0,0,0,0.75);
+}
+
+.containerMensajeRegistro .header{
+    width: 300px;
+    background-color: transparent;
+}
+
+.containerMensajeRegistro .body{
+    background-color: #c9c9c9;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    padding: 10px;
+}
+
+.containerMensajeRegistro .body p{
+    text-align: center;
+    margin: 0;
+    font-weight: 500;
+    /*margin-bottom: 10px;*/
+}
+
+.containerMensajeRegistro .body a{
+    border-radius: 5px;
+    margin: auto;
+    padding: 10px 15px;
+    color: #fff;
+    background-color: var(--bg-color-principal);
+}
+
+.new {
+    background-color: #fff;
+    border: 1px solid #4b4b4b;
+}
+
+.invisible{
+    display: none;
+}
+
+/* Estilos documento */

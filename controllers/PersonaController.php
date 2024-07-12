@@ -3,22 +3,15 @@ require_once "models/Persona.php";
 require_once "models/Area.php";
 
 class PersonaController{
-
-    public function crear(){  
-        $areaObj= new Area();
-        $areas=$areaObj->listarArea();
-        require_once "views/persona/registro.php";
-    }
-
     public function editar(){
         if (isset($_GET["cod"])){
             $codPersona = $_GET['cod'];
             $response = $this->buscar($codPersona);
-//            var_dump($response);
+//           
             $areaObj= new Area();
             $areas=$areaObj->listarArea();
 
- //          var_dump($areas);
+ //        
             require_once "views/persona/editarPersona.php";
         }else{
 //            Redirecciona a la vista de listado

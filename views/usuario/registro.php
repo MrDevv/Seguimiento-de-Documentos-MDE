@@ -4,9 +4,9 @@ $estado = new Estado();
 $estados= $estado->listarEstadosHabilitadoInhabilitado();
 ?>
 <div class="containerRegistroUsuario">
-    <h2>Registro de Personas</h2>
+    <h2>Registro de Usuario</h2>
     <div class="body">
-        <form action="<?=base_url?>usuario/registrarUsuario" method="post">
+        <form action="<?=base_url?>usuario/registrarUsuario" id="registrationForm" method="post">
             <div class="data">
                 <div class="column">
                     <h3>Datos Generales</h3><br>
@@ -29,11 +29,11 @@ $estados= $estado->listarEstadosHabilitadoInhabilitado();
                     <div class="row">
                         <div>
                                 <label for="telefono">Teléfono:</label>
-                                <input type="number" name="telefono" required>
+                                <input type="text" name="telefono" maxlength="9" required>
                         </div>
                         <div>
-                            <label for="telefono">DNI:</label>
-                            <input type="text" name="dni" required>
+                            <label for="dni">DNI:</label>
+                            <input type="text" name="dni" maxlength="8" required >
                         </div>
 
                     </div>
@@ -46,7 +46,7 @@ $estados= $estado->listarEstadosHabilitadoInhabilitado();
                         </div>
                         <div>
                             <label for="contrasena">Contraseña:</label>
-                            <input type="password" id="contrasena" name="contrasena" class="user-input" required>
+                            <input type="password" id="password" name="password" class="user-input" required>
                         </div>
                     </div>
                     <div class="row">
@@ -62,6 +62,10 @@ $estados= $estado->listarEstadosHabilitadoInhabilitado();
                                     
                                     <?php endforeach; ?>
                                 </select>
+                        </div>
+                        <div>
+                            <label for="contrasena">Confirmar Contraseña:</label>
+                            <input type="password" id="confirm_password" name="confirm_password" class="user-input" required>
                         </div>
                     </div>
                 </div>
