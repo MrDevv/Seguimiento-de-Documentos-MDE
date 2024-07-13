@@ -1,15 +1,13 @@
 <?php
 
 class DataBase{
-    private static $serverName = "dpg-cq8knjd6l47c73cvt5og-a";
-    private static $port = '5432';
+    private static $serverName = "localhost";
     private static $database = "Sistema_Seguimiento_Documentos";
     private static $username = "sa";
-    private static $password = "UH4PXMCBRau2Uv87u7dX7YHjUDdByJFe";
+    private static $password = "admin";
     public static function connect(){
         try {
-            //$conn = new PDO("sqlsrv:server=" . self::$serverName . ";port=". self::$port . ";Database=" . self::$database, self::$username, self::$password);
-            $conn = new PDO("postgresql://sa:UH4PXMCBRau2Uv87u7dX7YHjUDdByJFe@dpg-cq8knjd6l47c73cvt5og-a.oregon-postgres.render.com/sistema_seguimiento_documentos");
+            $conn = new PDO("sqlsrv:server=" . self::$serverName . ";Database=" . self::$database, self::$username, self::$password);
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             return $conn;
         }catch(PDOException $e){

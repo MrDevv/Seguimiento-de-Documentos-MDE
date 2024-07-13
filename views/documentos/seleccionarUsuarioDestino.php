@@ -27,7 +27,7 @@
                         required
                 >
                 <input
-                        class="disabled"
+                        class="disabled invisible"
                         type="text"
                         name="nroDocumento"
                         value="<?php echo $numDocumento ?>"
@@ -35,28 +35,28 @@
                         required
                 >
                 <input
-                        class="disabled"
+                        class="disabled invisible"
                         type="text"
                         name="folios"
                         value="<?php echo $folios ?>"
                         required
                 >
                 <input
-                        class="disabled "
+                        class="disabled invisible"
                         type="text"
                         name="movimiento"
                         value="<?php echo $movimiento ?>"
                         required
                 >
                 <input
-                        class="disabled "
+                        class="disabled invisible"
                         type="text"
                         name="folios"
                         value="<?php echo $area ?>"
                         required
                 >
                 <input
-                        class="disabled "
+                        class="disabled invisible"
                         type="text"
                         name="observacion"
                         value="<?php echo $observacion ?>"
