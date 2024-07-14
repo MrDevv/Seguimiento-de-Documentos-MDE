@@ -219,13 +219,13 @@
     border: 1px solid #059133;
 }
 
-.description_btnNuevoRegistro{
+.description_btnNuevoDocumento{
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.btnNuevoRegistro{
+.btnNuevoDocumento{
     display: flex;
     align-items: center;
     gap: 5px;
@@ -236,7 +236,7 @@
     cursor: pointer;
 }
 
-.btnNuevoRegistro svg{
+.btnNuevoDocumento svg{
     width: 15px;
 }
 

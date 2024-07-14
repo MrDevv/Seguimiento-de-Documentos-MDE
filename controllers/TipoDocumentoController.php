@@ -63,12 +63,11 @@ class TipoDocumentoController{
             if ($tipoDocumento){
                 $tipoDocumentoObj = new TipoDocumento();
                 $tipoDocumentoObj->setDescripcion($tipoDocumento);
+//                $response [status, message, info]
                 $response = $tipoDocumentoObj->guardarTipoDocumento();
-                if ($response['status'] == 'success'){
-                   mostrarAlerta('Exito',$response['message'], "success", "listar");
-                } else {
-                    mostrarAlerta('Error',$response['message'], "error", "crear");
-                }
+//                var_dump($response);
+                $_SESSION['response'] = $response;
+                require_once "views/modals/alerta.php";
             }
         }
     }
