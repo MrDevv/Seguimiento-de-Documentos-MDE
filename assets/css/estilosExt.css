@@ -213,10 +213,12 @@
 }
 
 .recepcionado{
-    padding: 5px 5px;
-    border-radius: 5px;
     background-color: #09dc50;
     border: 1px solid #059133;
+}
+
+.mt-5{
+    margin-top: 5px;
 }
 
 .description_btnNuevoDocumento{

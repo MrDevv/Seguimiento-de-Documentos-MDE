@@ -538,6 +538,7 @@ input:focus-visible{
 }
 
 .estado{
+    display: block;
     padding: 5px 3px;
     border-radius: 5px;
 }
@@ -559,13 +560,10 @@ input:focus-visible{
     box-shadow: 0px 0px 24px -3px rgba(5,98,81,1);
 }
 
-.pendientesRecepcion_body table tbody tr .actions,
-.listadoDocumentos_body table tbody tr .actions,
-.seguimiento_body table tbody tr .actions{
+table tbody tr .actions{
     display: flex;
     justify-content: space-around;
     align-items: center;
-    padding-top: 5px;
 }
 
 .pendientesRecepcion_body table tbody tr .actions .action,

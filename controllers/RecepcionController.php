@@ -46,7 +46,7 @@ class RecepcionController{
     }
 
     public function recepcionados(){
-        $response = $this->recepcionModel->listarDocumentosRecepcionados((int) $_SESSION['user']['codUsuario'], Estado::getIdEstadoActivo());
+        $response = $this->recepcionModel->listarDocumentosRecepcionados((int) $_SESSION['user']['codUsuario']);
 
         if ($response['status'] == 'failed'){
             $_SESSION['response'] = $response;
