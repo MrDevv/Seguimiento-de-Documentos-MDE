@@ -1,10 +1,12 @@
 <?php
 session_start();
 require_once 'autoload.php';
+require_once 'views/alertas/alertas.php';
 require_once 'config/DataBase.php';
 require_once 'config/parameters.php';
 require_once 'views/layouts/head.php';
 function show_error(){
+    unset($_SESSION['user']);
     $error = new ErrorController();
     $error->index();
     exit();

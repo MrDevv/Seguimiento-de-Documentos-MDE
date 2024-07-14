@@ -38,7 +38,7 @@ class TipoDocumento{
 
             return [
                 'status' => 'success',
-                'message' => 'Tipo documento registrado',
+                'message' => '¡Tipo documento registrado!',
                 'action' => 'registrar',
                 'module' => 'tipoDocumento'
             ];
