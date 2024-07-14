@@ -1,6 +1,6 @@
 
-<div class="containerPendientesRecepcion">
-    <div class="pendientesRecepcion_header">
+<div class="containerRecepcionados">
+    <div class="recepcionados_header">
         <h2>Bandeja de Entrada</h2>
         <p>Lista de documentos recepcionados</p>
         <div class="fecha_busqueda">
@@ -16,7 +16,7 @@
             </div>
         </div>
     </div>
-    <div class="pendientesRecepcion_body">
+    <div class="recepcionados_body">
         <table>
             <thead>
             <tr>
