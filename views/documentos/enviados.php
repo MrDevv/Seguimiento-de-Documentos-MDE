@@ -1,6 +1,6 @@
 
-<div class="containerPendientesRecepcion">
-    <div class="pendientesRecepcion_header">
+<div class="containerEnviados">
+    <div class="enviados_header">
         <h2>Bandeja de Entrada</h2>
         <p>Lista de documentos enviados</p>
         <div class="fecha_busqueda">
@@ -16,7 +16,7 @@
             </div>
         </div>
     </div>
-    <div class="pendientesRecepcion_body">
+    <div class="enviados_body">
         <table>
             <thead>
             <tr>
@@ -52,11 +52,12 @@
                     <td> <?= $result["hora envio"] ?> </td>
                     <td> <?= $result["observaciones"] ?> </td>
                     <td>
-                        <span class="<?= $result["estado recepcion"] == 'i' ? "pendienteRecepcion" : "recepcionado" ?> ">
+                        <span class="estado <?= $result["estado recepcion"] == 'i' ? "pendienteRecepcion" : "recepcionado" ?> ">
                             <?= $result["estado recepcion"] == 'i' ? "Pendiente de Recepcion" : "Recepcionado" ?>
                         </span>
                     </td>
-                    <td class="actions">
+                    <td>
+                        <div class="actions">
                         <?php if ($result["estado recepcion"] == 'i'): ?>
                             <div class="action" onclick="modalCancelarEnvio(<?=$result["codEnvio"]?>)">
                                 <span class="tooltip"> Cancelar Envio <span class="triangulo"></span></span>
@@ -80,7 +81,7 @@
                                 </svg>
                             </div>
                         <?php endif; ?>
-                        <a href="<?=base_url?>documento/seguimiento?doc=<?=$result["NumDocumento"]?>" class="action">
+                            <a href="<?=base_url?>documento/seguimiento?doc=<?=$result["NumDocumento"]?>" class="action">
                             <span class="tooltip">Ver Seguimiento <span class="triangulo"></span></span>
                             <svg width="39" height="34" viewBox="0 0 39 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <g filter="url(#filter0_d_2424_32)">
@@ -105,7 +106,7 @@
                                 </defs>
                             </svg>
                         </a>
-                        <div class="action">
+                            <div class="action">
                             <span class="tooltip">Ver Detalle <span class="triangulo"></span></span>
                             <svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <g filter="url(#filter0_d_2424_29)">
@@ -127,6 +128,7 @@
                                 </defs>
                             </svg>
 
+                        </div>
                         </div>
                     </td>
                 </tr>

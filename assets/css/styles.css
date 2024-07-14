@@ -427,43 +427,55 @@ input:focus-visible{
 
 /*              HEADER             */
 .containerPendientesRecepcion,
-.containerSeguimiento{
+.containerSeguimiento,
+.containerEnviados{
     width: 100%;
 }
 
 .pendientesRecepcion_header,
-.seguimiento_header{
+.seguimiento_header,
+.enviados_header{
     width: 100%;
     margin-bottom: 20px;
 }
 
 .pendientesRecepcion_header h2,
-.seguimiento_header h2{
+.seguimiento_header h2,
+.enviados_header h2{
     text-transform: uppercase;
 }
 
-.pendientesRecepcion_header p:nth-child(2){
+.enviados_header p:nth-child(2),
+.pendientesRecepcion_header p:nth-child(2),
+.seguimiento_header p:nth-child(2),
+.enviados_header p:nth-child(2),
+.description_btnNuevoDocumento p{
     color: var(--bg-color-principal);
     font-weight: 700;
     margin-bottom: 30px;
 }
 
-.pendientesRecepcion_header .fecha_busqueda{
+.pendientesRecepcion_header .fecha_busqueda,
+.enviados_header .fecha_busqueda{
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
 .pendientesRecepcion_header .fecha_busqueda .fecha p,
-.pendientesRecepcion_header .fecha_busqueda .fecha input{
+.pendientesRecepcion_header .fecha_busqueda .fecha input,
+.enviados_header .fecha_busqueda .fecha input,
+.enviados_header .fecha_busqueda .fecha p{
     margin: 0;
 }
 
-.pendientesRecepcion_header .fecha_busqueda .fecha p{
+.pendientesRecepcion_header .fecha_busqueda .fecha p,
+.enviados_header .fecha_busqueda .fecha p{
     margin-bottom: 10px;
 }
 
-.pendientesRecepcion_header .fecha_busqueda .busqueda{
+.pendientesRecepcion_header .fecha_busqueda .busqueda,
+.enviados_header .fecha_busqueda .busqueda{
     display: flex;
     align-items: center;
     gap: 10px;
@@ -473,14 +485,16 @@ input:focus-visible{
     padding-left: 5px;
 }
 
-.pendientesRecepcion_header .fecha_busqueda .busqueda input{
+.pendientesRecepcion_header .fecha_busqueda .busqueda input,
+.enviados_header .fecha_busqueda .busqueda input{
     margin: 0;
 }
 
 /*              BODY             */
 .pendientesRecepcion_body table,
 .listadoDocumentos_body table,
-.seguimiento_body table{
+.seguimiento_body table,
+.enviados_body table{
     width: 100%;
     border-spacing: 0;
 }
@@ -488,20 +502,34 @@ input:focus-visible{
 
 .pendientesRecepcion_body table thead tr,
 .listadoDocumentos_body table thead tr,
-.seguimiento_body table thead tr{
+.seguimiento_body table thead tr,
+.enviados_body table thead tr{
     background-color: #fff;
     font-size: 14px;
 }
 
 .pendientesRecepcion_body table thead tr th,
 .listadoDocumentos_body table thead tr th,
-.seguimiento_body table thead tr th{
+.seguimiento_body table thead tr th,
+.enviados_body table thead tr th{
     font-weight: 600;
     padding: 10px 5px;
 }
 
 .seguimiento_body table thead tr th:nth-child(1){
     width: 70px;
+}
+
+.enviados_body table thead tr th:nth-child(1){
+    width: 80px;
+}
+
+.enviados_body table thead tr th:nth-child(3){
+    width: 50px;
+}
+
+.enviados_body table thead tr th:nth-child(6){
+    width: 200px;
 }
 
 .pendientesRecepcion_body table thead tr th:nth-child(1),
@@ -519,20 +547,23 @@ input:focus-visible{
 
 .pendientesRecepcion_body table tbody tr,
 .listadoDocumentos_body table tbody tr,
-.seguimiento_body table tbody tr{
+.seguimiento_body table tbody tr,
+.enviados_body table tbody tr{
     text-align: center;
     font-size: 13px;
 }
 
 .pendientesRecepcion_body table tbody tr td,
 .listadoDocumentos_body table tbody tr td,
-.seguimiento_body table tbody tr td{
+.seguimiento_body table tbody tr td,
+.enviados_body table tbody tr td{
     padding: 5px 0;
 }
 
 .pendientesRecepcion_body table tbody tr td:first-child,
 .listadoDocumentos_body table tbody tr td:first-child,
-.seguimiento_body table tbody tr td:first-child{
+.seguimiento_body table tbody tr td:first-child,
+.enviados_body table tbody tr td:first-child{
     color: #FF0000;
     font-weight: 600;
 }
@@ -546,7 +577,8 @@ input:focus-visible{
 
 .pendientesRecepcion_body table tbody tr:nth-child(even),
 .listadoDocumentos_body table tbody tr:nth-child(even),
-.seguimiento_body table tbody tr:nth-child(even){
+.seguimiento_body table tbody tr:nth-child(even),
+.enviados_body table tbody tr:nth-child(even){
     background-color: #fff;
 }
 
@@ -566,18 +598,14 @@ table tbody tr .actions{
     align-items: center;
 }
 
-.pendientesRecepcion_body table tbody tr .actions .action,
-.listadoDocumentos_body table tbody tr .actions .action,
-.seguimiento_body table tbody tr .actions .action{
+table tbody tr .actions .action{
     display: flex;
     align-items: flex-end;
     cursor: pointer;
     position: relative;
 }
 
-.pendientesRecepcion_body table tbody tr .actions .action .tooltip,
-.listadoDocumentos_body table tbody tr .actions .action .tooltip,
-.seguimiento_body table tbody tr .actions .action .tooltip{
+table tbody tr .actions .action .tooltip{
     position: absolute;
     width: 120px;
     border: 1px solid #000;
@@ -591,9 +619,7 @@ table tbody tr .actions{
     background-color: #A3A3A3;
 }
 
-.pendientesRecepcion_body table tbody tr .actions .action .tooltip .triangulo,
-.listadoDocumentos_body table tbody tr .actions .action .tooltip .triangulo,
-.seguimiento_body table tbody tr .actions .action .tooltip .triangulo{
+table tbody tr .actions .action .tooltip .triangulo{
     position: absolute;
     width: 10px;
     height: 10px;
@@ -607,15 +633,16 @@ table tbody tr .actions{
     border-bottom: 1px solid #000;
 }
 
-.pendientesRecepcion_body table tbody tr .actions .action:hover .tooltip,
-.listadoDocumentos_body table tbody tr .actions .action:hover .tooltip,
-.seguimiento_body table tbody tr .actions .action:hover .tooltip{
+table tbody tr .actions .action:hover .tooltip{
     display: block;
 }
 
 .actions a{
     color: #000;
 }
+
+/* Estilos tabla vista enviados */
+
 
 /* EStilo de registro administrados y area */
 
