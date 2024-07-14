@@ -34,7 +34,7 @@ class RecepcionController{
     }
 
     public function pendientesDeRecepcion(){
-        $response = $this->recepcionModel->getDocumentosPendientesRecepcion((int) $_SESSION['user']['codUsuario'], Estado::getIdEstadoInactivo());
+        $response = $this->recepcionModel->getDocumentosPendientesRecepcion((int) $_SESSION['user']['codUsuario']);
 
         if ($response['status'] == 'failed'){
             $_SESSION['response'] = $response;

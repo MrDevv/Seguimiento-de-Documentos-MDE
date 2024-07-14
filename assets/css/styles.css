@@ -612,7 +612,7 @@ input:focus-visible{
 
 table tbody tr .actions{
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-items: center;
 }
 
