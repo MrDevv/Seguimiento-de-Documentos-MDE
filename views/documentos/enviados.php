@@ -106,7 +106,7 @@
                                 </defs>
                             </svg>
                         </a>
-                            <div class="action">
+                            <a href="<?=base_url?>envio/detalle?cod=<?=$result["codEnvio"]?>" class="action">
                             <span class="tooltip">Ver Detalle <span class="triangulo"></span></span>
                             <svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <g filter="url(#filter0_d_2424_29)">
@@ -128,7 +128,7 @@
                                 </defs>
                             </svg>
 
-                        </div>
+                        </a>
                         </div>
                     </td>
                 </tr>

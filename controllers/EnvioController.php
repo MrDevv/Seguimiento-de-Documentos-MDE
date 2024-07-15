@@ -131,7 +131,18 @@ class EnvioController{
 
             $this->redirect();
         }
+    }
 
+    public function detalle(){
+        if(isset($_GET['cod'])){
+            $codEnvio = $_GET['cod'];
+
+            $this->envioModel->setCodEnvio((int) $codEnvio);
+            $response = $this->envioModel->obtenerDetalleEnvio();
+            //var_dump($response);
+
+        }
+        require_once "views/documentos/detalleEnvio.php";
     }
 
     public function obtenerFechaActual(){

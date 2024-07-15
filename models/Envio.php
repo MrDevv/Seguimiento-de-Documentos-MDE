@@ -190,6 +190,38 @@ class Envio{
         }
     }
 
+    public function obtenerDetalleEnvio(){
+        $sql = "{CALL sp_verDetalleEnvio(:codEnvio)}";
+
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
+
+            $stmt->bindParam('codEnvio', $this->codEnvio, PDO::PARAM_INT);
+
+            $stmt->execute();
+
+            $response = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return [
+                'status' => 'success',
+                'message' => '¡Se obtuvo correctamente el detalle del envio!',
+                'action' => 'buscar',
+                'module' => 'envio',
+                'data' => $response,
+                'info' => ''
+            ];
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => '¡Ocurrio un error al momento de obtener el detalle del envio!',
+                'action' => 'buscar',
+                'module' => 'envio',
+                'data' => [],
+                'info' => $e->getMessage()
+            ];
+        }
+    }
+
     public function cancelarEnvio(){
         $sql = "{CALL sp_cancelarEnvio(:codEnvio)}";
 

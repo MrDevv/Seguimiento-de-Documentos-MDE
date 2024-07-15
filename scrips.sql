@@ -118,39 +118,6 @@ WHERE r.codUsuarioRecepcion LIKE '%%' AND r.codEstado = 3
 select * from Usuario
 select * from Estado
 
--- listar documentos recepcionados de un usuario y una area determinada
-SELECT 
-	r.codRecepcion,
-	e.codEnvio,
-	LEFT(CONVERT(VARCHAR, e.horaEnvio, 108), 5) AS 'hora envio',
-	e.fechaEnvio,
-    e.folios, 
-    e.observaciones,
-	er.descripcion 'estado recepcion',
-	e.NumDocumento,
-	td.descripcion 'tipo documento',
-	CONCAT(pe.nombres, ' ',pe.apellidos) 'usuario origen', 
-    ae.descripcion 'area origen',
-	CONCAT(pd.nombres, pd.apellidos) 'usuario destino', 
-    ad.descripcion 'area destino'
-FROM Recepcion r
-INNER JOIN Envio e ON r.codEnvio = e.codEnvio
-INNER JOIN Estado er ON r.codEstado = er.codEstado
-INNER JOIN Documento d ON e.NumDocumento = d.NumDocumento
-INNER JOIN TipoDocumento td ON d.codTipoDocumento = td.codTipoDocumento
--- Usuario origen
-INNER JOIN UsuarioArea uae ON e.codUsuarioEnvio = uae.codUsuario
-INNER JOIN Usuario ue ON uae.codUsuario = ue.codUsuario
-INNER JOIN Persona pe ON ue.codPersona = pe.codPersona
--- Área origen 
-INNER JOIN Area ae ON uae.codArea = ae.codArea
--- Usuario destino
-INNER JOIN UsuarioArea uad ON e.codUsuarioDestino = uad.codUsuario
-INNER JOIN Usuario ud ON uad.codUsuario = ud.codUsuario
-INNER JOIN Persona pd ON ud.codPersona = pd.codPersona
--- Área destino 
-INNER JOIN Area ad ON uad.codArea = ad.codArea
-WHERE r.codUsuarioRecepcion LIKE '%2%' AND r.codEstado = 2
 
 -- obtener documentos enviados por un usuario con estado pendiente de recepcion
 select e.codEnvio, 
