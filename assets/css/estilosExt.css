@@ -146,6 +146,14 @@
     white-space: nowrap;
 }
 
+.observacionEnvio{
+    width: 150px;
+    display: table-caption;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 /* Estilos de registro error */
 .containerMensajeRegistro{
     width: 100%;
@@ -309,6 +317,10 @@
     overflow: hidden;
 }
 
+.datosOrigen{
+    margin: 0;
+}
+
 .datosOrigenHeader,
 .datosDestinoHeader{
     background-color: var(--bg-color-principal);
@@ -357,7 +369,15 @@
     width: 100px;
 }
 
+.detalle .containerArrowDetalle{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
 
+.detalle .arrowDetalle{
+    width: 30px;
+}
 
 .detalle .containerObservacion{
     padding: 10px;

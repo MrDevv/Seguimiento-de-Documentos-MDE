@@ -50,7 +50,7 @@
                     <td> <?= $result["usuario destino"] ?> </td>
                     <td> <?= $result["fechaEnvio"] ?> </td>
                     <td> <?= $result["hora envio"] ?> </td>
-                    <td> <?= $result["observaciones"] ?> </td>
+                    <td class="observacionEnvio"> <?= $result["observaciones"] ?> </td>
                     <td>
                         <span class="estado <?= $result["estado recepcion"] == 'i' ? "pendienteRecepcion" : "recepcionado" ?> ">
                             <?= $result["estado recepcion"] == 'i' ? "Pendiente de Recepcion" : "Recepcionado" ?>

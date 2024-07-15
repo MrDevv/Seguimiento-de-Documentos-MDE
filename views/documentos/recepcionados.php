@@ -49,7 +49,7 @@
                     <td> <?= $result["usuario origen"] ?> </td>
                     <td> <?= $result["fechaEnvio"] ?> </td>
                     <td> <?= $result["hora envio"] ?> </td>
-                    <td> <?= $result["observaciones"] ?> </td>
+                    <td class="observacionEnvio"> <?= $result["observaciones"] ?> </td>
                     <td>
                         <span
                                 class="recepcionado estado">
