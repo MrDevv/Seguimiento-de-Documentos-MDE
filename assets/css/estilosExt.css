@@ -271,6 +271,10 @@
     font-weight: 300;
 }
 
+.infoGeneral .containerInfoDoc p:nth-child(2) span{
+    font-weight: 300;
+}
+
 .infoGeneral .containerEstadoDoc p span{
     font-weight: 400;
 }
@@ -287,7 +291,7 @@
 /* Estilos detalleEnvio */
 
 .containerDetalle{
-    width: 1000px;
+    width: max-content;
 }
 
 .detalle{
@@ -324,6 +328,11 @@
     align-items: center;
 }
 
+.detalle .estadosDetalle{
+    display: flex;
+    gap: 10px;
+}
+
 .detalle .datosOrigenBody div label,
 .detalle .datosDestinoBody div label{
     flex: 150px;
@@ -338,17 +347,17 @@
 .detalle .datosDestinoBody{
     padding: 10px;
     display: grid;
-    grid-template-columns: 350px 1fr 1fr;
+    grid-template-columns: 350px 350px 250px;
     column-gap: 20px;
     row-gap: 10px;
 }
 
-.detalle .datosOrigenBody div:last-child div,
-.detalle .datosDestinoBody div:last-child div{
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+.detalle input[name="horaRecepcion"],
+.detalle input[name="horaEnvio"]{
+    width: 100px;
 }
+
+
 
 .detalle .containerObservacion{
     padding: 10px;

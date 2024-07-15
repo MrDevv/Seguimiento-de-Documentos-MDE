@@ -8,6 +8,7 @@
                 <div class="containerInfoDoc">
                     <p>N° Documento: <span> <?= $response['data'][0]['NumDocumento']?></span></p>
                     <p>Tipo Documento: <span>  <?= $response['data'][0]['tipo documento']?></span></p>
+                    <p>Folios: <span>  <?= $response['data'][0]['folios']?></span></p>
                 </div>
                 <div
                     class="containerEstadoDoc"
@@ -61,11 +62,9 @@
                         </div>
                         <div>
                             <label>Estado Envio</label>
-                            <div>
-                                <?php if ($response['data'][0]['estado envio'] == 'e'): ?>
+                            <div class="estadosDetalle">
                                 <span class="estado recepcionado"> Recepcionado </span>
                                 <span class="estado enviado"> Enviado </span>
-                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -115,10 +114,16 @@
                         </div>
                         <div>
                             <label>Estado Recepción</label>
-                            <div>
+                            <div class="estadosDetalle">
                                 <?php if ($response['data'][0]['estado recepcion'] == 'e'): ?>
                                     <span class="estado recepcionado"> Recepcionado </span>
                                     <span class="estado enviado"> Enviado </span>
+                                <?php endif; ?>
+                                <?php if ($response['data'][0]['estado recepcion'] == 'a'): ?>
+                                    <span class="estado recepcionado"> Recepcionado </span>
+                                <?php endif; ?>
+                                <?php if ($response['data'][0]['estado recepcion'] == 'i'): ?>
+                                    <span class="estado pendienteRecepcion"> Pendiente de Recepción </span>
                                 <?php endif; ?>
                             </div>
                         </div>

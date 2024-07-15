@@ -55,10 +55,15 @@
                         <span class="estado <?= $result["estado recepcion"] == 'i' ? "pendienteRecepcion" : "recepcionado" ?> ">
                             <?= $result["estado recepcion"] == 'i' ? "Pendiente de Recepcion" : "Recepcionado" ?>
                         </span>
+                        <?php if($result["estado documento"] == 'i'): ?>
+                            <span class="finished estado mt-5">
+                                Seguimiento finalizado
+                            </span>
+                        <?php endif;?>
                     </td>
                     <td>
                         <div class="actions">
-                        <?php if ($result["estado recepcion"] == 'i'): ?>
+                        <?php if ($result["estado recepcion"] == 'i' && $result["estado documento"] == 'a'): ?>
                             <div class="action" onclick="modalCancelarEnvio(<?=$result["codEnvio"]?>)">
                                 <span class="tooltip"> Cancelar Envio <span class="triangulo"></span></span>
                                 <svg width="37" height="34" viewBox="0 0 37 34" fill="none" xmlns="http://www.w3.org/2000/svg">

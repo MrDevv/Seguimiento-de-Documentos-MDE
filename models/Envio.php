@@ -148,7 +148,8 @@ class Envio{
             "td.descripcion 'tipo documento', ".
             "CONCAT(pd.nombres, ' ',pd.apellidos) 'usuario destino', ".
             "ad.descripcion 'area destino', ".
-            "er.descripcion 'estado recepcion' ".
+            "er.descripcion 'estado recepcion', ".
+            "ed.descripcion 'estado documento' ".
             "from Recepcion r ".
             "inner join Envio e on r.codEnvio = e.codEnvio ".
             "INNER JOIN Documento d ON e.NumDocumento = d.NumDocumento ".
@@ -158,6 +159,7 @@ class Envio{
             "INNER JOIN Persona pd ON ud.codPersona = pd.codPersona ".
             "INNER JOIN Area ad ON uad.codArea = ad.codArea ".
             "INNER JOIN Estado er ON r.codEstado = er.codEstado ".
+            "INNER JOIN Estado ed ON d.codEstado = ed.codEstado ".
             "where e.codUsuarioEnvio= :codUsuarioEnvio ".
             "ORDER BY e.fechaEnvio DESC, e.horaEnvio DESC";
 

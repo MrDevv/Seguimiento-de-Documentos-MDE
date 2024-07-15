@@ -112,9 +112,9 @@
                                 </defs>
                             </svg>
                         </a>
-                            <div class="action">
-                            <span class="tooltip">Ver Detalle <span class="triangulo"></span></span>
-                            <svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <a href="<?=base_url?>envio/detalle?cod=<?=$result["codEnvio"]?>" class="action">
+                                <span class="tooltip">Ver Detalle <span class="triangulo"></span></span>
+                                <svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <g filter="url(#filter0_d_2424_29)">
                                     <rect x="4" width="28" height="26" rx="5" fill="white"/>
                                     <path d="M27.3334 3.25H8.66671C7.37987 3.25 6.33337 4.22175 6.33337 5.41667V20.5833C6.33337 21.7783 7.37987 22.75 8.66671 22.75H27.3334C28.6202 22.75 29.6667 21.7783 29.6667 20.5833V5.41667C29.6667 4.22175 28.6202 3.25 27.3334 3.25ZM8.66671 20.5833V5.41667H27.3334L27.3357 20.5833H8.66671Z" fill="black"/>
@@ -133,8 +133,7 @@
                                     </filter>
                                 </defs>
                             </svg>
-
-                        </div>
+                            </a>
                         </div>
                     </td>
                 </tr>
