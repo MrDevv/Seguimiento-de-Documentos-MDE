@@ -63,7 +63,7 @@ class UsuarioArea{
         }catch (PDOException $e){
             return [
                 'status' => 'failed',
-                'message' => 'Ocurrio un error al momento de registrar al usuario',
+                'message' => 'Ocurrio un error al cambiar el area',
                 'action' => 'registrar',
                 'module' => 'usuario',
                 'info' => $e->getMessage()

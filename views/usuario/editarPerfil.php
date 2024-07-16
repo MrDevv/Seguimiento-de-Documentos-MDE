@@ -84,20 +84,6 @@ $estados= $estado->listarEstadosHabilitadoInhabilitado();
                     </div>
                     <div class="row">
                         <div>
-                                <label for="rol">Rol:</label>
-                                <select id="rol" name="rol" required>
-                                    <?php foreach ($roles as $result):?>
-                                    <option 
-                                    value="<?=$result['codRol']?>"
-                                    <?=$responseUsuario[0]['codRol'] == $result['codRol'] ? 'selected' : ''?>
-                                    >
-                                    <?=$result['descripcion']?>
-                                </option>
-                                    
-                                    <?php endforeach; ?>
-                                </select>
-                        </div>
-                        <div>
                             <label for="contrasena">Confirmar Contraseña:</label>
                             <input 
                                 type="password" 

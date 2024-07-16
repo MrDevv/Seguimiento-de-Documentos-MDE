@@ -131,24 +131,28 @@ class Persona{
     }
 
     public function actualizarPersona(){
-        $sql = "UPDATE Persona SET nombres = :nombres, apellidos = :apellidos, telefono = :telefono, dni = :dni, codEstado = :codEstado WHERE CodPersona = :codPersona";
+        $sql = "UPDATE Persona SET nombres = :nombres, apellidos = :apellidos, telefono = :telefono, dni = :dni WHERE CodPersona = :codPersona";
 
         try {
-            $stmt = DataBase::connect()->prepare($sql);
+            $db = DataBase::connect();
+            $stmt =  $db->prepare($sql);
 
             $stmt->bindParam(":codPersona", $this->codPersona, PDO::PARAM_STR);
             $stmt->bindParam(":nombres", $this->nombres, PDO::PARAM_STR);
             $stmt->bindParam(":apellidos", $this->apellidos, PDO::PARAM_STR);
             $stmt->bindParam(":telefono", $this->telefono, PDO::PARAM_STR);
             $stmt->bindParam(":dni", $this->dni, PDO::PARAM_STR);
-            $stmt->bindParam(":codEstado", $this->codEstado, PDO::PARAM_STR);
 
             $stmt->execute();
+
+            $lastInsertId = $db->lastInsertId();
 
             return [
                 'status' => 'success',
                 'message' => 'Persona actualizada',
-                'action' => 'actualizar'
+                'action' => 'actualizar',
+                'module' => "persona",
+                'info' => ['id' => $lastInsertId]
             ];
 
         }catch (PDOException $e){
@@ -156,6 +160,7 @@ class Persona{
                 'status' => 'failed',
                 'message' => 'Ocurrio un error al momento de actualizar a la persona',
                 'action' => 'actualizar',
+                'module' => "persona",
                 'info' => $e->getMessage()
             ];
         }

@@ -42,7 +42,13 @@ $estados= $estado->listarEstadosHabilitadoInhabilitado();
                     <div class="row">
                         <div>
                             <label for="usuario">Usuario:</label>
-                            <input type="text" id="usuario" name="usuario" readonly required>
+                            <input 
+                                class="disabled"
+                                type="text" 
+                                id="usuario" 
+                                name="usuario" 
+                                readonly required
+                            >
                         </div>
                         <div>
                             <label for="contrasena">Contraseña:</label>
