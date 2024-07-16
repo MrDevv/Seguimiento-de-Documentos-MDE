@@ -53,6 +53,25 @@ class UsuarioController{
             $_SESSION['autenticado'] = true;
             header('Location:'.base_url);
         }
+
+    }
+
+    public function  editarPerfil() {
+        if (isset($_GET["cod"])){
+            $personaObj = new Persona();
+            $usuarioObj = new Usuario();
+
+            $codUsuario = $_GET['cod'];
+            $responseUsuario = $this->buscar($codUsuario);
+
+            $personaObj->setCodPersona($responseUsuario[0]['codPersona']);
+            $responsePersona = $personaObj->buscarPersona();
+
+            require_once "views/usuario/editarPerfil.php";
+        }else{
+//            Redirecciona a la vista de listado
+            $this->redirect();
+        }
     }
 
     public function  logout(){
@@ -64,29 +83,13 @@ class UsuarioController{
         header('Location:'.base_url);
     }
 
+    // metodo para llamar al formulario para registrar un usuario
     public function crear(){  
         $areaObj= new Area();
         $areas=$areaObj->listarArea();
         $rolObj= new Rol();
         $roles=$rolObj->listarRoles();
         require_once "views/usuario/registro.php";
-    }
-
-    public function editar(){
-        if (isset($_GET["cod"])){
-            $codUsuario = $_GET['cod'];
-    
-            $response = $this->buscar($codUsuario);
-            $rolObj= new Rol();
-            $roles=$rolObj->listarRoles();
-
- //     
-            require_once "views/usuario/editarUsuario.php";
-        }else{
-//            Redirecciona a la vista de listado
-            $this->redirect();
-        }
-        
     }
 
     function buscar($codUsuario){
@@ -114,16 +117,15 @@ class UsuarioController{
 
         $areaUsuarioObj = new UsuarioArea();
         $areaUsuarioObj->setCodUsuarioArea($codUsuario);
-        //$areaUsuarioObj->setArea($codArea);
-        //$areaUsuarioObj->setEstado((int)Estado::getIdEstadoInactivo());
         
-        //var_dump($areaUsuarioObj);
-        //exit();
-        $response = $areaUsuarioObj->actualizarEstado((int)Estado::getIdEstadoInactivo());
-        //$response = $areaUsuarioObj->actualizarArea((int)Estado::getIdEstadoInactivo());
-
-        //$areaUsuarioObj->setUsuario($codUsuario);
-        //$areaUsuarioObj->setArea($area);
+        $areaUsuarioObj->actualizarEstado((int)Estado::getIdEstadoInactivo());
+        $areaUsuarioObj->setArea($area);
+        $areaUsuarioObj->setEstado((int)Estado::getIdEstadoActivo());
+        $areaUsuarioObj->setUsuario($codUsuario);
+        $response= $areaUsuarioObj->registrarUsuarioArea();
+        var_dump($response);
+        exit;
+        
 
         $_SESSION['response'] = $response;
         require_once "views/modals/alerta.php";
@@ -169,6 +171,95 @@ class UsuarioController{
         require_once "views/usuario/listarUsuario.php";
     }
 
+    // Metodo para mostrar el formulario de editar un usuario
+    public function editar(){
+        if (isset($_GET["cod"])){
+            $personaObj = new Persona();
+            $usuarioObj = new Usuario();
+
+            $codUsuario = $_GET['cod'];
+            $responseUsuario = $this->buscar($codUsuario);
+
+            $personaObj->setCodPersona($responseUsuario[0]['codPersona']);
+            $responsePersona = $personaObj->buscarPersona();
+
+            $rolObj= new Rol();
+            $roles=$rolObj->listarRoles();
+
+            require_once "views/usuario/editarUsuario.php";
+        }else{
+//            Redirecciona a la vista de listado
+            $this->redirect();
+        }
+    }
+
+    // Metodo para actualizar un usuario en la base de datos
+    public function actualizarUsuario(){
+        if (isset($_POST)){
+                $personaObj = new Persona();
+                $codPersona = isset($_POST['codPersona']) ? $_POST['codPersona'] : false;
+                $nombres = isset($_POST['nombre']) ? $_POST['nombre'] : false;
+                $apellidos = isset($_POST['apellidos']) ? $_POST['apellidos'] : false;
+                $telefono = isset($_POST['telefono']) ? $_POST['telefono'] : false;
+                $dni = isset($_POST['dni']) ? $_POST['dni'] : false;
+                
+
+                if ($codPersona && $nombres && $apellidos && $telefono && $dni){
+                    $personaObj->setCodPersona($codPersona);
+                    $personaObj->setNombres($nombres);
+                    $personaObj->setApellidos($apellidos);
+                    $personaObj->setTelefono($telefono);
+                    $personaObj->setDni($dni);
+
+                    $response = $personaObj->actualizarPersona();
+                    $idPersona = $response['info']['id'];
+                    
+ 
+                }else{
+                    echo "campos incompletos persona";
+                }
+
+                $usuarioObj = new Usuario();
+                $codUsuario = isset($_POST['codUsuario']) ? $_POST['codUsuario'] : false;
+                $usuario = isset($_POST['usuario']) ? $_POST['usuario'] : false;
+                $rol = isset($_POST['rol']) ? $_POST['rol'] : false;
+                $contrasena = isset($_POST['new_password']) ? $_POST['new_password'] : false;
+
+                $nuevaContrasena = isset($_POST['new_password']) ? $_POST['new_password'] : false;
+                $confirmarContrasena = isset($_POST['confirm_password']) ? $_POST['confirm_password'] : false;
+       
+                if ($nuevaContrasena != $confirmarContrasena) {
+                    $response['status'] = 'warning';
+                    $response['message'] = 'Las contraseñas no coinciden';
+                    $response['action'] = 'actualizar';
+                    $response['module'] = 'usuario';
+                    $_SESSION['response'] = $response;
+                    require_once "views/modals/alerta.php";
+                    exit();
+                }
+
+                if ($codUsuario && $usuario && $rol && $contrasena){
+                    $usuarioObj->setCodUsuario($codUsuario);
+                    $usuarioObj->setNombreUsuario($usuario);
+                    $usuarioObj->setPassword($contrasena);
+                    $usuarioObj->setRol($rol);
+                   
+
+                    $response = $usuarioObj->actualizarUsuario();
+                    $idUsuario = $response['data']['id'];
+ 
+                    $_SESSION['response'] = $response;
+                    require_once "views/modals/alerta.php";
+                }else{
+                    echo "campos incompletos de usuario";
+                }
+        }else{
+//            Redirecciona a la vista de listado
+            $this->redirect();
+        }
+    }
+
+//   Metodo para registrar un usuario en la bd
     public function registrarUsuario(){
         if (isset($_POST)){
             $usuarioObj = new Usuario();
@@ -266,3 +357,4 @@ class UsuarioController{
 
     
 }
+

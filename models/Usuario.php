@@ -239,23 +239,28 @@ class Usuario {
     }
 
     public function actualizarUsuario(){
-        $sql = "UPDATE Usuario SET nombreUsuario = :nombreUsuario, rol = :rol, password = :password, codEstado = :codEstado WHERE CodUsuario = :codUsuario";
+        $sql = "UPDATE Usuario SET nombreUsuario = :nombreUsuario, codRol = :rol, password = :password WHERE CodUsuario = :codUsuario";
 
         try {
+            $db = DataBase::connect();
             $stmt = DataBase::connect()->prepare($sql);
 
-            $stmt->bindParam(":nombreUsuario", $this->nombreUsusario, PDO::PARAM_STR);
+            $stmt->bindParam(":nombreUsuario", $this->nombreUsuario, PDO::PARAM_STR);
             $stmt->bindParam(":rol", $this->rol, PDO::PARAM_INT);
             $stmt->bindParam(":password", $this->password, PDO::PARAM_INT);
-            $stmt->bindParam(":codEstado", $this->estado, PDO::PARAM_INT);
             $stmt->bindParam(":codUsuario", $this->codUsuario, PDO::PARAM_INT);
 
             $stmt->execute();
 
+            $lastInsertId = $db->lastInsertId();
+
             return [
                 'status' => 'success',
                 'message' => 'Usuario actualizado',
-                'action' => 'actualizar'
+                'action' => 'actualizar',
+                'module' => 'usuario',
+                'data' => ['id' => $lastInsertId],
+                'info' => ''
             ];
 
         }catch (PDOException $e){
@@ -263,6 +268,8 @@ class Usuario {
                 'status' => 'failed',
                 'message' => 'Ocurrio un error al momento de actualizar al usuario',
                 'action' => 'actualizar',
+                'module' => 'usuario',
+                'data' => [],
                 'info' => $e->getMessage()
             ];
         }

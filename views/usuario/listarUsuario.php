@@ -9,6 +9,7 @@
             <tr>
                 <th>CodUsuario</th>
                 <th>Usuario</th>
+                <th>Rol</th>
                 <th>Nombres</th>
                 <th>Apellidos</th>
                 <th>DNI</th>
@@ -25,6 +26,7 @@
                     <!-- mapear los campos del objeto -->
                     <td> <?=$result["codUsuarioArea"]?> </td>
                     <td> <?=$result["usuario"]?> </td>
+                    <td> <?=$result["rol"]?> </td>
                     <td> <?=$result["nombres"]?> </td>
                     <td> <?=$result["apellidos"]?> </td>
                     <td> <?=$result["dni"]?> </td>
