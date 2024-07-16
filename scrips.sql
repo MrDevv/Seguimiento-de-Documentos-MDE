@@ -2,36 +2,48 @@
 
 -- Estados del sistema
 insert into Estado(descripcion) values('n'), ('a'), ('i'), ('e');
-
+go
 
 -- Roles del sistema
 insert into Rol(descripcion) values('administrador'), ('usuario');
+go
 
 -- Movimientos del sistema
-insert into Movimiento(descripcion) values('deducción');
+insert into Movimiento(descripcion) values('Solicitar'),('Conocimientos  y Fines'),('Opinar y/o Informar'), ('Inspección Ocular'), ('Adjuntar Antecedentes');
+go
 
 -- Areas del Sistema
-insert into Area(descripcion) values('rentas'),('recursos humanos'),('GAT');
+insert into Area(descripcion) values('rentas'),('recursos humanos'),('GAT'), ('Informatica y Sistemas');
+go
 
 -- Tipo Documento
-insert into TipoDocumento(descripcion) values('memorando'),('carta'),('oficio'),('denuncia')
+insert into TipoDocumento(descripcion) values('solicitud'),('memorando'),('carta'),('oficio'),('denuncia')
+go
 
 -- Personas
 insert into Persona (nombres, apellidos, telefono, dni, codEstado)
 values 
+('Jose Bernardo', 'Castro Gonzales', '934003123', '71830493',2),
 ('Larri Rodrigo', 'Estrada Leon', '949839321', '78592323', 2),
-('Miguel Angel', 'Vega Perez', '958443234', '74293456', 2);
-
+('Miguel Angel', 'Vega Perez', '958443234', '74293456', 2),
+('Maria Fernanda', 'Paredes Rojas', '993441333', '71839412', 2);
+go
 
 insert into Usuario (nombreUsuario, password, codRol, codPersona, codEstado)
 values 
-('lestradal', 'admin123', 1, 1, 2),
-('mvegap', 'admin123', 1, 2, 2)
+('jcastrog', 'admin', 1, 1, 2),
+('lestradal', '123', 2, 2, 2),
+('mvegap', '123', 2, 3, 2),
+('mparedesr', '123', 2, 4, 2)
+go
 
 insert into UsuarioArea (codUsuario, codArea, codEstado)
 values
-(1, 1, 2),
-(2, 2, 2)
+(1, 4, 2),
+(2, 4, 2),
+(3, 4, 2),
+(4, 2, 2)
+go
 
 
 
@@ -162,14 +174,7 @@ select * from Usuario
 select * from Documento
 
 -- autenticar usuario
-select ua.codUsuario, u.nombreUsuario, CONCAT(p.nombres, p.apellidos) 'nombres',
-r.descripcion 'rol', a.descripcion 'area'
-from Usuario u
-inner join Rol r on u.codRol = r.codRol
-inner join UsuarioArea ua on u.codUsuario = ua.codUsuario
-inner join Area a on ua.codArea = a.codArea
-inner join Persona p on u.codPersona = p.codPersona
-where u.nombreUsuario = 'mvegap' and u.password = 'admin123'
+
 
 -- listar usuarios del sistema
 select u.codUsuario, u.nombreUsuario 'usuario', e.descripcion 'estado',

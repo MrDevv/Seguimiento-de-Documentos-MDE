@@ -105,7 +105,7 @@ class UsuarioArea{
                         inner join Area a on ua.codArea = a.codArea
                         inner join Usuario u on ua.codUsuario = u.codUsuario
                         inner join Persona p on u.codPersona = p.codPersona 
-                        where a.codArea = :codArea and ua.codUsuarioArea != :codUsuarioArea ";
+                        where a.codArea = :codArea and ua.codUsuario != :codUsuarioArea and ua.codEstado = 2";
 
         try {
             $stmt = DataBase::connect()->prepare($sql);

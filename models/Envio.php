@@ -154,7 +154,7 @@ class Envio{
             "inner join Envio e on r.codEnvio = e.codEnvio ".
             "INNER JOIN Documento d ON e.NumDocumento = d.NumDocumento ".
             "INNER JOIN TipoDocumento td ON d.codTipoDocumento = td.codTipoDocumento ".
-            "INNER JOIN UsuarioArea uad ON e.codUsuarioDestino = uad.codUsuario ".
+            "INNER JOIN UsuarioArea uad ON e.codUsuarioDestino = uad.codUsuarioArea ".
             "INNER JOIN Usuario ud ON uad.codUsuario = ud.codUsuario ".
             "INNER JOIN Persona pd ON ud.codPersona = pd.codPersona ".
             "INNER JOIN Area ad ON uad.codArea = ad.codArea ".

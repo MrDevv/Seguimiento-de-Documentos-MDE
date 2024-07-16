@@ -3,6 +3,7 @@
     <header class="header">
         <h1>Sistema de seguimiento de documentos internos y externos</h1>
         <div class="container_userDetails_logout">
+<!--            --><?php //var_dump($_SESSION['user']); ?>
             <div class="userDetails">
                 <div>
                     <span> <?php echo $_SESSION['user']['nombres'] ?> <span class="username">(<?php echo trim($_SESSION['user']['nombreUsuario'])?>)</span> </span>

@@ -91,7 +91,7 @@ class EnvioController{
             $this->envioModel->setCodMovimiento($movimiento);
             $this->envioModel->setNumDocumento($numDocumento);
             $this->envioModel->setCodUsuarioAreaDestino($usuarioAreaDestino);
-            $this->envioModel->setCodUsuarioAreaEnvio((int) $_SESSION['user']['codUsuario']);
+            $this->envioModel->setCodUsuarioAreaEnvio((int) $_SESSION['user']['codUsuarioArea']);
 
             $response = $this->envioModel->registrarEnvio();
             $this->documentoController->iniciarSeguimiento($numDocumento);
@@ -118,7 +118,7 @@ class EnvioController{
     // accion para obtener los documentos enviados
     public function enviados(){
         $this->envioModel->setCodEstado(Estado::getIdEstadoInactivo());
-        $this->envioModel->setCodUsuarioAreaEnvio((int) $_SESSION['user']['codUsuario']);
+        $this->envioModel->setCodUsuarioAreaEnvio((int) $_SESSION['user']['codUsuarioArea']);
         $response = $this->envioModel->obtenerDocumentosEnviados();
 
         require_once "views/documentos/enviados.php";

@@ -4,23 +4,25 @@
 
 -- sp para listar los documentos registrados
 CREATE PROCEDURE sp_listarDocumentos(
-	@codUsuario INT = NULL
+	@codAreaUsuario INT = NULL
 )
 AS 
 BEGIN
 	SET NOCOUNT ON;
 
 	SELECT d.NumDocumento, tp.descripcion 'tipo documento', d.asunto, d.folios, d.fechaRegistro,
-                CONCAT(p.nombres ,' ',p.apellidos) 'usuario registrador', e.descripcion 'estado'
+                CONCAT(p.nombres ,' ',p.apellidos) 'usuario registrador', a.descripcion 'area', e.descripcion 'estado'
                 from Documento d
                 inner join TipoDocumento tp on d.codTipoDocumento = tp.codTipoDocumento
-                inner join UsuarioArea ua on d.codUsuario = ua.codUsuario
+                inner join UsuarioArea ua on d.codUsuario = ua.codUsuarioArea
+				inner join Area a on ua.codArea  = a.codArea
                 inner join Usuario u on ua.codUsuario = u.codUsuario
                 inner join Persona p on u.codPersona = p.codPersona
                 inner join Estado e on d.codEstado = e.codEstado
-                where @codUsuario IS NULL OR ua.codUsuario = @codUsuario
+                where @codAreaUsuario IS NULL OR ua.codUsuarioArea = @codAreaUsuario
                 order by d.fechaRegistro DESC, d.horaRegistro DESC
 END
+GO
 
 ---------------------------------------------------------------------------
 
@@ -53,13 +55,13 @@ AS BEGIN
 				-- Datos del tipo documento
 				INNER JOIN TipoDocumento td ON d.codTipoDocumento = td.codTipoDocumento
 				-- Usuario origen
-				INNER JOIN UsuarioArea uae ON e.codUsuarioEnvio = uae.codUsuario
+				INNER JOIN UsuarioArea uae ON e.codUsuarioEnvio = uae.codUsuarioArea
 				INNER JOIN Usuario ue ON uae.codUsuario = ue.codUsuario
 				INNER JOIN Persona pe ON ue.codPersona = pe.codPersona
 				-- 햞ea origen 
 				INNER JOIN Area ae ON uae.codArea = ae.codArea
 				-- Usuario destino
-				INNER JOIN UsuarioArea uad ON e.codUsuarioDestino = uad.codUsuario
+				INNER JOIN UsuarioArea uad ON e.codUsuarioDestino = uad.codUsuarioArea
 				INNER JOIN Usuario ud ON uad.codUsuario = ud.codUsuario
 				INNER JOIN Persona pd ON ud.codPersona = pd.codPersona
 				-- 햞ea destino 
@@ -69,6 +71,7 @@ AS BEGIN
 				where e.NumDocumento = @NumDocumento
 				ORDER BY e.fechaEnvio ASC, e.horaEnvio ASC
 END
+GO
 
 ---------------------------------------------------------------------------
 
@@ -102,6 +105,7 @@ AS BEGIN
 		UPDATE Documento SET codEstado = @codEstado WHERE NumDocumento = @NumDocumento;
 	END
 END
+GO
 
 -----------------------------------------------------------------------------------------
 
@@ -136,13 +140,13 @@ BEGIN
 		INNER JOIN Documento d ON e.NumDocumento = d.NumDocumento
 		INNER JOIN TipoDocumento td ON d.codTipoDocumento = td.codTipoDocumento
 		-- Usuario origen
-		INNER JOIN UsuarioArea uae ON e.codUsuarioEnvio = uae.codUsuario
+		INNER JOIN UsuarioArea uae ON e.codUsuarioEnvio = uae.codUsuarioArea
 		INNER JOIN Usuario ue ON uae.codUsuario = ue.codUsuario
 		INNER JOIN Persona pe ON ue.codPersona = pe.codPersona
 		-- 햞ea origen 
 		INNER JOIN Area ae ON uae.codArea = ae.codArea
 		-- Usuario destino
-		INNER JOIN UsuarioArea uad ON e.codUsuarioDestino = uad.codUsuario
+		INNER JOIN UsuarioArea uad ON e.codUsuarioDestino = uad.codUsuarioArea
 		INNER JOIN Usuario ud ON uad.codUsuario = ud.codUsuario
 		INNER JOIN Persona pd ON ud.codPersona = pd.codPersona
 		-- 햞ea destino 
@@ -152,6 +156,7 @@ BEGIN
 		WHERE r.codUsuarioRecepcion = @codUsuarioArea AND r.codEstado = @CodEstadoActivo
 		ORDER BY e.fechaEnvio DESC, e.horaEnvio DESC
 END
+GO
 -----------------------------------------------------------------------------------------
 
 -- listar los documentos pendientes de recepcion por un usuario
@@ -183,11 +188,11 @@ BEGIN
         INNER JOIN Estado er ON r.codEstado = er.codEstado
         INNER JOIN Documento d ON e.NumDocumento = d.NumDocumento
         INNER JOIN TipoDocumento td ON d.codTipoDocumento = td.codTipoDocumento
-        INNER JOIN UsuarioArea uae ON e.codUsuarioEnvio = uae.codUsuario
+        INNER JOIN UsuarioArea uae ON e.codUsuarioEnvio = uae.codUsuarioArea
         INNER JOIN Usuario ue ON uae.codUsuario = ue.codUsuario 
         INNER JOIN Persona pe ON ue.codPersona = pe.codPersona
         INNER JOIN Area ae ON uae.codArea = ae.codArea 
-        INNER JOIN UsuarioArea uad ON e.codUsuarioDestino = uad.codUsuario 
+        INNER JOIN UsuarioArea uad ON e.codUsuarioDestino = uad.codUsuarioArea 
         INNER JOIN Usuario ud ON uad.codUsuario = ud.codUsuario 
         INNER JOIN Persona pd ON ud.codPersona = pd.codPersona
         INNER JOIN Area ad ON uad.codArea = ad.codArea				
@@ -195,6 +200,7 @@ BEGIN
         WHERE r.codUsuarioRecepcion = @codUsuarioArea AND r.codEstado = @CodEstadoInactivo
         ORDER BY e.fechaEnvio DESC, e.horaEnvio DESC
 END
+GO
 -----------------------------------------------------------------------------------------
 
 -- ver detalle de un envio
@@ -228,7 +234,7 @@ BEGIN
 				-- Estado del documento
 				INNER JOIN Estado ed ON d.codEstado= ed.codEstado
 				-- Usuario origen
-				INNER JOIN UsuarioArea uae ON e.codUsuarioEnvio = uae.codUsuario
+				INNER JOIN UsuarioArea uae ON e.codUsuarioEnvio = uae.codUsuarioArea
 				INNER JOIN Usuario ue ON uae.codUsuario = ue.codUsuario
 				INNER JOIN Persona pe ON ue.codPersona = pe.codPersona
 				-- Estado del envio
@@ -236,7 +242,7 @@ BEGIN
 				-- 햞ea origen 
 				INNER JOIN Area ae ON uae.codArea = ae.codArea
 				-- Usuario destino
-				INNER JOIN UsuarioArea uad ON e.codUsuarioDestino = uad.codUsuario
+				INNER JOIN UsuarioArea uad ON e.codUsuarioDestino = uad.codUsuarioArea
 				INNER JOIN Usuario ud ON uad.codUsuario = ud.codUsuario
 				INNER JOIN Persona pd ON ud.codPersona = pd.codPersona
 				-- 햞ea destino 
@@ -245,6 +251,7 @@ BEGIN
 				INNER JOIN Estado er ON r.codEstado = er.codEstado			
 				where e.codEnvio = @codEnvio
 END
+GO
 
 -----------------------------------------------------------------------------------------
 
@@ -259,3 +266,28 @@ AS BEGIN
 
 	UPDATE Recepcion SET codEstado = @codEstadoInactivo where codRecepcion = @codRecepcion;
 END
+GO
+
+-------------------------------------------------------------------------------------------
+
+-- autenticar usuario
+CREATE PROCEDURE sp_autenticarUsuario(
+	@nombreUsuario VARCHAR(15), @password VARCHAR(20)
+)
+AS
+BEGIN
+	DECLARE @codEstadoActivoUsuario INT
+
+	SELECT @codEstadoActivoUsuario = codEstado FROM Estado WHERE descripcion = 'a';
+
+	SELECT ua.codUsuarioArea ,ua.codUsuario, u.nombreUsuario, CONCAT(p.nombres, ' ',p.apellidos) 'nombres',
+	r.descripcion 'rol', a.descripcion 'area', e.descripcion 'estado usuario'
+	FROM UsuarioArea ua
+	INNER JOIN Usuario u ON u.codUsuario = ua.codUsuario
+	INNER JOIN Rol r ON u.codRol = r.codRol
+	INNER JOIN Area a ON ua.codArea = a.codArea
+	INNER JOIN Persona p ON u.codPersona = p.codPersona
+	INNER JOIN Estado e ON ua.codEstado = e.codEstado
+	WHERE u.nombreUsuario = @nombreUsuario AND u.password = @password AND ua.codEstado = @codEstadoActivoUsuario
+END
+GO

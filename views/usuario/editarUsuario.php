@@ -17,6 +17,7 @@ $estados= $estado->listarEstadosHabilitadoInhabilitado();
                                     name="codPersona"
                                     value="<?=$responsePersona[0]['codPersona'] ?>" 
                                     required
+                                    hidden
                             >
                         <div>
                             <label for="nombre">Nombre:</label>
@@ -57,7 +58,8 @@ $estados= $estado->listarEstadosHabilitadoInhabilitado();
                                     type="text"
                                     id="codUsuario"
                                     name="codUsuario"
-                                    value="<?=$responseUsuario[0]['codUsuario'] ?>" 
+                                    value="<?=$responseUsuario[0]['codUsuario'] ?>"
+                                    hidden
                                     required
                             >
                         <div>

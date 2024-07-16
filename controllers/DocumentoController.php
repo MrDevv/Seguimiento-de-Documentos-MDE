@@ -28,7 +28,7 @@ class DocumentoController{
 //            $response = $documentoObj->listarDocumentosAdministrador();
             $response = $documentoObj->listarDocumentos();
         }else if(trim($_SESSION['user']['rol']) == 'usuario'){
-            $documentoObj->setUsuario((int) $_SESSION['user']['codUsuario']);
+            $documentoObj->setUsuario((int) $_SESSION['user']['codUsuarioArea']);
             $response = $documentoObj->listarDocumentos();
         }
 
@@ -74,7 +74,7 @@ class DocumentoController{
                 $tipoDocumento = isset($_POST['tipoDocumento']) ? trim($_POST['tipoDocumento']) : false;
                 $fechaRegistro = $this->obtenerFechaActual();
                 $horaRegistro = $this->obtenerHoraActual();
-                $usuario = $_SESSION['user']['codUsuario'];
+                $usuario = $_SESSION['user']['codUsuarioArea'];
                 $estado = $estadoOjb->getIdEstadoNuevo();
 
                 if ($nroDocumento && $asunto && $folios && $tipoDocumento && $fechaRegistro && $usuario && $estado){

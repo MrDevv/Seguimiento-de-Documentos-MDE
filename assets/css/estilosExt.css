@@ -414,3 +414,58 @@
     display: flex;
     align-items: center;
 }
+
+/*cambiar area usuario formulario*/
+.containerCambiarAreaUsuario{
+    width: 600px;
+    max-width: 600px;
+    height: fit-content;
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 70px;
+}
+
+.containerCambiarAreaUsuario{
+    margin-top: 0;
+    width: 400px;
+    max-width: 400px;
+
+}
+
+.containerCambiarAreaUsuario .body form{
+    display: flex;
+    gap: 20px;
+}
+
+.containerCambiarAreaUsuario h2{
+    margin-bottom: 20px;
+    background-color: var(--bg-color-principal);
+    padding: 10px;
+    color: #fff;
+    font-size: 17px;
+}
+
+.containerCambiarAreaUsuario input[type="submit"],
+.containerCambiarAreaUsuario a{
+    cursor: pointer;
+    background-color: var(--bg-color-principal);
+    color: #fff;
+    width: 30%;
+    margin: auto;
+    margin-bottom: 10px;
+}
+
+.containerCambiarAreaUsuario .btnCambiarAreaUsuario a{
+    display: block;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #fff;
+    text-align: center;
+    border: 1px solid #000;
+    color: #000;
+}
+
+.containerCambiarAreaUsuario .btnCambiarAreaUsuario{
+    display: flex;
+}

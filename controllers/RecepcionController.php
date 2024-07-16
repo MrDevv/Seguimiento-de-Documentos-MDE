@@ -34,7 +34,7 @@ class RecepcionController{
     }
 
     public function pendientesDeRecepcion(){
-        $response = $this->recepcionModel->getDocumentosPendientesRecepcion((int) $_SESSION['user']['codUsuario']);
+        $response = $this->recepcionModel->getDocumentosPendientesRecepcion((int) $_SESSION['user']['codUsuarioArea']);
 
         if ($response['status'] == 'failed'){
             $_SESSION['response'] = $response;
@@ -46,7 +46,7 @@ class RecepcionController{
     }
 
     public function recepcionados(){
-        $response = $this->recepcionModel->listarDocumentosRecepcionados((int) $_SESSION['user']['codUsuario']);
+        $response = $this->recepcionModel->listarDocumentosRecepcionados((int) $_SESSION['user']['codUsuarioArea']);
 
         if ($response['status'] == 'failed'){
             $_SESSION['response'] = $response;

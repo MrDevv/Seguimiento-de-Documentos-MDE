@@ -20,6 +20,7 @@
                 <th>Folios</th>
                 <th>Fecha Registro</th>
                 <th>Usuario Registrador</th>
+                <th>Area</th>
                 <th>Estado</th>
                 <th>Acciones</th>
             </tr>
@@ -40,6 +41,7 @@
                     <td> <?=$result["folios"]?> </td>
                     <td> <?=$result["fechaRegistro"]?> </td>
                     <td> <?=$result["usuario registrador"]?> </td>
+                    <td> <?=$result["area"]?> </td>
                     <td>
                         <span
                                 class="estado

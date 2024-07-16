@@ -19,20 +19,6 @@ class UsuarioController{
         require_once 'views/login/index.php';
     }
 
-    public function cambiarAreaUsuario(){
-        if (isset($_GET["cod"])){
-            $codUsuario = $_GET['cod'];
-
-            $areaObj= new Area();
-            $areas=$areaObj->listarArea();
-            require_once "views/usuario/cambiarAreaUsuario.php";
-
-        }else{
-//            Redirecciona a la vista de listado
-            $this->redirect();
-        }
-    }
-
     public function login(){
         if ($_POST){
             $username = trim($_POST['username']);
@@ -106,26 +92,41 @@ class UsuarioController{
         return $response;
     }
 
+    public function cambiarAreaUsuario(){
+        if (isset($_GET["cod"])){
+            $codUsuarioArea = $_GET['cod'];
+            $codUsuario = $_GET['user'];
+
+            $areaObj= new Area();
+            $areas=$areaObj->listarArea();
+            require_once "views/usuario/cambiarAreaUsuario.php";
+
+        }else{
+//            Redirecciona a la vista de listado
+            $this->redirect();
+        }
+    }
+
     public function actualizarAreaUsuario(){
+        $codUsuarioArea = isset($_POST['codUsuarioArea']) ? (int) $_POST['codUsuarioArea'] : false;
         $codUsuario = isset($_POST['codUsuario']) ? (int) $_POST['codUsuario'] : false;
         $area = isset($_POST['area']) ? (int) $_POST['area'] : false;
 
-        if (!$codUsuario || !$area){
+        if (!$codUsuarioArea || !$area){
             $this->redirect();
             exit();
         }
 
         $areaUsuarioObj = new UsuarioArea();
-        $areaUsuarioObj->setCodUsuarioArea($codUsuario);
-        
+        $areaUsuarioObj->setCodUsuarioArea($codUsuarioArea);
         $areaUsuarioObj->actualizarEstado((int)Estado::getIdEstadoInactivo());
+
+
         $areaUsuarioObj->setArea($area);
         $areaUsuarioObj->setEstado((int)Estado::getIdEstadoActivo());
         $areaUsuarioObj->setUsuario($codUsuario);
+
         $response= $areaUsuarioObj->registrarUsuarioArea();
-        var_dump($response);
-        exit;
-        
 
         $_SESSION['response'] = $response;
         require_once "views/modals/alerta.php";
