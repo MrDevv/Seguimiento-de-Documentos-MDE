@@ -22,9 +22,6 @@ BEGIN
                 order by d.fechaRegistro DESC, d.horaRegistro DESC
 END
 
-
-EXEC sp_listarDocumentos @codUsuario = 4
-
 ---------------------------------------------------------------------------
 
 -- listar el seguimiento de un documento
@@ -73,9 +70,6 @@ AS BEGIN
 				ORDER BY e.fechaEnvio ASC, e.horaEnvio ASC
 END
 
-
-EXEC sp_verSeguimientoDocumento @NumDocumento = '9013';
-
 ---------------------------------------------------------------------------
 
 -- cancelar envio
@@ -112,7 +106,7 @@ END
 -----------------------------------------------------------------------------------------
 
 -- listar los documentos recepcionados por un usuario
-ALTER PROCEDURE sp_listarDocumentosRecepcionados(
+CREATE PROCEDURE sp_listarDocumentosRecepcionados(
 	@codUsuarioArea INT
 )
 AS
@@ -158,9 +152,6 @@ BEGIN
 		WHERE r.codUsuarioRecepcion = @codUsuarioArea AND r.codEstado = @CodEstadoActivo
 		ORDER BY e.fechaEnvio DESC, e.horaEnvio DESC
 END
-
-EXECUTE sp_listarDocumentosRecepcionados 1
-
 -----------------------------------------------------------------------------------------
 
 -- listar los documentos pendientes de recepcion por un usuario
@@ -204,9 +195,9 @@ BEGIN
         WHERE r.codUsuarioRecepcion = @codUsuarioArea AND r.codEstado = @CodEstadoInactivo
         ORDER BY e.fechaEnvio DESC, e.horaEnvio DESC
 END
+-----------------------------------------------------------------------------------------
 
-EXECUTE sp_listarDocumentosPendientesRecepcion 2
-
+-- ver detalle de un envio
 CREATE PROCEDURE sp_verDetalleEnvio(
 	@codEnvio INT
 )
@@ -255,4 +246,16 @@ BEGIN
 				where e.codEnvio = @codEnvio
 END
 
-EXECUTE sp_verDetalleEnvio 20
+-----------------------------------------------------------------------------------------
+
+-- cancelar envio
+CREATE PROCEDURE sp_cancelarRecepcion(
+	@codRecepcion INT
+)
+AS BEGIN
+	DECLARE @codEstadoInactivo INT;
+
+	SELECT @codEstadoInactivo = codEstado FROM Estado WHERE descripcion = 'i';
+
+	UPDATE Recepcion SET codEstado = @codEstadoInactivo where codRecepcion = @codRecepcion;
+END
