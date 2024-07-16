@@ -91,6 +91,29 @@
                             </svg>
                         </a>
                         <?php endif; ?>
+                        <?php if ($result["estado recepcion"] == 'a' && $result["estado documento"] == 'a'): ?>
+                            <div class="action" onclick="modalCancelarRecepcion(<?=$result["codRecepcion"]?>)">
+                                <span class="tooltip"> Cancelar Recepción <span class="triangulo"></span></span>
+                                <svg width="37" height="34" viewBox="0 0 37 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g filter="url(#filter0_d_2851_129)">
+                                        <rect x="2" width="31" height="26" rx="5" fill="#F8F8F8"/>
+                                        <path d="M14.4 18L18 14.4L21.6 18L23 16.6L19.4 13L23 9.4L21.6 8L18 11.6L14.4 8L13 9.4L16.6 13L13 16.6L14.4 18ZM18 23C16.6167 23 15.3167 22.7373 14.1 22.212C12.8833 21.6867 11.825 20.9743 10.925 20.075C10.025 19.1757 9.31267 18.1173 8.788 16.9C8.26333 15.6827 8.00067 14.3827 8 13C7.99933 11.6173 8.262 10.3173 8.788 9.1C9.314 7.88267 10.0263 6.82433 10.925 5.925C11.8237 5.02567 12.882 4.31333 14.1 3.788C15.318 3.26267 16.618 3 18 3C19.382 3 20.682 3.26267 21.9 3.788C23.118 4.31333 24.1763 5.02567 25.075 5.925C25.9737 6.82433 26.6863 7.88267 27.213 9.1C27.7397 10.3173 28.002 11.6173 28 13C27.998 14.3827 27.7353 15.6827 27.212 16.9C26.6887 18.1173 25.9763 19.1757 25.075 20.075C24.1737 20.9743 23.1153 21.687 21.9 22.213C20.6847 22.739 19.3847 23.0013 18 23Z" fill="black"/>
+                                    </g>
+                                    <defs>
+                                        <filter id="filter0_d_2851_129" x="-2" y="0" width="39" height="34" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                                            <feOffset dy="4"/>
+                                            <feGaussianBlur stdDeviation="2"/>
+                                            <feComposite in2="hardAlpha" operator="out"/>
+                                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+                                            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2851_129"/>
+                                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2851_129" result="shape"/>
+                                        </filter>
+                                    </defs>
+                                </svg>
+                            </div>
+                        <?php endif; ?>
                             <a href="<?=base_url?>documento/seguimiento?doc=<?=$result["NumDocumento"]?>" class="action">
                             <span class="tooltip">Ver Seguimiento <span class="triangulo"></span></span>
                             <svg width="39" height="34" viewBox="0 0 39 34" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -257,4 +257,32 @@ class Recepcion{
         }
     }
 
+    public function cancelarRecepcion(){
+        $sql = "{CALL sp_cancelarRecepcion(:codRecepcion)}";
+
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
+            $stmt->bindParam('codRecepcion', $this->codRecepcion, PDO::PARAM_INT);
+            $stmt->execute();
+
+            return [
+                'status' => 'success',
+                'message' => '¡Se canceló la recepcion!',
+                'action' => 'actualizar',
+                'module' => 'recepcion',
+                'data' => [],
+                'info' => ''
+            ];
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => '¡Ocurrio un error al momento de cancelar la recepción!',
+                'action' => 'actualizar',
+                'module' => 'recepcion',
+                'data' => [],
+                'info' => $e->getMessage()
+            ];
+        }
+    }
+
 }

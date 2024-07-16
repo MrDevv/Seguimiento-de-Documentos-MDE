@@ -84,6 +84,15 @@ class RecepcionController{
         }
     }
 
+    public function cancelarRecepcion(){
+        if (isset($_POST['codRecepcion'])){
+            $this->recepcionModel->setCodRecepcion($_POST['codRecepcion']);
+            $this->recepcionModel->cancelarRecepcion();
+
+            $this->redirect();
+        }
+    }
+
     public function estilosNavBar(){
         $_SESSION["optionActive"] = "documento";
     }

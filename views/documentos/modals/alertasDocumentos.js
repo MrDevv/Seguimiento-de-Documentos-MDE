@@ -115,6 +115,35 @@ async function modalCancelarEnvio(idEnvio) {
     }
 }
 
+async function modalCancelarRecepcion(idRecepcion) {
+    try {
+        const baseUrl = "http://localhost/Seguimiento-de-Documentos-MDE/";
+        const response = await fetch(`${baseUrl}views/documentos/modals/alertaCancelarRecepcion.php`);
+
+        if (!response.ok) {
+            throw new Error("Error al cargar la modal");
+        }
+
+        const data = await response.text();
+
+        const modalContainer = document.createElement("div");
+        modalContainer.classList.add("modal-container")
+        modalContainer.innerHTML = data;
+
+        document.body.appendChild(modalContainer);
+
+        let codigo = document.querySelector("#codRecepcion");
+
+        console.log(codigo)
+
+        codigo.value = idRecepcion
+
+        document.body.appendChild(modalContainer);
+    }catch (e) {
+        console.log(e)
+    }
+}
+
 function cerrar() {
     let modalHTML = document.querySelector(".modal-container")
 
