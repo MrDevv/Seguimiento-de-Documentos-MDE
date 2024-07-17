@@ -240,12 +240,13 @@ class Documento{
     }
 
     public function listarDocumentos(){
-        $sql =  "{CALL sp_listarDocumentos(:codUsuario)}";
+        $sql =  "{CALL sp_listarDocumentos(:codUsuario, :numDocumento)}";
 
         try {
             $stmt = DataBase::connect()->prepare($sql);
 
             $stmt->bindParam('codUsuario', $this->usuario, PDO::PARAM_INT);
+            $stmt->bindParam('numDocumento', $this->numDocumento, PDO::PARAM_STR);
 
             $stmt->execute();
 
@@ -347,6 +348,35 @@ class Documento{
                 'status' => 'failed',
                 'message' => 'Ocurrio un error al momento de ver el seguimiento del documento',
                 'action' => 'ver',
+                'module' => 'documento',
+                'info' => $e->getMessage()
+            ];
+        }
+    }
+
+    public function reportesPorArea(int $codArea = null, string $numDocumento = null){
+        $sql = '{CALL sp_reporteDocumentosPorArea(:codArea, :numDocumento)}';
+
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
+            $stmt->bindParam('codArea', $codArea, PDO::PARAM_INT);
+            $stmt->bindParam('numDocumento', $numDocumento, PDO::PARAM_STR);
+            $stmt->execute();
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return [
+                'status' => 'success',
+                'message' => '¡Se obtuvo el reporte de documentos por area!',
+                'action' => 'listar',
+                'module' => 'documento',
+                'data' => $results,
+                'info' => ''
+            ];
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => 'Ocurrio un error al momento de cargar el reporte de Areas',
+                'action' => 'listar',
                 'module' => 'documento',
                 'info' => $e->getMessage()
             ];

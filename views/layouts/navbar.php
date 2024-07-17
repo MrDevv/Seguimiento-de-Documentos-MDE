@@ -199,6 +199,35 @@
             </div>
         </div>
         <?php endif;  ?>
+
+        <div>
+            <div class="option <?= ($_SESSION['optionActive'] == "reportes") ? "selected" : ""?>" id="optionReportes">
+                <div class="containerIconOption">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 21H15M9 21V16M9 21H3.6C3.44087 21 3.28826 20.9368 3.17574 20.8243C3.06321 20.7117 3 20.5591 3 20.4V16.6C3 16.4409 3.06321 16.2883 3.17574 16.1757C3.28826 16.0632 3.44087 16 3.6 16H9M15 21V9M15 21H20.4C20.5591 21 20.7117 20.9368 20.8243 20.8243C20.9368 20.7117 21 20.5591 21 20.4V3.6C21 3.44087 20.9368 3.28826 20.8243 3.17574C20.7117 3.06321 20.5591 3 20.4 3H15.6C15.4409 3 15.2883 3.06321 15.1757 3.17574C15.0632 3.28826 15 3.44087 15 3.6V9M9 16V9.6C9 9.44087 9.06321 9.28826 9.17574 9.17574C9.28826 9.06321 9.44087 9 9.6 9H15" stroke="#F8F9FC" stroke-width="1.5"/>
+                    </svg>
+
+                </div>
+                <div>
+                    <p>Reportes</p>
+                    <svg class="svgOption <?= ($_SESSION['optionActive'] == "reportes") ? "open" : ""?>" id="svgOptionReportes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M246.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-9.2-9.2-22.9-11.9-34.9-6.9s-19.8 16.6-19.8 29.6l0 256c0 12.9 7.8 24.6 19.8 29.6s25.7 2.2 34.9-6.9l128-128z"/></svg>
+                </div>
+            </div>
+
+            <div class="submenu <?=$_SESSION["optionActive"] == "reportes" ? "showOptions" : "" ?>"  id="submenuReportes">
+                <div id="options-reportes" class="options <?=$_SESSION["optionActive"] == "reportes" ? "openPaddingOptions" : "" ?>">
+                    <a href="<?=base_url?>reportes/docAreas">
+                        <span>
+                            <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5.5 11C6.95869 11 8.35764 10.4205 9.38909 9.38909C10.4205 8.35764 11 6.95869 11 5.5C11 4.04131 10.4205 2.64236 9.38909 1.61091C8.35764 0.579463 6.95869 0 5.5 0C4.04131 0 2.64236 0.579463 1.61091 1.61091C0.579463 2.64236 0 4.04131 0 5.5C0 6.95869 0.579463 8.35764 1.61091 9.38909C2.64236 10.4205 4.04131 11 5.5 11Z" fill="white"/>
+                            </svg>
+                        </span>
+                        Documentos por Area
+                    </a>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 

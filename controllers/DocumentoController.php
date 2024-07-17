@@ -22,14 +22,19 @@ class DocumentoController{
     }
 
     public function listar(){
-        $documentoObj = new Documento();
+        $numDocumento = isset($_GET['numDoc']) ? $_GET['numDoc'] : null;
+
+        if ($numDocumento){
+            $this->documentoModel->setNumDocumento($numDocumento);
+        }
 
         if(trim($_SESSION['user']['rol']) == 'administrador'){
-//            $response = $documentoObj->listarDocumentosAdministrador();
-            $response = $documentoObj->listarDocumentos();
+            $response = $this->documentoModel->listarDocumentos();
         }else if(trim($_SESSION['user']['rol']) == 'usuario'){
-            $documentoObj->setUsuario((int) $_SESSION['user']['codUsuarioArea']);
-            $response = $documentoObj->listarDocumentos();
+
+            $this->documentoModel->setUsuario((int) $_SESSION['user']['codUsuarioArea']);
+
+            $response = $this->documentoModel->listarDocumentos();
         }
 
         if ($response['status'] == 'failed'){
@@ -37,8 +42,6 @@ class DocumentoController{
             require_once "views/modals/alerta.php";
             exit();
         }
-
-//        var_dump($response);
         require_once "views/documentos/listarDocumentos.php";
     }
 
@@ -235,7 +238,6 @@ class DocumentoController{
 
             require_once "views/documentos/seguimientoDocumento.php";
         }
-
     }
 
     public function estilosNavBar(){

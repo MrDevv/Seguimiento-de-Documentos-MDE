@@ -4,7 +4,7 @@
 
 -- sp para listar los documentos registrados
 CREATE PROCEDURE sp_listarDocumentos(
-	@codAreaUsuario INT = NULL
+	@codAreaUsuario INT = NULL, @numDocumento VARCHAR(20) = NULL
 )
 AS 
 BEGIN
@@ -19,7 +19,10 @@ BEGIN
                 inner join Usuario u on ua.codUsuario = u.codUsuario
                 inner join Persona p on u.codPersona = p.codPersona
                 inner join Estado e on d.codEstado = e.codEstado
-                where @codAreaUsuario IS NULL OR ua.codUsuarioArea = @codAreaUsuario
+                where 
+				(@codAreaUsuario IS NULL OR ua.codUsuarioArea = @codAreaUsuario) 
+				AND 
+				(@numDocumento IS NULL OR d.NumDocumento = @numDocumento)
                 order by d.fechaRegistro DESC, d.horaRegistro DESC
 END
 GO
@@ -281,7 +284,7 @@ BEGIN
 	SELECT @codEstadoActivoUsuario = codEstado FROM Estado WHERE descripcion = 'a';
 
 	SELECT ua.codUsuarioArea ,ua.codUsuario, u.nombreUsuario, CONCAT(p.nombres, ' ',p.apellidos) 'nombres',
-	r.descripcion 'rol', a.descripcion 'area', e.descripcion 'estado usuario'
+	r.descripcion 'rol',a.codArea, a.descripcion 'area', e.descripcion 'estado usuario'
 	FROM UsuarioArea ua
 	INNER JOIN Usuario u ON u.codUsuario = ua.codUsuario
 	INNER JOIN Rol r ON u.codRol = r.codRol
@@ -289,5 +292,56 @@ BEGIN
 	INNER JOIN Persona p ON u.codPersona = p.codPersona
 	INNER JOIN Estado e ON ua.codEstado = e.codEstado
 	WHERE u.nombreUsuario = @nombreUsuario AND u.password = @password AND ua.codEstado = @codEstadoActivoUsuario
+END
+GO
+
+------------------------------------- REPORTES ---------------------------------------
+
+-- Obtener documentos por area
+ALTER PROCEDURE sp_reporteDocumentosPorArea
+    @codArea INT = NULL, @numDocumento VARCHAR(20) = NULL
+AS
+BEGIN
+    -- Obtener el último envío de cada documento
+    WITH UltimosEnvios AS (
+        SELECT
+            NumDocumento,
+            MAX(codEnvio) AS UltimoCodEnvio
+        FROM Envio
+        GROUP BY NumDocumento
+    )
+    -- Seleccionar los documentos que están en el área especificada o en todas las áreas si @codArea es NULL
+    SELECT
+		e.codEnvio,
+        d.NumDocumento,
+        d.asunto,
+        e.folios,
+		CONCAT(pd.nombres, ' ', pd.apellidos) AS 'usuario',
+		a.descripcion AS 'area',
+        td.descripcion AS 'tipoDocumento',
+        es.descripcion AS 'estadoDocumento',
+		er.descripcion AS 'estadoRecepcion',
+        ua.codArea
+    FROM
+        Documento d
+    INNER JOIN
+        UltimosEnvios ue ON d.NumDocumento = ue.NumDocumento
+    INNER JOIN
+        Envio e ON ue.UltimoCodEnvio = e.codEnvio
+    INNER JOIN
+        UsuarioArea ua ON e.codUsuarioDestino = ua.codUsuarioArea
+		INNER JOIN UsuarioArea uae on e.codUsuarioDestino = uae.codUsuarioArea
+		INNER JOIN Usuario ud on uae.codUsuario = ud.codUsuario
+		INNER JOIN Persona pd on ud.codPersona = pd.codPersona
+    INNER JOIN
+        Area a ON ua.codArea = a.codArea
+    INNER JOIN
+        TipoDocumento td ON d.codTipoDocumento = td.codTipoDocumento
+    INNER JOIN
+        Estado es ON d.codEstado = es.codEstado
+		INNER JOIN Recepcion r on e.codEnvio = r.codEnvio
+		INNER JOIN Estado er on r.codEstado = er.codEstado
+    WHERE
+        (@codArea IS NULL OR ua.codArea = @codArea) AND (@numDocumento IS NULL OR e.NumDocumento = @numDocumento);
 END
 GO
