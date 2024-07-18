@@ -513,6 +513,8 @@ input:focus-visible{
     transition: all .3s ease-in-out;
 }
 
+
+
 /*              BODY             */
 .pendientesRecepcion_body table,
 .listadoDocumentos_body table,

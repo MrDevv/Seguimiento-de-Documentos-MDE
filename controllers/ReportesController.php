@@ -28,9 +28,11 @@ class ReportesController{
                 $codArea = null;
                 $numDocumento = null;
             }
-        }else{
+        }else if($_SESSION['user']['rol'] == 'usuario'){
             $codArea = $_SESSION['user']['codArea'];
-            $numDocumento = null;
+            if(isset($_GET['numDocumento'])){
+                $numDocumento = $_GET['numDocumento'];
+            }
         }
 
         $areas = $this->areaModel->listarArea();
@@ -46,6 +48,10 @@ class ReportesController{
         }
 
         require_once "views/reportes/documentosPorArea.php";
+    }
+
+    public function docUsuario(){
+
     }
 
     public function estilosNavBar(){
