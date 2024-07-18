@@ -4,7 +4,6 @@
         </div>
         <div class="login-right">
             <h2 class="login-title">seguimiento de documentos internos y externos</h2>
-            <H3>¡Hola!</H3>
             <p>Ingresa tus datos para iniciar sesión</p>
             <form action="<?=base_url?>usuario/login" method="post">
                 <label for="username">Usuario:</label>
