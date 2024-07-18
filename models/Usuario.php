@@ -102,7 +102,7 @@ class Usuario {
     }
 
     public function autenticarUsuario(){
-        $sql = "{CALL sp_autenticarUsuario(:nombreUsuario, :password)}";
+        $sql = "EXEC sp_autenticarUsuario :nombreUsuario, :password";
 
         try {
             $stmt = DataBase::connect()->prepare($sql);
@@ -187,11 +187,31 @@ class Usuario {
                 "p.nombres, p.apellidos, p.dni, p.telefono, a.descripcion 'area', ".
                 "r.descripcion 'rol' ".
                 "from UsuarioArea ua ".
-                "inner join usuario u on ua.codUsuario = u.codUsuario ".
+                "inner join Usuario u on ua.codUsuario = u.codUsuario ".
                 "inner join Persona p on u.codPersona = p.codPersona ".
-                "inner join area a on ua.codArea = a.codArea ".
+                "inner join Area a on ua.codArea = a.codArea ".
                 "inner join Estado e on ua.codEstado = e.codEstado ".
-                "inner join rol r on u.codRol = r.codRol";
+                "inner join Rol r on u.codRol = r.codRol";
+
+        $stmt = DataBase::connect()->query($sql);
+
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $results;
+    }
+
+    public function listarUsuariosActivos(){
+        // agregar la consulta correcta
+        $sql = "select ua.codUsuarioArea, u.codUsuario, u.nombreUsuario 'usuario', e.descripcion 'estado', ".
+            "p.nombres, p.apellidos, p.dni, p.telefono, a.descripcion 'area', ".
+            "r.descripcion 'rol' ".
+            "from UsuarioArea ua ".
+            "inner join Usuario u on ua.codUsuario = u.codUsuario ".
+            "inner join Persona p on u.codPersona = p.codPersona ".
+            "inner join Area a on ua.codArea = a.codArea ".
+            "inner join Estado e on ua.codEstado = e.codEstado ".
+            "inner join Rol r on u.codRol = r.codRol";
+            "where ua.codEstado = 2";
 
         $stmt = DataBase::connect()->query($sql);
 

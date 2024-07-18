@@ -4,7 +4,7 @@
         <div class="description_btnNuevoDocumento">
             <p>Documentos por Usuario</p>
         </div>
-        <form action="<?= base_url ?>reportes/docAreas" method="get">
+        <form action="<?= base_url ?>reportes/docUsuario" method="get">
             <div class="containerFiltrado">
                 <div>
                     <div class="busqueda">
@@ -21,15 +21,15 @@
                 </div>
                 <?php if ($_SESSION['user']['rol'] == 'administrador'): ?>
                     <div>
-                        <label>Área:</label>
-                        <select class="selectFiltroArea" name="area">
-                            <option value=0 <?= $codArea == null ? 'selected' : '' ?>>Todas</option>
-                            <?php foreach ($areas as $result):?>
+                        <label>Usuario:</label>
+                        <select class="selectFiltroArea" name="usuario">
+                            <option value=0 <?= $codUsuario == null ? 'selected' : '' ?>>Todas</option>
+                            <?php foreach ($usuarios['data'] as $result):?>
                                 <option
-                                    value="<?=$result['codArea']?>"
-                                    <?= $codArea == $result['codArea'] ? 'selected' : '' ?>
+                                    value="<?=$result['codUsuarioArea']?>"
+                                    <?= $codUsuario == $result['codUsuarioArea'] ? 'selected' : '' ?>
                                 >
-                                    <?=$result['descripcion']?>
+                                    <?=$result['usuario'] ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>

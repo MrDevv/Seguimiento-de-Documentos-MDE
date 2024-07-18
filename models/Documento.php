@@ -240,7 +240,7 @@ class Documento{
     }
 
     public function listarDocumentos(){
-        $sql =  "{CALL sp_listarDocumentos(:codUsuario, :numDocumento)}";
+        $sql =  "EXEC sp_listarDocumentos :codUsuario, :numDocumento";
 
         try {
             $stmt = DataBase::connect()->prepare($sql);
@@ -327,7 +327,7 @@ class Documento{
     }
 
     public function verSeguimientoDocumento(){
-        $sql = "{CALL sp_verSeguimientoDocumento(:numDocumento)}";
+        $sql = "EXEC sp_verSeguimientoDocumento :numDocumento";
 
         try {
             $stmt = DataBase::connect()->prepare($sql);
@@ -355,7 +355,7 @@ class Documento{
     }
 
     public function reportesPorArea(int $codArea = null, string $numDocumento = null){
-        $sql = '{CALL sp_reporteDocumentosPorArea(:codArea, :numDocumento)}';
+        $sql = 'EXEC sp_reporteDocumentosPorArea :codArea, :numDocumento';
 
         try {
             $stmt = DataBase::connect()->prepare($sql);
@@ -376,6 +376,35 @@ class Documento{
             return [
                 'status' => 'failed',
                 'message' => 'Ocurrio un error al momento de cargar el reporte de Areas',
+                'action' => 'listar',
+                'module' => 'documento',
+                'info' => $e->getMessage()
+            ];
+        }
+    }
+    public function reportesPorUsuario(int $codArea = null, string $numDocumento = null, int $codUsuarioAreaDestino = null){
+        $sql = 'EXEC sp_reporteDocumentosPorUsuario :codArea, :numDocumento, :codUsuarioAreaDestino';
+
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
+            $stmt->bindParam('codArea', $codArea, PDO::PARAM_INT);
+            $stmt->bindParam('numDocumento', $numDocumento, PDO::PARAM_STR);
+            $stmt->bindParam('codUsuarioAreaDestino', $codUsuarioAreaDestino, PDO::PARAM_INT);
+            $stmt->execute();
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return [
+                'status' => 'success',
+                'message' => '¡Se obtuvo el reporte de documentos por usuario!',
+                'action' => 'listar',
+                'module' => 'documento',
+                'data' => $results,
+                'info' => ''
+            ];
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => 'Ocurrio un error al momento de cargar el reporte de usuarios',
                 'action' => 'listar',
                 'module' => 'documento',
                 'info' => $e->getMessage()

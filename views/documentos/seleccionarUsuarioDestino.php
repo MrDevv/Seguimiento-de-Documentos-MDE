@@ -6,7 +6,7 @@
             <div class="row">
                 <div>
                     <label>Usuario Destino</label>
-                    <select class="containerRegistroArea" name="usuarioAreaDestino">
+                    <select class="selectUsuario" name="usuarioAreaDestino">
                         <?php foreach ($response['data'] as $result):?>
                             <option
                                     value="<?=$result['codUsuarioArea']?>"

@@ -1,6 +1,14 @@
 <?php
 
 class DataBase{
+    // Variables para my sql
+    private static $serverNameMySql = "monorail.proxy.rlwy.net";
+    private static $databaseMySql = "railway";
+    private static $usernameMySql = "root";
+    private static $passwordMySql = "ieEQptuHBRhLWJfpBUDdVfXgboUPzTda";
+    private static $portMySql = "40079";
+
+    // variables para sql server
     private static $serverName = "localhost";
     private static $database = "Sistema_Seguimiento_Documentos";
     private static $username = "sa";
@@ -8,6 +16,7 @@ class DataBase{
     public static function connect(){
         try {
             $conn = new PDO("sqlsrv:server=" . self::$serverName . ";Database=" . self::$database, self::$username, self::$password);
+            //$conn = new PDO("mysql:host=".self::$serverNameMySql.";port=". self::$portMySql .";dbname=". self::$databaseMySql.";", self::$usernameMySql, self::$passwordMySql);
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             return $conn;
         }catch(PDOException $e){

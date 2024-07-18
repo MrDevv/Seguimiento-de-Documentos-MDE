@@ -720,11 +720,8 @@ table tbody tr .actions .action:hover .tooltip{
 }
 
 
-.containerRegistroArea {
-    width: 67%;
-    border: 1px solid grey;
-    border-radius: 5px;
-    padding: 5px;
+.containerRegistroDocumento .body .row div .selectUsuario {
+    width: 270px;
 }
 
 .form-group {

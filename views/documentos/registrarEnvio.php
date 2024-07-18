@@ -34,7 +34,7 @@
             <div class="row">
                 <div>
                     <label>Movimiento</label>
-                    <select class="containerRegistroArea" name="movimiento">
+                    <select class="selectMovimiento" name="movimiento">
                         <?php foreach ($movimientos as $result):?>
                             <option
                                     value="<?=$result['codMovimiento']?>"
@@ -46,7 +46,7 @@
                 </div>
                 <div>
                     <label>Area</label>
-                    <select class="containerRegistroArea" name="area">
+                    <select class="selectArea" name="area">
                         <?php foreach ($areas as $result):?>
                             <option
                                     value="<?=$result['codArea']?>"

@@ -99,13 +99,8 @@ class UsuarioArea{
         }
     }
 
-    public function obtenerUsuariosPorArea(int $codArea, int $codUsuarioArea){
-        $sql = "select ua.codUsuarioArea, concat(p.nombres, ' ' ,p.apellidos) 'usuario' 
-                        from UsuarioArea ua 
-                        inner join Area a on ua.codArea = a.codArea
-                        inner join Usuario u on ua.codUsuario = u.codUsuario
-                        inner join Persona p on u.codPersona = p.codPersona 
-                        where a.codArea = :codArea and ua.codUsuario != :codUsuarioArea and ua.codEstado = 2";
+    public function obtenerUsuariosPorArea(int $codArea = null, int $codUsuarioArea = null){
+        $sql = "EXEC sp_listarUsuariosPorArea :codArea, :codUsuarioArea";
 
         try {
             $stmt = DataBase::connect()->prepare($sql);
