@@ -458,7 +458,6 @@ input:focus-visible{
 .recepcionados_header p:nth-child(2){
     color: var(--bg-color-principal);
     font-weight: 700;
-    margin-bottom: 30px;
 }
 
 .pendientesRecepcion_header .fecha_busqueda,
@@ -502,6 +501,7 @@ input:focus-visible{
 .containerFiltrado{
     display: flex;
     gap: 10px;
+    align-items: center;
 }
 
 .containerFiltrado input[type="submit"]{
@@ -510,6 +510,7 @@ input:focus-visible{
     cursor: pointer;
     width: 100px;
     margin-bottom: 0;
+    transition: all .3s ease-in-out;
 }
 
 /*              BODY             */
@@ -708,6 +709,14 @@ table tbody tr .actions .action:hover .tooltip{
     font-size: 15px;
     
 }
+
+.selectFiltroArea{
+    width: 400px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid grey;
+}
+
 
 .containerRegistroArea {
     width: 67%;
