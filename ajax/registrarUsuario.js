@@ -20,8 +20,6 @@ $('#registrarUsuarioForm').submit( function (e) {
         return
     }
 
-    console.log({nombre, apellidos, rol, telefono, dni, usuario, area, password, confirm_password})
-
     if(nombre.length == 0 || apellidos.length == 0 || telefono.length == 0 || dni.length == 0
         || usuario.length == 0 || rol.length == 0 || area.length == 0 || password.length == 0 || confirm_password.length == 0){
         Swal.fire({
@@ -32,42 +30,46 @@ $('#registrarUsuarioForm').submit( function (e) {
         return;
     }
 
-
-    // Redirige a la tabla de usuarios
     $.ajax({
-        url: 'views/usuario/listarUsuario.php',
-        method: 'GET',
-        success: function(data) {
-            $('.main').html(data);
-        },
+        url: "./controllers/usuario/registrarUsuario.php",
+        type: "POST",
+        dataType: "json",
+        data: {nombre, apellidos, telefono, dni, usuario, rol, area, password},
+        success: function (response) {
+            if (response.message == '¡Usuario encontrado!'){
+                Swal.fire({
+                    icon: "error",
+                    title: "El usuario que intenta registrar ya se encuentra registrado"
+                })
+            }else{
+                if (response.status == 'success'){
+                    Swal.fire({
+                        icon: "success",
+                        title: "Registro Exitoso",
+                        text: "Se registro correctamente el usuario"
+                    }).then(() => {
+                        $.ajax({
+                            url: 'views/usuario/listarUsuario.php',
+                            method: 'GET',
+                            success: function(data) {
+                                $('.main').html(data);
+                            },
+                            error: function(jqXHR, textStatus, errorThrown) {
+                                console.error('Error fetching the content:', textStatus, errorThrown);
+                            }
+                        });
+                    })
+                }else{
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: "Ocurrio un error al momento de registrar el usuario" + response.message
+                    })
+                }
+            }
+         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.error('Error fetching the content:', textStatus, errorThrown);
         }
-    });
-
-    // $.ajax({
-    //     url: "bd/login.php",
-    //     type: "POST",
-    //     dataType: "json",
-    //     data: {usuario, password},
-    //     success: function (data) {
-    //         if (data == "null"){
-    //             Swal.fire({
-    //                 icon: "error",
-    //                 title: "Usuario o password incorrecta"
-    //             })
-    //         }else{
-    //             Swal.fire({
-    //                 icon: "success",
-    //                 title: "Conexión exitosa",
-    //                 confirmButtonText: "guardar",
-    //             }).then((result) => {
-    //                 console.log(result)
-    //                 if (result.value){
-    //                     window.location.href = "vistas/paginaInicio.php"
-    //                 }
-    //             })
-    //         }
-    //     }
-    // })
+     })
 } )

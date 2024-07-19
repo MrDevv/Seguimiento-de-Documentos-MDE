@@ -5,7 +5,6 @@ $(document).ready(function() {
         dataType: 'json', // Asegúrate de que el servidor responda con JSON
         success: function(data) {
             if (data && Array.isArray(data)) {
-                console.log(data);
 
                 // Construir las opciones para el select
                 let options = data.map(rol =>

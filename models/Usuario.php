@@ -142,31 +142,30 @@ class Usuario {
         }
     }
 
-    public function registrarUsuario(){
-        $sql = "INSERT INTO Usuario(nombreUsuario, codRol, codPersona, password, codEstado) ". 
-                "values(:nombreUsuario, :codRol, :codPersona, :password, :codEstado)";
+    public function registrarUsuario(string $nombres, string $apellidos, string $telefono, string $dni, string $nombreUsuario, int $codRol, string $password, int $codArea){
+        $sql = "EXEC sp_registrarUsuario :nombres, :apellidos, :telefono, :dni, :nombreUsuario, :codRol, :password, :codArea";
 
         try {
             $db = DataBase::connect();
             $stmt =  $db->prepare($sql);
 
-    
-            $stmt->bindParam("nombreUsuario", $this->nombreUsuario, PDO::PARAM_STR);
-            $stmt->bindParam("codRol", $this->rol, PDO::PARAM_INT);
-            $stmt->bindParam("codPersona", $this->codPersona, PDO::PARAM_INT);
-            $stmt->bindParam("password", $this->password, PDO::PARAM_STR);
-            $stmt->bindParam("codEstado", $this->codEstado, PDO::PARAM_STR);
+            $stmt->bindParam("nombres", $nombres, PDO::PARAM_STR);
+            $stmt->bindParam("apellidos", $apellidos, PDO::PARAM_STR);
+            $stmt->bindParam("telefono", $telefono, PDO::PARAM_STR);
+            $stmt->bindParam("dni", $dni, PDO::PARAM_STR);
+            $stmt->bindParam("nombreUsuario", $nombreUsuario, PDO::PARAM_STR);
+            $stmt->bindParam("codRol", $codRol, PDO::PARAM_INT);
+            $stmt->bindParam("password", $password, PDO::PARAM_INT);
+            $stmt->bindParam("codArea", $codArea, PDO::PARAM_STR);
 
             $stmt->execute();
-
-            $lastInsertId = $db->lastInsertId();
 
             return [
                 'status' => 'success',
                 'message' => 'Usuario registrado',
                 'action' => 'registrar',
                 'module' => 'usuario',
-                'data' => ['id' => $lastInsertId],
+                'data' => [],
                 'info' => ''
             ];
         }catch (PDOException $e){
