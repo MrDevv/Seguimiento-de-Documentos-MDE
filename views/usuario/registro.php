@@ -1,8 +1,12 @@
 <?php
-require_once('models/Estado.php');
+require_once('../../config/parameters.php');
+require_once('../../config/DataBase.php');
+require_once('../../models/Estado.php');
 $estado = new Estado();
 $estados= $estado->listarEstadosHabilitadoInhabilitado();
 ?>
+
+
 <div class="containerRegistroUsuario">
     <h2>Registro de Usuario</h2>
     <div class="body">
@@ -58,15 +62,8 @@ $estados= $estado->listarEstadosHabilitadoInhabilitado();
                     <div class="row">
                         <div>
                                 <label for="rol">Rol:</label>
-                                <select id="rol" name="rol" required>
-                                    <?php foreach ($roles as $result):?>
-                                    <option 
-                                    value="<?=$result['codRol']?>"
-                                    >
-                                    <?=$result['descripcion']?>
+                                <select id="selectRol" name="rol" required>
                                 </option>
-                                    
-                                    <?php endforeach; ?>
                                 </select>
                         </div>
                         <div>
@@ -81,15 +78,7 @@ $estados= $estado->listarEstadosHabilitadoInhabilitado();
                     <br>
                     <div>
                         <label for="area">Area:</label>
-                        <select id="area" name="area" required>
-                            <?php foreach ($areas as $result):?>
-                            <option 
-                            value="<?=$result['codArea']?>"
-                            >
-                            <?=$result['descripcion']?>
-                        </option>
-                            
-                            <?php endforeach; ?>
+                        <select id="selectAreas" name="area" required>
                         </select>
                     </div>
                 </div>
@@ -103,3 +92,6 @@ $estados= $estado->listarEstadosHabilitadoInhabilitado();
     </div>
         
     </div>
+
+<script src="ajax/listarRoles.js"></script>
+<script src="ajax/listarAreas.js"></script>

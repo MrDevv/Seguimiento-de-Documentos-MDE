@@ -14,7 +14,7 @@
                         <image id="image0_2339_10" width="96" height="96" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAAAsTAAALEwEAmpwYAAACYklEQVR4nO2cwU7bQABE9wSqgO/tkfxSTz32kPa7HorKttQSqZ3MemfX8yQkpCR4Zl5CgmRTSgghhBBCCGELwMPla9ODggbgEfgGfAe+ZNcdAZ6BH/zl8v1zJOwz/tNi/Mov4CUS+oxfiYSO41cioeP4lUjoOH4lEjqOX4mEOz9qnrnOeeV98hG1wTP/5+Vj58r75pXQYvyy7TGR0GL8SiR0HL8SCR3Hr0RCx/ErkdBx/EokdBy/Egkdx69EQsfxK5HQcfzK4SX0HL8cXYLD+IeV4DT+4SQ4jn8YCc7jTy9hhPGnlTDS+NNJGHH8aSSMPP7wEmYYf1gJM40/nIQZxx9Gwszj20s4wvi2Eo40vp2ElacLMuOpgPzuTrfTILecKFsmhXXoXwlbz1Iuk8J6dBJuOUW8TArbuF/Crefnl0lhO7dLeL8Ies0brlQAjemQ7XzzxeTA6T8/2KXkahplu/ZEPZU7D/r1ysURe5aU0CjbZ7+qX+853mcS/vyRtXNJCS2yvd+2lKAZfyFheWXKbiVVtMj24fYqQTv+hwP882ayZ0kVLbIt7rPff2/pVXL0bDKcS2KcTYZzSYyzyXAuiXE2Gc4lMc4mw7kkxtlkOJfEOJsM55IYZ5PhXBLjbDKcS2KcTYZzSYyzyXAuiXE2Gc4lMc4mw7kkxtlkOJfEOJsM55IYZ5PhXBLjbDKcS2KcTYZzSYyzyXAuiXE2Gc4lMc4mw7kkxtlkOJfEOJsM55IYZ5PBjpSJsslwLolxNhnOJTHOJsO5JMbZZDiXxDibDOeSGGcLIYQQQgghhBBCCOWQvAEyTzle7v8enQAAAABJRU5ErkJggg==" />
                     </defs>
                 </svg>
-                <a href="<?=base_url?>">
+                <a href="views/inicio.php">
                     <p>Inicio</p>
                 </a>
             </div>
@@ -41,7 +41,7 @@
             </div>
             <div class="submenu <?= ($_SESSION['optionActive'] == "usuario") ? "showOptions" : ""?>"  id="submenuUsuarios">
                 <div id="options-administrados" class="options <?= ($_SESSION['optionActive'] == "usuario") ? "openPaddingOptions" : ""?>">
-                    <a href="<?=base_url?>usuario/crear">
+                    <a id="optionRegistrarUsuario" href="views/usuario/registro.php">
                         <span>
                             <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M5.5 11C6.95869 11 8.35764 10.4205 9.38909 9.38909C10.4205 8.35764 11 6.95869 11 5.5C11 4.04131 10.4205 2.64236 9.38909 1.61091C8.35764 0.579463 6.95869 0 5.5 0C4.04131 0 2.64236 0.579463 1.61091 1.61091C0.579463 2.64236 0 4.04131 0 5.5C0 6.95869 0.579463 8.35764 1.61091 9.38909C2.64236 10.4205 4.04131 11 5.5 11Z" fill="white"/>
