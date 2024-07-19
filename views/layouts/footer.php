@@ -7,6 +7,5 @@
                 <script src="<?=base_url?>/helpers/navBarFuntionality.js"></script>
                 <script src="<?=base_url?>/views/documentos/modals/alertasDocumentos.js"></script>
                 <script src="<?=base_url?>/views/tipoDocumento/modals/modalDeshabilitarTipoDocumento.js"></script>
-                <script src="<?=base_url?>/helpers/generarUsuario.js"></script>
     </body>
 </html>

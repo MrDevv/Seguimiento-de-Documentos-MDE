@@ -6,11 +6,10 @@ $estado = new Estado();
 $estados= $estado->listarEstadosHabilitadoInhabilitado();
 ?>
 
-
 <div class="containerRegistroUsuario">
     <h2>Registro de Usuario</h2>
     <div class="body">
-        <form action="<?=base_url?>usuario/registrarUsuario" id="registrationForm" method="post">
+        <form action="" id="registrarUsuarioForm" method="post">
             <div class="data">
                 <div class="column">
                     <h3>Datos Generales</h3><br>
@@ -21,13 +20,15 @@ $estados= $estado->listarEstadosHabilitadoInhabilitado();
                                     type="text"
                                     id="nombre"
                                     name="nombre"
-                                    onclick="generarUsuario()"
-                                    required
                             >
                         </div> 
                         <div>
                                 <label for="apellidos">Apellidos:</label>
-                                <input type="text" id="apellido" name="apellidos" required>
+                                <input
+                                        type="text"
+                                        id="apellido"
+                                        name="apellidos"
+                                >
                         </div>
                     </div>
                     <div class="row">
@@ -93,5 +94,7 @@ $estados= $estado->listarEstadosHabilitadoInhabilitado();
         
     </div>
 
-<script src="ajax/listarRoles.js"></script>
-<script src="ajax/listarAreas.js"></script>
+<script src="<?=base_url?>helpers/generarUserName.js"></script>
+<script src="<?= base_url?>ajax/listarRoles.js"></script>
+<script src="<?= base_url?>ajax/listarAreas.js"></script>
+<script src="<?= base_url?>ajax/registrarUsuario.js"></script>
