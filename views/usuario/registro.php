@@ -34,11 +34,20 @@ $estados= $estado->listarEstadosHabilitadoInhabilitado();
                     <div class="row">
                         <div>
                                 <label for="telefono">Teléfono:</label>
-                                <input type="text" name="telefono" maxlength="9" required>
+                                <input
+                                        type="text"
+                                        name="telefono"
+                                        id="telefono"
+                                        maxlength="9">
                         </div>
                         <div>
                             <label for="dni">DNI:</label>
-                            <input type="text" name="dni" maxlength="8" required >
+                            <input
+                                    type="text"
+                                    name="dni"
+                                    id="dni"
+                                    maxlength="8"
+                            >
                         </div>
 
                     </div>
@@ -52,24 +61,24 @@ $estados= $estado->listarEstadosHabilitadoInhabilitado();
                                 type="text" 
                                 id="usuario" 
                                 name="usuario" 
-                                readonly required
+                                readonly
                             >
                         </div>
                         <div>
                             <label for="contrasena">Contraseña:</label>
-                            <input type="password" id="password" name="password" class="user-input" required>
+                            <input type="password" id="password" name="password" class="user-input">
                         </div>
                     </div>
                     <div class="row">
                         <div>
                                 <label for="rol">Rol:</label>
-                                <select id="selectRol" name="rol" required>
+                                <select id="selectRol" name="rol" >
                                 </option>
                                 </select>
                         </div>
                         <div>
                             <label for="contrasena">Confirmar Contraseña:</label>
-                            <input type="password" id="confirm_password" name="confirm_password" class="user-input" required>
+                            <input type="password" id="confirm_password" name="confirm_password" class="user-input">
                         </div>
                     </div>
                 </div>
@@ -79,7 +88,7 @@ $estados= $estado->listarEstadosHabilitadoInhabilitado();
                     <br>
                     <div>
                         <label for="area">Area:</label>
-                        <select id="selectAreas" name="area" required>
+                        <select id="selectAreas" name="area">
                         </select>
                     </div>
                 </div>
