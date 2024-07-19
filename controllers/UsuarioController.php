@@ -70,13 +70,6 @@ class UsuarioController{
     }
 
     // metodo para llamar al formulario para registrar un usuario
-    public function crear(){  
-        $areaObj= new Area();
-        $areas=$areaObj->listarArea();
-        $rolObj= new Rol();
-        $roles=$rolObj->listarRoles();
-        require_once "views/usuario/registro.php";
-    }
 
     function buscar($codUsuario){
         $usuario = new Usuario();
@@ -165,12 +158,6 @@ class UsuarioController{
 
     }
 
-    function listar(){
-        $usuarioObj = new Usuario();
-        $listadoUsuario = $usuarioObj->listarUsuario();
-
-        require_once "views/usuario/listarUsuario.php";
-    }
 
     // Metodo para mostrar el formulario de editar un usuario
     public function editar(){

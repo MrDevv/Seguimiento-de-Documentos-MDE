@@ -1,4 +1,7 @@
-
+<?php
+require_once('../../config/parameters.php');
+require_once('../../config/DataBase.php');
+?>
 <div class="containerRegistroTipoDocumento">
     <form id="registrarAreaForm" action="<?=base_url?>area/registrar" method="post">
         <div>
