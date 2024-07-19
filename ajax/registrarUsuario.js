@@ -23,7 +23,7 @@ $('#registrarUsuarioForm').submit( function (e) {
     console.log({nombre, apellidos, rol, telefono, dni, usuario, area, password, confirm_password})
 
     if(nombre.length == 0 || apellidos.length == 0 || telefono.length == 0 || dni.length == 0
-        || usuario.length == 0 || rol.length == 0 || rea.length == 0 || password.length == 0 || confirm_password.length == 0){
+        || usuario.length == 0 || rol.length == 0 || area.length == 0 || password.length == 0 || confirm_password.length == 0){
         Swal.fire({
             icon: "warning",
             title: "Campos Incompletos",
@@ -32,29 +32,42 @@ $('#registrarUsuarioForm').submit( function (e) {
         return;
     }
 
+
+    // Redirige a la tabla de usuarios
     $.ajax({
-        url: "bd/login.php",
-        type: "POST",
-        dataType: "json",
-        data: {usuario, password},
-        success: function (data) {
-            if (data == "null"){
-                Swal.fire({
-                    icon: "error",
-                    title: "Usuario o password incorrecta"
-                })
-            }else{
-                Swal.fire({
-                    icon: "success",
-                    title: "Conexión exitosa",
-                    confirmButtonText: "guardar",
-                }).then((result) => {
-                    console.log(result)
-                    if (result.value){
-                        window.location.href = "vistas/paginaInicio.php"
-                    }
-                })
-            }
+        url: 'views/usuario/listarUsuario.php',
+        method: 'GET',
+        success: function(data) {
+            $('.main').html(data);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error('Error fetching the content:', textStatus, errorThrown);
         }
-    })
+    });
+
+    // $.ajax({
+    //     url: "bd/login.php",
+    //     type: "POST",
+    //     dataType: "json",
+    //     data: {usuario, password},
+    //     success: function (data) {
+    //         if (data == "null"){
+    //             Swal.fire({
+    //                 icon: "error",
+    //                 title: "Usuario o password incorrecta"
+    //             })
+    //         }else{
+    //             Swal.fire({
+    //                 icon: "success",
+    //                 title: "Conexión exitosa",
+    //                 confirmButtonText: "guardar",
+    //             }).then((result) => {
+    //                 console.log(result)
+    //                 if (result.value){
+    //                     window.location.href = "vistas/paginaInicio.php"
+    //                 }
+    //             })
+    //         }
+    //     }
+    // })
 } )
