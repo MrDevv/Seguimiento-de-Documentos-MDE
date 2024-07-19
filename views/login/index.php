@@ -1,3 +1,4 @@
+
 <div class="login-container">
         <div class="login-left">
             <img class="logo-login" src="<?=base_url?>assets/logo2.png" alt="logo">
@@ -5,12 +6,12 @@
         <div class="login-right">
             <h2 class="login-title">seguimiento de documentos internos y externos</h2>
             <p>Ingresa tus datos para iniciar sesión</p>
-            <form action="<?=base_url?>usuario/login" method="post">
+            <form id="formLogin" action="" method="post">
                 <label for="username">Usuario:</label>
-                <input type="text" name="username" required>
+                <input type="text" id="username" name="username">
 
                 <label for="password">Contraseña:</label>
-                <input type="password" name="password" required> </br>
+                <input type="password" id="password" name="password"> </br>
 
                 <button type="submit">Ingresar</button>
             </form>
