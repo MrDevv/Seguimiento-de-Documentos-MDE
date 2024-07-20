@@ -4,12 +4,12 @@ require_once('../../config/DataBase.php');
 require_once('../../models/Estado.php');
 ?>
 
-<div class="containerPendientesRecepcion">
-    <div class="pendientesRecepcion_header">
+<div class="containerListadoArea">
+    <div class="listadoAreas_header">
         <h2>Bandeja de Entrada</h2>
         <p>Listado de Areas</p>
     </div>
-    <div class="pendientesRecepcion_body">
+    <div class="listadoAreas_body">
         <table>
             <thead>
             <tr>
@@ -23,6 +23,8 @@ require_once('../../models/Estado.php');
             </tbody>
         </table>
     </div>
+
+    <?php  require_once "editarArea.php"?>
 
     <script src="<?= base_url?>ajax/listarAreasTable.js"></script>
 

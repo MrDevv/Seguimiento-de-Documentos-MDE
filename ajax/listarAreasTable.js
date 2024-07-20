@@ -1,33 +1,145 @@
 $(document).ready(function() {
-    $.ajax({
-        url: './controllers/areas/listarAreas.php',
-        method: 'GET',
-        dataType: 'json',
-        success: function(data) {
-            console.log(data)
-            if (data && Array.isArray(data)) {
-                let row = data.map(area =>
-                    `
-                        <tr>
-                            <td> ${area.codArea} </td>
-                            <td> ${area.descripcion} </td>
-                            <td class="actions">
-                                <a class="action" href="<?=base_url?>area/editar?cod=<?=$result['codArea']?>">
-                                    <span class="tooltip">Editar <span class="triangulo"></span></span>
-                                    <svg width="25" height="25" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z"/></svg>
-                                </a>
-                            </td>
-                        </tr>
-                    `
-                ).join('');
-                // Actualizar el contenido del select
-                $('#bodyListaAreas').html(row);
-            } else {
-                console.warn('No data received or data is not an array.');
+    // Función para cargar las áreas en la tabla
+    function loadAreas() {
+        $.ajax({
+            url: './controllers/areas/listarAreas.php',
+            method: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                if (data && Array.isArray(data)) {
+                    let row = data.map(area =>
+                        `
+                            <tr>
+                                <td>${area.codArea}</td>
+                                <td>${area.descripcion}</td>
+                                <td class="actions">
+                                    <a class="action" id="btnEditarArea" href="#" data-bs-toggle="modal" data-bs-target="#modalEditarArea">
+                                        <span class="tooltipParent">Editar <span class="triangulo"></span></span>
+                                        <svg width="38" height="34" viewBox="0 0 38 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <g filter="url(#filter0_d_2928_43)">
+                                                <rect x="4" width="30" height="26" rx="5" fill="white"/>
+                                                <path d="M12.75 7.58301H11.5C10.837 7.58301 10.2011 7.81128 9.73223 8.21761C9.26339 8.62394 9 9.17504 9 9.74967V19.4997C9 20.0743 9.26339 20.6254 9.73223 21.0317C10.2011 21.4381 10.837 21.6663 11.5 21.6663H22.75C23.413 21.6663 24.0489 21.4381 24.5178 21.0317C24.9866 20.6254 25.25 20.0743 25.25 19.4997V18.4163" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M24 5.41678L27.75 8.66678M29.4813 7.13387C29.9736 6.7072 30.2501 6.12851 30.2501 5.52512C30.2501 4.92172 29.9736 4.34303 29.4813 3.91637C28.9889 3.4897 28.3212 3.25 27.625 3.25C26.9288 3.25 26.2611 3.4897 25.7688 3.91637L15.25 13.0001V16.2501H19L29.4813 7.13387Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </g>
+                                                <defs>
+                                                <filter id="filter0_d_2928_43" x="0" y="0" width="38" height="34" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                                <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                                                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                                                <feOffset dy="4"/>
+                                                <feGaussianBlur stdDeviation="2"/>
+                                                <feComposite in2="hardAlpha" operator="out"/>
+                                                <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+                                                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2928_43"/>
+                                                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2928_43" result="shape"/>
+                                                </filter>
+                                                </defs>
+                                        </svg>
+                                    </a>
+                                </td>
+                            </tr>
+                        `
+                    ).join('');
+                    // Actualizar el contenido del tbody de la tabla
+                    $('#bodyListaAreas').html(row);
+                } else {
+                    console.warn('No data received or data is not an array.');
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error('Error fetching the content:', textStatus, errorThrown);
             }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.error('Error fetching the content:', textStatus, errorThrown);
-        }
+        });
+    }
+
+    // Cargar las áreas cuando se carga la página
+    loadAreas();
+
+    // Editar
+    $(document).on("click", "#btnEditarArea", function(e){
+        e.preventDefault();
+        let modalEditar = $("#modalEditarArea");
+        fila = $(this).closest("tr");
+        codArea = parseInt(fila.find('td:eq(0)').text());
+        descripcion = fila.find('td:eq(1)').text();
+        $("#descripcionArea").val(descripcion.trim());
+        $("#codArea").val(codArea);
+
+        modalEditar.modal('show');
+
+        modalEditar.on('shown.bs.modal', function () {
+            $("#descripcionArea").focus();
+        });
     });
+
+    // Actualizar
+    $('#editarAreaForm').submit(function(e){
+        e.preventDefault();
+        let descripcion = $.trim($('#descripcionArea').val());
+        let codArea = $.trim($('#codArea').val());
+
+        if(descripcion.length == 0 || codArea.length == 0){
+            Swal.fire({
+                icon: "warning",
+                title: "Campos Incompletos",
+                text: "Ingrese los campos requeridos",
+            });
+            return;
+        }
+
+        descripcion = capitalizeWords(descripcion);
+
+        $.ajax({
+            url: "./controllers/areas/actualizarArea.php",
+            type: "POST",
+            datatype: "json",
+            data: { codArea, descripcion },
+            success: function(response) {
+                response = JSON.parse(response);
+                if (response.message == 'area encontrada'){
+                    Swal.fire({
+                        icon: "error",
+                        title: "El área tiene el mismo nombre",
+                        text: "Para actualizar el área tiene que tener una nueva descripción."
+                    });
+                } else {
+                    if (response.status == 'success'){
+                        Swal.fire({
+                            icon: "success",
+                            title: "Actualización Exitosa",
+                            text: response.message
+                        }).then(() => {
+                            // Ocultar el modal
+                            $('#modalEditarArea').modal('hide');
+                            // Recargar las áreas en la tabla
+                            loadAreas();
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: response.message
+                        });
+                    }
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error('Error updating the area:', textStatus, errorThrown);
+            }
+        });
+    });
+
+    function capitalizeWords(str) {
+        const exceptions = new Set(['y', 'de', 'a', 'en', 'o', 'con', 'para', 'por', 'que', 'si', 'el', 'la', 'los', 'las', 'un', 'una', 'del', 'al']);
+
+        return str
+            .toLowerCase()
+            .split(' ')
+            .map((word, index, array) => {
+                if (index === 0 || !exceptions.has(word)) {
+                    return word.charAt(0).toUpperCase() + word.slice(1);
+                }
+                return word;
+            })
+            .join(' ');
+    }
 });

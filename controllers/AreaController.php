@@ -54,17 +54,6 @@ class AreaController{
             require_once "views/modals/alerta.php";
     }
 
-    function listar(){
-
-        $areaObj = new Area();
-        $listadoArea = $areaObj->listarArea();
-
-//        var_dump($listadoArea);
-
-        require_once "views/area/listarArea.php";
-
-
-    }
 
     public function registrar(){
         if (isset($_POST)){

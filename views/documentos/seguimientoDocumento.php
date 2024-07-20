@@ -67,7 +67,7 @@
                             </td>
                             <td class="actions">
                                 <a href="<?=base_url?>envio/detalle?cod=<?=$result["codEnvio"]?>" class="action">
-                                    <span class="tooltip">Ver Detalle <span class="triangulo"></span></span>
+                                    <span class="tooltipParent">Ver Detalle <span class="triangulo"></span></span>
                                     <svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <g filter="url(#filter0_d_2424_29)">
                                             <rect x="4" width="28" height="26" rx="5" fill="white"/>

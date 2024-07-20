@@ -1,34 +1,25 @@
-<?php
-require_once('models/Estado.php');
-$estado = new EstadoController();
-$estados= $estado->listarEstadosHabilitadoInhabilitado();
-
-?>
-<div class="containerRegistroTipoDocumento">
-    <form id="registrarAreaForm" action="<?=base_url?>area/actualizar" method="post">
-        <div>
-        <h2>Actualizar Area</h2>
-            <div class="body">
-                <label for="nombre">Descripción:</label>
-                <input 
-                type="text"  
-                name="area" 
-                value="<?=$response[0]['descripcion']?>">
-
-                <input
-                    style="display: none"
-                    type="number"
-                    name="codArea"
-                    value="<?= $response[0]['codArea']?>"
-                    required
-            >
-
-             </div>
-
-                <input type="submit" value="Actualizar">
+<div id="modalEditarArea" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Actualizar Área</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form class="formArea" id="editarAreaForm" action="" method="post">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="descripcionArea" class="form-label">Descripción (*):</label>
+                        <input type="text" id="descripcionArea">
+                    </div>
+                    <input type="hidden" name="codArea" id="codArea">
+                    <p>Todos los campos (*) son obligatorios</p>
+                </div>
+                <div class="containerButtonsEditarArea">
+                    <input type="submit" class="btn" value="Actualizar">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
         </div>
-
-    </form>
-
+    </div>
 </div>
 

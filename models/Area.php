@@ -96,6 +96,45 @@ class Area {
         }
     }
 
+    public function existeArea(){
+        $sql= "SELECT * FROM Area WHERE descripcion = :descripcion";
+
+        try{
+            $stmt = DataBase::connect()->prepare($sql);
+            $stmt->bindParam("descripcion", $this->descripcion, PDO::PARAM_STR);
+            $stmt->execute();
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if (count($results) > 0) {
+                return [
+                    'status' => 'success',
+                    'message' => 'area encontrada',
+                    'action' => 'buscar',
+                    'module' => 'area',
+                    'data' => [],
+                    'info' => ''
+                ];
+            }
+
+            return [
+                'status' => 'success',
+                'message' => '¡No se encontraron resultados!',
+                'action' => 'buscar',
+                'module' => 'area',
+                'data' => [],
+                'info' => ''
+            ];
+        }catch (PDOException $e) {
+            return [
+                'status' => 'failed',
+                'message' => 'Ocurrio un error al momento de verificar si el area existe',
+                'action' => 'buscar',
+                'module' => 'area',
+                'info' => $e->getMessage()
+            ];
+        }
+    }
+
     public function actualizarArea(){
         $sql = "UPDATE Area SET descripcion = :descripcion WHERE CodArea = :codArea";
 
@@ -126,5 +165,21 @@ class Area {
         }
     }
 
+    function toCamelCase($str) {
+        // Convertir todo el string a minúsculas
+        $str = strtolower($str);
+
+        // Eliminar caracteres no alfanuméricos y dividir por espacios
+        $str = preg_replace('/[^a-z0-9\s]/', '', $str);
+        $words = explode(' ', $str);
+
+        // Capitalizar cada palabra excepto la primera
+        $camelCase = array_shift($words);
+        foreach ($words as $word) {
+            $camelCase .= ucfirst($word);
+        }
+
+        return $camelCase;
+    }
 
 }

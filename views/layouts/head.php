@@ -11,6 +11,8 @@
     <script src="<?=base_url?>plugins/jquery/jquery-3.7.1.min.js"></script>
     <script src="<?=base_url?>plugins/sweetalert2/sweetalert2.min.js"></script>
     <link rel="stylesheet" href="<?=base_url?>plugins/sweetalert2/sweetalert2.min.css">
+    <link rel="stylesheet" href="<?= base_url?>plugins/bootstrap/css/bootstrap.css">
+    <script src="<?= base_url?>plugins/bootstrap/js/bootstrap.js"></script>
     <link rel="stylesheet" href="<?=base_url?>assets/css/normalize.css">
     <link rel="stylesheet" href="<?=base_url?>assets/css/styles.css">
     <link rel="stylesheet" href="<?=base_url?>assets/css/estilosExt.css">
@@ -18,4 +20,4 @@
 </head>
 
 <body>
-<div class="container">
+<div class="containerParent">

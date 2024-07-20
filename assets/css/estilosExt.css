@@ -138,6 +138,46 @@
     margin-bottom: 10px;
 }
 
+
+
+#modalEditarArea .containerButtonsEditarArea{
+    display: flex;
+    padding: 10px;
+    gap: 10px;
+}
+
+#modalEditarArea .modal-header{
+    background-color: var(--bg-color-principal);
+    color: #fff;
+}
+
+#modalEditarArea .formArea .modal-body input{
+    background: rgb(221 221 221 / 44%);
+}
+
+#modalEditarArea .formArea .modal-body p{
+    font-weight: 700;
+    font-size: 12px;
+    margin-bottom: 0;
+    text-align: right;
+}
+
+#modalEditarArea .containerButtonsEditarArea input[type="submit"]{
+    background-color: var(--bg-color-principal);
+    color: #fff;
+    width: 50%;
+    margin-bottom: 0;
+}
+
+#modalEditarArea .containerButtonsEditarArea button{
+    width: 50%;
+    background-color: #F12A2A;
+}
+
+
+
+
+
 .asuntoDocumento{
     width: 250px;
     display: table-caption;

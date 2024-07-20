@@ -65,7 +65,7 @@
                         <div class="actions">
                         <?php if ($result["estado recepcion"] == 'a' && $result["estado documento"] == 'a'):?>
                             <a class="action" href="<?=base_url?>envio/nuevoEnvio?doc=<?=$result["NumDocumento"]?>&recep=<?=$result["codRecepcion"]?>">
-                            <span class="tooltip">Enviar documento <span class="triangulo"></span></span>
+                            <span class="tooltipParent">Enviar documento <span class="triangulo"></span></span>
                             <svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <g filter="url(#filter0_d_2426_28)">
                                     <g clip-path="url(#clip0_2426_28)">
@@ -93,7 +93,7 @@
                         <?php endif; ?>
                         <?php if ($result["estado recepcion"] == 'a' && $result["estado documento"] == 'a'): ?>
                             <div class="action" onclick="modalCancelarRecepcion(<?=$result["codRecepcion"]?>)">
-                                <span class="tooltip"> Cancelar Recepción <span class="triangulo"></span></span>
+                                <span class="tooltipParent"> Cancelar Recepción <span class="triangulo"></span></span>
                                 <svg width="37" height="34" viewBox="0 0 37 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <g filter="url(#filter0_d_2851_129)">
                                         <rect x="2" width="31" height="26" rx="5" fill="#F8F8F8"/>
@@ -115,7 +115,7 @@
                             </div>
                         <?php endif; ?>
                             <a href="<?=base_url?>documento/seguimiento?doc=<?=$result["NumDocumento"]?>" class="action">
-                            <span class="tooltip">Ver Seguimiento <span class="triangulo"></span></span>
+                            <span class="tooltipParent">Ver Seguimiento <span class="triangulo"></span></span>
                             <svg width="39" height="34" viewBox="0 0 39 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <g filter="url(#filter0_d_2424_32)">
                                     <rect x="4" width="31" height="26" rx="5" fill="#F8F8F8"/>
@@ -140,7 +140,7 @@
                             </svg>
                         </a>
                             <a href="<?=base_url?>envio/detalle?cod=<?=$result["codEnvio"]?>" class="action">
-                            <span class="tooltip">Ver Detalle <span class="triangulo"></span></span>
+                            <span class="tooltipParent">Ver Detalle <span class="triangulo"></span></span>
                             <svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <g filter="url(#filter0_d_2424_29)">
                                     <rect x="4" width="28" height="26" rx="5" fill="white"/>

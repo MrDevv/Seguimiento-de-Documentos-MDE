@@ -1,4 +1,4 @@
-<div class="navbar">
+<div class="navbarParent">
     <div class="logo">
         <img src="<?=base_url?>assets/logo.png" alt="logo">
     </div>
