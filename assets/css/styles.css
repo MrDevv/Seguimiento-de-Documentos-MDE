@@ -430,8 +430,6 @@ input:focus-visible{
     border: 1px solid var(--bg-color-principal);
 }
 
-/* TABLA LISTAR AREAS */
-
 
 
 /* -------------- PENDIENTES DE RECEPCION --------------- */
@@ -452,6 +450,10 @@ input:focus-visible{
 .listadoAreas_header{
     width: 100%;
     margin-bottom: 20px;
+}
+
+.listadoAreas_header{
+    margin-bottom: 0;
 }
 
 .pendientesRecepcion_header h2,
@@ -524,6 +526,13 @@ input:focus-visible{
     width: 100px;
     margin-bottom: 0;
     transition: all .3s ease-in-out;
+}
+
+/* TABLA LISTAR AREAS */
+.listadoAreas_header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 

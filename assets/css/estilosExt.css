@@ -140,43 +140,39 @@
 
 
 
-#modalEditarArea .containerButtonsEditarArea{
+.modalArea .containerButtonsEditarArea{
     display: flex;
     padding: 10px;
     gap: 10px;
 }
 
-#modalEditarArea .modal-header{
+.modalArea .modal-header{
     background-color: var(--bg-color-principal);
     color: #fff;
 }
 
-#modalEditarArea .formArea .modal-body input{
+.modalArea .formArea .modal-body input{
     background: rgb(221 221 221 / 44%);
 }
 
-#modalEditarArea .formArea .modal-body p{
+.modalArea .formArea .modal-body p{
     font-weight: 700;
     font-size: 12px;
     margin-bottom: 0;
     text-align: right;
 }
 
-#modalEditarArea .containerButtonsEditarArea input[type="submit"]{
+.modalArea .containerButtonsEditarArea input[type="submit"]{
     background-color: var(--bg-color-principal);
     color: #fff;
     width: 50%;
     margin-bottom: 0;
 }
 
-#modalEditarArea .containerButtonsEditarArea button{
+.modalArea .containerButtonsEditarArea button{
     width: 50%;
     background-color: #F12A2A;
 }
-
-
-
-
 
 .asuntoDocumento{
     width: 250px;
@@ -275,7 +271,7 @@
     align-items: center;
 }
 
-.btnNuevoDocumento{
+.btnNuevoRegistro{
     display: flex;
     align-items: center;
     gap: 5px;
@@ -284,9 +280,10 @@
     color: #fff;
     border-radius: 5px;
     cursor: pointer;
+    height: fit-content;
 }
 
-.btnNuevoDocumento svg{
+.btnNuevoRegistro svg{
     width: 15px;
 }
 

@@ -1,4 +1,4 @@
-<div id="modalEditarArea" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div id="modalEditarArea" class="modalArea modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -9,7 +9,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="descripcionArea" class="form-label">Descripción (*):</label>
-                        <input type="text" id="descripcionArea">
+                        <input type="text" class="descripcionArea" id="descripcionArea">
                     </div>
                     <input type="hidden" name="codArea" id="codArea">
                     <p>Todos los campos (*) son obligatorios</p>

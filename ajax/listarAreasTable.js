@@ -54,6 +54,76 @@ $(document).ready(function() {
     // Cargar las áreas cuando se carga la página
     loadAreas();
 
+    // nuevo
+    $(document).on("click", "#btnRegistrarArea", function(e){
+        e.preventDefault();
+        let modalRegistrar = $("#modalRegistrarArea");
+        $("#registrarAreaForm").trigger("reset");
+        modalRegistrar.modal('show');
+
+        modalRegistrar.on('shown.bs.modal', function () {
+            $(".descripcionArea").focus();
+        });
+    });
+
+    // registrar
+    $('#registrarAreaForm').submit(function(e){
+        e.preventDefault();
+        console.log('registrando')
+        let descripcion = $.trim($('#descripcionAreaNuevo').val());
+        console.log(descripcion)
+
+        if(descripcion.length == 0){
+            Swal.fire({
+                icon: "warning",
+                title: "Campos Incompletos",
+                text: "Ingrese los campos requeridos",
+            });
+            return;
+        }
+
+        descripcion = capitalizeWords(descripcion);
+
+        $.ajax({
+            url: "./controllers/areas/registrarArea.php",
+            type: "POST",
+            datatype: "json",
+            data: {descripcion: descripcion},
+            success: function(response) {
+                response = JSON.parse(response);
+                if (response.message == 'area encontrada'){
+                    Swal.fire({
+                        icon: "warning",
+                        title: "¡Advertencia!",
+                        text: "El área que intenta registrar ya existe"
+                    });
+                } else {
+                    if (response.status == 'success'){
+                        Swal.fire({
+                            icon: "success",
+                            title: "¡Éxito!",
+                            text: response.message
+                        }).then(() => {
+                            $('#modalRegistrarArea').modal('hide');
+                            loadAreas();
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: response.message
+                        });
+                    }
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error('Error updating the area:', textStatus, errorThrown);
+            }
+        });
+    });
+
+
+    let descripcionDB= '';
     // Editar
     $(document).on("click", "#btnEditarArea", function(e){
         e.preventDefault();
@@ -61,13 +131,14 @@ $(document).ready(function() {
         fila = $(this).closest("tr");
         codArea = parseInt(fila.find('td:eq(0)').text());
         descripcion = fila.find('td:eq(1)').text();
+        descripcionDB = descripcion;
         $("#descripcionArea").val(descripcion.trim());
         $("#codArea").val(codArea);
 
         modalEditar.modal('show');
 
         modalEditar.on('shown.bs.modal', function () {
-            $("#descripcionArea").focus();
+            $(".descripcionArea").focus();
         });
     });
 
@@ -86,6 +157,15 @@ $(document).ready(function() {
             return;
         }
 
+        if (descripcionDB === descripcion){
+            Swal.fire({
+                icon: "warning",
+                title: "¡Advertenciaaaa!",
+                text: "Para actualizar el área tiene que tener una nueva descripción."
+            });
+            return;
+        }
+
         descripcion = capitalizeWords(descripcion);
 
         $.ajax({
@@ -95,31 +175,21 @@ $(document).ready(function() {
             data: { codArea, descripcion },
             success: function(response) {
                 response = JSON.parse(response);
-                if (response.message == 'area encontrada'){
+                if (response.status == 'success'){
                     Swal.fire({
-                        icon: "error",
-                        title: "El área tiene el mismo nombre",
-                        text: "Para actualizar el área tiene que tener una nueva descripción."
+                        icon: "success",
+                        title: "Actualización Exitosa",
+                        text: response.message
+                    }).then(() => {
+                        $('#modalEditarArea').modal('hide');
+                        loadAreas();
                     });
                 } else {
-                    if (response.status == 'success'){
-                        Swal.fire({
-                            icon: "success",
-                            title: "Actualización Exitosa",
-                            text: response.message
-                        }).then(() => {
-                            // Ocultar el modal
-                            $('#modalEditarArea').modal('hide');
-                            // Recargar las áreas en la tabla
-                            loadAreas();
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: "error",
-                            title: "Error",
-                            text: response.message
-                        });
-                    }
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: response.message
+                    });
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
