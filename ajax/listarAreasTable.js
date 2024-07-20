@@ -123,7 +123,7 @@ $(document).ready(function() {
     });
 
 
-    let descripcionDB= '';
+    let descripcionDB = '';
     // Editar
     $(document).on("click", "#btnEditarArea", function(e){
         e.preventDefault();
@@ -157,10 +157,10 @@ $(document).ready(function() {
             return;
         }
 
-        if (descripcionDB === descripcion){
+        if (descripcionDB == descripcion){
             Swal.fire({
                 icon: "warning",
-                title: "¡Advertenciaaaa!",
+                title: "¡Advertencia!",
                 text: "Para actualizar el área tiene que tener una nueva descripción."
             });
             return;
@@ -175,21 +175,29 @@ $(document).ready(function() {
             data: { codArea, descripcion },
             success: function(response) {
                 response = JSON.parse(response);
-                if (response.status == 'success'){
+                if (response.message == 'area encontrada'){
                     Swal.fire({
-                        icon: "success",
-                        title: "Actualización Exitosa",
-                        text: response.message
-                    }).then(() => {
-                        $('#modalEditarArea').modal('hide');
-                        loadAreas();
+                        icon: "warning",
+                        title: "¡Advertencia!",
+                        text: "La descripción que intenta actualizar ya existe en la base de datos"
                     });
                 } else {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Error",
-                        text: response.message
-                    });
+                    if (response.status == 'success'){
+                        Swal.fire({
+                            icon: "success",
+                            title: "Actualización Exitosa",
+                            text: response.message
+                        }).then(() => {
+                            $('#modalEditarArea').modal('hide');
+                            loadAreas();
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: response.message
+                        });
+                    }
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
