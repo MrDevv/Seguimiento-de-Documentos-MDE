@@ -1,27 +1,29 @@
-<div class="containerRegistroTipoDocumento">
-    <h2>Editar Tipo de Documento</h2>
-    <form id="registrarTipoDocumentoForm" action="<?=base_url?>tipoDocumento/actualizar" method="post">
-        <div class="body">
-            <label>Tipo de documento:</label>
-            <input
-                    style="display: none"
-                    type="number"
-                    name="codTipoDocumento"
-                    value="<?= $tipoDocumentoDB['data'][0]['codTipoDocumento']?>"
-                    required
-            >
-            <input
-                    type="text"
-                    name="tipoDocumento"
-                    id="tipoDocumento"
-                    autocomplete="off"
-                    placeholder="ejemplo: informe"
-                    value="<?=trim($tipoDocumentoDB['data'][0]['descripcion'])?>"
-                    maxlength="20"
-                    required>
+<div id="modalEditarTipoDocumento" class="modalArea modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Actualizar Tipo Documento</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form class="formArea" id="editarTipoDocumentoForm" action="" method="post">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="descripcionTipoDocumento" class="form-label">Descripción (*):</label>
+                        <input
+                                type="text"
+                                id="descripcionTipoDocumento"
+                                autocomplete="off"
+                                placeholder="ejemplo: Informe"
+                                maxlength="20">
+                    </div>
+                    <input type="hidden" id="codTipoDocumento">
+                    <p>Todos los campos (*) son obligatorios</p>
+                </div>
+                <div class="containerButtonsEditarArea">
+                    <input type="submit" class="btn" value="Actualizar">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
         </div>
-        <input type="submit" value="Actualizar">
-    </form>
-
-<!--    --><?php //var_dump($tipoDocumentoDB[0]['descripcion']);?>
+    </div>
 </div>

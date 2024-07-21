@@ -121,7 +121,7 @@
 
         <?php if (trim($_SESSION['user']['rol']) == 'administrador'):  ?>
         <div>
-            <div class="option <?= ($_SESSION['optionActive'] == "tipoDocumento") ? "selected" : ""?>" id="optionTipoDocumentos">
+            <a href="views/tipoDocumento/listarTipoDocumentos" class="option" id="optionTipoDocumentos">
                 <div class="containerIconOption">
                     <svg width="31" height="28" viewBox="0 0 31 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M25.1875 12.0996V22.75C25.1875 23.4462 24.8813 24.1139 24.3363 24.6062C23.7913 25.0984 23.052 25.375 22.2812 25.375H8.71875C7.94796 25.375 7.20875 25.0984 6.66372 24.6062C6.11869 24.1139 5.8125 23.4462 5.8125 22.75V5.25C5.8125 4.55381 6.11869 3.88613 6.66372 3.39384C7.20875 2.90156 7.94796 2.625 8.71875 2.625H14.6978C15.2114 2.62507 15.7041 2.80938 16.0673 3.13742L24.6202 10.8626C24.9834 11.1907 25.1874 11.6356 25.1875 12.0996Z" stroke="white" stroke-width="2" stroke-linejoin="round"/>
@@ -130,30 +130,8 @@
                 </div>
                 <div>
                     <p>Tipo Documentos</p>
-                    <svg class="svgOption <?= ($_SESSION['optionActive'] == "tipoDocumento") ? "open" : ""?>" id="svgOptionTipoDocumentos" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M246.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-9.2-9.2-22.9-11.9-34.9-6.9s-19.8 16.6-19.8 29.6l0 256c0 12.9 7.8 24.6 19.8 29.6s25.7 2.2 34.9-6.9l128-128z"/></svg>
                 </div>
-            </div>
-
-            <div class="submenu <?= ($_SESSION['optionActive'] == "tipoDocumento") ? "showOptions" : ""?>"  id="submenuTipoDocumentos">
-                <div id="options-tipo-documentos" class="options <?= ($_SESSION['optionActive'] == "tipoDocumento") ? "openPaddingOptions" : ""?>">
-                    <a href="<?=base_url?>tipoDocumento/listar">
-                        <span>
-                            <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M5.5 11C6.95869 11 8.35764 10.4205 9.38909 9.38909C10.4205 8.35764 11 6.95869 11 5.5C11 4.04131 10.4205 2.64236 9.38909 1.61091C8.35764 0.579463 6.95869 0 5.5 0C4.04131 0 2.64236 0.579463 1.61091 1.61091C0.579463 2.64236 0 4.04131 0 5.5C0 6.95869 0.579463 8.35764 1.61091 9.38909C2.64236 10.4205 4.04131 11 5.5 11Z" fill="white"/>
-                            </svg>
-                        </span>
-                        Listar Tipo de Documentos
-                    </a>
-                    <a href="<?=base_url?>tipoDocumento/crear">
-                        <span>
-                            <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M5.5 11C6.95869 11 8.35764 10.4205 9.38909 9.38909C10.4205 8.35764 11 6.95869 11 5.5C11 4.04131 10.4205 2.64236 9.38909 1.61091C8.35764 0.579463 6.95869 0 5.5 0C4.04131 0 2.64236 0.579463 1.61091 1.61091C0.579463 2.64236 0 4.04131 0 5.5C0 6.95869 0.579463 8.35764 1.61091 9.38909C2.64236 10.4205 4.04131 11 5.5 11Z" fill="white"/>
-                            </svg>
-                        </span>
-                        Registrar Nuevo Tipo de Documento
-                    </a>
-                </div>
-            </div>
+            </a>
         </div>
         <?php endif;  ?>
 

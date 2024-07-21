@@ -439,7 +439,8 @@ input:focus-visible{
 .containerSeguimiento,
 .containerEnviados,
 .containerRecepcionados,
-.containerListadoArea{
+.containerListadoArea,
+.containerListadoTipoDocumentos{
     width: 100%;
 }
 
@@ -460,7 +461,8 @@ input:focus-visible{
 .seguimiento_header h2,
 .enviados_header h2,
 .recepcionados_header h2,
-.listadoAreas_header h2{
+.listadoAreas_header h2,
+.listadoDocumentos_header h2{
     text-transform: uppercase;
 }
 
@@ -470,7 +472,8 @@ input:focus-visible{
 .enviados_header p:nth-child(2),
 .description_btnNuevoDocumento p,
 .recepcionados_header p:nth-child(2),
-.listadoAreas_header p:nth-child(2){
+.listadoAreas_header p:nth-child(2),
+.listadoTipoDocumentos_header p:nth-child(2){
     color: var(--bg-color-principal);
     font-weight: 700;
 }
@@ -528,14 +531,12 @@ input:focus-visible{
     transition: all .3s ease-in-out;
 }
 
-/* TABLA LISTAR AREAS */
-.listadoAreas_header{
+.listadoAreas_header,
+.listadoTipoDocumentos_header{
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-
-
 
 /*              BODY             */
 .pendientesRecepcion_body table,
@@ -543,7 +544,8 @@ input:focus-visible{
 .seguimiento_body table,
 .enviados_body table,
 .recepcionados_body table,
-.listadoAreas_body table{
+.listadoAreas_body table,
+.listadoTipoDocumentos_body table{
     width: 100%;
     border-spacing: 0;
 }
@@ -553,7 +555,8 @@ input:focus-visible{
 .seguimiento_body table thead tr,
 .enviados_body table thead tr,
 .recepcionados_body table thead tr,
-.listadoAreas_body table thead tr{
+.listadoAreas_body table thead tr,
+.listadoTipoDocumentos_body table thead tr{
     background-color: #fff;
     font-size: 14px;
     text-align: center;
@@ -564,7 +567,8 @@ input:focus-visible{
 .seguimiento_body table thead tr th,
 .enviados_body table thead tr th,
 .recepcionados_body table thead tr th,
-.listadoAreas_body table thead tr th{
+.listadoAreas_body table thead tr th,
+.listadoTipoDocumentos_body table thead tr th{
     font-weight: 600;
     padding: 10px 5px;
 }
@@ -604,7 +608,8 @@ input:focus-visible{
 .seguimiento_body table tbody tr,
 .enviados_body table tbody tr,
 .recepcionados_body table tbody tr,
-.listadoAreas_body table tbody tr{
+.listadoAreas_body table tbody tr,
+.listadoTipoDocumentos_body table tbody tr{
     text-align: center;
     font-size: 13px;
 }
@@ -614,7 +619,8 @@ input:focus-visible{
 .seguimiento_body table tbody tr td,
 .enviados_body table tbody tr td,
 .recepcionados_body table tbody tr td,
-.listadoAreas_body table tbody tr td{
+.listadoAreas_body table tbody tr td,
+.listadoTipoDocumentos_body table tbody tr td{
     padding: 5px;
 }
 
@@ -623,7 +629,8 @@ input:focus-visible{
 .seguimiento_body table tbody tr td:first-child,
 .enviados_body table tbody tr td:nth-child(2),
 .recepcionados_body table tbody tr td:nth-child(2),
-.listadoAreas_body table tbody tr td:nth-child(1){
+.listadoAreas_body table tbody tr td:nth-child(1),
+.listadoTipoDocumentos_body table tbody tr td:nth-child(1){
     color: #FF0000;
     font-weight: 600;
 }
@@ -634,13 +641,13 @@ input:focus-visible{
     border-radius: 5px;
 }
 
-
 .pendientesRecepcion_body table tbody tr:nth-child(even),
 .listadoDocumentos_body table tbody tr:nth-child(even),
 .seguimiento_body table tbody tr:nth-child(even),
 .enviados_body table tbody tr:nth-child(even),
 .recepcionados_body table tbody tr:nth-child(even),
-.listadoAreas_body table tbody tr:nth-child(even){
+.listadoAreas_body table tbody tr:nth-child(even),
+.listadoTipoDocumentos_body table tbody tr:nth-child(even){
     background-color: #fff;
 }
 

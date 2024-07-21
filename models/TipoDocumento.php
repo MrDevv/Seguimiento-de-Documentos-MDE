@@ -133,26 +133,43 @@ class TipoDocumento{
         }
     }
 
-    public function existeTipoDocumento($codTipoDocumento){
-        $sql = "SELECT * FROM TipoDocumento WHERE CodTipoDocumento = :codTipoDocumento";
+    public function existeTipoDocumento(){
+        $sql = "SELECT * FROM TipoDocumento WHERE descripcion = :descripcion";
 
         try {
             $stmt = DataBase::connect()->prepare($sql);
 
-            $stmt->bindParam(":descripcion", $this->descripcion, PDO::PARAM_STR);
+            $stmt->bindParam("descripcion", $this->descripcion, PDO::PARAM_STR);
 
             $stmt->execute();
 
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if (count($results) > 0){
+                return [
+                    'status' => 'success',
+                    'message' => 'tipo documento encontrado',
+                    'action' => 'buscar',
+                    'module' => 'tipoDocumento',
+                    'data' => [],
+                    'info' => ''
+                ];
+            }
 
             return [
                 'status' => 'success',
-                'message' => 'Tipo documento registrado',
-                'module' => 'tipoDocumento',
+                'message' => '¡No se encontraron resultados!',
+                'action' => 'buscar',
+                'module' => 'Tipo Documento',
+                'data' => [],
+                'info' => ''
             ];
+
+
         }catch (PDOException $e){
             return [
                 'status' => 'failed',
-                'message' => 'Ocurrio un error al momento de registrar el tipo de documento',
+                'message' => 'Ocurrio un error al momento de verificar si el tipo de documento existe',
                 'action' => '',
                 'module' => 'tipoDocumento',
                 'info' => $e->getMessage()

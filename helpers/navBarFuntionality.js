@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             let option = document.querySelector( "#"+opcion.id);
 
-            if (option.id != "optionInicio" && option.id != "optionAreas"){
+            if (option.id != "optionInicio" && option.id != "optionAreas" && option.id != "optionTipoDocumentos"){
                 let containerSubmenu = document.querySelector("#"+option.parentElement.lastElementChild.id);
                 let svgOption = document.querySelector("#"+option.lastElementChild.lastElementChild.id);
                 let containerOptions = document.querySelector("#"+option.parentElement.lastElementChild.firstElementChild.id);

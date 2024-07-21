@@ -49,13 +49,6 @@ class TipoDocumentoController{
             require_once "views/modals/alerta.php";
     }
 
-    function listar(){
-        $tipoDocumentoObj = new TipoDocumento();
-        $listadoTipoDocumentos = $tipoDocumentoObj->listarTipoDocumentos();
-
-        require_once "views/tipoDocumento/listarTipoDocumentos.php";
-    }
-
     function registrar(){
         if (isset($_POST)){
             $tipoDocumento = isset($_POST['tipoDocumento']) ? trim($_POST['tipoDocumento']) : false;
