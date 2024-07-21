@@ -40,22 +40,21 @@ class UsuarioArea{
         $this->estado = $estado;
     }
 
-    public function registrarUsuarioArea(){
-        $sql = "INSERT INTO UsuarioArea(codUsuario, codArea, codEstado) ".
-                "values(:codUsuario, :codArea, :codEstado)";
+    public function cambiarUsuarioArea(){
+        $sql = "EXEC sp_cambiarAreaUsuario :codUsuarioArea, :codUsuario, :codArea";
         
         try {
             $stmt = DataBase::connect()->prepare($sql);
 
-            $stmt->bindParam(":codUsuario", $this->usuario, PDO::PARAM_INT);
-            $stmt->bindParam(":codArea", $this->area, PDO::PARAM_INT);
-            $stmt->bindParam(":codEstado", $this->estado, PDO::PARAM_INT);
+            $stmt->bindParam("codUsuarioArea", $this->codUsuarioArea, PDO::PARAM_INT);
+            $stmt->bindParam("codUsuario", $this->usuario, PDO::PARAM_INT);
+            $stmt->bindParam("codArea", $this->area, PDO::PARAM_INT);
 
             $stmt->execute();
 
             return [
                 'status' => 'success',
-                'message' => 'Usuario registrado',
+                'message' => '¡Se cambió de área al usuario!',
                 'action' => 'registrar',
                 'module' => 'usuario',
                 'info' => ''
@@ -63,7 +62,7 @@ class UsuarioArea{
         }catch (PDOException $e){
             return [
                 'status' => 'failed',
-                'message' => 'Ocurrio un error al cambiar el area',
+                'message' => '¡Ocurrio un error al cambiar de área al usuario!',
                 'action' => 'registrar',
                 'module' => 'usuario',
                 'info' => $e->getMessage()

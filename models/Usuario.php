@@ -182,7 +182,7 @@ class Usuario {
 
     public function listarUsuario(){
         // agregar la consulta correcta
-        $sql = "select ua.codUsuarioArea, u.codPersona, u.codUsuario, u.codRol, u.nombreUsuario 'usuario', e.descripcion 'estado', ".
+        $sql = "select ua.codUsuarioArea, ua.codArea, u.codPersona, u.codUsuario, u.codRol, u.nombreUsuario 'usuario', e.descripcion 'estado', ".
                 "p.nombres, p.apellidos, p.dni, p.telefono, a.descripcion 'area', ".
                 "r.descripcion 'rol' ".
                 "from UsuarioArea ua ".

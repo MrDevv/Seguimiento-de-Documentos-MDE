@@ -47,7 +47,7 @@
                         </div>
                         <div class="col-sm-6">
                             <label for="selectAreas" class="form-label">Área (*):</label>
-                            <select class="form-select" id="selectAreas" name="area" required>
+                            <select class="form-select selectArea" id="selectAreas" name="area" required>
                             </select>
                         </div>
 

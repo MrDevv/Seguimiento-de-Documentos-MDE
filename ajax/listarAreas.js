@@ -11,7 +11,7 @@ $(document).ready(function() {
                 ).join('');
 
                 // Actualizar el contenido del select
-                $('#selectAreas').html(options);
+                $('.selectArea').html(options);
             } else {
                 console.warn('No data received or data is not an array.');
             }

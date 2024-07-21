@@ -14,7 +14,7 @@ $(document).ready(function() {
                         <td>${usuario.codUsuarioArea}</td>
                         <td class="invisible">${usuario.codUsuario}</td>
                         <td class="invisible">${usuario.codPersona}</td>
-                        <td class="invisible">${usuario.codRol}</td>
+                        <td class="invisible">${usuario.codRol}</td>                      
                         <td>${usuario.usuario}</td>
                         <td>${usuario.rol}</td>
                         <td>${usuario.nombres}                        
@@ -22,6 +22,7 @@ $(document).ready(function() {
                         <td>${usuario.dni}</td>
                         <td>${usuario.telefono}</td>                      
                         <td>${usuario.area}</td>
+                        <td class="invisible">${usuario.codArea}</td>
                         <td>
                             <span class="estado ${usuario.estado === 'a' ? 'follow' : 'finished'}">
                                 ${usuario.estado === 'a' ? 'Activo' : 'Inactivo'}
@@ -51,7 +52,7 @@ $(document).ready(function() {
                                             </defs>
                                     </svg>
                                 </a>                              
-                                <a class="action" href="<?=base_url?>usuario/cambiarAreaUsuario?cod=${usuario.codUsuarioArea}&user=${usuario.codUsuario}">
+                                <a class="action" id="btnCambiarAreaUsuario" href="#" data-bs-toggle="modal" data-bs-target="#modalCambiarAreaUsuario">
                                     <span class="tooltipParent">Cambiar Area <span class="triangulo"></span></span>
                                     <svg width="38" height="34" viewBox="0 0 38 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <g filter="url(#filter0_d_2928_43)">
@@ -146,7 +147,7 @@ $(document).ready(function() {
         modalRegistrar.modal('show');
 
         modalRegistrar.on('shown.bs.modal', function () {
-            $("#descripcionTipoDocumentoNuevo").focus();
+            $("#nombresNuevo").focus();
         });
     });
 
@@ -266,8 +267,9 @@ $(document).ready(function() {
         modalActualizar.modal('show');
 
         modalActualizar.on('shown.bs.modal', function () {
-            $("#descripcionTipoDocumento").focus();
+            $("#nombresEditar").focus();
         });
+
     });
 
     // actualizar
@@ -330,6 +332,72 @@ $(document).ready(function() {
                         text: response.message
                     }).then(() => {
                         $('#modalEditarUsuario').modal('hide');
+                        loadUsuarios();
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: response.message
+                    });
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error('Error updating the area:', textStatus, errorThrown);
+            }
+        });
+    });
+
+    let codAreaActual = 0;
+    // muestra el modal para cambiar el area a un usuario
+    $(document).on("click", "#btnCambiarAreaUsuario", function(e){
+        e.preventDefault();
+        let modalActualizar = $("#modalCambiarAreaUsuario");
+        let fila = $(this).closest("tr");
+        let codUsuarioArea = fila.find('td:eq(0)').text();
+        let codUsuario = fila.find('td:eq(1)').text();
+        let codArea = fila.find('td:eq(11)').text();
+        codAreaActual = codArea;
+        $("#codUsuarioArea").val(codUsuarioArea.trim());
+        $("#codUsuario").val(codUsuario.trim());
+        $(".selectArea").val(codArea.trim());
+
+        modalActualizar.modal('show');
+    });
+
+    // registrar nueva area para el usuario
+    $('#cambiarAreaUsuarioForm').submit(function(e){
+        e.preventDefault();
+        let codUsuarioArea = $.trim($('#codUsuarioArea').val());
+        let codUsuario = $.trim($('#codUsuario').val());
+        let codAreaNueva = $.trim($('#selectAreaCambiar').val());
+
+        console.log('actual ', codAreaActual);
+        console.log('nueva ',codAreaNueva);
+        if (codAreaActual == codAreaNueva){
+            Swal.fire({
+                icon: "warning",
+                title: "Campos Iguales",
+                text: "Para cambiar de área al usuario debe seleccionar una nueva área",
+            });
+            return;
+        }
+
+        $.ajax({
+            url: "./controllers/usuario/cambiarAreaUsuario.php",
+            type: "POST",
+            datatype: "json",
+            data: {codUsuarioArea, codUsuario, codAreaNueva},
+            success: function(response) {
+                console.log(response)
+                response = JSON.parse(response);
+                if (response.status == 'success'){
+                    Swal.fire({
+                        icon: "success",
+                        title: "¡Éxito!",
+                        text: response.message
+                    }).then(() => {
+                        $('#modalCambiarAreaUsuario').modal('hide');
                         loadUsuarios();
                     });
                 } else {

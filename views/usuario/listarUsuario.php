@@ -39,5 +39,6 @@ require_once('../../models/Estado.php');
 </div>
 <?php  require_once "registro.php"?>
 <?php  require_once "editarUsuario.php"?>
+<?php  require_once "cambiarAreaUsuario.php"?>
 
 <script src="<?= base_url?>ajax/listarUsuario.js"></script>
