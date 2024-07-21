@@ -5,7 +5,6 @@ $(document).ready(function(){
             method: 'GET',
             dataType: 'json',
             success: function(response) {
-                console.log(response)
                 if (response && Array.isArray(response)) {
                     let row = response.map(tipoDocumento =>
                         `
@@ -87,7 +86,6 @@ $(document).ready(function(){
             data: {descripcion},
             success: function(response) {
                 response = JSON.parse(response);
-                console.log(response)
                 if (response.message == 'tipo documento encontrado'){
                     Swal.fire({
                         icon: "warning",
@@ -172,7 +170,6 @@ $(document).ready(function(){
             data: {descripcion, codTipoDocumento},
             success: function(response) {
                 response = JSON.parse(response);
-                console.log(response)
                 if (response.message == 'tipo documento encontrado'){
                     Swal.fire({
                         icon: "warning",
