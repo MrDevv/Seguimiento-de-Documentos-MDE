@@ -30,7 +30,7 @@ a{
 }
 
 .disabled{
-    background-color: #e7e7e7 !important;
+    background-color: #b7b7b7 !important;
 }
 /* ------- */
 
@@ -592,18 +592,14 @@ input:focus-visible{
     width: 50px;
 }
 
-.listadoUsuarios_body table thead tr th:nth-child(4){
-    width: 150px;
-}
-
 .enviados_body table thead tr th:nth-child(6),
 .recepcionados_body table thead tr th:nth-child(6),
 .pendientesRecepcion_body table thead tr th:nth-child(6){
     width: 200px;
 }
 
-.listadoUsuarios_body table thead tr th:nth-child(7){
-    width: 250px;
+.listadoUsuarios_body table thead tr th:nth-child(8){
+    width: 260px;
 }
 
 .listadoDocumentos_body table thead tr th:nth-child(1){

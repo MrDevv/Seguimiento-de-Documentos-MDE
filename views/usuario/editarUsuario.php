@@ -1,123 +1,56 @@
-<?php
-require_once('models/Estado.php');
-$estado = new Estado();
-$estados= $estado->listarEstadosHabilitadoInhabilitado();
-?>
-<div class="containerRegistroUsuario">
-    <h2>Editar Usuario</h2>
-    <div class="body">
-        <form action="<?=base_url?>usuario/actualizarUsuario" method="post">
-            <div class="data">
-                <div class="column">
-                    <h3>Datos Generales</h3><br>
-                    <div class="row">
-                    <input 
-                                    type="text"
-                                    id="codPersona"
-                                    name="codPersona"
-                                    value="<?=$responsePersona[0]['codPersona'] ?>" 
-                                    required
-                                    hidden
-                            >
-                        <div>
-                            <label for="nombre">Nombre:</label>
-                            <input 
-                                    type="text"
-                                    id="nombre"
-                                    name="nombre"
-                                    value="<?=$responsePersona[0]['nombres'] ?>" 
-                                    required
-                            >
-                        </div> 
-                        <div>
-                                <label for="apellidos">Apellidos:</label>
-                                <input 
-                                    type="text" 
-                                    id="apellido" 
-                                    name="apellidos"
-                                    value="<?=$responsePersona[0]['apellidos'] ?>" 
-                                    required
-                                >
+<div id="modalEditarUsuario" class="modalArea modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Editar Usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form class="formArea" id="editarUsuarioForm" action="" method="post">
+                <div class="modal-body">
+                    <h6 class="fw-bold">Datos Generales</h6>
+                    <div class="row mb-3">
+                        <input type="hidden" id="codPersona">
+                        <div class="col-sm-6">
+                            <label for="nombresNuevo" class="form-label">Nombres (*):</label>
+                            <input class="nombre" type="text" id="nombresEditar" name="nombres" autocomplete="off" maxlength="30">
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="apellidosNuevo" class="form-label">Apellidos (*):</label>
+                            <input class="apellido" type="text"  id="apellidosEditar" name="apellidos" autocomplete="off" maxlength="30">
                         </div>
                     </div>
-                    <div class="row">
-                        <div>
-                                <label for="telefono">Teléfono:</label>
-                                <input type="text" name="telefono" maxlength="9" value="<?=$responsePersona[0]['telefono'] ?>"  required>
+                    <div class="row mb-3">
+                        <div class="col-sm-6">
+                            <label for="telefonoNuevo" class="form-label">Teléfono (*):</label>
+                            <input type="number" id="telefonoEditar" name="telefono" autocomplete="off">
                         </div>
-                        <div>
-                            <label for="dni">DNI:</label>
-                            <input type="text" name="dni" maxlength="8" value="<?=$responsePersona[0]['dni'] ?>"  required >
+                        <div class="col-sm-6">
+                            <label for="dniNuevo" class="form-label">DNI (*):</label>
+                            <input type="number" id="dniEditar" name="dni" autocomplete="off">
                         </div>
-
                     </div>
 
-                    <h3>Datos de Usuario</h3><br>
-                    <div class="row">
-                    <input 
-                                    type="text"
-                                    id="codUsuario"
-                                    name="codUsuario"
-                                    value="<?=$responseUsuario[0]['codUsuario'] ?>"
-                                    hidden
-                                    required
-                            >
-                        <div>
-                            <label for="usuario">Usuario:</label>
-                            <input
-                                class="disabled" 
-                                type="text" 
-                                id="usuario" 
-                                name="usuario"
-                                value="<?=$responseUsuario[0]['nombreUsuario'] ?>" 
-                                readonly 
-                                required>
+                    <h6 class="fw-bold">Datos Usuario</h6>
+                    <div class="row mb-3">
+                        <div class="col-sm-6">
+                            <label for="usuarioNuevo" class="form-label">Usuario: <small class="fw-bold">(Este campo se genera automaticamente)</small></label>
+                            <input class="disabled usuario" type="text" id="usuarioEditar" name="usuario" autocomplete="off" readonly maxlength="20">
                         </div>
-                        <div>
-                            <label for="contrasena">Nueva Contraseña:</label>
-                            <input 
-                                type="password" 
-                                id="new_password" 
-                                name="new_password" 
-                                class="user-input"
-                                value="<?=$responseUsuario[0]['password'] ?>"  
-                                required>
+                        <div class="col-sm-6">
+                            <label for="selectRol" class="form-label">Rol (*):</label>
+                            <select class="form-select selectRol"  id="selectRolEditar" name="rol" required>
+                            </select>
                         </div>
                     </div>
-                    <div class="row">
-                        <div>
-                                <label for="rol">Rol:</label>
-                                <select id="rol" name="rol" required>
-                                    <?php foreach ($roles as $result):?>
-                                    <option 
-                                    value="<?=$result['codRol']?>"
-                                    <?=$responseUsuario[0]['codRol'] == $result['codRol'] ? 'selected' : ''?>
-                                    >
-                                    <?=$result['descripcion']?>
-                                </option>
-                                    
-                                    <?php endforeach; ?>
-                                </select>
-                        </div>
-                        <div>
-                            <label for="contrasena">Confirmar Contraseña:</label>
-                            <input 
-                                type="password" 
-                                id="confirm_password" 
-                                name="confirm_password" 
-                                value="<?=$responseUsuario[0]['password'] ?>"  
-                                class="user-input" 
-                                required>
-                        </div>
-                    </div>
+                    <p>Todos los campos (*) son obligatorios</p>
                 </div>
-            </div>    
- 
-           
-
-            <input type="submit" value="Actualizar">
-        </form>
-
+                <div class="containerButtonsEditarArea">
+                    <input type="submit" class="btn" value="Actualizar">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
+        </div>
     </div>
-        
-    </div>
+</div>
+
+<script src="<?= base_url?>ajax/listarRoles.js"></script>

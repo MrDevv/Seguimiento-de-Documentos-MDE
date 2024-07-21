@@ -23,6 +23,7 @@ require_once('../../models/Estado.php');
                 <th>Usuario</th>
                 <th>Rol</th>
                 <th>Nombres</th>
+                <th>Apellidos</th>
                 <th>DNI</th>
                 <th>Telefono</th>
                 <th>Area</th>
@@ -35,5 +36,8 @@ require_once('../../models/Estado.php');
         </table>
     </div>
 
-    <script src="<?= base_url?>ajax/listarUsuario.js"></script>
 </div>
+<?php  require_once "registro.php"?>
+<?php  require_once "editarUsuario.php"?>
+
+<script src="<?= base_url?>ajax/listarUsuario.js"></script>

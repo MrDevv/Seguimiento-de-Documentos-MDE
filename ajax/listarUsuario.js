@@ -1,19 +1,26 @@
 $(document).ready(function() {
-    $.ajax({
-        url: './controllers/usuario/listarUsuario.php',
-        method: 'GET',
-        dataType: 'json',
-        success: function(data) {
-            if (data && Array.isArray(data)) {
-                let row = data.map(usuario =>
-                    `
+
+    function loadUsuarios(){
+        $.ajax({
+            url: './controllers/usuario/listarUsuario.php',
+            method: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                console.log(data)
+                if (data && Array.isArray(data)) {
+                    let row = data.map(usuario =>
+                        `
                     <tr>
                         <td>${usuario.codUsuarioArea}</td>
+                        <td class="invisible">${usuario.codUsuario}</td>
+                        <td class="invisible">${usuario.codPersona}</td>
+                        <td class="invisible">${usuario.codRol}</td>
                         <td>${usuario.usuario}</td>
                         <td>${usuario.rol}</td>
-                        <td>${usuario.nombres + " " + usuario.apellidos}                        
+                        <td>${usuario.nombres}                        
+                        <td>${usuario.apellidos}                        
                         <td>${usuario.dni}</td>
-                        <td>${usuario.telefono}</td>
+                        <td>${usuario.telefono}</td>                      
                         <td>${usuario.area}</td>
                         <td>
                             <span class="estado ${usuario.estado === 'a' ? 'follow' : 'finished'}">
@@ -116,15 +123,265 @@ $(document).ready(function() {
                         </td>
                     </tr>
                     `
-                ).join('');
-                // Actualizar el contenido del select
-                $('#bodyListaUsuarios').html(row);
-            } else {
-                console.warn('No data received or data is not an array.');
+                    ).join('');
+                    // Actualizar el contenido del select
+                    $('#bodyListaUsuarios').html(row);
+                } else {
+                    console.warn('No data received or data is not an array.');
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error('Error fetching the content:', textStatus, errorThrown);
             }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.error('Error fetching the content:', textStatus, errorThrown);
-        }
+        });
+    }
+
+    loadUsuarios();
+
+    // nuevo
+    $(document).on("click", "#btnRegistrarUsuario", function(e){
+        e.preventDefault();
+        let modalRegistrar = $("#modalRegistrarUsuario");
+        $("#registrarUsuarioForm").trigger("reset");
+        modalRegistrar.modal('show');
+
+        modalRegistrar.on('shown.bs.modal', function () {
+            $("#descripcionTipoDocumentoNuevo").focus();
+        });
     });
+
+
+    $('#registrarUsuarioForm').submit( function (e) {
+        e.preventDefault();
+
+        let nombre = $.trim($('#nombresNuevo').val());
+        let apellidos = $.trim($('#apellidosNuevo').val());
+        let telefono = $.trim($('#telefonoNuevo').val());
+        let dni = $.trim($('#dniNuevo').val());
+        let usuario = $.trim($('#usuarioNuevo').val());
+        let rol = $.trim($('#selectRol').val());
+        let area = $.trim($('#selectAreas').val());
+        let password = $.trim($('#passwordNuevo').val());
+        let confirm_password = $.trim($('#passwordConfirmarNuevo').val());
+
+
+        if (password != confirm_password){
+            Swal.fire({
+                icon: "warning",
+                title: "Las contraseñas no coninciden",
+                text: "Asegurese de ingresar contraseñas que coincidan",
+            });
+            return
+        }
+
+        if(nombre.length == 0 || apellidos.length == 0 || telefono.length == 0 || dni.length == 0
+            || usuario.length == 0 || rol.length == 0 || area.length == 0 || password.length == 0 || confirm_password.length == 0){
+            Swal.fire({
+                icon: "warning",
+                title: "Campos Incompletos",
+                text: "Ingrese los campos requeridos",
+            });
+            return;
+        }
+
+        if (dni.length < 8 || dni.length > 8){
+            Swal.fire({
+                icon: "warning",
+                title: "Campos Incorrectos",
+                text: "Ingrese un DNI valido",
+            });
+            return;
+        }
+
+        if (telefono.length < 9 || telefono.length > 9){
+            Swal.fire({
+                icon: "warning",
+                title: "Campos Incorrectos",
+                text: "Ingrese un télefono valido",
+            });
+            return;
+        }
+
+        nombre = capitalizeWords(nombre);
+        apellidos = capitalizeWords(apellidos);
+
+        $.ajax({
+            url: "./controllers/usuario/registrarUsuario.php",
+            type: "POST",
+            dataType: "json",
+            data: {nombre, apellidos, telefono, dni, usuario, rol, area, password},
+            success: function (response) {
+                if (response.message == '¡Usuario encontrado!'){
+                    Swal.fire({
+                        icon: "warning",
+                        title: "¡Advertencia!",
+                        text: "El usuario que intenta registrar ya se encuentra registrado"
+                    })
+                }else{
+                    if (response.status == 'success'){
+                        Swal.fire({
+                            icon: "success",
+                            title: "Registro Exitoso",
+                            text: "Se registro correctamente el usuario"
+                        }).then(() => {
+                            $('#modalRegistrarUsuario').modal('hide');
+                            loadUsuarios();
+                        })
+                    }else{
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: "Ocurrio un error al momento de registrar el usuario" + response.message
+                        })
+                    }
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error('Error fetching the content:', textStatus, errorThrown);
+            }
+        })
+    } )
+
+    // editar
+    $(document).on("click", "#btnEditarUsuario", function(e){
+        e.preventDefault();
+        let modalActualizar = $("#modalEditarUsuario");
+        let fila = $(this).closest("tr");
+        let codPersona = fila.find('td:eq(2)').text();
+        let rol = fila.find('td:eq(3)').text();
+        let usuario = fila.find('td:eq(4)').text();
+        let nombres = fila.find('td:eq(6)').text();
+        let apellidos = fila.find('td:eq(7)').text();
+        let dni = fila.find('td:eq(8)').text();
+        let telefono = fila.find('td:eq(9)').text();
+        $("#codPersona").val(codPersona.trim());
+        $("#nombresEditar").val(nombres.trim());
+        $("#apellidosEditar").val(apellidos.trim());
+        $("#telefonoEditar").val(apellidos.trim());
+        $("#dniEditar").val(dni.trim());
+        $("#telefonoEditar").val(telefono.trim());
+        $("#usuarioEditar").val(usuario.trim());
+        $(".selectRol").val(rol);
+
+        modalActualizar.modal('show');
+
+        modalActualizar.on('shown.bs.modal', function () {
+            $("#descripcionTipoDocumento").focus();
+        });
+    });
+
+    // actualizar
+    $('#editarUsuarioForm').submit(function(e){
+        e.preventDefault();
+
+        let codPersona = $.trim($('#codPersona').val());
+        let nombre = $.trim($('#nombresEditar').val());
+        let apellidos = $.trim($('#apellidosEditar').val());
+        let telefono = $.trim($('#telefonoEditar').val());
+        let dni = $.trim($('#dniEditar').val());
+        let usuario = $.trim($('#usuarioEditar').val());
+        let rol = $.trim($('#selectRolEditar').val());
+
+        console.log({nombre, apellidos, telefono, dni, usuario, rol})
+
+        if(codPersona.length == 0 || nombre.length == 0 || apellidos.length == 0 || telefono.length == 0 ||
+            dni.length == 0 || usuario.length == 0 || rol.length == 0){
+            Swal.fire({
+                icon: "warning",
+                title: "Campos Incompletos",
+                text: "Ingrese los campos requeridos",
+            });
+            return;
+        }
+
+        if (dni.length < 8 || dni.length > 8){
+            Swal.fire({
+                icon: "warning",
+                title: "Campos Incorrectos",
+                text: "Ingrese un DNI valido",
+            });
+            return;
+        }
+
+        if (telefono.length < 9 || telefono.length > 9){
+            Swal.fire({
+                icon: "warning",
+                title: "Campos Incorrectos",
+                text: "Ingrese un télefono valido",
+            });
+            return;
+        }
+
+        nombre = capitalizeWords(nombre);
+        apellidos = capitalizeWords(apellidos);
+
+        $.ajax({
+            url: "./controllers/usuario/actualizarUsuario.php",
+            type: "POST",
+            datatype: "json",
+            data: {codPersona, nombre, apellidos, telefono, dni, usuario, rol},
+            success: function(response) {
+                console.log(response)
+                response = JSON.parse(response);
+                if (response.status == 'success'){
+                    Swal.fire({
+                        icon: "success",
+                        title: "¡Éxito!",
+                        text: response.message
+                    }).then(() => {
+                        $('#modalEditarUsuario').modal('hide');
+                        loadUsuarios();
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: response.message
+                    });
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error('Error updating the area:', textStatus, errorThrown);
+            }
+        });
+    });
+
+    function capitalizeWords(str) {
+        const exceptions = new Set(['y', 'de', 'a', 'en', 'o', 'con', 'para', 'por', 'que', 'si', 'el', 'la', 'los', 'las', 'un', 'una', 'del', 'al']);
+
+        return str
+            .toLowerCase()
+            .split(' ')
+            .map((word, index, array) => {
+                if (index === 0 || !exceptions.has(word)) {
+                    return word.charAt(0).toUpperCase() + word.slice(1);
+                }
+                return word;
+            })
+            .join(' ');
+    }
+
+    // Generar usuario
+    const nombreInput = $('#nombresEditar');
+    const apellidoInput = $('#apellidosEditar');
+    const usuarioInput = $('#usuarioEditar');
+
+    function generarUsuario() {
+        const nombre = nombreInput.val().trim();
+        const apellidos = apellidoInput.val().trim().split(' ');
+
+        if (nombre && apellidos.length >= 2) {
+            const primerNombreLetra = nombre.charAt(0).toLowerCase();
+            const primerApellido = apellidos[0].toLowerCase();
+            const segundoApellidoLetra = apellidos[1].charAt(0).toLowerCase();
+
+            usuarioInput.val(primerNombreLetra + primerApellido + segundoApellidoLetra);
+        } else {
+            usuarioInput.val('');
+        }
+    }
+
+    nombreInput.on('input', generarUsuario);
+    apellidoInput.on('input', generarUsuario);
+
 });

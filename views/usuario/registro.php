@@ -1,109 +1,76 @@
-<?php
-require_once('../../config/parameters.php');
-require_once('../../config/DataBase.php');
-require_once('../../models/Estado.php');
-$estado = new Estado();
-$estados= $estado->listarEstadosHabilitadoInhabilitado();
-?>
-
-<div class="containerRegistroUsuario">
-    <h2>Registro de Usuario</h2>
-    <div class="body">
-        <form action="" id="registrarUsuarioForm" method="post">
-            <div class="data">
-                <div class="column">
-                    <h3>Datos Generales</h3><br>
-                    <div class="row">
-                        <div>
-                            <label for="nombre">Nombre:</label>
-                            <input 
-                                    type="text"
-                                    id="nombre"
-                                    name="nombre"
-                            >
-                        </div> 
-                        <div>
-                                <label for="apellidos">Apellidos:</label>
-                                <input
-                                        type="text"
-                                        id="apellido"
-                                        name="apellidos"
-                                >
+<div id="modalRegistrarUsuario" class="modalArea modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Registrar Nuevo Usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form class="formArea" id="registrarUsuarioForm" action="" method="post">
+                <div class="modal-body">
+                    <h6 class="fw-bold">Datos Generales</h6>
+                    <div class="row mb-3">
+                        <div class="col-sm-6">
+                            <label for="nombresNuevo" class="form-label">Nombres (*):</label>
+                            <input class="nombre" type="text" id="nombresNuevo" name="nombres" autocomplete="off" maxlength="30">
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="apellidosNuevo" class="form-label">Apellidos (*):</label>
+                            <input class="apellido" type="text"  id="apellidosNuevo" name="apellidos" autocomplete="off" maxlength="30">
                         </div>
                     </div>
-                    <div class="row">
-                        <div>
-                                <label for="telefono">Teléfono:</label>
-                                <input
-                                        type="text"
-                                        name="telefono"
-                                        id="telefono"
-                                        maxlength="9">
+                    <div class="row mb-3">
+                        <div class="col-sm-6">
+                            <label for="telefonoNuevo" class="form-label">Teléfono (*):</label>
+                            <input type="number" id="telefonoNuevo" name="telefono" autocomplete="off">
                         </div>
-                        <div>
-                            <label for="dni">DNI:</label>
-                            <input
-                                    type="text"
-                                    name="dni"
-                                    id="dni"
-                                    maxlength="8"
-                            >
+                        <div class="col-sm-6">
+                            <label for="dniNuevo" class="form-label">DNI (*):</label>
+                            <input type="number" id="dniNuevo" name="dni" autocomplete="off">
                         </div>
-
                     </div>
 
-                    <h3>Datos de Usuario</h3><br>
-                    <div class="row">
-                        <div>
-                            <label for="usuario">Usuario:</label>
-                            <input 
-                                class="disabled"
-                                type="text" 
-                                id="usuario" 
-                                name="usuario" 
-                                readonly
-                            >
+                    <h6 class="fw-bold">Datos Usuario</h6>
+                    <div class="row mb-3">
+                        <div class="col-sm-6">
+                            <label for="usuarioNuevo" class="form-label">Usuario: <small class="fw-bold">(Este campo se genera automaticamente)</small></label>
+                            <input class="disabled usuario" type="text" id="usuarioNuevo" name="usuario" autocomplete="off" readonly maxlength="20">
                         </div>
-                        <div>
-                            <label for="contrasena">Contraseña:</label>
-                            <input type="password" id="password" name="password" class="user-input">
+                        <div class="col-sm-6">
+                            <label for="passwordNuevo" class="form-label">Contraseña (*):</label>
+                            <input type="password" id="passwordNuevo" name="password" autocomplete="off" maxlength="20">
                         </div>
                     </div>
-                    <div class="row">
-                        <div>
-                                <label for="rol">Rol:</label>
-                                <select id="selectRol" name="rol" >
-                                </option>
-                                </select>
+                    <div class="row mb-3">
+                        <div class="col-sm-6">
+                            <label for="passwordConfirmarNuevo" class="form-label">Confirmar Contraseña (*):</label>
+                            <input type="password" id="passwordConfirmarNuevo" name="passwordConfirmar" autocomplete="off" maxlength="20">
                         </div>
-                        <div>
-                            <label for="contrasena">Confirmar Contraseña:</label>
-                            <input type="password" id="confirm_password" name="confirm_password" class="user-input">
+                        <div class="col-sm-6">
+                            <label for="selectAreas" class="form-label">Área (*):</label>
+                            <select class="form-select" id="selectAreas" name="area" required>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-sm-6">
+                            <label for="selectRol" class="form-label">Rol (*):</label>
+                            <select class="form-select selectRol" id="selectRol" name="rol" required>
+                            </select>
                         </div>
                     </div>
+                    <p>Todos los campos (*) son obligatorios</p>
                 </div>
-
-                <div class="column">
-                    <h3>Dato Area</h3>
-                    <br>
-                    <div>
-                        <label for="area">Area:</label>
-                        <select id="selectAreas" name="area">
-                        </select>
-                    </div>
+                <div class="containerButtonsEditarArea">
+                    <input type="submit" class="btn" value="Registrar">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 </div>
-            </div>    
- 
-           
-
-            <input type="submit" value="Registrar">
-        </form>
-
+            </form>
+        </div>
     </div>
-        
-    </div>
+</div>
 
 <script src="<?=base_url?>helpers/generarUserName.js"></script>
 <script src="<?= base_url?>ajax/listarRoles.js"></script>
 <script src="<?= base_url?>ajax/listarAreas.js"></script>
-<script src="<?= base_url?>ajax/registrarUsuario.js"></script>

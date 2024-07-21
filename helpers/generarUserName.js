@@ -1,9 +1,12 @@
 $(document).ready(function() {
 
-    // Referencias a los elementos del DOM
-    const nombreInput = $('#nombre');
-    const apellidoInput = $('#apellido');
-    const usuarioInput = $('#usuario'); // Asegúrate de que este ID es el correcto para el campo de usuario
+    const nombreInput = $('#nombresNuevo');
+    const apellidoInput = $('#apellidosNuevo');
+    const usuarioInput = $('#usuarioNuevo');
+
+    console.log(nombreInput)
+    console.log(apellidoInput)
+    console.log(usuarioInput)
 
     function generarUsuario() {
         const nombre = nombreInput.val().trim();
@@ -20,7 +23,6 @@ $(document).ready(function() {
         }
     }
 
-    // Asignar el evento input a los campos de nombre y apellido
     nombreInput.on('input', generarUsuario);
     apellidoInput.on('input', generarUsuario);
 });

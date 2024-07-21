@@ -182,7 +182,7 @@ class Usuario {
 
     public function listarUsuario(){
         // agregar la consulta correcta
-        $sql = "select ua.codUsuarioArea, u.codUsuario, u.nombreUsuario 'usuario', e.descripcion 'estado', ".
+        $sql = "select ua.codUsuarioArea, u.codPersona, u.codUsuario, u.codRol, u.nombreUsuario 'usuario', e.descripcion 'estado', ".
                 "p.nombres, p.apellidos, p.dni, p.telefono, a.descripcion 'area', ".
                 "r.descripcion 'rol' ".
                 "from UsuarioArea ua ".
@@ -250,28 +250,28 @@ class Usuario {
         }
     }
 
-    public function actualizarUsuario(){
-        $sql = "UPDATE Usuario SET nombreUsuario = :nombreUsuario, codRol = :rol, password = :password WHERE CodUsuario = :codUsuario";
+    public function actualizarUsuario(int $codPersona, string $nombre, string $apellidos, string $telefono, string $dni, string $usuario, int $rol){
+        $sql = "EXEC sp_actualizarUsuarioPersona :codPersona, :nombres, :apellidos, :telefono, :dni, :codRol, :usuario";
 
         try {
-            $db = DataBase::connect();
             $stmt = DataBase::connect()->prepare($sql);
 
-            $stmt->bindParam(":nombreUsuario", $this->nombreUsuario, PDO::PARAM_STR);
-            $stmt->bindParam(":rol", $this->rol, PDO::PARAM_INT);
-            $stmt->bindParam(":password", $this->password, PDO::PARAM_INT);
-            $stmt->bindParam(":codUsuario", $this->codUsuario, PDO::PARAM_INT);
+            $stmt->bindParam("codPersona", $codPersona, PDO::PARAM_INT);
+            $stmt->bindParam("nombres", $nombre, PDO::PARAM_STR);
+            $stmt->bindParam("apellidos", $apellidos, PDO::PARAM_STR);
+            $stmt->bindParam("telefono", $telefono, PDO::PARAM_STR);
+            $stmt->bindParam("dni", $dni, PDO::PARAM_STR);
+            $stmt->bindParam("codRol", $rol, PDO::PARAM_INT);
+            $stmt->bindParam("usuario", $usuario, PDO::PARAM_STR);
 
             $stmt->execute();
-
-            $lastInsertId = $db->lastInsertId();
 
             return [
                 'status' => 'success',
                 'message' => 'Usuario actualizado',
                 'action' => 'actualizar',
                 'module' => 'usuario',
-                'data' => ['id' => $lastInsertId],
+                'data' => [],
                 'info' => ''
             ];
 
@@ -286,11 +286,5 @@ class Usuario {
             ];
         }
     }
-
-    /*$stmt = DataBase::connect()->query($sql);
-
-    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    return $results; */
 
 }

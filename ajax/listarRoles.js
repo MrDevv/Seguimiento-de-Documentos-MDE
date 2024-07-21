@@ -12,7 +12,7 @@ $(document).ready(function() {
                 ).join('');
 
                 // Actualizar el contenido del select
-                $('#selectRol').html(options);
+                $('.selectRol').html(options);
             } else {
                 console.warn('No data received or data is not an array.');
             }
