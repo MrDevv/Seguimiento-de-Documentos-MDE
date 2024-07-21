@@ -62,7 +62,7 @@ $(document).ready(function() {
         modalRegistrar.modal('show');
 
         modalRegistrar.on('shown.bs.modal', function () {
-            $(".descripcionArea").focus();
+            $("#descripcionAreaNuevo").focus();
         });
     });
 
