@@ -282,6 +282,7 @@ a{
     justify-content: center;
     background: var(--bg-color);
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 /* Pagina de Error */
@@ -440,21 +441,17 @@ input:focus-visible{
 .containerEnviados,
 .containerRecepcionados,
 .containerListadoArea,
-.containerListadoTipoDocumentos{
+.containerListadoTipoDocumentos,
+.containerListadoUsuarios{
     width: 100%;
 }
 
 .pendientesRecepcion_header,
 .seguimiento_header,
 .enviados_header,
-.recepcionados_header,
-.listadoAreas_header{
+.recepcionados_header{
     width: 100%;
     margin-bottom: 20px;
-}
-
-.listadoAreas_header{
-    margin-bottom: 0;
 }
 
 .pendientesRecepcion_header h2,
@@ -462,7 +459,8 @@ input:focus-visible{
 .enviados_header h2,
 .recepcionados_header h2,
 .listadoAreas_header h2,
-.listadoDocumentos_header h2{
+.listadoDocumentos_header h2,
+.listadoUsuarios_header h2{
     text-transform: uppercase;
 }
 
@@ -473,11 +471,11 @@ input:focus-visible{
 .description_btnNuevoDocumento p,
 .recepcionados_header p:nth-child(2),
 .listadoAreas_header p:nth-child(2),
-.listadoTipoDocumentos_header p:nth-child(2){
+.listadoTipoDocumentos_header p:nth-child(2),
+.listadoUsuarios_header p:nth-child(2){
     color: var(--bg-color-principal);
     font-weight: 700;
 }
-
 .pendientesRecepcion_header .fecha_busqueda,
 .enviados_header .fecha_busqueda,
 .recepcionados_header .fecha_busqueda{
@@ -532,7 +530,8 @@ input:focus-visible{
 }
 
 .listadoAreas_header,
-.listadoTipoDocumentos_header{
+.listadoTipoDocumentos_header,
+.listadoUsuarios_header{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -545,7 +544,8 @@ input:focus-visible{
 .enviados_body table,
 .recepcionados_body table,
 .listadoAreas_body table,
-.listadoTipoDocumentos_body table{
+.listadoTipoDocumentos_body table,
+.listadoUsuarios_body table{
     width: 100%;
     border-spacing: 0;
 }
@@ -556,7 +556,8 @@ input:focus-visible{
 .enviados_body table thead tr,
 .recepcionados_body table thead tr,
 .listadoAreas_body table thead tr,
-.listadoTipoDocumentos_body table thead tr{
+.listadoTipoDocumentos_body table thead tr,
+.listadoUsuarios_body table thead tr{
     background-color: #fff;
     font-size: 14px;
     text-align: center;
@@ -568,12 +569,14 @@ input:focus-visible{
 .enviados_body table thead tr th,
 .recepcionados_body table thead tr th,
 .listadoAreas_body table thead tr th,
-.listadoTipoDocumentos_body table thead tr th{
+.listadoTipoDocumentos_body table thead tr th,
+.listadoUsuarios_body table thead tr th{
     font-weight: 600;
     padding: 10px 5px;
 }
 
-.seguimiento_body table thead tr th:nth-child(1){
+.seguimiento_body table thead tr th:nth-child(1),
+.listadoUsuarios_body table thead tr th:nth-child(1){
     width: 70px;
 }
 
@@ -589,10 +592,18 @@ input:focus-visible{
     width: 50px;
 }
 
+.listadoUsuarios_body table thead tr th:nth-child(4){
+    width: 150px;
+}
+
 .enviados_body table thead tr th:nth-child(6),
 .recepcionados_body table thead tr th:nth-child(6),
 .pendientesRecepcion_body table thead tr th:nth-child(6){
     width: 200px;
+}
+
+.listadoUsuarios_body table thead tr th:nth-child(7){
+    width: 250px;
 }
 
 .listadoDocumentos_body table thead tr th:nth-child(1){
@@ -609,7 +620,8 @@ input:focus-visible{
 .enviados_body table tbody tr,
 .recepcionados_body table tbody tr,
 .listadoAreas_body table tbody tr,
-.listadoTipoDocumentos_body table tbody tr{
+.listadoTipoDocumentos_body table tbody tr,
+.listadoUsuarios_body table tbody tr{
     text-align: center;
     font-size: 13px;
 }
@@ -620,7 +632,8 @@ input:focus-visible{
 .enviados_body table tbody tr td,
 .recepcionados_body table tbody tr td,
 .listadoAreas_body table tbody tr td,
-.listadoTipoDocumentos_body table tbody tr td{
+.listadoTipoDocumentos_body table tbody tr td,
+.listadoUsuarios_body table tbody tr td{
     padding: 5px;
 }
 
@@ -630,7 +643,8 @@ input:focus-visible{
 .enviados_body table tbody tr td:nth-child(2),
 .recepcionados_body table tbody tr td:nth-child(2),
 .listadoAreas_body table tbody tr td:nth-child(1),
-.listadoTipoDocumentos_body table tbody tr td:nth-child(1){
+.listadoTipoDocumentos_body table tbody tr td:nth-child(1),
+.listadoUsuarios_body table tbody tr td:nth-child(1){
     color: #FF0000;
     font-weight: 600;
 }
@@ -647,7 +661,8 @@ input:focus-visible{
 .enviados_body table tbody tr:nth-child(even),
 .recepcionados_body table tbody tr:nth-child(even),
 .listadoAreas_body table tbody tr:nth-child(even),
-.listadoTipoDocumentos_body table tbody tr:nth-child(even){
+.listadoTipoDocumentos_body table tbody tr:nth-child(even),
+.listadoUsuarios_body table tbody tr:nth-child(even){
     background-color: #fff;
 }
 
