@@ -21,7 +21,7 @@ class Estado {
     }
 
     public static function listarEstadosHabilitadoInhabilitado(){
-        $sql = "select * from Estado";
+        $sql = "select * from Estado where descripcion = 'a' or descripcion = 'i'";
 
         $stmt = DataBase::connect()->query($sql);
 

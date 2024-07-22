@@ -1,12 +1,13 @@
 $(document).ready(function() {
 
-    function loadUsuarios(){
+    function loadUsuarios(estado){
         $.ajax({
             url: './controllers/usuario/listarUsuario.php',
-            method: 'GET',
+            method: 'POST',
             dataType: 'json',
+            data: {estado},
             success: function(data) {
-                console.log(data)
+                console.log(estado)
                 if (data && Array.isArray(data)) {
                     let row = data.map(usuario =>
                         `
@@ -137,7 +138,7 @@ $(document).ready(function() {
         });
     }
 
-    loadUsuarios();
+    loadUsuarios('Activos');
 
     // nuevo
     $(document).on("click", "#btnRegistrarUsuario", function(e){
@@ -284,7 +285,6 @@ $(document).ready(function() {
         let usuario = $.trim($('#usuarioEditar').val());
         let rol = $.trim($('#selectRolEditar').val());
 
-        console.log({nombre, apellidos, telefono, dni, usuario, rol})
 
         if(codPersona.length == 0 || nombre.length == 0 || apellidos.length == 0 || telefono.length == 0 ||
             dni.length == 0 || usuario.length == 0 || rol.length == 0){
@@ -323,7 +323,6 @@ $(document).ready(function() {
             datatype: "json",
             data: {codPersona, nombre, apellidos, telefono, dni, usuario, rol},
             success: function(response) {
-                console.log(response)
                 response = JSON.parse(response);
                 if (response.status == 'success'){
                     Swal.fire({
@@ -372,8 +371,6 @@ $(document).ready(function() {
         let codUsuario = $.trim($('#codUsuario').val());
         let codAreaNueva = $.trim($('#selectAreaCambiar').val());
 
-        console.log('actual ', codAreaActual);
-        console.log('nueva ',codAreaNueva);
         if (codAreaActual == codAreaNueva){
             Swal.fire({
                 icon: "warning",
@@ -389,7 +386,6 @@ $(document).ready(function() {
             datatype: "json",
             data: {codUsuarioArea, codUsuario, codAreaNueva},
             success: function(response) {
-                console.log(response)
                 response = JSON.parse(response);
                 if (response.status == 'success'){
                     Swal.fire({
@@ -398,7 +394,7 @@ $(document).ready(function() {
                         text: response.message
                     }).then(() => {
                         $('#modalCambiarAreaUsuario').modal('hide');
-                        loadUsuarios();
+                        loadUsuarios('Activos');
                     });
                 } else {
                     Swal.fire({
@@ -412,6 +408,12 @@ $(document).ready(function() {
                 console.error('Error updating the area:', textStatus, errorThrown);
             }
         });
+    });
+
+
+    $('.selectEstado').change(function() {
+        let estado = $(this).find('option:selected').text();
+        loadUsuarios(estado);
     });
 
     function capitalizeWords(str) {

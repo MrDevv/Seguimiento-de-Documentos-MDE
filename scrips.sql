@@ -1,7 +1,7 @@
 ----------- INSERT DE DATOS INICIALES DEL SISTEMA
 
 -- Estados del sistema
-insert into Estado(descripcion) values('n'), ('a'), ('i'), ('e');
+insert into Estado(descripcion) values('n'), ('a'), ('i'), ('e'), ('p');
 go
 
 -- Roles del sistema

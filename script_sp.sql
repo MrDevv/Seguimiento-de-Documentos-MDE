@@ -317,6 +317,7 @@ BEGIN
 						(@codUsuarioArea IS NULL OR ua.codUsuario != @codUsuarioArea)
 						and ua.codEstado = @codEstadoActivo
 END
+GO
 
 ------------------------------------- REPORTES ---------------------------------------
 
@@ -451,7 +452,7 @@ BEGIN
 	INSERT INTO UsuarioArea(codUsuario, codArea, codEstado)
     VALUES(@codUsuarioInsert, @codArea, @codEstadoActivo)
 END
-GO;
+GO
 
 ---------------------------- MODULO USUARIO --------------------------------
 
@@ -465,7 +466,7 @@ BEGIN
 
 	UPDATE Usuario SET codRol = @codRol, nombreUsuario = @usuario WHERE codPersona = @codPersona;
 END
-GO;
+GO
 
 -- cambiar de area a un usuario
 CREATE PROCEDURE sp_cambiarAreaUsuario(
@@ -493,4 +494,38 @@ BEGIN
 		INSERT INTO UsuarioArea(codUsuario, codArea, codEstado) VALUES(@codUsuario, @codArea, @codEstadoActivoUsuarioArea)
 	END
 END
-GO;
+GO
+
+-- listar usuarios activos
+CREATE PROCEDURE sp_listarUsuariosActivos
+AS
+BEGIN
+	SELECT ua.codUsuarioArea, ua.codArea, u.codPersona, u.codUsuario, u.codRol, u.nombreUsuario 'usuario', 
+    e.descripcion 'estado', p.nombres, p.apellidos, p.dni, p.telefono, a.descripcion 'area', 
+    r.descripcion 'rol' 
+    FROM UsuarioArea ua 
+    inner join Usuario u on ua.codUsuario = u.codUsuario 
+    inner join Persona p on u.codPersona = p.codPersona 
+    inner join Area a on ua.codArea = a.codArea 
+    inner join Estado e on ua.codEstado = e.codEstado 
+    inner join Rol r on u.codRol = r.codRol 
+	WHERE e.descripcion = 'a'
+END
+GO
+
+-- listar usuarios inactivos
+CREATE PROCEDURE sp_listarUsuarioInactivos
+AS
+BEGIN
+	SELECT ua.codUsuarioArea, ua.codArea, u.codPersona, u.codUsuario, u.codRol, u.nombreUsuario 'usuario', 
+	e.descripcion 'estado', p.nombres, p.apellidos, p.dni, p.telefono, a.descripcion 'area', 
+	r.descripcion 'rol' 
+	FROM UsuarioArea ua 
+	inner join Usuario u on ua.codUsuario = u.codUsuario 
+	inner join Persona p on u.codPersona = p.codPersona 
+	inner join Area a on ua.codArea = a.codArea 
+	inner join Estado e on ua.codEstado = e.codEstado 
+	inner join Rol r on u.codRol = r.codRol 
+	WHERE e.descripcion = 'p'
+END
+GO

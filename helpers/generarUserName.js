@@ -4,10 +4,6 @@ $(document).ready(function() {
     const apellidoInput = $('#apellidosNuevo');
     const usuarioInput = $('#usuarioNuevo');
 
-    console.log(nombreInput)
-    console.log(apellidoInput)
-    console.log(usuarioInput)
-
     function generarUsuario() {
         const nombre = nombreInput.val().trim();
         const apellidos = apellidoInput.val().trim().split(' ');
