@@ -450,10 +450,15 @@ $(document).ready(function() {
         let fila = $(this).closest("tr");
         let codUsuarioArea = fila.find('td:eq(0)').text();
         let codUsuario = fila.find('td:eq(1)').text();
+        let nombreDetalle = fila.find('td:eq(6)').text();
+        let apellidoDetalle = fila.find('td:eq(7)').text();
+        let areaActualDetalle = fila.find('td:eq(10)').text();
         let codArea = fila.find('td:eq(11)').text();
         codAreaActual = codArea;
         $("#codUsuarioArea").val(codUsuarioArea.trim());
         $("#codUsuario").val(codUsuario.trim());
+        $("#nombreUsuarioDetalle").val(nombreDetalle.trim() + ' ' + apellidoDetalle.trim());
+        $("#areaActualDetalle").val(areaActualDetalle.trim());
         $(".selectArea").val(codArea.trim());
 
         modalActualizar.modal('show');

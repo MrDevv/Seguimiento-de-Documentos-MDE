@@ -7,17 +7,24 @@
             </div>
             <form class="formArea" id="cambiarAreaUsuarioForm" action="" method="post">
                 <div class="modal-body">
-                    <label for="descripcionTipoDocumento" class="form-label">Codigo Usuario Area:</label>
                     <input
-                            type="number"
-                            id="codUsuarioArea"
-                    >
+                            type="hidden"
+                            id="codUsuarioArea">
+                    <input
+                            type="hidden"
+                            id="codUsuario">
 
-                    <label for="descripcionTipoDocumento" class="form-label">cod usuario (*):</label>
-                    <input
-                            type="text"
-                            id="codUsuario"
-                            >
+                    <div class="mb-3">
+                        <label for="selectRol" class="form-label">Nombre del Usuario:</label>
+                        <input type="text" class="disabled" id="nombreUsuarioDetalle">
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="selectRol" class="form-label">Área actual:</label>
+                        <input type="text" class="disabled" id="areaActualDetalle">
+                        </select>
+                    </div>
 
                     <div class="mb-3">
                         <label for="selectRol" class="form-label">Área Nueva (*):</label>
