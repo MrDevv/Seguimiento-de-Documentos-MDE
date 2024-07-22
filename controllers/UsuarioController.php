@@ -37,7 +37,19 @@ class UsuarioController{
 
             $_SESSION['user'] = $response['data'][0];
             $_SESSION['autenticado'] = true;
-            header('Location:'.base_url);
+            echo "
+            <script>
+                let rol = '{$_SESSION['user']['rol']}';
+                localStorage.setItem('rol', rol);
+                console.log(localStorage.getItem('rol'));
+            </script>
+        ";
+            echo "
+            <script>
+                window.location.href = '".base_url."';
+            </script>
+        ";
+            exit();
         }
 
     }
@@ -66,7 +78,14 @@ class UsuarioController{
         unset($_SESSION['autenticado']);
         unset($_SESSION['user']);
 
-        header('Location:'.base_url);
+        echo "
+        <script>
+            localStorage.removeItem('rol');
+            window.location.href = '".base_url."';
+        </script>
+    ";
+        exit();
+        //header('Location:'.base_url);
     }
 
     // metodo para llamar al formulario para registrar un usuario
