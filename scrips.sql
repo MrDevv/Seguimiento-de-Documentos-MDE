@@ -13,176 +13,27 @@ insert into Movimiento(descripcion) values('Solicitar'),('Conocimientos  y Fines
 go
 
 -- Areas del Sistema
-insert into Area(descripcion) values('rentas'),('recursos humanos'),('GAT'), ('Informatica y Sistemas');
+insert into Area(descripcion) values('SubGerencia de Informática y Sistemas'),('Unidad de Ejecución Coactiva'),('Secretaria General'), ('Unidad de Atención al Usuario y Trámite'), 
+('Unidad de Relaciones Públicas y Comunicaciones'), ('Unidad Registro Civil'), ('Unidad de Participación Vecinal'), ('Gernecia de Recursos Humanos'), ('Gerencia de Administración Tributaria'),
+('Gernecia de Adminstración y Finanzas'), ('Gerencia de Desarrollo Económico Local');
 go
 
 -- Tipo Documento
-insert into TipoDocumento(descripcion) values('solicitud'),('memorando'),('carta'),('oficio'),('denuncia')
+insert into TipoDocumento(descripcion) values('Oficio'),('Acta de Constatacion'),('Carta'),('Citación'),('Constancia'), ('Denuncia')
 go
 
 -- Personas
 insert into Persona (nombres, apellidos, telefono, dni, codEstado)
 values 
-('Jose Bernardo', 'Castro Gonzales', '934003123', '71830493',2),
-('Larri Rodrigo', 'Estrada Leon', '949839321', '78592323', 2),
-('Miguel Angel', 'Vega Perez', '958443234', '74293456', 2),
-('Maria Fernanda', 'Paredes Rojas', '993441333', '71839412', 2);
+('Jose Bernardo', 'Castro Gonzales', '934003123', '71830493',2)
 go
 
 insert into Usuario (nombreUsuario, password, codRol, codPersona, codEstado)
 values 
-('jcastrog', 'admin', 1, 1, 2),
-('lestradal', '123', 2, 2, 2),
-('mvegap', '123', 2, 3, 2),
-('mparedesr', '123', 2, 4, 2)
+('jcastrog', 'admin', 1, 1, 2)
 go
 
 insert into UsuarioArea (codUsuario, codArea, codEstado)
 values
-(1, 4, 2),
-(2, 4, 2),
-(3, 4, 2),
-(4, 2, 2)
+(1, 1, 2)
 go
-
-
-
-
-
-
-
-
-
-
-
-
-
-------------------- CONSULTAS AVANZADAS DEL SISTEMA -------------------
-
------ Modulo de DOCUMENTOS
-
--- listar todos los documentos
-select d.NumDocumento, tp.descripcion 'tipo documento', d.asunto, d.folios, d.fechaRegistro, d.horaRegistro,
-CONCAT(p.nombres ,p.apellidos) 'usuario registrador', e.descripcion 'estado'
-from Documento d
-inner join TipoDocumento tp on d.codTipoDocumento = tp.codTipoDocumento
-inner join UsuarioArea ua on d.codUsuario = ua.codUsuario
-inner join Usuario u on ua.codUsuario = u.codUsuario
-inner join Persona p on u.codPersona = p.codPersona
-inner join Estado e on d.codEstado = e.codEstado
-where ua.codUsuario LIKE '%3%'
-order by d.fechaRegistro, d.horaRegistro DESC;
-
-
--- buscar un documento por su numero
-select d.NumDocumento, tp.descripcion 'tipo documento', d.asunto, d.folios, d.fechaRegistro,
-CONCAT(p.nombres ,p.apellidos) 'usuario registrador', e.descripcion 'estado'
-from Documento d
-inner join TipoDocumento tp on d.codTipoDocumento = tp.codTipoDocumento
-inner join UsuarioArea ua on d.codUsuario = ua.codUsuario
-inner join Usuario u on ua.codEstado = u.codUsuario
-inner join Persona p on u.codPersona = p.codPersona
-inner join Estado e on d.codEstado = e.codEstado
-where d.NumDocumento = '9012'
-
--- actualizar un documento
-update Documento set asunto = 'asunto ac', folios = 3, codTipoDocumento = 3
-where NumDocumento = '9012'
-
--- actualizar el estado al documento para finalizar su seguimiento
-update Documento set codEstado = 1 where NumDocumento = '9012';
-
--- listar documentos pendientes de recepcion para un usuario y una area determinada
-SELECT 
-	r.codRecepcion,
-	e.codEnvio,
-	LEFT(CONVERT(VARCHAR, e.horaEnvio, 108), 5) AS 'hora envio',
-	e.fechaEnvio,
-    e.folios, 
-    e.observaciones,
-	er.descripcion 'estado recepcion',
-	e.NumDocumento,
-	td.descripcion 'tipo documento',
-	CONCAT(pe.nombres, ' ',pe.apellidos) 'usuario origen', 
-    ae.descripcion 'area origen',
-	CONCAT(pd.nombres, pd.apellidos) 'usuario destino', 
-    ad.descripcion 'area destino'
-FROM Recepcion r
-INNER JOIN Envio e ON r.codEnvio = e.codEnvio
-INNER JOIN Estado er ON r.codEstado = er.codEstado
-INNER JOIN Documento d ON e.NumDocumento = d.NumDocumento
-INNER JOIN TipoDocumento td ON d.codTipoDocumento = td.codTipoDocumento
--- Usuario origen
-INNER JOIN UsuarioArea uae ON e.codUsuarioEnvio = uae.codUsuario
-INNER JOIN Usuario ue ON uae.codUsuario = ue.codUsuario
-INNER JOIN Persona pe ON ue.codPersona = pe.codPersona
--- Área origen 
-INNER JOIN Area ae ON uae.codArea = ae.codArea
--- Usuario destino
-INNER JOIN UsuarioArea uad ON e.codUsuarioDestino = uad.codUsuario
-INNER JOIN Usuario ud ON uad.codUsuario = ud.codUsuario
-INNER JOIN Persona pd ON ud.codPersona = pd.codPersona
--- Área destino 
-INNER JOIN Area ad ON uad.codArea = ad.codArea
-WHERE r.codUsuarioRecepcion LIKE '%%' AND r.codEstado = 3
-
-
-select * from Usuario
-select * from Estado
-
-
--- obtener documentos enviados por un usuario con estado pendiente de recepcion
-select e.codEnvio, 
-       LEFT(CONVERT(VARCHAR, e.horaEnvio, 108), 5) AS 'hora envio', 
-	   e.fechaEnvio,
-       e.folios, 
-       e.observaciones,
-	   d.NumDocumento, 
-       td.descripcion 'tipo documento',
-	   CONCAT(pd.nombres, ' ' ,pd.apellidos) 'usuario destino', 
-       ad.descripcion 'area destino',
-	   er.descripcion 'estado recepcion'
-from Recepcion r
-inner join Envio e on r.codEnvio = e.codEnvio
--- Datos del documento
-INNER JOIN Documento d ON e.NumDocumento = d.NumDocumento
--- Datos del tipo documento
-INNER JOIN TipoDocumento td ON d.codTipoDocumento = td.codTipoDocumento
--- Usuario destino
-INNER JOIN UsuarioArea uad ON e.codUsuarioDestino = uad.codUsuario
-INNER JOIN Usuario ud ON uad.codUsuario = ud.codUsuario
-INNER JOIN Persona pd ON ud.codPersona = pd.codPersona
--- Área destino 
-INNER JOIN Area ad ON uad.codArea = ad.codArea
--- Estado de la recepcion
-INNER JOIN Estado er ON r.codEstado = er.codEstado
-where e.codUsuarioEnvio = 2
-order by e.fechaEnvio desc, e.horaEnvio desc;
-
-
----- Modulo de AREAS
--- listar todos los usuarios de una area determinada excepto el usuario logeado
-select ua.codUsuarioArea, concat(p.nombres, p.apellidos) 'usuario' 
-from UsuarioArea ua 
-inner join Area a on ua.codArea = a.codArea
-inner join Usuario u on ua.codUsuario = u.codUsuario
-inner join Persona p on u.codPersona = p.codPersona 
-where a.codArea = 1 and ua.codUsuarioArea != 4
-
------ Modulo de USUARIOS
-select * from Usuario
-select * from Documento
-
--- autenticar usuario
-
-
--- listar usuarios del sistema
-select u.codUsuario, u.nombreUsuario 'usuario', e.descripcion 'estado',
-p.nombres, p.apellidos, p.dni, p.telefono, a.descripcion 'area',
-r.descripcion 'rol'
-from UsuarioArea ua
-inner join usuario u on ua.codUsuario = u.codUsuario
-inner join Persona p on u.codPersona = p.codPersona
-inner join area a on ua.codArea = a.codArea
-inner join Estado e on u.codEstado = e.codEstado
-inner join rol r on u.codRol = r.codRol
