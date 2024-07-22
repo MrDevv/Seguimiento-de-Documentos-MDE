@@ -232,6 +232,34 @@ class Usuario {
         }
     }
 
+    public function cambiarPassword(){
+        $sql = "UPDATE usuario SET password = :password WHERE codUsuario = :codUsuario";
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
+            $stmt->bindParam("password", $this->password, PDO::PARAM_STR);
+            $stmt->bindParam("codUsuario", $this->codUsuario, PDO::PARAM_INT);
+
+            $stmt->execute();
+
+            return [
+                'status' => 'success',
+                'message' => 'Se cambió la contraseña al usuario',
+                'action' => 'actualizar',
+                'module' => 'usuario',
+                'data' => [],
+                'info' => ''
+            ];
+
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => 'Ocurrio un error al momento de intentar cambiar la contraseña al usuario',
+                'action' => 'buscar',
+                'info' => $e->getMessage()
+            ];
+        }
+    }
+
     public function buscarUsuario(){
         $sql = "SELECT * FROM Usuario WHERE CodUsuario = :codUsuario";
         try {

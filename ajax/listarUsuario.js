@@ -73,6 +73,28 @@ $(document).ready(function() {
                                         </defs>
                                     </svg>
                                 </a>
+                                <a href="#" id="btnCambiarPasswordUsuario" class="action">
+                                    <span class="tooltipParent">Cambiar Contraseña <span class="triangulo"></span></span>
+                                    <svg width="38" height="34" viewBox="0 0 38 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g filter="url(#filter0_d_2977_4)">
+                                    <rect x="4" width="30" height="26" rx="5" fill="white"/>
+                                    <path d="M19.63 3C25.16 3 29.64 7.5 29.64 13C29.64 18.5 25.16 23 19.63 23C16.12 23 13.05 21.18 11.26 18.43L12.84 17.18C14.25 19.47 16.76 21 19.64 21C21.7617 21 23.7966 20.1571 25.2969 18.6569C26.7971 17.1566 27.64 15.1217 27.64 13C27.64 10.8783 26.7971 8.84344 25.2969 7.34315C23.7966 5.84285 21.7617 5 19.64 5C15.56 5 12.2 8.06 11.71 12H14.47L10.73 15.73L7 12H9.69C10.19 6.95 14.45 3 19.63 3ZM22.59 11.24C23.09 11.25 23.5 11.65 23.5 12.16V16.77C23.5 17.27 23.09 17.69 22.58 17.69H17.05C16.54 17.69 16.13 17.27 16.13 16.77V12.16C16.13 11.65 16.54 11.25 17.04 11.24V10.23C17.04 8.7 18.29 7.46 19.81 7.46C21.34 7.46 22.59 8.7 22.59 10.23V11.24ZM19.81 8.86C19.06 8.86 18.44 9.47 18.44 10.23V11.24H21.19V10.23C21.19 9.47 20.57 8.86 19.81 8.86Z" fill="black"/>
+                                    </g>
+                                    <defs>
+                                    <filter id="filter0_d_2977_4" x="0" y="0" width="38" height="34" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                    <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                                    <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                                    <feOffset dy="4"/>
+                                    <feGaussianBlur stdDeviation="2"/>
+                                    <feComposite in2="hardAlpha" operator="out"/>
+                                    <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+                                    <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2977_4"/>
+                                    <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2977_4" result="shape"/>
+                                    </filter>
+                                    </defs>
+                                    </svg>
+
+                                </a>                             
                                 <a href="#" id="btnDesactivarUsuario" class="action">
                                     <span class="tooltipParent">Deshabilitar <span class="triangulo"></span></span>
                                     <svg width="38" height="34" viewBox="0 0 38 34" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -508,6 +530,7 @@ $(document).ready(function() {
         });
     });
 
+    // filtrar usuarios por apellidos
     $(document).on("input", "#filtroUsuarioApellidos", function(e){
         let apellidos = $('#filtroUsuarioApellidos').val();
 
@@ -650,6 +673,82 @@ $(document).ready(function() {
         });
 
 
+    })
+
+    // mostrar modal para cambiar contraseña
+    $(document).on("click", "#btnCambiarPasswordUsuario", function(e){
+        e.preventDefault();
+        let modalCambiarPassword = $("#modalCambiarPasswordUsuario");
+        $("#cambiarPasswordUsuarioForm").trigger("reset");
+        let fila = $(this).closest("tr");
+        let codUsuario = fila.find('td:eq(1)').text();
+        let nombreDetalle = fila.find('td:eq(6)').text();
+        let apellidoDetalle = fila.find('td:eq(7)').text();
+        $("#codUsuarioPassword").val(codUsuario.trim());
+        $("#usuarioDetallePassowrd").val(nombreDetalle.trim() + ' ' + apellidoDetalle.trim());
+
+        modalCambiarPassword.modal('show');
+
+        modalCambiarPassword.on('shown.bs.modal', function () {
+            $("#cambiarPassword").focus();
+        });
+    });
+
+    // cambiar contraseña
+    $('#cambiarPasswordUsuarioForm').submit( function (e) {
+        e.preventDefault();
+
+        let codUsuario = $.trim($('#codUsuarioPassword').val());
+        let password = $.trim($('#cambiarPassword').val());
+        let confirmPassowrd = $.trim($('#cambiarPasswordConfirmar').val());
+
+
+        if(codUsuario.length == 0 || password.length == 0 || confirmPassowrd.length == 0){
+            Swal.fire({
+                icon: "warning",
+                title: "Campos Incompletos",
+                text: "Ingrese los campos requeridos",
+            });
+            return;
+        }
+
+        if (password != confirmPassowrd){
+            Swal.fire({
+                icon: "warning",
+                title: "Las contraseñas no coninciden",
+                text: "Asegurese de ingresar contraseñas que coincidan",
+            });
+            return
+        }
+
+        $.ajax({
+            url: "./controllers/usuario/cambiarPasswordUsuario.php",
+            type: "POST",
+            datatype: "json",
+            data: {codUsuario, password},
+            success: function(response) {
+                response = JSON.parse(response);
+                if (response.status == 'success'){
+                    Swal.fire({
+                        icon: "success",
+                        title: "¡Éxito!",
+                        text: response.message
+                    }).then(() => {
+                        $('#modalCambiarPasswordUsuario').modal('hide');
+                        loadUsuarios('Activos');
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: response.message
+                    });
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error('Error updating the area:', textStatus, errorThrown);
+            }
+        });
     })
 
 

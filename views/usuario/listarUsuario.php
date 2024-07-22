@@ -51,6 +51,7 @@ require_once('../../models/Estado.php');
 <?php  require_once "registro.php"?>
 <?php  require_once "editarUsuario.php"?>
 <?php  require_once "cambiarAreaUsuario.php"?>
+<?php  require_once "cambiarPasswordUsuario.php"?>
 
 <script src="<?= base_url?>ajax/estado.js"></script>
 <script src="<?= base_url?>ajax/listarUsuario.js"></script>
