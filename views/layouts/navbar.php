@@ -22,7 +22,7 @@
 
         <?php if (trim($_SESSION['user']['rol']) == 'administrador'):  ?>
             <div>
-                <a href="views/tipoDocumento/listarTipoDocumentos" class="option" id="optionTipoDocumentos">
+                <a href="views/tipoDocumento/listarTipoDocumentos.php" class="option" id="optionTipoDocumentos">
                     <div class="containerIconOption">
                         <svg width="31" height="28" viewBox="0 0 31 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M25.1875 12.0996V22.75C25.1875 23.4462 24.8813 24.1139 24.3363 24.6062C23.7913 25.0984 23.052 25.375 22.2812 25.375H8.71875C7.94796 25.375 7.20875 25.0984 6.66372 24.6062C6.11869 24.1139 5.8125 23.4462 5.8125 22.75V5.25C5.8125 4.55381 6.11869 3.88613 6.66372 3.39384C7.20875 2.90156 7.94796 2.625 8.71875 2.625H14.6978C15.2114 2.62507 15.7041 2.80938 16.0673 3.13742L24.6202 10.8626C24.9834 11.1907 25.1874 11.6356 25.1875 12.0996Z" stroke="white" stroke-width="2" stroke-linejoin="round"/>
