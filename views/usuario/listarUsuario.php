@@ -9,10 +9,16 @@ require_once('../../models/Estado.php');
         <div>
             <h2>Bandeja de Entrada</h2>
             <p>Listado de Usuarios</p>
-            <div>
-                <label>Estado:</label>
-                <select class="selectEstado" name="estado">
-                </select>
+            <div class="filtros">
+                <div>
+                    <p>Nombres</p>
+                    <input type="text">
+                </div>
+                <div>
+                    <p>Estado:</p>
+                    <select class="form-select selectEstado" name="estado">
+                    </select>
+                </div>
             </div>
         </div>
         <a href="#" id="btnRegistrarUsuario" class="btnNuevoRegistro">

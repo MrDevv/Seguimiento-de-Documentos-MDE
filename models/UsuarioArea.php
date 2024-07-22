@@ -71,26 +71,49 @@ class UsuarioArea{
 
     }
 
-    public function actualizarEstado(int $codEstado){
-        $sql = "UPDATE UsuarioArea SET codEstado = :codEstado ".
-                "where codUsuarioArea = :codUsuarioArea";
+    public function deshabilitarUsuario(){
+        $sql = "EXEC sp_deshabilitarUsuario :codUsuarioArea";
         try {
             $stmt = DataBase::connect()->prepare($sql);
-            $stmt->bindParam('codEstado', $codEstado, PDO::PARAM_INT);
             $stmt->bindParam('codUsuarioArea', $this->codUsuarioArea, PDO::PARAM_INT);
 
             $stmt->execute();
 
             return [
                 'status' => 'success',
-                'message' => 'Estado actualizado',
+                'message' => 'Se deshabilitó al usuario',
                 'action' => 'actualizar',
                 'module' => 'usuario'
             ];
         }catch (PDOException $e){
             return [
                 'status' => 'failed',
-                'message' => 'Ocurrio un error al momento de actualizar el estado',
+                'message' => 'Ocurrio un error al momento de intentar deshabilitar el usuario',
+                'action' => 'actualizar',
+                'module' => 'usuario',
+                'info' => $e->getMessage()
+            ];
+        }
+    }
+
+    public function habilitarUsuario(){
+        $sql = "EXEC sp_habilitarUsuario :codUsuarioArea";
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
+            $stmt->bindParam('codUsuarioArea', $this->codUsuarioArea, PDO::PARAM_INT);
+
+            $stmt->execute();
+
+            return [
+                'status' => 'success',
+                'message' => 'Se habilitó al usuario',
+                'action' => 'actualizar',
+                'module' => 'usuario'
+            ];
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => 'Ocurrio un error al momento de intentar habilitar el usuario',
                 'action' => 'actualizar',
                 'module' => 'usuario',
                 'info' => $e->getMessage()

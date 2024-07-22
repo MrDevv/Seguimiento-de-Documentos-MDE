@@ -74,7 +74,7 @@ $(document).ready(function() {
                                         </defs>
                                     </svg>
                                 </a>
-                                <a href="<?=base_url?>usuario/deshabilitarAreaUsuario?cod=${usuario.codUsuarioArea}" class="action">
+                                <a href="#" id="btnDesactivarUsuario" class="action">
                                     <span class="tooltipParent">Deshabilitar <span class="triangulo"></span></span>
                                     <svg width="38" height="34" viewBox="0 0 38 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <g filter="url(#filter0_d_2970_8)">
@@ -98,7 +98,7 @@ $(document).ready(function() {
 
                                 </a>
                             ` : `
-                                <a href="<?=base_url?>usuario/habilitarAreaUsuario?cod=${usuario.codUsuarioArea}" class="action">
+                                <a href="#" id="btnActivarUsuario" class="action">
                                     <span class="tooltipParent">Habilitar <span class="triangulo"></span></span>
                                     <svg width="38" height="34" viewBox="0 0 38 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <g filter="url(#filter0_d_2971_18)">
@@ -227,7 +227,8 @@ $(document).ready(function() {
                             text: "Se registro correctamente el usuario"
                         }).then(() => {
                             $('#modalRegistrarUsuario').modal('hide');
-                            loadUsuarios();
+
+                            loadUsuarios('Activos');
                         })
                     }else{
                         Swal.fire({
@@ -331,7 +332,7 @@ $(document).ready(function() {
                         text: response.message
                     }).then(() => {
                         $('#modalEditarUsuario').modal('hide');
-                        loadUsuarios();
+                        loadUsuarios('Activos');
                     });
                 } else {
                     Swal.fire({
@@ -346,6 +347,100 @@ $(document).ready(function() {
             }
         });
     });
+
+    $(document).on("click", "#btnDesactivarUsuario", function(e){
+        let fila = $(this).closest("tr");
+        let codUsuarioArea = fila.find('td:eq(0)').text();
+
+        Swal.fire({
+            title: "¡Advertencia!",
+            text: "¿Está seguro que desea deshabilitar a este usuario?. Ya no tendrá acceso al sistema hasta que se vuelva a habilitar",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#056251",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sí",
+            cancelButtonText: "No"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "./controllers/usuario/deshabilitarUsuario.php",
+                    type: "POST",
+                    datatype: "json",
+                    data: {codUsuarioArea},
+                    success: function(response) {
+                        response = JSON.parse(response);
+                        if (response.status == 'success'){
+                            Swal.fire({
+                                title: "¡Éxito!",
+                                text: response.message,
+                                icon: "success"
+                            });
+                            let estado = $('.selectEstado').find('option:selected').text();
+                            console.log(estado)
+                            loadUsuarios(estado)
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error",
+                                text: response.message
+                            });
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('Error updating the area:', textStatus, errorThrown);
+                    }
+                });
+            }
+        });
+    });
+
+    $(document).on("click", "#btnActivarUsuario", function(e){
+        let fila = $(this).closest("tr");
+        let codUsuarioArea = fila.find('td:eq(0)').text();
+
+        Swal.fire({
+            title: "¡Advertencia!",
+            text: "¿Está seguro que desea habilitar a este usuario?. Volverá a tener acceso al sistema",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#056251",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sí",
+            cancelButtonText: "No"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "./controllers/usuario/habilitarUsuario.php",
+                    type: "POST",
+                    datatype: "json",
+                    data: {codUsuarioArea},
+                    success: function(response) {
+                        response = JSON.parse(response);
+                        if (response.status == 'success'){
+                            Swal.fire({
+                                title: "¡Éxito!",
+                                text: response.message,
+                                icon: "success"
+                            });
+                            let estado = $('.selectEstado').find('option:selected').text();
+                            loadUsuarios(estado)
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error",
+                                text: response.message
+                            });
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('Error updating the area:', textStatus, errorThrown);
+                    }
+                });
+            }
+        });
+    });
+
 
     let codAreaActual = 0;
     // muestra el modal para cambiar el area a un usuario

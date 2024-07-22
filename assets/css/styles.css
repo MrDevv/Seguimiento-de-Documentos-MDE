@@ -537,6 +537,36 @@ input:focus-visible{
     align-items: center;
 }
 
+.listadoUsuarios_header{
+    align-items: end;
+    margin-bottom: 10px;
+}
+
+.listadoUsuarios_header .filtros{
+    display: flex;
+    gap: 10px;
+    width: max-content;
+}
+
+.listadoUsuarios_header .filtros div{
+    background-color: #d0d0d0;
+    border-radius: 5px;
+    padding: 5px 10px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.listadoUsuarios_header .filtros div p,
+.listadoUsuarios_header .filtros div input {
+    margin: 0;
+}
+
+.listadoUsuarios_header .filtros div input {
+    background-color: #fff;
+}
+
+
 /*              BODY             */
 .pendientesRecepcion_body table,
 .listadoDocumentos_body table,
