@@ -370,6 +370,7 @@ $(document).ready(function() {
     });
 
     $(document).on("click", "#btnDesactivarUsuario", function(e){
+        e.preventDefault();
         let fila = $(this).closest("tr");
         let codUsuarioArea = fila.find('td:eq(0)').text();
 
@@ -416,6 +417,7 @@ $(document).ready(function() {
     });
 
     $(document).on("click", "#btnActivarUsuario", function(e){
+        e.preventDefault();
         let fila = $(this).closest("tr");
         let codUsuarioArea = fila.find('td:eq(0)').text();
 
