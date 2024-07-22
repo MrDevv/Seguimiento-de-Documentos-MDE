@@ -557,3 +557,21 @@ BEGIN
 END
 GO
 
+CREATE PROCEDURE sp_buscarUsuarioPorApellido(
+	@apellidos VARCHAR(20)
+)
+AS
+BEGIN
+	SELECT ua.codUsuarioArea, ua.codArea, u.codPersona, u.codUsuario, u.codRol, u.nombreUsuario 'usuario', 
+    e.descripcion 'estado', p.nombres, p.apellidos, p.dni, p.telefono, a.descripcion 'area', 
+    r.descripcion 'rol' 
+    FROM UsuarioArea ua 
+    inner join Usuario u on ua.codUsuario = u.codUsuario 
+    inner join Persona p on u.codPersona = p.codPersona 
+    inner join Area a on ua.codArea = a.codArea 
+    inner join Estado e on ua.codEstado = e.codEstado 
+    inner join Rol r on u.codRol = r.codRol 
+	WHERE p.apellidos LIKE '%' + @apellidos + '%' 
+	AND (e.descripcion = 'a' or e.descripcion = 'p')
+END
+GO

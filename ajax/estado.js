@@ -5,7 +5,6 @@ $(document).ready(function(){
         method: 'GET',
         dataType: 'json',
         success: function(data) {
-            console.log(data)
             if (data && Array.isArray(data)) {
                 let options = data.map(estado =>
                     `<option value="${estado.codEstado}">${estado.descripcion == 'a' ? 'Activos' : 'Inactivos'}</option>`

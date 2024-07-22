@@ -202,6 +202,35 @@ class Usuario {
         return $results;
     }
 
+    public function buscarUsuarioPorApellidos(string $apellidos){
+        $sql = "EXEC sp_buscarUsuarioPorApellido :apellidos";
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
+            $stmt->bindParam("apellidos", $apellidos, PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if (sizeof($results) == 0){
+                return [
+                    'status' => 'not found',
+                    'message' => 'No existe un usuario',
+                    'action' => 'buscar'
+                ];
+            }
+
+            return $results;
+
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => 'Ocurrio un error al momento de registrar al usuario',
+                'action' => 'buscar',
+                'info' => $e->getMessage()
+            ];
+        }
+    }
 
     public function buscarUsuario(){
         $sql = "SELECT * FROM Usuario WHERE CodUsuario = :codUsuario";

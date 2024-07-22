@@ -11,8 +11,8 @@ require_once('../../models/Estado.php');
             <p>Listado de Usuarios</p>
             <div class="filtros">
                 <div>
-                    <p>Nombres</p>
-                    <input type="text">
+                    <p>Apellidos: </p>
+                    <input type="text" id="filtroUsuarioApellidos">
                 </div>
                 <div>
                     <p>Estado:</p>
