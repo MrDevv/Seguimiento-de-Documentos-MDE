@@ -1,68 +1,52 @@
-<div class="containerRegistroDocumento">
-    <h2>Editar Documento</h2>
-    <div class="body">
-        <form action="<?=base_url?>documento/actualizar" method="post">
-            <div class="row">
-                <div>
-                    <label>Nro. Documento</label>
-                    <input
-                        class="disabled"
-                        type="text"
-                        name="nroDocumento"
-                        value="<?=$documentoDB->getNumDocumento()?>"
-                        readonly
-                        required
-                    >
-                </div>
-                <div>
-                    <label>Asunto</label>
-                    <input
-                        type="text"
-                        name="asunto"
-                        value="<?=$documentoDB->getAsunto()?>"
-                        required
-                    >
-                </div>
+<div id="modalEditarDocumento" class="modalArea modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Editar Documento</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="row">
-                <div>
-                    <label>Folios</label>
-                    <input
-                        type="text"
-                        name="folios"
-                        value="<?=$documentoDB->getFolios()?>"
-                        required
-                    >
-                </div>
-                <div>
-                    <label>Tipo de Documento</label>
-                    <select class="containerRegistroArea" name="tipoDocumento">
-                        <?php foreach ($tiposDocumentos as $result):?>
-                            <option
-                                value="<?=$result['codTipoDocumento']?>"
-                                <?=trim($result['descripcion']) == $documentoDB->getTipoDocumento() ? 'selected' : ''?>
+            <form class="formArea" id="editarDocumentoForm" action="" method="post">
+                <div class="modal-body">
+                    <div class="containerCamposEnvio">
+                        <div class="campoNroDocumento">
+                            <label for="nroDocumentoEnvio" class="form-label col-sm-4">Nro. Documento (*):</label>
+                            <input
+                                    class="disabled"
+                                    type="text"
+                                    id="nroDocumentoEditar"
+                                    autocomplete="off"
+                                    maxlength="20"
+                                    readonly
                             >
-                                <?=$result['descripcion']?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-
+                        </div>
+                        <div class="campoArea">
+                            <label for="tipoDocumento" class="form-label col-sm-4">Tipo Documento (*):</label>
+                            <select class="selectTipoDocumento" id="tipoDocumentoEditar">
+                            </select>
+                        </div>
+                        <div class="campoFolios">
+                            <label for="foliosEnvio" class="form-label col-sm-4">Folios (*):</label>
+                            <input
+                                    type="text"
+                                    id="foliosEditar"
+                                    autocomplete="off"
+                                    maxlength="20"
+                            >
+                        </div>
+                        <div class="campoObservacion">
+                            <label for="asunto" class="form-label col-sm-4">Asunto (*):</label>
+                            <textarea id="asuntoEditar" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <p>Todos los campos (*) son obligatorios</p>
                 </div>
-            </div>
-            <div class="row">
-                <div>
-                    <label>Fecha registro</label>
-                    <input
-                        class="disabled"
-                        type="date"
-                        value="<?=$documentoDB->getFechaRegistro()?>"
-                        name="fechaRegistro"
-                        disabled
-                        required>
+                <div class="containerButtonsEditarArea">
+                    <input type="submit" class="btn btn-primary" value="Enviar">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 </div>
-            </div>
-
-            <input type="submit" value="Actualizar">
-        </form>
+            </form>
+        </div>
     </div>
 </div>
+
+    <script src="<?= base_url?>ajax/tipoDocumento.js"></script>

@@ -10,8 +10,8 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 
-	SELECT d.NumDocumento, tp.descripcion 'tipo documento', d.asunto, d.folios, d.fechaRegistro,
-                CONCAT(p.nombres ,' ',p.apellidos) 'usuario registrador', a.descripcion 'area', e.descripcion 'estado'
+	SELECT d.NumDocumento, tp.codTipoDocumento, tp.descripcion 'tipo documento', d.asunto, d.folios, d.fechaRegistro,
+                CONCAT(p.nombres ,' ',p.apellidos) 'usuario registrador', a.codArea ,a.descripcion 'area', e.descripcion 'estado'
                 from Documento d
                 inner join TipoDocumento tp on d.codTipoDocumento = tp.codTipoDocumento
                 inner join UsuarioArea ua on d.codUsuario = ua.codUsuarioArea
@@ -609,5 +609,36 @@ BEGIN
 
 	INSERT INTO Recepcion(codEnvio, codEstado, codUsuarioRecepcion)
     VALUES(@codEnvioInsert, @codEstadoInactivo, @codUsuarioAreaDestino);
+END
+GO
+
+-- registrar documento
+CREATE PROCEDURE sp_registrarDocumento(
+	@numDocumento VARCHAR(20), @asunto VARCHAR(300), @folios INT, @codTipoDocumento INT, 
+	@usuario INT, @fechaRegistro DATE, @horaRegistro TIME
+)
+AS
+BEGIN
+	DECLARE @codEstadoNuevo INT;
+
+	SELECT @codEstadoNuevo = codEstado FROM Estado WHERE descripcion = 'n';
+
+	INSERT INTO Documento(NumDocumento, asunto, folios, codTipoDocumento, fechaRegistro, horaRegistro, codUsuario, codEstado)
+    VALUES(@numDocumento, @asunto, @folios, @codTipoDocumento, @fechaRegistro, @horaRegistro, @usuario, @codEstadoNuevo)
+END
+GO
+
+
+-- finalizar el seguimiento de un documento
+CREATE PROCEDURE sp_finalizarSeguimientoDocumento(
+	@numDocumento VARCHAR(20)
+)
+AS
+BEGIN
+	DECLARE @codEstadoInactivo INT;
+
+	SELECT @codEstadoInactivo = codEstado FROM Estado WHERE descripcion = 'i';
+
+	UPDATE Documento SET codEstado = @codEstadoInactivo WHERE NumDocumento = @numDocumento
 END
 GO

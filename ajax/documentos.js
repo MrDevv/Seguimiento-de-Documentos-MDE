@@ -14,6 +14,7 @@ $(document).ready(function(){
                     let row = data.map(documento => `
                     <tr>
                         <td>${documento.NumDocumento}</td>
+                        <td class="invisible">${documento.codTipoDocumento}</td>
                         <td>${documento['tipo documento']}</td>
                         <td class="asuntoDocumento">${documento.asunto}</td>
                         <td>${documento.folios}</td>
@@ -52,40 +53,58 @@ $(document).ready(function(){
                                             </clipPath>
                                         </defs>
                                     </svg>
-                                </a>` : ''}
+                                </a>
+                                <a class="action" id="btnEditarDocumento" href="#" data-bs-toggle="modal" data-bs-target="#modalEditarDocumento">
+                                    <span class="tooltipParent">Editar <span class="triangulo"></span></span>
+                                    <svg width="36" height="34" viewBox="0 0 38 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g filter="url(#filter0_d_2868_2)">
+                                            <rect x="4" width="30" height="26" rx="5" fill="white"/>
+                                            <path d="M12.75 7.58301H11.5C10.837 7.58301 10.2011 7.81128 9.73223 8.21761C9.26339 8.62394 9 9.17504 9 9.74967V19.4997C9 20.0743 9.26339 20.6254 9.73223 21.0317C10.2011 21.4381 10.837 21.6663 11.5 21.6663H22.75C23.413 21.6663 24.0489 21.4381 24.5178 21.0317C24.9866 20.6254 25.25 20.0743 25.25 19.4997V18.4163" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M24 5.41678L27.75 8.66678M29.4813 7.13387C29.9736 6.7072 30.2501 6.12851 30.2501 5.52512C30.2501 4.92172 29.9736 4.34303 29.4813 3.91637C28.9889 3.4897 28.3212 3.25 27.625 3.25C26.9288 3.25 26.2611 3.4897 25.7688 3.91637L15.25 13.0001V16.2501H19L29.4813 7.13387Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </g>
+                                        <defs>
+                                            <filter id="filter0_d_2868_2" x="0" y="0" width="38" height="34" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                                <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                                                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                                                <feOffset dy="4"/>
+                                                <feGaussianBlur stdDeviation="2"/>
+                                                <feComposite in2="hardAlpha" operator="out"/>
+                                                <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+                                                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2868_2"/>
+                                                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2868_2" result="shape"/>
+                                            </filter>
+                                        </defs>
+                                    </svg>
+                                </a>
+                                ` : ''
+                            }
             
-                            <a class="action" href="#">
-                                <span class="tooltipParent">Editar <span class="triangulo"></span></span>
-                                <svg width="36" height="34" viewBox="0 0 38 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <g filter="url(#filter0_d_2868_2)">
-                                        <rect x="4" width="30" height="26" rx="5" fill="white"/>
-                                        <path d="M12.75 7.58301H11.5C10.837 7.58301 10.2011 7.81128 9.73223 8.21761C9.26339 8.62394 9 9.17504 9 9.74967V19.4997C9 20.0743 9.26339 20.6254 9.73223 21.0317C10.2011 21.4381 10.837 21.6663 11.5 21.6663H22.75C23.413 21.6663 24.0489 21.4381 24.5178 21.0317C24.9866 20.6254 25.25 20.0743 25.25 19.4997V18.4163" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                        <path d="M24 5.41678L27.75 8.66678M29.4813 7.13387C29.9736 6.7072 30.2501 6.12851 30.2501 5.52512C30.2501 4.92172 29.9736 4.34303 29.4813 3.91637C28.9889 3.4897 28.3212 3.25 27.625 3.25C26.9288 3.25 26.2611 3.4897 25.7688 3.91637L15.25 13.0001V16.2501H19L29.4813 7.13387Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </g>
-                                    <defs>
-                                        <filter id="filter0_d_2868_2" x="0" y="0" width="38" height="34" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-                                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-                                            <feOffset dy="4"/>
-                                            <feGaussianBlur stdDeviation="2"/>
-                                            <feComposite in2="hardAlpha" operator="out"/>
-                                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-                                            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2868_2"/>
-                                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2868_2" result="shape"/>
-                                        </filter>
-                                    </defs>
-                                </svg>
-                            </a>
-                            
                             ${documento.estado == 'i' && localStorage.getItem('rol') == 'administrador' ? `
                                 <div class="action">
                                     <span class="tooltipParent">Continuar seguimiento <span class="triangulo"></span></span>
-                                    <svg width="25" height="25" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM241 119c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l31 31H120c-13.3 0-24 10.7-24 24s10.7 24 24 24H238.1l-31 31c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l72-72c9.4-9.4 9.4-24.6 0-33.9l-72-72z"/></svg>
+                                    <svg width="37" height="34" viewBox="0 0 37 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g filter="url(#filter0_d_2991_2)">
+                                        <rect x="4" width="29" height="26" rx="5" fill="#F8F8F8"/>
+                                        <path d="M24.4383 10.7176C24.4383 12.4207 23.8853 13.9939 22.9538 15.2703L27.6521 19.9713C28.116 20.4351 28.116 21.1884 27.6521 21.6522C27.1882 22.116 26.4348 22.116 25.9709 21.6522L21.2727 16.9511C19.996 17.8861 18.4225 18.4352 16.7191 18.4352C12.4551 18.4352 9 14.9809 9 10.7176C9 6.45438 12.4551 3 16.7191 3C20.9832 3 24.4383 6.45438 24.4383 10.7176ZM17.9438 7.41537C17.595 7.06659 17.0309 7.06659 16.6857 7.41537C16.3406 7.76415 16.3369 8.32813 16.6857 8.67319L17.8362 9.82341L13.4533 9.82712C12.9598 9.82712 12.5627 10.2241 12.5627 10.7176C12.5627 11.2111 12.9598 11.6081 13.4533 11.6081H17.8362L16.6857 12.7583C16.3369 13.1071 16.3369 13.6711 16.6857 14.0162C17.0346 14.3612 17.5987 14.3649 17.9438 14.0162L20.6158 11.3447C20.9646 10.9959 20.9646 10.4319 20.6158 10.0869L17.9438 7.41537Z" fill="black"/>
+                                        </g>
+                                        <defs>
+                                        <filter id="filter0_d_2991_2" x="0" y="0" width="37" height="34" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                                        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                                        <feOffset dy="4"/>
+                                        <feGaussianBlur stdDeviation="2"/>
+                                        <feComposite in2="hardAlpha" operator="out"/>
+                                        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+                                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2991_2"/>
+                                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2991_2" result="shape"/>
+                                        </filter>
+                                        </defs>
+                                    </svg>
                                 </div>
                             ` : ''}
                             
                             ${documento.estado == 'a' && localStorage.getItem('rol') == 'administrador' ? `
-                                <div class="action">
+                                <a class="action" id="btnCulminarDocumento" href="#">
                                     <span class="tooltipParent">Dar por Culminado <span class="triangulo"></span></span>
                                     <svg width="37" height="34" viewBox="0 0 37 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <g filter="url(#filter0_d_2984_8)">
@@ -105,7 +124,7 @@ $(document).ready(function(){
                                         </filter>
                                         </defs>
                                     </svg>
-                                </div>` : ''}
+                                </a>` : ''}
                             
                             <a href="" class="action">
                             <span class="tooltipParent">Ver Seguimiento <span class="triangulo"></span></span>
@@ -456,6 +475,132 @@ $(document).ready(function(){
             }
         });
     });
+
+    // editar
+    $(document).on("click", "#btnEditarDocumento", function(e){
+        e.preventDefault();
+        let modalActualizar = $("#modalEditarDocumento");
+        let fila = $(this).closest("tr");
+        let numDocumento = fila.find('td:eq(0)').text();
+        let tipoDocumento = fila.find('td:eq(1)').text();
+        let asunto = fila.find('td:eq(3)').text();
+        let folios = fila.find('td:eq(4)').text();
+        $("#nroDocumentoEditar").val(numDocumento);
+        $("#tipoDocumentoEditar").val(tipoDocumento);
+        $("#foliosEditar").val(folios);
+        $("#asuntoEditar").val(asunto);
+
+        modalActualizar.modal('show');
+
+        modalActualizar.on('shown.bs.modal', function () {
+            $("#foliosEditar").focus();
+        });
+    });
+
+    // actualizar documento
+    $('#editarDocumentoForm').submit(function(e){
+        e.preventDefault();
+        let numDocumento = $.trim($('#nroDocumentoEditar').val());
+        let tipoDocumento = $.trim($('#tipoDocumentoEditar').val());
+        let folios = $.trim($('#foliosEditar').val());
+        let asunto = $.trim($('#asuntoEditar').val());
+
+        if(numDocumento.length == 0 || tipoDocumento.length == 0 || tipoDocumento == 0 || folios.length == 0 || asunto.length == 0){
+            Swal.fire({
+                icon: "warning",
+                title: "Campos Incompletos",
+                text: "Ingrese los campos requeridos",
+            });
+            return;
+        }
+
+        $.ajax({
+            url: "./controllers/documento/actualizarDocumento.php",
+            type: "POST",
+            datatype: "json",
+            data: {numDocumento, tipoDocumento, folios, asunto},
+            success: function(response) {
+                response = JSON.parse(response);
+                if (response.status == 'success'){
+                    Swal.fire({
+                        icon: "success",
+                        title: "¡Éxito!",
+                        text: response.message
+                    }).then(() => {
+                        $('#modalEditarDocumento').modal('hide');
+                        loadDocumentos()
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: response.message + ' ' + response.info
+                    });
+                }
+
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error('Error updating the area:', textStatus, errorThrown);
+            }
+        });
+    });
+
+    // culminar documento
+    $(document).on("click", "#btnCulminarDocumento", function(e){
+        e.preventDefault();
+        let fila = $(this).closest("tr");
+        let numDocumento = fila.find('td:eq(0)').text();
+
+        Swal.fire({
+            title: "¡Advertencia!",
+            html: `¿Desea dar por culminado el documento <span style="color: red; font-weight: bold;">${numDocumento}</span>? Ya no se podrá enviar ni recepcionar.`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#056251",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sí",
+            cancelButtonText: "No"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "./controllers/documento/culminarSeguimientoDocumento.php",
+                    type: "POST",
+                    dataType: "json",
+                    data: {numDocumento},
+                    success: function (response) {
+                        if (response.status == 'success'){
+                            Swal.fire({
+                                icon: "success",
+                                title: "¡Éxito!",
+                                text: response.message
+                            }).then(() => {
+                               loadDocumentos()
+                            })
+                        }else{
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error",
+                                text: response.message
+                            })
+                        }
+
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('Error fetching the content:', textStatus, errorThrown);
+                    }
+                })
+
+
+            }
+        });
+
+
+
+    });
+
+
+
+
 
     function capitalizeWords(str) {
         const exceptions = new Set(['y', 'de', 'a', 'en', 'o', 'con', 'para', 'por', 'que', 'si', 'el', 'la', 'los', 'las', 'un', 'una', 'del', 'al']);

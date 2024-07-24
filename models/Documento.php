@@ -281,6 +281,48 @@ class Documento{
         }
     }
 
+    public function finalizarSeguimiento(){
+        $sql = "EXEC sp_finalizarSeguimientoDocumento :numDocumento";
+
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
+
+            $stmt->bindParam('numDocumento', $this->numDocumento, PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            if ($stmt->rowCount() > 0) {
+                return [
+                    'status' => 'success',
+                    'message' => 'Se finalizó el seguimiento del documento',
+                    'action' => 'actualizar',
+                    'module' => 'documento',
+                    'data' => [],
+                    'info' => ''
+                ];
+            } else {
+                return [
+                    'status' => 'failed',
+                    'message' => '¡No se pudo finalizar el seguimiento del documento!',
+                    'action' => 'actualizar',
+                    'module' => 'documento',
+                    'data' => [],
+                    'info' => ''
+                ];
+            }
+
+
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => 'Ocurrio un error al momento de intentar finalizar el seguimiento del documento',
+                'action' => 'actualizar',
+                'module' => 'documento',
+                'info' => $e->getMessage()
+            ];
+        }
+    }
+
     public function cambiarEstadoDocumento(){
         $sql = "update Documento set codEstado = :codEstado where NumDocumento = :numDocumento";
 
