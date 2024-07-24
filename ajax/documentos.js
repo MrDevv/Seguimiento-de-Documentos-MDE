@@ -80,7 +80,7 @@ $(document).ready(function(){
                             }
             
                             ${documento.estado == 'i' && localStorage.getItem('rol') == 'administrador' ? `
-                                <div class="action">
+                                <a class="action" id="btnContinuarDocumento" href="#">
                                     <span class="tooltipParent">Continuar seguimiento <span class="triangulo"></span></span>
                                     <svg width="37" height="34" viewBox="0 0 37 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <g filter="url(#filter0_d_2991_2)">
@@ -100,7 +100,7 @@ $(document).ready(function(){
                                         </filter>
                                         </defs>
                                     </svg>
-                                </div>
+                                </a>
                             ` : ''}
                             
                             ${documento.estado == 'a' && localStorage.getItem('rol') == 'administrador' ? `
@@ -545,7 +545,7 @@ $(document).ready(function(){
         });
     });
 
-    // culminar documento
+    // culminar seguimiento documento
     $(document).on("click", "#btnCulminarDocumento", function(e){
         e.preventDefault();
         let fila = $(this).closest("tr");
@@ -553,7 +553,7 @@ $(document).ready(function(){
 
         Swal.fire({
             title: "¡Advertencia!",
-            html: `¿Desea dar por culminado el documento <span style="color: red; font-weight: bold;">${numDocumento}</span>? Ya no se podrá enviar ni recepcionar.`,
+            html: `¿Desea dar por culminado el seguimiento del documento <span style="color: red; font-weight: bold;">${numDocumento}</span>? Ya no se podrá enviar ni recepcionar.`,
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#056251",
@@ -564,6 +564,59 @@ $(document).ready(function(){
             if (result.isConfirmed) {
                 $.ajax({
                     url: "./controllers/documento/culminarSeguimientoDocumento.php",
+                    type: "POST",
+                    dataType: "json",
+                    data: {numDocumento},
+                    success: function (response) {
+                        if (response.status == 'success'){
+                            Swal.fire({
+                                icon: "success",
+                                title: "¡Éxito!",
+                                text: response.message
+                            }).then(() => {
+                               loadDocumentos()
+                            })
+                        }else{
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error",
+                                text: response.message
+                            })
+                        }
+
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('Error fetching the content:', textStatus, errorThrown);
+                    }
+                })
+
+
+            }
+        });
+
+
+
+    });
+
+    // continuar seguimiendo documento
+    $(document).on("click", "#btnContinuarDocumento", function(e){
+        e.preventDefault();
+        let fila = $(this).closest("tr");
+        let numDocumento = fila.find('td:eq(0)').text();
+
+        Swal.fire({
+            title: "¡Advertencia!",
+            html: `¿Desea reanudar el seguimiento del documento <span style="color: red; font-weight: bold;">${numDocumento}</span>?`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#056251",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sí",
+            cancelButtonText: "No"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "./controllers/documento/continuarSeguimientoDocumento.php",
                     type: "POST",
                     dataType: "json",
                     data: {numDocumento},

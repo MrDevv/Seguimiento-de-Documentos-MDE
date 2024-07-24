@@ -323,6 +323,48 @@ class Documento{
         }
     }
 
+    public function continuarSeguimiento(){
+        $sql = "EXEC sp_continuarSeguimientoDocumento :numDocumento";
+
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
+
+            $stmt->bindParam('numDocumento', $this->numDocumento, PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            if ($stmt->rowCount() > 0) {
+                return [
+                    'status' => 'success',
+                    'message' => 'Se reaundó el seguimiento del documento',
+                    'action' => 'actualizar',
+                    'module' => 'documento',
+                    'data' => [],
+                    'info' => ''
+                ];
+            } else {
+                return [
+                    'status' => 'failed',
+                    'message' => '¡No se pudo reanudar el seguimiento del documento!',
+                    'action' => 'actualizar',
+                    'module' => 'documento',
+                    'data' => [],
+                    'info' => ''
+                ];
+            }
+
+
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => 'Ocurrio un error al momento de intentar reanudar el seguimiento del documento',
+                'action' => 'actualizar',
+                'module' => 'documento',
+                'info' => $e->getMessage()
+            ];
+        }
+    }
+
     public function cambiarEstadoDocumento(){
         $sql = "update Documento set codEstado = :codEstado where NumDocumento = :numDocumento";
 
