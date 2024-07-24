@@ -1,60 +1,49 @@
-<div class="containerRegistroDocumento">
-    <h2>Registrar Documento</h2>
-    <div class="body">
-        <form action="<?=base_url?>documento/registrar" method="post">
-            <div class="row">
-                <div>
-                    <label>Nro. Documento</label>
-                    <input
-                            type="text"
-                            name="nroDocumento"
-                            required
-                    >
-                </div>
-                <div>
-                    <label>Asunto</label>
-                    <input
-                            type="text"
-                            name="asunto"
-                            required
-                    >
-                </div>
+<div id="modalRegistrarDocumento" class="modalArea modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Registrar Documento</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="row">
-                <div>
-                    <label>Folios</label>
-                    <input
-                            type="text"
-                            name="folios"
-                            required
-                    >
-                </div>
-                <div>
-                    <label>Tipo de Documento</label>
-                    <select class="containerRegistroArea" id="tipoDocumento" name="tipoDocumento">
-                        <?php foreach ($tiposDocumentos as $result):?>
-                            <option
-                                    value="<?=$result['codTipoDocumento']?>"
+            <form class="formArea" id="registrarDocumentoForm" action="" method="post">
+                <div class="modal-body">
+                    <div class="containerCamposEnvio">
+                        <div class="campoNroDocumento">
+                            <label for="nroDocumentoEnvio" class="form-label col-sm-4">Nro. Documento (*):</label>
+                            <input
+                                    type="text"
+                                    id="nroDocumentoRegistro"
+                                    autocomplete="off"
+                                    maxlength="20"
                             >
-                                <?=$result['descripcion']?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
+                        </div>
+                        <div class="campoArea">
+                            <label for="tipoDocumento" class="form-label col-sm-4">Tipo Documento (*):</label>
+                            <select class="selectTipoDocumento" id="tipoDocumentoRegistro">
+                            </select>
+                        </div>
+                        <div class="campoFolios">
+                            <label for="foliosEnvio" class="form-label col-sm-4">Folios (*):</label>
+                            <input
+                                    type="text"
+                                    id="foliosRegistro"
+                                    autocomplete="off"
+                                    maxlength="20"
+                            >
+                        </div>
+                        <div class="campoObservacion">
+                            <label for="asunto" class="form-label col-sm-4">Asunto (*):</label>
+                            <textarea id="asuntoRegistro" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <p>Todos los campos (*) son obligatorios</p>
                 </div>
-            </div>
-            <div class="row">
-                <div>
-                    <label>Fecha registro</label>
-                    <input
-                            type="date"
-                            value="<?php echo $fechaActual; ?>"
-                            name="fechaRegistro"
-                            disabled
-                            required>
+                <div class="containerButtonsEditarArea">
+                    <input type="submit" class="btn btn-primary" value="Enviar">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 </div>
-            </div>
-
-            <input type="submit" value="Registrar">
-        </form>
+            </form>
+        </div>
     </div>
-</div>
+
+    <script src="<?= base_url?>ajax/tipoDocumento.js"></script>

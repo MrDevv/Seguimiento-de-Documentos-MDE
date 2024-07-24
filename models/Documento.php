@@ -78,20 +78,18 @@ class Documento{
 
     public function guardarNuevoDocumento(){
 
-        $sql = "INSERT INTO Documento(NumDocumento, asunto, folios, codTipoDocumento, fechaRegistro, horaRegistro, codUsuario, codEstado) ".
-                "values(:numDocumento, :asunto, :folios, :codTipoDocumento, :fechaRegistro, :horaRegistro, :usuario, :estado)";
+        $sql = "EXEC sp_registrarDocumento :numDocumento, :asunto, :folios, :codTipoDocumento, :usuario, :fechaRegistro, :horaRegistro";
 
         try {
             $stmt = DataBase::connect()->prepare($sql);
 
-            $stmt->bindParam(":numDocumento", $this->numDocumento, PDO::PARAM_STR);
-            $stmt->bindParam(":asunto", $this->asunto, PDO::PARAM_STR);
-            $stmt->bindParam(":folios", $this->folios, PDO::PARAM_INT);
-            $stmt->bindParam(":codTipoDocumento", $this->tipoDocumento, PDO::PARAM_INT);
-            $stmt->bindParam(":fechaRegistro", $this->fechaRegistro, PDO::PARAM_STR);
-            $stmt->bindParam(":horaRegistro", $this->horaRegistro, PDO::PARAM_STR);
-            $stmt->bindParam(":usuario", $this->usuario, PDO::PARAM_INT);
-            $stmt->bindParam(":estado", $this->estado, PDO::PARAM_INT);
+            $stmt->bindParam("numDocumento", $this->numDocumento, PDO::PARAM_STR);
+            $stmt->bindParam("asunto", $this->asunto, PDO::PARAM_STR);
+            $stmt->bindParam("folios", $this->folios, PDO::PARAM_INT);
+            $stmt->bindParam("codTipoDocumento", $this->tipoDocumento, PDO::PARAM_INT);
+            $stmt->bindParam("fechaRegistro", $this->fechaRegistro, PDO::PARAM_STR);
+            $stmt->bindParam("horaRegistro", $this->horaRegistro, PDO::PARAM_STR);
+            $stmt->bindParam("usuario", $this->usuario, PDO::PARAM_INT);
 
             $stmt->execute();
 
@@ -133,7 +131,7 @@ class Documento{
             if (count($results) > 0){
                 return [
                     'status' => 'success',
-                    'message' => '¡Documento encontrado!',
+                    'message' => 'documento encontrado',
                     'action' => 'buscar',
                     'module' => 'documento',
                     'data' => $results,

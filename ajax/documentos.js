@@ -390,6 +390,72 @@ $(document).ready(function(){
         })
     } )
 
+    // nuevo
+    $(document).on("click", "#btnNuevoRegistro", function(e){
+        e.preventDefault();
+        let modalRegistrar = $("#modalRegistrarDocumento");
+        $("#registrarDocumentoForm").trigger("reset");
+        modalRegistrar.modal('show');
+
+        modalRegistrar.on('shown.bs.modal', function () {
+            $("#nroDocumentoRegistro").focus();
+        });
+    });
+
+    // registrar documento
+    $('#registrarDocumentoForm').submit(function(e){
+        e.preventDefault();
+        let numDocumento = $.trim($('#nroDocumentoRegistro').val());
+        let tipoDocumento = $.trim($('#tipoDocumentoRegistro').val());
+        let folios = $.trim($('#foliosRegistro').val());
+        let asunto = $.trim($('#asuntoRegistro').val());
+
+        if(numDocumento.length == 0 || tipoDocumento.length == 0 || tipoDocumento == 0 || folios.length == 0 || asunto.length == 0){
+            Swal.fire({
+                icon: "warning",
+                title: "Campos Incompletos",
+                text: "Ingrese los campos requeridos",
+            });
+            return;
+        }
+
+        $.ajax({
+            url: "./controllers/documento/registrarDocumento.php",
+            type: "POST",
+            datatype: "json",
+            data: {numDocumento, tipoDocumento, folios, asunto},
+            success: function(response) {
+                response = JSON.parse(response);
+                if (response.message == 'documento encontrado'){
+                    Swal.fire({
+                        icon: "warning",
+                        title: "¡Advertencia!",
+                        text: "El documento que intenta registrar ya existe"
+                    });
+                } else {
+                    if (response.status == 'success'){
+                        Swal.fire({
+                            icon: "success",
+                            title: "¡Éxito!",
+                            text: response.message
+                        }).then(() => {
+                            $('#modalRegistrarDocumento').modal('hide');
+                            loadDocumentos()
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: response.message + ' ' + response.info
+                        });
+                    }
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error('Error updating the area:', textStatus, errorThrown);
+            }
+        });
+    });
 
     function capitalizeWords(str) {
         const exceptions = new Set(['y', 'de', 'a', 'en', 'o', 'con', 'para', 'por', 'que', 'si', 'el', 'la', 'los', 'las', 'un', 'una', 'del', 'al']);

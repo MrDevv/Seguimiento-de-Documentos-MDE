@@ -201,6 +201,30 @@ $(document).ready(function(){
         });
     });
 
+    // llenar select
+    $.ajax({
+        url: './controllers/tipoDocumento/listarTipoDocumentos.php',
+        method: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            console.log(data)
+            if (data && Array.isArray(data)) {
+                let options = `<option value="0">Seleccionar</option>` +
+                    data.map(area =>
+                        `<option value="${area.codTipoDocumento}">${area.descripcion}</option>`
+                    ).join('');
+
+
+                $('.selectTipoDocumento').html(options);
+            } else {
+                console.warn('No data received or data is not an array.');
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error('Error fetching the content:', textStatus, errorThrown);
+        }
+    });
+
     function capitalizeWords(str) {
         const exceptions = new Set(['y', 'de', 'a', 'en', 'o', 'con', 'para', 'por', 'que', 'si', 'el', 'la', 'los', 'las', 'un', 'una', 'del', 'al']);
 
