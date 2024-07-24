@@ -6,9 +6,10 @@ $(document).ready(function() {
         success: function(data) {
             if (data && Array.isArray(data)) {
                 // Construir las opciones para el select
-                let options = data.map(area =>
-                    `<option value="${area.codArea}">${area.descripcion}</option>`
-                ).join('');
+                let options = `<option value="0">Seleccionar</option>` + // Agregar la opción "Seleccionar"
+                    data.map(area =>
+                        `<option value="${area.codArea}">${area.descripcion}</option>`
+                    ).join('');
 
                 // Actualizar el contenido del select
                 $('.selectArea').html(options);

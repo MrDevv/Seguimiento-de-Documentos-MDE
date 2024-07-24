@@ -575,3 +575,39 @@ BEGIN
 	AND (e.descripcion = 'a' or e.descripcion = 'p')
 END
 GO
+
+-- registrar un envio
+CREATE PROCEDURE sp_registrarEnvio(
+	@codRecepcion INT NULL, @numDocumento INT, @folios INT, @codMovimiento INT, 
+	@observacion VARCHAR(300) NULL, @codUsuarioAreaDestino INT,@codUsuarioAreaEnvio INT, @fechaEnvio DATE, @horaEnvio TIME
+)
+AS
+BEGIN
+	DECLARE @codEstadoActivo INT;
+	DECLARE @codEstadoInactivo INT;
+
+	SELECT @codEstadoActivo = codEstado FROM Estado WHERE descripcion = 'a';
+	SELECT @codEstadoInactivo = codEstado FROM Estado WHERE descripcion = 'i';
+
+	INSERT INTO Envio 
+		(fechaEnvio, horaEnvio, folios, observaciones, codEstado, codMovimiento, NumDocumento, codUsuarioEnvio, codUsuarioDestino)
+    VALUES (@fechaEnvio, @horaEnvio, @folios, @observacion, @codEstadoActivo, @codMovimiento, @numDocumento, @codUsuarioAreaEnvio, @codUsuarioAreaDestino)
+
+	DECLARE @codEnvioInsert INT;
+    SET @codEnvioInsert = SCOPE_IDENTITY();
+
+	UPDATE Documento SET codEstado = @codEstadoActivo where NumDocumento = @numDocumento
+
+	IF @codRecepcion IS NOT NULL
+	BEGIN
+		DECLARE @codEstadoEnviado INT
+
+		SELECT @codEstadoEnviado = codEstado FROM Estado WHERE descripcion = 'e';
+
+		UPDATE Recepcion SET codEstado = @codEstadoEnviado WHERE codRecepcion = @codRecepcion
+	END
+
+	INSERT INTO Recepcion(codEnvio, codEstado, codUsuarioRecepcion)
+    VALUES(@codEnvioInsert, @codEstadoInactivo, @codUsuarioAreaDestino);
+END
+GO

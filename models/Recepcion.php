@@ -56,38 +56,6 @@ class Recepcion{
         $this->codEstado = $codEstado;
     }
 
-    public function registrarRecepcion(){
-        $sql = "insert into Recepcion(codEnvio, codEstado, codUsuarioRecepcion) ".
-                "values(:codEnvio, :codEstado, :codUsuarioRecepcion)";
-
-        try {
-            $stmt = DataBase::connect()->prepare($sql);
-
-            $stmt->bindParam('codEnvio', $this->codEnvio, PDO::PARAM_INT);
-            $stmt->bindParam('codEstado', $this->codEstado, PDO::PARAM_INT);
-            $stmt->bindParam('codUsuarioRecepcion', $this->codUsuarioRecepcion, PDO::PARAM_INT);
-
-            $stmt->execute();
-
-            return [
-                'status' => 'success',
-                'message' => '¡Se registro la recepcion!',
-                'action' => 'recepcionar',
-                'module' => 'documento',
-                'data' => [],
-                'info' => ''
-            ];
-        }catch (PDOException $e){
-            return [
-                'status' => 'failed',
-                'message' => '¡Ocurrio un error al momento de registrar la recepcionar del documento!',
-                'action' => 'recepcionar',
-                'module' => 'documento',
-                'info' => $e->getMessage()
-            ];
-        }
-
-    }
 
     public function getDocumentosPendientesRecepcion(int $codUsuarioArea){
 

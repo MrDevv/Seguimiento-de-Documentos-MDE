@@ -506,3 +506,31 @@
 .containerCambiarAreaUsuario .btnCambiarAreaUsuario{
     display: flex;
 }
+
+/* Estilos para modal enviar documento */
+.containerCamposEnvio>div{
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.containerCamposEnvio>div input{
+    margin: 0;
+}
+
+.containerCamposEnvio>div select{
+    background: rgb(221 221 221 / 44%);
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    border-bottom: 2px solid #ccc;
+}
+
+.containerCamposEnvio>div select:focus-visible{
+    outline: none;
+}
+
+.containerCamposEnvio textarea{
+    height: 150px;
+    resize: none;
+}

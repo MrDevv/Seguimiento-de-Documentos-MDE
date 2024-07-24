@@ -53,4 +53,6 @@ require_once('../../config/parameters.php');
 
 </div>
 
+<?php require_once "registrarEnvio.php"?>
+
 <script src="<?= base_url?>ajax/documentos.js"></script>

@@ -1,86 +1,78 @@
-<div class="containerRegistroDocumento">
-    <h2>Enviar Documento</h2>
-    <div class="body">
-        <form action="<?=base_url?>envio/usuarioDestino" method="post">
-            <input
-                    class="disabled invisible"
-                    type="text"
-                    name="codRecepcion"
-                    value="<?php echo trim($codRecepcion) ?>"
-                    readonly
-                    required
-            >
-            <div class="row">
-                <div>
-                    <label>Nro. Documento</label>
+<div id="modalRegistrarEnvio" class="modalArea modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <svg class="me-2" width="20" height="20" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M30.982 4.51905L5.79801 13.2456L14.188 17.8993L21.586 10.8076C21.9613 10.4482 22.4702 10.2464 23.0007 10.2466C23.5313 10.2468 24.04 10.449 24.415 10.8086C24.79 11.1682 25.0006 11.6559 25.0004 12.1644C25.0002 12.6728 24.7893 13.1603 24.414 13.5197L17.014 20.6114L21.874 28.6499L30.982 4.51905ZM31.628 0.218055C34.018 -0.611862 36.334 1.60764 35.468 3.89805L24.904 31.891C24.036 34.1871 20.764 34.467 19.486 32.3529L13.052 21.7001L1.93601 15.5341C-0.269988 14.3094 0.0220122 11.1737 2.41801 10.3419L31.628 0.218055Z" fill="white"/>
+                </svg>
+                <h5 class="modal-title" id="exampleModalLabel">Enviar Documento</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form class="formArea" id="registrarEnvioForm" action="" method="post">
+                <div class="modal-body">
                     <input
-                            class="disabled"
+                            class="disabled form-control mb-3"
                             type="text"
-                            name="nroDocumento"
-                            value="<?php echo trim($response['data'][0]['NumDocumento']) ?>"
+                            id="codRecepcion"
                             readonly
                             required
+                            placeholder="Código de Recepción"
                     >
-                </div>
-                <div>
-                    <label>Folios</label>
-                    <input
-                            type="text"
-                            name="folios"
-                            required
-                    >
-                </div>
-            </div>
-            <div class="row">
-                <div>
-                    <label>Movimiento</label>
-                    <select class="selectMovimiento" name="movimiento">
-                        <?php foreach ($movimientos as $result):?>
-                            <option
-                                    value="<?=$result['codMovimiento']?>"
-                            >
-                                <?=$result['descripcion']?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-                <div>
-                    <label>Area</label>
-                    <select class="selectArea" name="area">
-                        <?php foreach ($areas as $result):?>
-                            <option
-                                    value="<?=$result['codArea']?>"
-                            >
-                                <?=$result['descripcion']?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-            </div>
-            <div class="row">
 
-            </div>
-            <div class="row">
-                <div>
-                    <label>Observacion</label>
-                    <input
-                            type="text"
-                            name="observacion"
-                    >
+                    <div class="containerCamposEnvio">
+                        <div class="campoNroDocumento">
+                            <label for="nroDocumentoEnvio" class="form-label col-sm-4">Nro. Documento (*):</label>
+                            <input
+                                    type="text"
+                                    class="disabled"
+                                    id="nroDocumentoEnvio"
+                                    autocomplete="off"
+                                    maxlength="20"
+                                    readonly
+                            >
+                        </div>
+                        <div class="campoFolios">
+                            <label for="foliosEnvio" class="form-label col-sm-4">Folios (*):</label>
+                            <input
+                                    type="text"
+                                    id="foliosEnvio"
+                                    autocomplete="off"
+                                    maxlength="20"
+                            >
+                        </div>
+                        <div class="campoMovimiento">
+                            <label for="movimientoEnvio" class="form-label col-sm-4">Movimiento (*):</label>
+                            <select class="selectMovimiento" id="movimientoEnvio">
+                            </select>
+                        </div>
+                        <div class="campoArea">
+                            <label for="areaEnvio" class="form-label col-sm-4">Área (*):</label>
+                            <select class="selectArea" id="areaEnvio">
+                            </select>
+                        </div>
+                        <div class="campoUsuario">
+                            <label for="usuarioEnvio" class="form-label col-sm-4">Para (*):</label>
+                            <select class="selectUsuarioDestino" id="usuarioDestino">
+                                <option value="0">Seleccionar</option>
+                            </select>
+                        </div>
+                        <div class="campoObservacion">
+                            <label for="observacionEnvio" class="form-label col-sm-4">Observación:</label>
+                            <textarea id="observacionEnvio" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <p>Todos los campos (*) son obligatorios</p>
                 </div>
-                <div>
-                    <label>Fecha de Envio</label>
-                    <input
-                            class="disabled"
-                            type="date"
-                            value="<?php echo $fechaActual; ?>"
-                            name="fechaRegistro"
-                            readonly
-                            required>
+                <div class="containerButtonsEditarArea">
+                    <input type="submit" class="btn btn-primary" value="Enviar">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 </div>
-            </div>
-
-            <input type="submit" value="Continuar">
-        </form>
+            </form>
+        </div>
     </div>
 </div>
+
+<?php require_once "../usuario/registro.php" ?>
+
+<script src="<?= base_url?>ajax/listarAreas.js"></script>
+<script src="<?= base_url?>ajax/movimientos.js"></script>

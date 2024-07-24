@@ -95,34 +95,33 @@ class Envio{
         $this->codUsuarioAreaDestino = $codUsuarioAreaDestino;
     }
 
-    public function registrarEnvio(){
-        $sql = "insert into Envio (fechaEnvio, horaEnvio, folios, observaciones, codEstado, codMovimiento, NumDocumento, codUsuarioEnvio, codUsuarioDestino) ".
-                "values (:fechaEnvio, :horaEnvio, :folios, :observaciones, :codEstado, :codMovimiento, :numDocumento, :codUsuarioEnvio, :codUsuarioDestino)";
+    public function registrarEnvio(int $codRecepcion = null, string $numDocumento, int $folios, int $codMovimiento,
+                                   string $observacion = null, int $codUsuarioAreaDestino, int $codUsuarioAreaEnvio, string $fechaEnvio,
+                                   string $horaEnvio){
+        $sql = "EXEC sp_registrarEnvio :codRecepcion, :numDocumento, :folios, :codMovimiento, :observacion, :codUsuarioAreaDestino, :codUsuarioAreaEnvio, :fechaEnvio, :horaEnvio";
 
         try {
             $db = DataBase::connect();
             $stmt = $db->prepare($sql);
 
-            $stmt->bindParam('fechaEnvio', $this->fechaEnvio, PDO::PARAM_STR);
-            $stmt->bindParam('horaEnvio', $this->horaEnvio, PDO::PARAM_STR);
-            $stmt->bindParam('folios', $this->folios, PDO::PARAM_INT);
-            $stmt->bindParam('observaciones', $this->observaciones, PDO::PARAM_STR);
-            $stmt->bindParam('codEstado', $this->codEstado, PDO::PARAM_INT);
-            $stmt->bindParam('codMovimiento', $this->codMovimiento, PDO::PARAM_INT);
-            $stmt->bindParam('numDocumento', $this->numDocumento, PDO::PARAM_STR);
-            $stmt->bindParam('codUsuarioEnvio', $this->codUsuarioAreaEnvio, PDO::PARAM_INT);
-            $stmt->bindParam('codUsuarioDestino', $this->codUsuarioAreaDestino, PDO::PARAM_INT);
+            $stmt->bindParam('codRecepcion', $codRecepcion, PDO::PARAM_INT);
+            $stmt->bindParam('numDocumento', $numDocumento, PDO::PARAM_STR);
+            $stmt->bindParam('folios', $folios, PDO::PARAM_INT);
+            $stmt->bindParam('codMovimiento', $codMovimiento, PDO::PARAM_INT);
+            $stmt->bindParam('observacion', $observacion, PDO::PARAM_STR);
+            $stmt->bindParam('codUsuarioAreaDestino', $codUsuarioAreaDestino, PDO::PARAM_INT);
+            $stmt->bindParam('codUsuarioAreaEnvio', $codUsuarioAreaEnvio, PDO::PARAM_INT);
+            $stmt->bindParam('fechaEnvio', $fechaEnvio, PDO::PARAM_STR);
+            $stmt->bindParam('horaEnvio', $horaEnvio, PDO::PARAM_STR);
 
             $stmt->execute();
-
-            $lastInsertId = $db->lastInsertId();
 
             return [
                 'status' => 'success',
                 'message' => '¡Documento enviado!',
                 'action' => 'enviar',
                 'module' => 'documento',
-                'data' => ['id' => $lastInsertId],
+                'data' => [],
                 'info' => ''
             ];
 
