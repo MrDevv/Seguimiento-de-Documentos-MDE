@@ -628,7 +628,6 @@ BEGIN
 END
 GO
 
-
 -- finalizar el seguimiento de un documento
 CREATE PROCEDURE sp_finalizarSeguimientoDocumento(
 	@numDocumento VARCHAR(20)
@@ -640,5 +639,19 @@ BEGIN
 	SELECT @codEstadoInactivo = codEstado FROM Estado WHERE descripcion = 'i';
 
 	UPDATE Documento SET codEstado = @codEstadoInactivo WHERE NumDocumento = @numDocumento
+END
+GO
+
+-- continuar el seguimiento de un documento
+CREATE PROCEDURE sp_continuarSeguimientoDocumento(
+	@numDocumento VARCHAR(20)
+)
+AS
+BEGIN
+	DECLARE @codEstadoActivo INT;
+
+	SELECT @codEstadoActivo = codEstado FROM Estado WHERE descripcion = 'a';
+
+	UPDATE Documento SET codEstado = @codEstadoActivo WHERE NumDocumento = @numDocumento
 END
 GO
