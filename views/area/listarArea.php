@@ -1,7 +1,6 @@
 <?php
 require_once('../../config/parameters.php');
 require_once('../../config/DataBase.php');
-require_once('../../models/Estado.php');
 ?>
 
 <div class="containerListadoArea">

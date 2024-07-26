@@ -28,6 +28,6 @@ require_once('../../config/parameters.php');
 </div>
 
 <?php require_once "registrarTipoDeDocumento.php" ?>
-<?php require_once "editarTipoDocumento.php" ?>
+<?php  require_once "editarTipoDocumento.php" ?>
 
 <script src="<?= base_url?>ajax/tipoDocumento.js"></script>

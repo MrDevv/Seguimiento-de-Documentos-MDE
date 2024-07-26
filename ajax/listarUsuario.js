@@ -30,7 +30,7 @@ $(document).ready(function() {
                         </td>
                         <td class="actions">
                             ${usuario.estado === 'a' ? `
-                                <a class="action" id="btnEditarUsuario" href="#" data-bs-toggle="modal" data-bs-target="#modalEditarUsuario">
+                                <a class="action" id="btnEditarUsuario" href="#">
                                     <span class="tooltipParent">Editar <span class="triangulo"></span></span>
                                     <svg width="38" height="34" viewBox="0 0 38 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <g filter="url(#filter0_d_2928_43)">
@@ -166,6 +166,12 @@ $(document).ready(function() {
         e.preventDefault();
         let modalRegistrar = $("#modalRegistrarUsuario");
         $("#registrarUsuarioForm").trigger("reset");
+
+        modalRegistrar.modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+
         modalRegistrar.modal('show');
 
         modalRegistrar.one('shown.bs.modal', function() {
@@ -284,6 +290,11 @@ $(document).ready(function() {
         $("#telefonoEditar").val(telefono.trim());
         $("#usuarioEditar").val(usuario.trim());
         $(".selectRol").val(rol);
+
+        modalActualizar.modal({
+            backdrop: 'static',
+            keyboard: false
+        });
 
         modalActualizar.modal('show');
 

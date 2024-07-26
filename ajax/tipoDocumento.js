@@ -12,7 +12,7 @@ $(document).ready(function(){
                                 <td> ${tipoDocumento.codTipoDocumento} </td>
                                 <td> ${tipoDocumento.descripcion} </td>
                                 <td class="actions">
-                                    <a class="action" id="btnEditarTipoDocumento" href="#" data-bs-toggle="modal" data-bs-target="#modalEditarTipoDocumento">
+                                    <a class="action" id="btnEditarTipoDocumento" href="#">
                                         <span class="tooltipParent">Editar <span class="triangulo"></span></span>
                                         <svg width="38" height="34" viewBox="0 0 38 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <g filter="url(#filter0_d_2928_43)">
@@ -56,6 +56,12 @@ $(document).ready(function(){
         e.preventDefault();
         let modalRegistrar = $("#modalRegistrarTipoDocumento");
         $("#registrarTipoDocumentoForm").trigger("reset");
+
+        modalRegistrar.modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+
         modalRegistrar.modal('show');
 
         modalRegistrar.on('shown.bs.modal', function () {
@@ -128,6 +134,11 @@ $(document).ready(function(){
         descripcionDB = descripcion.trim();
         $("#descripcionTipoDocumento").val(descripcion.trim());
         $("#codTipoDocumento").val(codTipoDocumento);
+
+        modalActualizar.modal({
+            backdrop: 'static',
+            keyboard: false
+        });
 
         modalActualizar.modal('show');
 

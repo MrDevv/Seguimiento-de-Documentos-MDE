@@ -27,58 +27,59 @@ $(document).ready(function(){
                                 ${documento.estado === 'a' ? 'En seguimiento' : documento.estado === 'i' ? 'Seguimiento finalizado' : 'Pendiente de envío'}
                             </span>
                         </td>
-                        <td class="actions">
-                            ${documento.estado == 'n' ? `
-                                <a class="action" id="btnEnviarDocumento" href="#" data-bs-toggle="modal" data-bs-target="#modalRegistrarEnvio">
-                                    <span class="tooltipParent">Enviar documento <span class="triangulo"></span></span>
-                                    <svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <g filter="url(#filter0_d_2426_28)">
-                                            <g clip-path="url(#clip0_2426_28)">
-                                                <rect x="2" width="30" height="26" rx="5" fill="white"/>
-                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M24.4887 6.51097L8.74874 11.4434L13.9925 14.0737L18.6162 10.0654C18.8508 9.86225 19.1688 9.74819 19.5004 9.74829C19.832 9.7484 20.15 9.86265 20.3844 10.0659C20.6188 10.2692 20.7504 10.5449 20.7502 10.8322C20.7501 11.1196 20.6183 11.3952 20.3837 11.5983L15.7587 15.6066L18.7962 20.1501L24.4887 6.51097ZM24.8925 4.07997C26.3862 3.61089 27.8337 4.86539 27.2925 6.15997L20.69 21.9821C20.1475 23.2799 18.1025 23.4381 17.3037 22.2431L13.2825 16.222L6.33499 12.7369C4.95624 12.0446 5.13874 10.2723 6.63624 9.80214L24.8925 4.07997Z" fill="#0C7260"/>
+                        <td>
+                        <div class="actions">
+                             ${documento.estado == 'n' ? `
+                                    <a class="action" id="btnEnviarDocumento" href="#">
+                                        <span class="tooltipParent">Enviar documento <span class="triangulo"></span></span>
+                                        <svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <g filter="url(#filter0_d_2426_28)">
+                                                <g clip-path="url(#clip0_2426_28)">
+                                                    <rect x="2" width="30" height="26" rx="5" fill="white"/>
+                                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M24.4887 6.51097L8.74874 11.4434L13.9925 14.0737L18.6162 10.0654C18.8508 9.86225 19.1688 9.74819 19.5004 9.74829C19.832 9.7484 20.15 9.86265 20.3844 10.0659C20.6188 10.2692 20.7504 10.5449 20.7502 10.8322C20.7501 11.1196 20.6183 11.3952 20.3837 11.5983L15.7587 15.6066L18.7962 20.1501L24.4887 6.51097ZM24.8925 4.07997C26.3862 3.61089 27.8337 4.86539 27.2925 6.15997L20.69 21.9821C20.1475 23.2799 18.1025 23.4381 17.3037 22.2431L13.2825 16.222L6.33499 12.7369C4.95624 12.0446 5.13874 10.2723 6.63624 9.80214L24.8925 4.07997Z" fill="#0C7260"/>
+                                                </g>
                                             </g>
-                                        </g>
-                                        <defs>
-                                            <filter id="filter0_d_2426_28" x="-2" y="0" width="38" height="34" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                                                <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-                                                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-                                                <feOffset dy="4"/>
-                                                <feGaussianBlur stdDeviation="2"/>
-                                                <feComposite in2="hardAlpha" operator="out"/>
-                                                <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-                                                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2426_28"/>
-                                                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2426_28" result="shape"/>
-                                            </filter>
-                                            <clipPath id="clip0_2426_28">
-                                                <rect x="2" width="30" height="26" rx="5" fill="white"/>
-                                            </clipPath>
-                                        </defs>
-                                    </svg>
-                                </a>
-                                <a class="action" id="btnEditarDocumento" href="#" data-bs-toggle="modal" data-bs-target="#modalEditarDocumento">
-                                    <span class="tooltipParent">Editar <span class="triangulo"></span></span>
-                                    <svg width="36" height="34" viewBox="0 0 38 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <g filter="url(#filter0_d_2868_2)">
-                                            <rect x="4" width="30" height="26" rx="5" fill="white"/>
-                                            <path d="M12.75 7.58301H11.5C10.837 7.58301 10.2011 7.81128 9.73223 8.21761C9.26339 8.62394 9 9.17504 9 9.74967V19.4997C9 20.0743 9.26339 20.6254 9.73223 21.0317C10.2011 21.4381 10.837 21.6663 11.5 21.6663H22.75C23.413 21.6663 24.0489 21.4381 24.5178 21.0317C24.9866 20.6254 25.25 20.0743 25.25 19.4997V18.4163" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                            <path d="M24 5.41678L27.75 8.66678M29.4813 7.13387C29.9736 6.7072 30.2501 6.12851 30.2501 5.52512C30.2501 4.92172 29.9736 4.34303 29.4813 3.91637C28.9889 3.4897 28.3212 3.25 27.625 3.25C26.9288 3.25 26.2611 3.4897 25.7688 3.91637L15.25 13.0001V16.2501H19L29.4813 7.13387Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                        </g>
-                                        <defs>
-                                            <filter id="filter0_d_2868_2" x="0" y="0" width="38" height="34" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                                                <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-                                                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-                                                <feOffset dy="4"/>
-                                                <feGaussianBlur stdDeviation="2"/>
-                                                <feComposite in2="hardAlpha" operator="out"/>
-                                                <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-                                                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2868_2"/>
-                                                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2868_2" result="shape"/>
-                                            </filter>
-                                        </defs>
-                                    </svg>
-                                </a>
-                                ` : ''
-                            }
+                                            <defs>
+                                                <filter id="filter0_d_2426_28" x="-2" y="0" width="38" height="34" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                                    <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                                                    <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                                                    <feOffset dy="4"/>
+                                                    <feGaussianBlur stdDeviation="2"/>
+                                                    <feComposite in2="hardAlpha" operator="out"/>
+                                                    <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+                                                    <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2426_28"/>
+                                                    <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2426_28" result="shape"/>
+                                                </filter>
+                                                <clipPath id="clip0_2426_28">
+                                                    <rect x="2" width="30" height="26" rx="5" fill="white"/>
+                                                </clipPath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                    <a class="action" id="btnEditarDocumento" href="#">
+                                        <span class="tooltipParent">Editar <span class="triangulo"></span></span>
+                                        <svg width="36" height="34" viewBox="0 0 38 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <g filter="url(#filter0_d_2868_2)">
+                                                <rect x="4" width="30" height="26" rx="5" fill="white"/>
+                                                <path d="M12.75 7.58301H11.5C10.837 7.58301 10.2011 7.81128 9.73223 8.21761C9.26339 8.62394 9 9.17504 9 9.74967V19.4997C9 20.0743 9.26339 20.6254 9.73223 21.0317C10.2011 21.4381 10.837 21.6663 11.5 21.6663H22.75C23.413 21.6663 24.0489 21.4381 24.5178 21.0317C24.9866 20.6254 25.25 20.0743 25.25 19.4997V18.4163" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M24 5.41678L27.75 8.66678M29.4813 7.13387C29.9736 6.7072 30.2501 6.12851 30.2501 5.52512C30.2501 4.92172 29.9736 4.34303 29.4813 3.91637C28.9889 3.4897 28.3212 3.25 27.625 3.25C26.9288 3.25 26.2611 3.4897 25.7688 3.91637L15.25 13.0001V16.2501H19L29.4813 7.13387Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </g>
+                                            <defs>
+                                                <filter id="filter0_d_2868_2" x="0" y="0" width="38" height="34" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                                    <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                                                    <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                                                    <feOffset dy="4"/>
+                                                    <feGaussianBlur stdDeviation="2"/>
+                                                    <feComposite in2="hardAlpha" operator="out"/>
+                                                    <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+                                                    <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2868_2"/>
+                                                    <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2868_2" result="shape"/>
+                                                </filter>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                    ` : ''
+                            }    
             
                             ${documento.estado == 'i' && localStorage.getItem('rol') == 'administrador' ? `
                                 <a class="action" id="btnContinuarDocumento" href="#">
@@ -152,6 +153,7 @@ $(document).ready(function(){
                                 </defs>
                             </svg>
                         </a>
+                        </div>             
                         </td>
                     </tr>`).join('');
                 $('#bodyListaDocumentos').html(row);
@@ -180,6 +182,11 @@ $(document).ready(function(){
         let numDocumento = fila.find('td:eq(0)').text();
 
         $("#nroDocumentoEnvio").val(numDocumento.trim());
+
+        modalRegistrar.modal({
+            backdrop: 'static', // Evita que se cierre al hacer clic fuera del modal
+            keyboard: false // Evita que se cierre al presionar la tecla Esc
+        });
 
         modalRegistrar.modal('show');
 
@@ -427,12 +434,17 @@ $(document).ready(function(){
         e.preventDefault();
         let modalRegistrar = $("#modalRegistrarDocumento");
         $("#registrarDocumentoForm").trigger("reset");
-        modalRegistrar.modal('show');
+
+        modalRegistrar.modal({
+            backdrop: 'static',
+            keyboard: false
+        }).modal('show');
 
         modalRegistrar.on('shown.bs.modal', function () {
             $("#nroDocumentoRegistro").focus();
         });
     });
+
 
     // registrar documento
     $('#registrarDocumentoForm').submit(function(e){
@@ -502,6 +514,11 @@ $(document).ready(function(){
         $("#tipoDocumentoEditar").val(tipoDocumento);
         $("#foliosEditar").val(folios);
         $("#asuntoEditar").val(asunto);
+
+        modalActualizar.modal({
+            backdrop: 'static',
+            keyboard: false
+        });
 
         modalActualizar.modal('show');
 
@@ -695,7 +712,7 @@ $(document).ready(function(){
 
                         let estadoSpan = $("#estadoDocumentoSeguimiento");
                         estadoSpan.text(estadoDocumento === 'a' ? 'En Seguimiento' : 'Finalizado');
-                        estadoSpan.removeClass('follow finished').addClass(estadoDocumento === 'a' ? 'follow' : 'finished');
+                        estadoSpan.removeClass('follow finished').addClass(estadoDocumento === 'a' ? 'estado follow' : 'estado finished');
 
 
                         if (data.length > 0 && Array.isArray(data)) {
@@ -716,7 +733,8 @@ $(document).ready(function(){
                                             ${documento["estado recepcion"] == 'i' ? "Pendiente de Recepcion" : "Recepcionado"}
                                         </span>
                                     </td>
-                                    <td class="actions">
+                                    <td>
+                                    <div class="actions">
                                         <a href="#" class="action">
                                             <span class="tooltipParent">Ver Detalle <span class="triangulo"></span></span>
                                             <svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -740,11 +758,17 @@ $(document).ready(function(){
                                             </svg>
 
                                         </a>
+                                    </div>
                                     </td>
                                 </tr>
                                 
                                 `).join('');
                             $('#bodySeguimiento').html(row);
+
+                            modalVerSeguimiento.modal({
+                                backdrop: 'static', // Evita que se cierre al hacer clic fuera del modal
+                                keyboard: false // Evita que se cierre al presionar la tecla Esc
+                            });
 
                             modalVerSeguimiento.modal('show');
                         }
@@ -763,13 +787,6 @@ $(document).ready(function(){
                 console.error('Error fetching the content:', textStatus, errorThrown);
             }
         })
-
-
-
-
-
-
-
 
     });
 

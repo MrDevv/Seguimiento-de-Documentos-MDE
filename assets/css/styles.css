@@ -610,6 +610,14 @@ input:focus-visible{
     width: 70px;
 }
 
+.seguimiento_body{
+    padding: 20px;
+}
+
+.modal-xxl{
+    max-width: 95%;
+}
+
 .enviados_body table thead tr th:nth-child(1),
 .recepcionados_body table thead tr th:nth-child(1),
 .pendientesRecepcion_body table thead tr th:nth-child(1){
