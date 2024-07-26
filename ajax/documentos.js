@@ -21,6 +21,7 @@ $(document).ready(function(){
                         <td>${documento.fechaRegistro}</td>
                         <td>${documento["usuario registrador"]}</td>
                         <td>${documento.area}</td>
+                        <td class="invisible">${documento.estado}</td>
                         <td>
                             <span class="estado ${documento.estado === 'a' ? 'follow' : documento.estado === 'i' ? 'finished' : 'new'}">
                                 ${documento.estado === 'a' ? 'En seguimiento' : documento.estado === 'i' ? 'Seguimiento finalizado' : 'Pendiente de envío'}
@@ -126,7 +127,7 @@ $(document).ready(function(){
                                     </svg>
                                 </a>` : ''}
                             
-                            <a href="" class="action">
+                            <a href="" class="action" id="btnSeguimientoDocumento" href="#">
                             <span class="tooltipParent">Ver Seguimiento <span class="triangulo"></span></span>
                             <svg width="39" height="34" viewBox="0 0 39 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <g filter="url(#filter0_d_2424_32)">
@@ -197,11 +198,11 @@ $(document).ready(function(){
             dataType: 'json',
             data: {codArea},
             success: function(response) {
-                let {data, status, message} = response
-                if (message == "no se encontraron usuarios en esta area" && codArea != "0"){
+                let {data, status, message} = response;
+                if (message == "no se encontraron usuarios en esta area" && codArea != "0" && localStorage.getItem("rol") == 'administrador'){
                     Swal.fire({
                         title: "¡Advertencia!",
-                        text: response.message + ' ' + '¿Desea regitrar un usuario en esta area?',
+                        text: response.message + ' ' + '¿Desea registrar un usuario en esta area?',
                         icon: "warning",
                         showCancelButton: true,
                         confirmButtonColor: "#056251",
@@ -221,7 +222,11 @@ $(document).ready(function(){
                                 $("#nombresNuevo").focus();
                             });
 
-                            $('#registrarUsuarioForm').submit( function (e) {
+                            // Desvincular cualquier evento submit previo
+                            $('#registrarUsuarioForm').off('submit');
+
+                            // Vincular el evento submit
+                            $('#registrarUsuarioForm').on('submit', function (e) {
                                 e.preventDefault();
 
                                 let nombre = $.trim($('#nombresNuevo').val());
@@ -234,18 +239,17 @@ $(document).ready(function(){
                                 let password = $.trim($('#passwordNuevo').val());
                                 let confirm_password = $.trim($('#passwordConfirmarNuevo').val());
 
-
                                 if (password != confirm_password){
                                     Swal.fire({
                                         icon: "warning",
-                                        title: "Las contraseñas no coninciden",
-                                        text: "Asegurese de ingresar contraseñas que coincidan",
+                                        title: "Las contraseñas no coinciden",
+                                        text: "Asegúrese de ingresar contraseñas que coincidan",
                                     });
-                                    return
+                                    return;
                                 }
 
                                 if(nombre.length == 0 || apellidos.length == 0 || telefono.length == 0 || dni.length == 0
-                                    || usuario.length == 0 || rol.length == 0 || area.length == 0 || password.length == 0 || confirm_password.length == 0){
+                                    || usuario.length == 0 || rol.length == 0 || area.length == 0 || password.length == 0 || confirm_password.length == 0 || area == "0"){
                                     Swal.fire({
                                         icon: "warning",
                                         title: "Campos Incompletos",
@@ -258,7 +262,7 @@ $(document).ready(function(){
                                     Swal.fire({
                                         icon: "warning",
                                         title: "Campos Incorrectos",
-                                        text: "Ingrese un DNI valido",
+                                        text: "Ingrese un DNI válido",
                                     });
                                     return;
                                 }
@@ -267,7 +271,7 @@ $(document).ready(function(){
                                     Swal.fire({
                                         icon: "warning",
                                         title: "Campos Incorrectos",
-                                        text: "Ingrese un télefono valido",
+                                        text: "Ingrese un teléfono válido",
                                     });
                                     return;
                                 }
@@ -282,17 +286,19 @@ $(document).ready(function(){
                                     data: {nombre, apellidos, telefono, dni, usuario, rol, area, password},
                                     success: function (response) {
                                         if (response.message == '¡Usuario encontrado!'){
+                                            console.log('el usuario ya se registró');
                                             Swal.fire({
                                                 icon: "warning",
                                                 title: "¡Advertencia!",
                                                 text: "El usuario que intenta registrar ya se encuentra registrado"
-                                            })
-                                        }else{
+                                            });
+                                        } else {
                                             if (response.status == 'success'){
+                                                console.log('se registró el usuario');
                                                 Swal.fire({
                                                     icon: "success",
                                                     title: "Registro Exitoso",
-                                                    text: "Se registro correctamente el usuario"
+                                                    text: "Se registró correctamente el usuario"
                                                 }).then(() => {
                                                     $('#modalRegistrarUsuario').modal('hide');
 
@@ -309,34 +315,43 @@ $(document).ready(function(){
 
                                                             $('.selectUsuarioDestino').html(options);
                                                         }
-                                                    })
-                                                })
-                                            }else{
+                                                    });
+                                                });
+                                            } else {
                                                 Swal.fire({
                                                     icon: "error",
                                                     title: "Error",
-                                                    text: "Ocurrio un error al momento de registrar el usuario" + response.message
-                                                })
+                                                    text: "Ocurrió un error al momento de registrar el usuario: " + response.message
+                                                });
                                             }
                                         }
                                     },
                                     error: function(jqXHR, textStatus, errorThrown) {
                                         console.error('Error fetching the content:', textStatus, errorThrown);
                                     }
-                                })
-                            } )
+                                });
+                            });
 
                             $(document).on("click", "#btnCancelarRegistroUsuario", function(e){
-                                let options = `<option value="0">Seleccionar</option>`
+                                let options = `<option value="0">Seleccionar</option>`;
                                 $('.selectUsuarioDestino').html(options);
                             });
-                        }else{
-                            let options = `<option value="0">Seleccionar</option>`
+                        } else {
+                            let options = `<option value="0">Seleccionar</option>`;
                             $('.selectUsuarioDestino').html(options);
                         }
                     });
-
-                }else{
+                } else if(message == "no se encontraron usuarios en esta area" && codArea != "0" && localStorage.getItem("rol") == 'usuario'){
+                    Swal.fire({
+                        title: "¡Advertencia!",
+                        text: response.message,
+                        icon: "warning",
+                        confirmButtonColor: "#056251",
+                    }).then(()=>{
+                        let options = `<option value="0">Seleccionar</option>`;
+                        $('.selectUsuarioDestino').html(options);
+                    });
+                } else {
                     let options = `<option value="0">Seleccionar</option>` + // Agregar la opción "Seleccionar"
                         data.map(usuario =>
                             `<option value="${usuario.codUsuarioArea}">${usuario.usuario}</option>`
@@ -345,15 +360,13 @@ $(document).ready(function(){
                     // Actualizar el contenido del select
                     $('.selectUsuarioDestino').html(options);
                 }
-
-
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.error('Error fetching the content:', textStatus, errorThrown);
             }
         });
-
     });
+
 
     // registrar envio
     $('#registrarEnvioForm').submit( function (e) {
@@ -646,14 +659,119 @@ $(document).ready(function(){
 
             }
         });
+    });
+
+    // abrir modal para ver el seguimiento de un documento
+    $(document).on("click", "#btnSeguimientoDocumento", function(e){
+        e.preventDefault();
+        let fila = $(this).closest("tr");
+        let numDocumento = fila.find('td:eq(0)').text();
+
+        $.ajax({
+            url: "./controllers/documento/obtenerSeguimiento.php",
+            type: "POST",
+            dataType: "json",
+            data: {numDocumento},
+            success: function (response) {
+                let {status, data} = response
+                console.log(response)
+                if (status == 'success') {
+                    console.log(data.length)
+                    if (data.length == 0) {
+                        Swal.fire({
+                            icon: "warning",
+                            title: "¡Advertencia!",
+                            text: "El documento aún no ha sido enviado. Una vez que el documento sea enviado, podrá seguir su seguimiento aquí."
+                        })
+                        return;
+                    } else {
+                        let modalVerSeguimiento = $("#modalSeguimientoDocumento");
+
+                        let estadoDocumento = data[0]['Estado Documento']
+                        let tipoDocumento = data[0]['tipo documento']
+
+                        $("#numDocumentoSeguimiento").text(numDocumento);
+                        $("#tipoDocumentoSeguimiento").text(tipoDocumento);
+
+                        let estadoSpan = $("#estadoDocumentoSeguimiento");
+                        estadoSpan.text(estadoDocumento === 'a' ? 'En Seguimiento' : 'Finalizado');
+                        estadoSpan.removeClass('follow finished').addClass(estadoDocumento === 'a' ? 'follow' : 'finished');
+
+
+                        if (data.length > 0 && Array.isArray(data)) {
+                            let row = data.map(documento => `
+                                <tr>
+                                    <td> 1 </td>
+                                    <td> ${documento.folios} </td>
+                                    <td> ${documento["area origen"]} </td>
+                                    <td> ${documento["usuario origen"]} </td>
+                                    <td> ${documento.fechaEnvio} </td>
+                                    <td class="columArrow"> <svg fill="#056251" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM241 377c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l87-87-87-87c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0L345 239c9.4 9.4 9.4 24.6 0 33.9L241 377z"/></svg> </td>
+                                    <td> ${documento["area destino"]} </td>
+                                    <td> ${documento["usuario destino"]} </td>
+                                    <td> ${documento.fechaRecepcion != null ? documento.fechaRecepcion : ''} </td>
+                                    <td class="observacionEnvio"> ${documento.observaciones} </td>
+                                    <td>
+                                        <span class="estado ${documento["estado recepcion"] == 'i' ? "pendienteRecepcion" : "recepcionado"} ">
+                                            ${documento["estado recepcion"] == 'i' ? "Pendiente de Recepcion" : "Recepcionado"}
+                                        </span>
+                                    </td>
+                                    <td class="actions">
+                                        <a href="#" class="action">
+                                            <span class="tooltipParent">Ver Detalle <span class="triangulo"></span></span>
+                                            <svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <g filter="url(#filter0_d_2424_29)">
+                                                    <rect x="4" width="28" height="26" rx="5" fill="white"/>
+                                                    <path d="M27.3334 3.25H8.66671C7.37987 3.25 6.33337 4.22175 6.33337 5.41667V20.5833C6.33337 21.7783 7.37987 22.75 8.66671 22.75H27.3334C28.6202 22.75 29.6667 21.7783 29.6667 20.5833V5.41667C29.6667 4.22175 28.6202 3.25 27.3334 3.25ZM8.66671 20.5833V5.41667H27.3334L27.3357 20.5833H8.66671Z" fill="black"/>
+                                                    <path d="M11 7.5835H25V9.75016H11V7.5835ZM11 11.9168H25V14.0835H11V11.9168ZM11 16.2502H18V18.4168H11V16.2502Z" fill="black"/>
+                                                </g>
+                                                <defs>
+                                                    <filter id="filter0_d_2424_29" x="0" y="0" width="36" height="34" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                                        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                                                        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                                                        <feOffset dy="4"/>
+                                                        <feGaussianBlur stdDeviation="2"/>
+                                                        <feComposite in2="hardAlpha" operator="out"/>
+                                                        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+                                                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2424_29"/>
+                                                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2424_29" result="shape"/>
+                                                    </filter>
+                                                </defs>
+                                            </svg>
+
+                                        </a>
+                                    </td>
+                                </tr>
+                                
+                                `).join('');
+                            $('#bodySeguimiento').html(row);
+
+                            modalVerSeguimiento.modal('show');
+                        }
+                    }
+                }
+                else
+                    {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: response.message
+                        })
+                    }
+                },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error('Error fetching the content:', textStatus, errorThrown);
+            }
+        })
+
+
+
+
+
 
 
 
     });
-
-
-
-
 
     function capitalizeWords(str) {
         const exceptions = new Set(['y', 'de', 'a', 'en', 'o', 'con', 'para', 'por', 'que', 'si', 'el', 'la', 'los', 'las', 'un', 'una', 'del', 'al']);

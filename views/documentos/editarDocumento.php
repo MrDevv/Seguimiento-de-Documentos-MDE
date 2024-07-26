@@ -49,4 +49,3 @@
     </div>
 </div>
 
-    <script src="<?= base_url?>ajax/tipoDocumento.js"></script>

@@ -162,20 +162,20 @@ $(document).ready(function() {
     loadUsuarios('Activos');
 
     // nuevo
-    $(document).on("click", "#btnRegistrarUsuario", function(e){
+    $(document).on("click", "#btnRegistrarUsuario", function(e) {
         e.preventDefault();
         let modalRegistrar = $("#modalRegistrarUsuario");
         $("#registrarUsuarioForm").trigger("reset");
         modalRegistrar.modal('show');
 
-        modalRegistrar.on('shown.bs.modal', function () {
+        modalRegistrar.one('shown.bs.modal', function() {
             $("#nombresNuevo").focus();
         });
     });
 
-
-    $('#registrarUsuarioForm').submit( function (e) {
+    $(document).on('submit', '#registrarUsuarioForm', function(e) {
         e.preventDefault();
+        $(this).off('submit'); // Desenganchar el evento de submit
 
         let nombre = $.trim($('#nombresNuevo').val());
         let apellidos = $.trim($('#apellidosNuevo').val());
@@ -187,18 +187,18 @@ $(document).ready(function() {
         let password = $.trim($('#passwordNuevo').val());
         let confirm_password = $.trim($('#passwordConfirmarNuevo').val());
 
-
-        if (password != confirm_password){
+        // Validaciones
+        if (password !== confirm_password) {
             Swal.fire({
                 icon: "warning",
-                title: "Las contraseñas no coninciden",
-                text: "Asegurese de ingresar contraseñas que coincidan",
+                title: "Las contraseñas no coinciden",
+                text: "Asegúrese de ingresar contraseñas que coincidan",
             });
-            return
+            return;
         }
 
-        if(nombre.length == 0 || apellidos.length == 0 || telefono.length == 0 || dni.length == 0
-            || usuario.length == 0 || rol.length == 0 || area.length == 0 || password.length == 0 || confirm_password.length == 0){
+        if (nombre === '' || apellidos === '' || telefono === '' || dni === '' || usuario === '' ||
+            rol === '' || area === '' || password === '' || confirm_password === '') {
             Swal.fire({
                 icon: "warning",
                 title: "Campos Incompletos",
@@ -207,20 +207,20 @@ $(document).ready(function() {
             return;
         }
 
-        if (dni.length < 8 || dni.length > 8){
+        if (dni.length !== 8) {
             Swal.fire({
                 icon: "warning",
                 title: "Campos Incorrectos",
-                text: "Ingrese un DNI valido",
+                text: "Ingrese un DNI válido",
             });
             return;
         }
 
-        if (telefono.length < 9 || telefono.length > 9){
+        if (telefono.length !== 9) {
             Swal.fire({
                 icon: "warning",
                 title: "Campos Incorrectos",
-                text: "Ingrese un télefono valido",
+                text: "Ingrese un teléfono válido",
             });
             return;
         }
@@ -232,39 +232,37 @@ $(document).ready(function() {
             url: "./controllers/usuario/registrarUsuario.php",
             type: "POST",
             dataType: "json",
-            data: {nombre, apellidos, telefono, dni, usuario, rol, area, password},
-            success: function (response) {
-                if (response.message == '¡Usuario encontrado!'){
+            data: { nombre, apellidos, telefono, dni, usuario, rol, area, password },
+            success: function(response) {
+                if (response.message === '¡Usuario encontrado!') {
                     Swal.fire({
                         icon: "warning",
                         title: "¡Advertencia!",
                         text: "El usuario que intenta registrar ya se encuentra registrado"
-                    })
-                }else{
-                    if (response.status == 'success'){
-                        Swal.fire({
-                            icon: "success",
-                            title: "Registro Exitoso",
-                            text: "Se registro correctamente el usuario"
-                        }).then(() => {
-                            $('#modalRegistrarUsuario').modal('hide');
-
-                            loadUsuarios('Activos');
-                        })
-                    }else{
-                        Swal.fire({
-                            icon: "error",
-                            title: "Error",
-                            text: "Ocurrio un error al momento de registrar el usuario" + response.message
-                        })
-                    }
+                    });
+                } else if (response.status === 'success') {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Registro Exitoso",
+                        text: "Se registró correctamente el usuario"
+                    }).then(() => {
+                        $('#modalRegistrarUsuario').modal('hide');
+                        loadUsuarios('Activos');
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: "Ocurrió un error al momento de registrar el usuario: " + response.message
+                    });
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.error('Error fetching the content:', textStatus, errorThrown);
             }
-        })
-    } )
+        });
+    });
+
 
     // editar
     $(document).on("click", "#btnEditarUsuario", function(e){

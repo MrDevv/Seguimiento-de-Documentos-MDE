@@ -322,7 +322,7 @@ GO
 ------------------------------------- REPORTES ---------------------------------------
 
 -- Obtener documentos por area
-ALTER PROCEDURE sp_reporteDocumentosPorArea
+CREATE PROCEDURE sp_reporteDocumentosPorArea
     @codArea INT = NULL, @numDocumento VARCHAR(20) = NULL
 AS
 BEGIN

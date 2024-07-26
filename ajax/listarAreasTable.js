@@ -55,25 +55,25 @@ $(document).ready(function() {
     loadAreas();
 
     // nuevo
-    $(document).on("click", "#btnRegistrarArea", function(e){
+    $(document).on("click", "#btnRegistrarArea", function(e) {
         e.preventDefault();
         let modalRegistrar = $("#modalRegistrarArea");
         $("#registrarAreaForm").trigger("reset");
         modalRegistrar.modal('show');
 
-        modalRegistrar.on('shown.bs.modal', function () {
+        modalRegistrar.on('shown.bs.modal', function() {
             $("#descripcionAreaNuevo").focus();
         });
     });
 
     // registrar
-    $('#registrarAreaForm').submit(function(e){
+    $(document).on('submit', '#registrarAreaForm', function(e) {
         e.preventDefault();
-        console.log('registrando')
-        let descripcion = $.trim($('#descripcionAreaNuevo').val());
-        console.log(descripcion)
+        $(this).off('submit');  // Desenganchar el evento de submit
 
-        if(descripcion.length == 0){
+        let descripcion = $.trim($('#descripcionAreaNuevo').val());
+
+        if (descripcion.length === 0) {
             Swal.fire({
                 icon: "warning",
                 title: "Campos Incompletos",
@@ -88,17 +88,17 @@ $(document).ready(function() {
             url: "./controllers/areas/registrarArea.php",
             type: "POST",
             datatype: "json",
-            data: {descripcion: descripcion},
+            data: { descripcion: descripcion },
             success: function(response) {
                 response = JSON.parse(response);
-                if (response.message == 'area encontrada'){
+                if (response.message === 'area encontrada') {
                     Swal.fire({
                         icon: "warning",
                         title: "¡Advertencia!",
                         text: "El área que intenta registrar ya existe"
                     });
                 } else {
-                    if (response.status == 'success'){
+                    if (response.status === 'success') {
                         Swal.fire({
                             icon: "success",
                             title: "¡Éxito!",
@@ -123,32 +123,36 @@ $(document).ready(function() {
     });
 
 
+
     let descripcionDB = '';
-    // Editar
-    $(document).on("click", "#btnEditarArea", function(e){
+
+// Editar
+    $(document).on("click", "#btnEditarArea", function(e) {
         e.preventDefault();
         let modalEditar = $("#modalEditarArea");
-        fila = $(this).closest("tr");
-        codArea = parseInt(fila.find('td:eq(0)').text());
-        descripcion = fila.find('td:eq(1)').text();
+        let fila = $(this).closest("tr");
+        let codArea = parseInt(fila.find('td:eq(0)').text());
+        let descripcion = fila.find('td:eq(1)').text();
         descripcionDB = descripcion;
         $("#descripcionArea").val(descripcion.trim());
         $("#codArea").val(codArea);
 
         modalEditar.modal('show');
 
-        modalEditar.on('shown.bs.modal', function () {
-            $(".descripcionArea").focus();
+        modalEditar.one('shown.bs.modal', function () {
+            $("#descripcionArea").focus();
         });
     });
 
     // Actualizar
-    $('#editarAreaForm').submit(function(e){
+    $(document).on('submit', '#editarAreaForm', function(e) {
         e.preventDefault();
+        $(this).off('submit'); // Desenganchar el evento de submit
+
         let descripcion = $.trim($('#descripcionArea').val());
         let codArea = $.trim($('#codArea').val());
 
-        if(descripcion.length == 0 || codArea.length == 0){
+        if (descripcion.length === 0 || codArea.length === 0) {
             Swal.fire({
                 icon: "warning",
                 title: "Campos Incompletos",
@@ -157,7 +161,7 @@ $(document).ready(function() {
             return;
         }
 
-        if (descripcionDB == descripcion){
+        if (descripcionDB === descripcion) {
             Swal.fire({
                 icon: "warning",
                 title: "¡Advertencia!",
@@ -175,14 +179,14 @@ $(document).ready(function() {
             data: { codArea, descripcion },
             success: function(response) {
                 response = JSON.parse(response);
-                if (response.message == 'area encontrada'){
+                if (response.message === 'area encontrada') {
                     Swal.fire({
                         icon: "warning",
                         title: "¡Advertencia!",
                         text: "La descripción que intenta actualizar ya existe en la base de datos"
                     });
                 } else {
-                    if (response.status == 'success'){
+                    if (response.status === 'success') {
                         Swal.fire({
                             icon: "success",
                             title: "Actualización Exitosa",

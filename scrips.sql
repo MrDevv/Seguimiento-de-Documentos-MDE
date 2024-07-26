@@ -13,9 +13,7 @@ insert into Movimiento(descripcion) values('Solicitar'),('Conocimientos  y Fines
 go
 
 -- Areas del Sistema
-insert into Area(descripcion) values('SubGerencia de Informática y Sistemas'),('Unidad de Ejecución Coactiva'),('Secretaria General'), ('Unidad de Atención al Usuario y Trámite'), 
-('Unidad de Relaciones Públicas y Comunicaciones'), ('Unidad Registro Civil'), ('Unidad de Participación Vecinal'), ('Gernecia de Recursos Humanos'), ('Gerencia de Administración Tributaria'),
-('Gernecia de Adminstración y Finanzas'), ('Gerencia de Desarrollo Económico Local');
+insert into Area(descripcion) values('SubGerencia de Informática y Sistemas');
 go
 
 -- Tipo Documento
