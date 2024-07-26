@@ -1,18 +1,23 @@
-CREATE DATABASE Sistema_Seguimiento_Documentos;
+CREATE DATABASE Sistema_Seguimiento_Documentos
+COLLATE Latin1_General_100_CI_AS_SC_UTF8;
+GO
 
 use Sistema_Seguimiento_Documentos;
+GO
 
 CREATE TABLE Rol(
 	codRol INT NOT NULL IDENTITY(1,1),
 	descripcion VARCHAR(20) NOT NULL,
 	PRIMARY KEY(codRol)
 );
+GO
 
 CREATE TABLE Estado(
 	codEstado INT NOT NULL IDENTITY(1,1),
 	descripcion CHAR(1) NOT NULL,
 	PRIMARY KEY(codEstado)
 );
+GO
 
 CREATE TABLE Persona(
 	codPersona INT NOT NULL IDENTITY(1,1),
@@ -24,6 +29,7 @@ CREATE TABLE Persona(
 	PRIMARY KEY(codPersona),
 	FOREIGN KEY(codEstado) REFERENCES Estado(codEstado)
 );
+GO
 
 CREATE TABLE Usuario(
 	codUsuario INT NOT NULL IDENTITY(1,1),
@@ -37,12 +43,14 @@ CREATE TABLE Usuario(
 	FOREIGN KEY(codPersona) REFERENCES Persona(codPersona),
 	FOREIGN KEY(codEstado) REFERENCES Estado(codEstado)
 );
+GO
 
 CREATE TABLE Area(
 	codArea INT NOT NULL IDENTITY(1,1),
 	descripcion VARCHAR(50) NOT NULL,
 	PRIMARY KEY(codArea),
 );
+GO
 
 CREATE TABLE UsuarioArea(
 	codUsuarioArea INT NOT NULL IDENTITY(1,1),
@@ -54,18 +62,21 @@ CREATE TABLE UsuarioArea(
 	FOREIGN KEY(codArea) REFERENCES Area(codArea),
 	FOREIGN KEY(codEstado) REFERENCES Estado(codEstado)
 );
+GO
 
 CREATE TABLE Movimiento(
 	codMovimiento INT NOT NULL IDENTITY(1,1),
 	descripcion VARCHAR(50) NOT NULL,
 	PRIMARY KEY(codMovimiento)
 );
+GO
 
 CREATE TABLE TipoDocumento(
 	codTipoDocumento INT NOT NULL IDENTITY(1,1),
 	descripcion VARCHAR(50) NOT NULL,
 	PRIMARY KEY(codTipoDocumento)
 );
+GO
 
 CREATE TABLE Documento(
 	NumDocumento VARCHAR(20) NOT NULL,
@@ -81,6 +92,7 @@ CREATE TABLE Documento(
 	FOREIGN KEY(codTipoDocumento) REFERENCES TipoDocumento(codTipoDocumento),
 	FOREIGN KEY(codEstado) REFERENCES Estado(codEstado)
 );
+GO
 
 CREATE TABLE Envio(
 	codEnvio INT NOT NULL IDENTITY(1,1),
@@ -100,6 +112,7 @@ CREATE TABLE Envio(
 	FOREIGN KEY(codUsuarioDestino) REFERENCES UsuarioArea(codUsuarioArea),
 	FOREIGN KEY(codEstado) REFERENCES Estado(codEstado)
 );
+GO
 
 CREATE TABLE Recepcion(
 	codRecepcion INT NOT NULL IDENTITY(1,1),
@@ -113,3 +126,4 @@ CREATE TABLE Recepcion(
 	FOREIGN KEY(codUsuarioRecepcion) REFERENCES UsuarioArea(codUsuarioArea),
 	FOREIGN KEY(codEstado) REFERENCES Estado(codEstado)
 );
+GO
