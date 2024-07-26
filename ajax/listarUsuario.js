@@ -197,8 +197,8 @@ $(document).ready(function() {
             return;
         }
 
-        if (nombre === '' || apellidos === '' || telefono === '' || dni === '' || usuario === '' ||
-            rol === '' || area === '' || password === '' || confirm_password === '') {
+        if(nombre.length == 0 || apellidos.length == 0 || telefono.length == 0 || dni.length == 0
+            || usuario.length == 0 || rol.length == 0 || area.length == 0 || password.length == 0 || confirm_password.length == 0 || area == "0"){
             Swal.fire({
                 icon: "warning",
                 title: "Campos Incompletos",
@@ -207,7 +207,7 @@ $(document).ready(function() {
             return;
         }
 
-        if (dni.length !== 8) {
+        if (dni.length < 8 || dni.length > 8){
             Swal.fire({
                 icon: "warning",
                 title: "Campos Incorrectos",
@@ -216,7 +216,7 @@ $(document).ready(function() {
             return;
         }
 
-        if (telefono.length !== 9) {
+        if (telefono.length < 9 || telefono.length > 9){
             Swal.fire({
                 icon: "warning",
                 title: "Campos Incorrectos",
