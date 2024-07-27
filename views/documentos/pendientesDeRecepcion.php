@@ -31,4 +31,6 @@
     </div>
 </div>
 
-<script src="<?= base_url?>ajax/pendientesRecepcion.js"></script>
+<?php require_once "seguimientoDocumento.php"?>
+
+<script src="<?= base_url?>ajax/recepcion.js"></script>

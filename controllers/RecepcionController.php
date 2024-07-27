@@ -33,18 +33,6 @@ class RecepcionController{
         return $response;
     }
 
-    public function pendientesDeRecepcion(){
-        $response = $this->recepcionModel->getDocumentosPendientesRecepcion((int) $_SESSION['user']['codUsuarioArea']);
-
-        if ($response['status'] == 'failed'){
-            $_SESSION['response'] = $response;
-            require_once "views/modals/alerta.php";
-            exit();
-        }
-
-        require_once "views/documentos/pendientesDeRecepcion.php";
-    }
-
     public function recepcionados(){
         $response = $this->recepcionModel->listarDocumentosRecepcionados((int) $_SESSION['user']['codUsuarioArea']);
 
@@ -55,33 +43,6 @@ class RecepcionController{
         }
 
         require_once "views/documentos/recepcionados.php";
-    }
-
-    public function confirmarRecepcion(){
-        if(isset($_POST['codRecepcion'])){
-            $codRecepcion = $_POST['codRecepcion'];
-
-            $this->buscar(trim((int) $codRecepcion));
-            $estadoCodActivo = Estado::getIdEstadoActivo();
-            $this->recepcionModel->setFechaRecepcion($this->obtenerFechaActual());
-            $this->recepcionModel->setHoraRecepcion($this->obtenerHoraActual());
-            $this->recepcionModel->setCodRecepcion($codRecepcion);
-            $this->recepcionModel->setCodEstado($estadoCodActivo);
-
-            $response = $this->recepcionModel->cambiarEstadoRecepcion();
-
-            if ($response['status'] == 'failed'){
-                $_SESSION['response'] = $response;
-                require_once "views/modals/alerta.php";
-                exit();
-            }
-
-            $this->redirect();
-
-        }else{
-            $this->redirect();
-            exit();
-        }
     }
 
     public function cancelarRecepcion(){

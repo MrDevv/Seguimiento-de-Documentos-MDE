@@ -180,13 +180,12 @@ class Recepcion{
         }
     }
 
-    public function cambiarEstadoRecepcion(){
-        $sql = "update Recepcion set codEstado = :codEstado, horaRecepcion = :horaRecepcion, fechaRecepcion = :fechaRecepcion where codRecepcion = :codRecepcion";
+    public function confirmarRecepcion(){
+        $sql = "EXEC sp_confirmarRecepcion :codRecepcion, :horaRecepcion, :fechaRecepcion";
 
         try {
             $stmt = DataBase::connect()->prepare($sql);
 
-            $stmt->bindParam('codEstado', $this->codEstado, PDO::PARAM_INT);
             $stmt->bindParam('codRecepcion', $this->codRecepcion, PDO::PARAM_INT);
             $stmt->bindParam('fechaRecepcion', $this->fechaRecepcion, PDO::PARAM_STR);
             $stmt->bindParam('horaRecepcion', $this->horaRecepcion, PDO::PARAM_STR);
