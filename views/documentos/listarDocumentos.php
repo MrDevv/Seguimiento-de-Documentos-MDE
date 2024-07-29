@@ -57,6 +57,8 @@ require_once('../../config/parameters.php');
 <?php require_once "registrarDocumento.php"?>
 <?php require_once "editarDocumento.php"?>
 <?php require_once "seguimientoDocumento.php"?>
+<?php require_once "detalleEnvio.php"?>
 
 <script src="<?= base_url?>ajax/tipoDocumento.js"></script>
 <script src="<?= base_url?>ajax/documentos.js"></script>
+<script src="<?= base_url?>ajax/detalle.js"></script>
