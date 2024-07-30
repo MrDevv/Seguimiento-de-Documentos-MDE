@@ -1,21 +1,20 @@
 <div id="modalDetalleEnvio" class="modalArea modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xxl modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Detalle</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="exampleModalLabel">Detalle del Envío</h5>
             </div>
             <div class="seguimiento_body">
                 <div class="infoGeneral">
                     <div class="containerInfoDoc">
-                        <p>N° Documento: <span id="numDocumentoSeguimiento"> </span></p>
-                        <p>Tipo Documento: <span id="tipoDocumentoSeguimiento"></span></p>
+                        <p>N° Documento: <span id="numDocumentoDetalle"> </span></p>
+                        <p>Tipo Documento: <span id="tipoDocumentoDetalle"></span></p>
                     </div>
                     <div
                             class="containerEstadoDoc"
                     >
                         <p>Estado Documento:
-                            <span id="estadoDocumentoSeguimiento" class=""></span>
+                            <span id="estadoDocumentoDetalle" class=""></span>
                             </span>
                         </p>
                     </div>
@@ -33,7 +32,7 @@
                                 <input
                                         type="text"
                                         name="areaOrigen"
-                                        value="<?= $response['data'][0]['area origen']?>"
+                                        id="areaOrigenDetalle"
                                         readonly>
                             </div>
                             <div>
@@ -41,7 +40,7 @@
                                 <input
                                         type="date"
                                         name="fechaEnvio"
-                                        value="<?= $response['data'][0]['fechaEnvio']?>"
+                                        id="fechaEnvioDetalle"
                                         readonly>
                             </div>
                             <div>
@@ -49,7 +48,7 @@
                                 <input
                                         type="text"
                                         name="horaEnvio"
-                                        value="<?= $response['data'][0]['hora envio']?>"
+                                        id="horaEnvioDetalle"
                                         readonly>
                             </div>
                             <div>
@@ -57,7 +56,7 @@
                                 <input
                                         type="text"
                                         name="usuarioOrigen"
-                                        value="<?= $response['data'][0]['usuario origen']?>"
+                                        id="usuarioOrigenDetalle"
                                         readonly>
                             </div>
                             <div>
@@ -84,7 +83,7 @@
                                 <input
                                         type="text"
                                         name="areaDestino"
-                                        value="<?= $response['data'][0]['area destino']?>"
+                                        id="areaDestinoDetalle"
                                         readonly
                                 >
                             </div>
@@ -93,7 +92,7 @@
                                 <input
                                         type="date"
                                         name="fechaRecepcion"
-                                        value="<?= $response['data'][0]['fechaRecepcion']?>"
+                                        id="fechaRecepcionDetalle"
                                         readonly
                                 >
                             </div>
@@ -102,7 +101,7 @@
                                 <input
                                         type="text"
                                         name="horaRecepcion"
-                                        value="<?= $response['data'][0]['hora recepcion']?>"
+                                        id="horaRecepcionDetalle"
                                         readonly
                                 >
                             </div>
@@ -111,23 +110,13 @@
                                 <input
                                         type="text"
                                         name="usuarioOrigen"
-                                        value="<?= $response['data'][0]['usuario destino']?>"
+                                        id="usuarioDestinoDetalle"
                                         readonly
                                 >
                             </div>
                             <div>
                                 <label>Estado Recepción</label>
-                                <div class="estadosDetalle">
-                                    <?php if ($response['data'][0]['estado recepcion'] == 'e'): ?>
-                                        <span class="estado recepcionado"> Recepcionado </span>
-                                        <span class="estado enviado"> Enviado </span>
-                                    <?php endif; ?>
-                                    <?php if ($response['data'][0]['estado recepcion'] == 'a'): ?>
-                                        <span class="estado recepcionado"> Recepcionado </span>
-                                    <?php endif; ?>
-                                    <?php if ($response['data'][0]['estado recepcion'] == 'i'): ?>
-                                        <span class="estado pendienteRecepcion"> Pendiente de Recepción </span>
-                                    <?php endif; ?>
+                                <div class="estadosDetalle" id="estadosRecepcion">
                                 </div>
                             </div>
                         </div>
@@ -138,14 +127,14 @@
                             <textarea
                                     class="disabled"
                                     name="observacion"
+                                    id="observacionDetalle"
                                     readonly>
-                            <?= $response['data'][0]['observaciones']?>
                         </textarea>
                         </div>
                     </div>
                 </div>
             </div>
-
+            <button type="button" class="btnCerrarModal" data-bs-dismiss="modal">Cerrar</button>
         </div>
     </div>
 </div>

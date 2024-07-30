@@ -241,7 +241,7 @@ BEGIN
 				INNER JOIN Usuario ue ON uae.codUsuario = ue.codUsuario
 				INNER JOIN Persona pe ON ue.codPersona = pe.codPersona
 				-- Estado del envio
-				INNER JOIN Estado ee ON r.codEstado = ee.codEstado
+				INNER JOIN Estado ee ON e.codEstado = ee.codEstado
 				-- Área origen 
 				INNER JOIN Area ae ON uae.codArea = ae.codArea
 				-- Usuario destino

@@ -727,6 +727,7 @@ $(document).ready(function(){
                                     <td> ${documento["area destino"]} </td>
                                     <td> ${documento["usuario destino"]} </td>
                                     <td> ${documento.fechaRecepcion != null ? documento.fechaRecepcion : ''} </td>
+                                    <td class="invisible"> ${documento.codEnvio} </td>
                                     <td class="observacionEnvio"> ${documento.observaciones} </td>
                                     <td>
                                         <span class="estado ${documento["estado recepcion"] == 'i' ? "pendienteRecepcion" : "recepcionado"} ">

@@ -3,7 +3,6 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Ver Seguimiento de un Documento</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="seguimiento_body">
                     <div class="infoGeneral">
@@ -41,7 +40,7 @@
                         </tbody>
                     </table>
             </div>
-
+            <button type="button" class="btnCerrarModal" data-bs-dismiss="modal">Cerrar</button>
         </div>
     </div>
 </div>

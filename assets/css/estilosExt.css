@@ -341,7 +341,6 @@
 
 .detalle{
     background-color: #fff;
-    padding: 20px;
     border-radius: 10px;
 }
 
@@ -369,6 +368,7 @@
 .datosOrigenHeader h3,
 .datosDestinoHeader h3{
     font-weight: 500;
+    font-size: 20px;
 }
 
 .detalle .datosOrigenBody div,
@@ -396,7 +396,7 @@
 .detalle .datosDestinoBody{
     padding: 10px;
     display: grid;
-    grid-template-columns: 350px 350px 250px;
+    grid-template-columns: 450px 300px 200px;
     column-gap: 20px;
     row-gap: 10px;
 }
@@ -533,4 +533,15 @@
 .containerCamposEnvio textarea{
     height: 150px;
     resize: none;
+}
+
+.btnCerrarModal{
+    border: none;
+    margin: auto;
+    padding: 7px 25px;
+    background-color: #F12A2A;
+    color: #fff;
+    font-weight: 700;
+    border-radius: 5px;
+    margin-bottom: 10px;
 }

@@ -12,7 +12,7 @@ require_once('../../models/Estado.php');
             <div class="filtros">
                 <div>
                     <p>Apellidos: </p>
-                    <input type="text" id="filtroUsuarioApellidos">
+                    <input type="text" id="filtroUsuarioApellidos" autocomplete="off">
                 </div>
                 <div>
                     <p>Estado:</p>

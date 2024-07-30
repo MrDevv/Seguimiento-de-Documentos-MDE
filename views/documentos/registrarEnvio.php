@@ -6,7 +6,6 @@
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M30.982 4.51905L5.79801 13.2456L14.188 17.8993L21.586 10.8076C21.9613 10.4482 22.4702 10.2464 23.0007 10.2466C23.5313 10.2468 24.04 10.449 24.415 10.8086C24.79 11.1682 25.0006 11.6559 25.0004 12.1644C25.0002 12.6728 24.7893 13.1603 24.414 13.5197L17.014 20.6114L21.874 28.6499L30.982 4.51905ZM31.628 0.218055C34.018 -0.611862 36.334 1.60764 35.468 3.89805L24.904 31.891C24.036 34.1871 20.764 34.467 19.486 32.3529L13.052 21.7001L1.93601 15.5341C-0.269988 14.3094 0.0220122 11.1737 2.41801 10.3419L31.628 0.218055Z" fill="white"/>
                 </svg>
                 <h5 class="modal-title" id="exampleModalLabel">Enviar Documento</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form class="formArea" id="registrarEnvioForm" action="" method="post">
                 <div class="modal-body">
