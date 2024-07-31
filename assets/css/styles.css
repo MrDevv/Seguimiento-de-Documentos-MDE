@@ -689,6 +689,15 @@ input:focus-visible{
     border-radius: 5px;
 }
 
+.seguimiento_body{
+    background-color: var(--bg-color);
+    margin-bottom: 10px;
+}
+
+.seguimiento_body table thead tr th:nth-child(5){
+    width: 100px;
+}
+
 .pendientesRecepcion_body table tbody tr:nth-child(even),
 .listadoDocumentos_body table tbody tr:nth-child(even),
 .seguimiento_body table tbody tr:nth-child(even),

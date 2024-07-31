@@ -5,7 +5,6 @@ $(document).ready(function(){
         let fila = $(this).closest("tr");
         let codEnvio = fila.find('td:eq(9)').text();
 
-
         $.ajax({
             url: "./controllers/documento/obtenerDetalle.php",
             type: "POST",

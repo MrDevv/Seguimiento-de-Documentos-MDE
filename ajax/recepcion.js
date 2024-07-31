@@ -20,6 +20,7 @@ $(document).ready(function(){
                             <td>${documento.fechaEnvio}</td>
                             <td>${documento['hora envio']}</td>
                             <td class="observacionEnvio">${documento.observaciones}</td>
+                            <td class="invisible">${documento['codEnvio']}</td>
                             <td>
                                 <span class="pendienteRecepcion estado">
                                     ${documento['estado recepcion'] === 'i' ? 'Pendiente de Recepcion' : 'Recepcionado'}
@@ -76,7 +77,7 @@ $(document).ready(function(){
                                         </svg>
                                     </a>
                                     
-                                    <a href="#" class="action">
+                                    <a href="#" class="action" id="btnDetalleEnvio">
                                         <span class="tooltipParent">Ver Detalle <span class="triangulo"></span></span>
                                         <svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <g filter="url(#filter0_d_2424_29)">
@@ -206,6 +207,7 @@ $(document).ready(function(){
                                     <td> ${documento["area destino"]} </td>
                                     <td> ${documento["usuario destino"]} </td>
                                     <td> ${documento.fechaRecepcion != null ? documento.fechaRecepcion : ''} </td>
+                                    <td class="invisible"> ${documento["codEnvio"]} </td>
                                     <td class="observacionEnvio"> ${documento.observaciones} </td>
                                     <td>
                                         <span class="estado ${documento["estado recepcion"] == 'i' ? "pendienteRecepcion" : "recepcionado"} ">
@@ -214,7 +216,7 @@ $(document).ready(function(){
                                     </td>
                                     <td>
                                     <div class="actions">
-                                        <a href="#" class="action">
+                                        <a href="#" class="action" id="btnDetalleEnvio">
                                             <span class="tooltipParent">Ver Detalle <span class="triangulo"></span></span>
                                             <svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <g filter="url(#filter0_d_2424_29)">

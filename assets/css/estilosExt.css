@@ -294,7 +294,7 @@
     font-weight: 700;
     background-color: #fff;
     margin-bottom: 10px;
-    padding: 0 10px;
+    padding: 10px;
     border-radius: 5px;
 }
 
@@ -306,6 +306,10 @@
     display: flex;
     align-items: center;
     gap: 40px;
+}
+
+.infoGeneral .containerInfoDoc p{
+    margin-bottom: 0;
 }
 
 .infoGeneral .containerInfoDoc p:first-child span{
@@ -450,6 +454,7 @@
 .containerEstadoDoc p{
     display: flex;
     align-items: center;
+    margin-bottom: 0;
 }
 
 /*cambiar area usuario formulario*/

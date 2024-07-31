@@ -32,5 +32,7 @@
 </div>
 
 <?php require_once "seguimientoDocumento.php"?>
+<?php require_once "detalleEnvio.php"?>
 
 <script src="<?= base_url?>ajax/recepcion.js"></script>
+<script src="<?= base_url?>ajax/detalle.js"></script>

@@ -108,7 +108,7 @@ $(document).ready(function(){
                                         </svg>
                                     </a>
                                     
-                                    <a href="#" class="action">
+                                    <a href="#" class="action" id="btnDetalleEnvio">
                                         <span class="tooltipParent">Ver Detalle <span class="triangulo"></span></span>
                                         <svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <g filter="url(#filter0_d_2424_29)">
