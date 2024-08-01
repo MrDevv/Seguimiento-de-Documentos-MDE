@@ -503,6 +503,7 @@ $(document).ready(function(){
         })
     } )
 
+    // cancelar recepcion
     $(document).off("click", "#btnCancelarRecepcion").on("click", "#btnCancelarRecepcion", function (e){
         let fila = $(this).closest("tr");
 

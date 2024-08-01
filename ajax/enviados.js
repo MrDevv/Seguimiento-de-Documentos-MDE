@@ -37,7 +37,7 @@ $(document).ready(function(){
                         <td>
                             <div class="actions">
                              ${documento["estado recepcion"] == 'i' && documento["estado documento"] == 'a' ? `
-                                <div class="action">
+                                <a href="#" class="action" id="btnCancelarEnvio">
                                     <span class="tooltipParent"> Cancelar Envio <span class="triangulo"></span></span>
                                     <svg width="37" height="34" viewBox="0 0 37 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <g filter="url(#filter0_d_2851_129)">
@@ -57,7 +57,7 @@ $(document).ready(function(){
                                             </filter>
                                         </defs>
                                     </svg>
-                                </div>
+                                </a>
                                 ` : ''
                             }                
                                 <a href="#" class="action" id="btnSeguimientoDocumento">
@@ -240,5 +240,55 @@ $(document).ready(function(){
             })
 
         });
+
+    // cancelar envio
+    $(document).off("click", "#btnCancelarEnvio").on("click", "#btnCancelarEnvio", function (e){
+        e.preventDefault();
+        let fila = $(this).closest("tr");
+
+        let codEnvio = fila.find('td:eq(0)').text();
+        let numDocumento = fila.find('td:eq(1)').text();
+
+        Swal.fire({
+            title: "¡Advertencia!",
+            html: `¿Desea cancelar el envío de este documento <span style="color: red; font-weight: bold;">${numDocumento}</span>?`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#056251",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sí",
+            cancelButtonText: "No"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "./controllers/documento/cancelarEnvio.php",
+                    type: "POST",
+                    dataType: "json",
+                    data: {codEnvio},
+                    success: function (response) {
+                        if (response.status == 'success'){
+                            Swal.fire({
+                                icon: "success",
+                                title: "¡Éxito!",
+                                text: response.message
+                            }).then(() => {
+                                loadEnviados()
+                            })
+                        }else{
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error",
+                                text: response.message
+                            })
+                        }
+
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('Error fetching the content:', textStatus, errorThrown);
+                    }
+                })
+            }
+        })
+    })
 
 })
