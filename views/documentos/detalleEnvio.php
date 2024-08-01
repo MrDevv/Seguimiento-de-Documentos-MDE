@@ -125,7 +125,7 @@
                         <div>
                             <label>Observación</label>
                             <textarea
-                                    class="disabled"
+                                    class="disabled form-control"
                                     name="observacion"
                                     id="observacionDetalle"
                                     readonly>

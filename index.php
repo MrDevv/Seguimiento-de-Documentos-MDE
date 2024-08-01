@@ -4,6 +4,8 @@ require_once 'autoload.php';
 require_once 'config/DataBase.php';
 require_once 'config/parameters.php';
 require_once 'views/layouts/head.php';
+date_default_timezone_set('America/Lima');
+
 function show_error(){
     $error = new ErrorController();
     $error->index();

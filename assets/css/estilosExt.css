@@ -344,14 +344,13 @@
 }
 
 .detalle{
-    background-color: #fff;
     border-radius: 10px;
 }
 
 .datosOrigen,
 .datosDestino,
 .containerObservacion{
-    background-color: #D9D9D9;
+    background-color: #fff;
     margin-bottom: 10px;
     border-radius: 5px;
     overflow: hidden;
@@ -418,6 +417,10 @@
 
 .detalle .arrowDetalle{
     width: 30px;
+}
+
+textarea{
+    overflow-y: scroll;
 }
 
 .detalle .containerObservacion{

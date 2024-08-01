@@ -679,7 +679,7 @@ $(document).ready(function(){
     });
 
     // abrir modal para ver el seguimiento de un documento
-    $(document).on("click", "#btnSeguimientoDocumento", function(e){
+    $(document).off("click", "#btnSeguimientoDocumento").on("click", "#btnSeguimientoDocumento", function(e){
         e.preventDefault();
         let fila = $(this).closest("tr");
         let numDocumento = fila.find('td:eq(0)').text();
@@ -691,9 +691,8 @@ $(document).ready(function(){
             data: {numDocumento},
             success: function (response) {
                 let {status, data} = response
-                console.log(response)
+                console.log({info: "log de documentos.js - modal seguimiento" , response})
                 if (status == 'success') {
-                    console.log(data.length)
                     if (data.length == 0) {
                         Swal.fire({
                             icon: "warning",
@@ -716,9 +715,9 @@ $(document).ready(function(){
 
 
                         if (data.length > 0 && Array.isArray(data)) {
-                            let row = data.map(documento => `
+                            let row = data.map((documento, index) => `
                                 <tr>
-                                    <td> 1 </td>
+                                    <td> ${index + 1} </td>
                                     <td> ${documento.folios} </td>
                                     <td> ${documento["area origen"]} </td>
                                     <td> ${documento["usuario origen"]} </td>

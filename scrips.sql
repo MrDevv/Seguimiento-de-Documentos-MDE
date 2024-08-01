@@ -5,7 +5,7 @@ insert into Estado(descripcion) values('n'), ('a'), ('i'), ('e'), ('p');
 go
 
 -- Roles del sistema
-insert into Rol(descripcion) values('administrador'), ('usuario');
+insert into Rol(descripcion) values('administrador'), ('administrador área'), ('usuario');
 go
 
 -- Movimientos del sistema

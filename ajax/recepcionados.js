@@ -23,8 +23,9 @@ $(document).ready(function(){
                             <td>${documento.fechaEnvio}</td>
                             <td>${documento['hora envio']}</td>
                             <td class="observacionEnvio">${documento.observaciones}</td>
+                            <td class="invisible">${documento.codEnvio}</td>
                             <td>
-                                <span class="pendienteRecepcion estado">
+                                <span class="recepcionado estado">
                                     ${documento['estado recepcion'] === 'i' ? 'Pendiente de Recepcion' : 'Recepcionado'}
                                 </span>
                                 ${documento['estado documento'] === 'i' ? '<span class="finished estado mt-1">Seguimiento finalizado</span>' : ''}
@@ -186,6 +187,7 @@ $(document).ready(function(){
                             <td> ${documento["area destino"]} </td>
                             <td> ${documento["usuario destino"]} </td>
                             <td> ${documento.fechaRecepcion != null ? documento.fechaRecepcion : ''} </td>
+                            <td class="invisible"> ${documento.codEnvio} </td>
                             <td class="observacionEnvio"> ${documento.observaciones} </td>
                             <td>
                                 <span class="estado ${documento["estado recepcion"] == 'i' ? "pendienteRecepcion" : "recepcionado"} ">
@@ -194,7 +196,7 @@ $(document).ready(function(){
                             </td>
                             <td>
                                 <div class="actions">
-                                    <a href="#" class="action">
+                                    <a href="#" class="action" id="btnDetalleEnvio">
                                         <span class="tooltipParent">Ver Detalle <span class="triangulo"></span></span>
                                         <svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <g filter="url(#filter0_d_2424_29)">
@@ -447,7 +449,6 @@ $(document).ready(function(){
         });
     });
 
-
     // registrar envio
     $('#registrarEnvioForm').submit( function (e) {
         e.preventDefault();
@@ -486,7 +487,7 @@ $(document).ready(function(){
                         text: "Se registro correctamente el usuario"
                     }).then(() => {
                         $('#modalRegistrarEnvio').modal('hide');
-                        loadDocumentos()
+                        obtenerDocumentosRecepcionados()
                     })
                 }else{
                     Swal.fire({
@@ -502,5 +503,52 @@ $(document).ready(function(){
         })
     } )
 
+    $(document).off("click", "#btnCancelarRecepcion").on("click", "#btnCancelarRecepcion", function (e){
+        let fila = $(this).closest("tr");
+
+        let codRecepcion = fila.find('td:eq(0)').text();
+        let numDocumento = fila.find('td:eq(1)').text();
+
+        Swal.fire({
+            title: "¡Advertencia!",
+            html: `¿Desea cancelar la recepción de este documento <span style="color: red; font-weight: bold;">${numDocumento}</span>?`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#056251",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sí",
+            cancelButtonText: "No"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "./controllers/documento/cancelarRecepcion.php",
+                    type: "POST",
+                    dataType: "json",
+                    data: {codRecepcion},
+                    success: function (response) {
+                        if (response.status == 'success'){
+                            Swal.fire({
+                                icon: "success",
+                                title: "¡Éxito!",
+                                text: response.message
+                            }).then(() => {
+                                obtenerDocumentosRecepcionados()
+                            })
+                        }else{
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error",
+                                text: response.message
+                            })
+                        }
+
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('Error fetching the content:', textStatus, errorThrown);
+                    }
+                })
+            }
+        })
+    })
 
 });

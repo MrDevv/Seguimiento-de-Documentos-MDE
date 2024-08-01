@@ -162,7 +162,7 @@ $(document).ready(function() {
     loadUsuarios('Activos');
 
     // nuevo
-    $(document).on("click", "#btnRegistrarUsuario", function(e) {
+    $(document).off("click", "#btnRegistrarUsuario").on("click", "#btnRegistrarUsuario", function(e) {
         e.preventDefault();
         let modalRegistrar = $("#modalRegistrarUsuario");
         $("#registrarUsuarioForm").trigger("reset");
@@ -179,10 +179,8 @@ $(document).ready(function() {
         });
     });
 
-    $(document).on('submit', '#registrarUsuarioForm', function(e) {
+    $(document).off("submit", "#registrarUsuarioForm").on('submit', '#registrarUsuarioForm', function(e) {
         e.preventDefault();
-        $(this).off('submit'); // Desenganchar el evento de submit
-
         let nombre = $.trim($('#nombresNuevo').val());
         let apellidos = $.trim($('#apellidosNuevo').val());
         let telefono = $.trim($('#telefonoNuevo').val());
