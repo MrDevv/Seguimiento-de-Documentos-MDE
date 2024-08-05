@@ -55,7 +55,7 @@ $(document).ready(function() {
     loadAreas();
 
     // nuevo
-    $(document).on("click", "#btnRegistrarArea", function(e) {
+    $(document).off("click", "#btnRegistrarArea").on("click", "#btnRegistrarArea", function(e) {
         e.preventDefault();
         let modalRegistrar = $("#modalRegistrarArea");
         $("#registrarAreaForm").trigger("reset");
@@ -73,9 +73,8 @@ $(document).ready(function() {
     });
 
     // registrar
-    $(document).on('submit', '#registrarAreaForm', function(e) {
+    $(document).off('submit', '#registrarAreaForm').on('submit', '#registrarAreaForm', function(e) {
         e.preventDefault();
-        $(this).off('submit');  // Desenganchar el evento de submit
 
         let descripcion = $.trim($('#descripcionAreaNuevo').val());
 

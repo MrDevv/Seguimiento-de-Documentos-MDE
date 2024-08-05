@@ -1,5 +1,5 @@
 <div id="modalRegistrarEnvio" class="modalArea modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <svg class="me-2" width="20" height="20" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -9,8 +9,12 @@
             </div>
             <form class="formArea" id="registrarEnvioForm" action="" method="post">
                 <div class="modal-body">
+                    <div class="d-flex gap-3 justify-content-center mb-3">
+                        <a href="#" class="btnNuevaAreaEnvio p-2 bg-success text-white rounded-1" id="btnRegistrarArea">Registrar nueva Área</a>
+                        <a href="#" class="btnNuevaAreaEnvio p-2 bg-success text-white rounded-1" id="btnRegistrarUsuario">Registrar nuevo Usuario</a>
+                    </div>
                     <input
-                            class="disabled form-control mb-3"
+                            class="disabled invisible form-control mb-3"
                             type="text"
                             id="codRecepcion"
                             readonly
@@ -48,12 +52,14 @@
                             <label for="areaEnvio" class="form-label col-sm-4">Área (*):</label>
                             <select class="selectArea" id="areaEnvio">
                             </select>
+
                         </div>
-                        <div class="campoUsuario">
+                        <div class="campoUsuario d-flex">
                             <label for="usuarioEnvio" class="form-label col-sm-4">Para (*):</label>
                             <select class="selectUsuarioDestino" id="usuarioDestino">
                                 <option value="0">Seleccionar</option>
                             </select>
+
                         </div>
                         <div class="campoObservacion">
                             <label for="observacionEnvio" class="form-label col-sm-4">Observación:</label>
@@ -72,6 +78,8 @@
 </div>
 
 <?php require_once "../usuario/registro.php" ?>
+<?php require_once "../area/registroArea.php" ?>
 
 <script src="<?= base_url?>ajax/listarAreas.js"></script>
 <script src="<?= base_url?>ajax/movimientos.js"></script>
+<script src="<?= base_url?>ajax/registrarAreaUsuarioEnvio.js"></script>
