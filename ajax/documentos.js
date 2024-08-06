@@ -1,6 +1,5 @@
 $(document).ready(function(){
-    function loadDocumentos() {
-        let numDocumento;
+    function loadDocumentos(numDocumento = null) {
 
         $.ajax({
             url: './controllers/documento/listarDocumentos.php',
@@ -172,8 +171,22 @@ $(document).ready(function(){
 
     loadDocumentos()
 
+
+    // buscarDocumentos
+    $(document).off("click", "#filtrarPorDocumentoListadoDocumentos").on("click", "#filtrarPorDocumentoListadoDocumentos", function(e){
+        e.preventDefault();
+
+        let numDocumento = $('#numDocumentoListadoDocumentos').val();
+
+        if (numDocumento.length == 0 || !numDocumento){
+            numDocumento = null;
+        }
+
+        loadDocumentos(numDocumento);
+    })
+
     // nuevo Envio
-    $(document).on("click", "#btnEnviarDocumento", function(e){
+    $(document).off("click", "#btnEnviarDocumento").on("click", "#btnEnviarDocumento", function(e){
         e.preventDefault();
         let modalRegistrar = $("#modalRegistrarEnvio");
         $("#registrarEnvioForm").trigger("reset");
