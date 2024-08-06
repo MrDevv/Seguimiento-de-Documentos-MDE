@@ -11,10 +11,8 @@ $('#formLogin').submit(function(e) {
             text: "Ingrese los campos requeridos para ingresar",
         });
     } else {
-        // Asigna la ruta al atributo action del formulario
         $(this).attr('action', 'usuario/login');
 
-        // Ahora que el action está asignado, envía el formulario
         this.submit();
     }
 });
