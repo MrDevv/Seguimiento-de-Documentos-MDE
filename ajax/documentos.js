@@ -219,20 +219,27 @@ $(document).ready(function(){
             data: {codArea},
             success: function(response) {
                 let {data, status, message} = response;
-                if(message == "no se encontraron usuarios en esta area" && codArea != "0"){
-                    let advertencia = localStorage.getItem('rol') === 'usuario' ? 'comuniquese con un administrador' : '';
-                    console.log(advertencia)
-
+                if (message == "no se encontraron usuarios en esta area" && codArea != "0" && localStorage.getItem("rol") == 'administrador'){
                     Swal.fire({
                         title: "¡Advertencia!",
-                        text: response.message + 'asa ' + advertencia,
+                        text: response.message + ', puede registrar un usuario dando click en el botón "Registrar nuevo Usuario".',
                         icon: "warning",
                         confirmButtonColor: "#056251",
                     }).then(()=>{
                         let options = `<option value="0">Seleccionar</option>`;
                         $('.selectUsuarioDestino').html(options);
                     });
-                } else {
+                } else if(message == "no se encontraron usuarios en esta area" && codArea != "0" && localStorage.getItem("rol") == 'usuario'){
+                    Swal.fire({
+                        title: "¡Advertencia!",
+                        text: response.message + ' comuniquese con un administrador.',
+                        icon: "warning",
+                        confirmButtonColor: "#056251",
+                    }).then(()=>{
+                        let options = `<option value="0">Seleccionar</option>`;
+                        $('.selectUsuarioDestino').html(options);
+                    });
+                }else {
                     let options = `<option value="0">Seleccionar</option>` + // Agregar la opción "Seleccionar"
                         data.map(usuario =>
                             `<option value="${usuario.codUsuarioArea}">${usuario.usuario}</option>`

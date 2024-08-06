@@ -1,3 +1,7 @@
+<?php
+    session_start();
+?>
+
 <div id="modalRegistrarEnvio" class="modalArea modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
@@ -9,10 +13,12 @@
             </div>
             <form class="formArea" id="registrarEnvioForm" action="" method="post">
                 <div class="modal-body">
+                    <?php if($_SESSION['user']['rol'] == 'administrador'): ?>
                     <div class="d-flex gap-3 justify-content-center mb-3">
                         <a href="#" class="btnNuevaAreaEnvio p-2 bg-success text-white rounded-1" id="btnRegistrarArea">Registrar nueva Área</a>
                         <a href="#" class="btnNuevaAreaEnvio p-2 bg-success text-white rounded-1" id="btnRegistrarUsuario">Registrar nuevo Usuario</a>
                     </div>
+                    <?php endif; ?>
                     <input
                             class="disabled invisible form-control mb-3"
                             type="text"

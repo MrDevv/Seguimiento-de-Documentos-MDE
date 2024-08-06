@@ -284,149 +284,17 @@ $(document).ready(function(){
                 if (message == "no se encontraron usuarios en esta area" && codArea != "0" && localStorage.getItem("rol") == 'administrador'){
                     Swal.fire({
                         title: "¡Advertencia!",
-                        text: response.message + ' ' + '¿Desea registrar un usuario en esta area?',
+                        text: response.message + ', puede registrar un usuario dando click en el botón "Registrar nuevo Usuario".',
                         icon: "warning",
-                        showCancelButton: true,
                         confirmButtonColor: "#056251",
-                        cancelButtonColor: "#d33",
-                        confirmButtonText: "Sí",
-                        cancelButtonText: "No"
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            let modalRegistrar = $("#modalRegistrarUsuario");
-                            $("#registrarUsuarioForm").trigger("reset");
-                            $('#selectAreas').val(codArea);
-                            $('#selectAreas').prop('disabled', true);
-
-                            modalRegistrar.modal('show');
-
-                            modalRegistrar.on('shown.bs.modal', function () {
-                                $("#nombresNuevo").focus();
-                            });
-
-                            // Desvincular cualquier evento submit previo
-                            $('#registrarUsuarioForm').off('submit');
-
-                            // Vincular el evento submit
-                            $('#registrarUsuarioForm').on('submit', function (e) {
-                                e.preventDefault();
-
-                                let nombre = $.trim($('#nombresNuevo').val());
-                                let apellidos = $.trim($('#apellidosNuevo').val());
-                                let telefono = $.trim($('#telefonoNuevo').val());
-                                let dni = $.trim($('#dniNuevo').val());
-                                let usuario = $.trim($('#usuarioNuevo').val());
-                                let rol = $.trim($('#selectRol').val());
-                                let area = $.trim($('#selectAreas').val());
-                                let password = $.trim($('#passwordNuevo').val());
-                                let confirm_password = $.trim($('#passwordConfirmarNuevo').val());
-
-                                if (password != confirm_password){
-                                    Swal.fire({
-                                        icon: "warning",
-                                        title: "Las contraseñas no coinciden",
-                                        text: "Asegúrese de ingresar contraseñas que coincidan",
-                                    });
-                                    return;
-                                }
-
-                                if(nombre.length == 0 || apellidos.length == 0 || telefono.length == 0 || dni.length == 0
-                                    || usuario.length == 0 || rol.length == 0 || area.length == 0 || password.length == 0 || confirm_password.length == 0 || area == "0"){
-                                    Swal.fire({
-                                        icon: "warning",
-                                        title: "Campos Incompletos",
-                                        text: "Ingrese los campos requeridos",
-                                    });
-                                    return;
-                                }
-
-                                if (dni.length < 8 || dni.length > 8){
-                                    Swal.fire({
-                                        icon: "warning",
-                                        title: "Campos Incorrectos",
-                                        text: "Ingrese un DNI válido",
-                                    });
-                                    return;
-                                }
-
-                                if (telefono.length < 9 || telefono.length > 9){
-                                    Swal.fire({
-                                        icon: "warning",
-                                        title: "Campos Incorrectos",
-                                        text: "Ingrese un teléfono válido",
-                                    });
-                                    return;
-                                }
-
-                                nombre = capitalizeWords(nombre);
-                                apellidos = capitalizeWords(apellidos);
-
-                                $.ajax({
-                                    url: "./controllers/usuario/registrarUsuario.php",
-                                    type: "POST",
-                                    dataType: "json",
-                                    data: {nombre, apellidos, telefono, dni, usuario, rol, area, password},
-                                    success: function (response) {
-                                        if (response.message == '¡Usuario encontrado!'){
-                                            console.log('el usuario ya se registró');
-                                            Swal.fire({
-                                                icon: "warning",
-                                                title: "¡Advertencia!",
-                                                text: "El usuario que intenta registrar ya se encuentra registrado"
-                                            });
-                                        } else {
-                                            if (response.status == 'success'){
-                                                console.log('se registró el usuario');
-                                                Swal.fire({
-                                                    icon: "success",
-                                                    title: "Registro Exitoso",
-                                                    text: "Se registró correctamente el usuario"
-                                                }).then(() => {
-                                                    $('#modalRegistrarUsuario').modal('hide');
-
-                                                    $.ajax({
-                                                        url: './controllers/usuario/obtenerUsuariosPorArea.php',
-                                                        method: 'POST',
-                                                        dataType: 'json',
-                                                        data: {codArea},
-                                                        success: function(response) {
-                                                            let options = `<option value="0">Seleccionar</option>` + // Agregar la opción "Seleccionar"
-                                                                response.data.map(usuario =>
-                                                                    `<option value="${usuario.codUsuarioArea}">${usuario.usuario}</option>`
-                                                                ).join('');
-
-                                                            $('.selectUsuarioDestino').html(options);
-                                                        }
-                                                    });
-                                                });
-                                            } else {
-                                                Swal.fire({
-                                                    icon: "error",
-                                                    title: "Error",
-                                                    text: "Ocurrió un error al momento de registrar el usuario: " + response.message
-                                                });
-                                            }
-                                        }
-                                    },
-                                    error: function(jqXHR, textStatus, errorThrown) {
-                                        console.error('Error fetching the content:', textStatus, errorThrown);
-                                    }
-                                });
-                            });
-
-                            $(document).on("click", "#btnCancelarRegistroUsuario", function(e){
-                                let options = `<option value="0">Seleccionar</option>`;
-                                $('.selectUsuarioDestino').html(options);
-                            });
-                        } else {
-                            let options = `<option value="0">Seleccionar</option>`;
-                            $('.selectUsuarioDestino').html(options);
-                        }
+                    }).then(()=>{
+                        let options = `<option value="0">Seleccionar</option>`;
+                        $('.selectUsuarioDestino').html(options);
                     });
                 } else if(message == "no se encontraron usuarios en esta area" && codArea != "0" && localStorage.getItem("rol") == 'usuario'){
                     Swal.fire({
                         title: "¡Advertencia!",
-                        text: response.message,
+                        text: response.message + ' comuniquese con un administrador.',
                         icon: "warning",
                         confirmButtonColor: "#056251",
                     }).then(()=>{
