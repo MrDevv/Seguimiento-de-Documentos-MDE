@@ -180,8 +180,17 @@ class Usuario {
         }
     }
 
+    public function listarUsuarios(){
+        $sql = "EXEC sp_listarUsuarios";
+
+        $stmt = DataBase::connect()->query($sql);
+
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $results;
+    }
+
     public function listarUsuariosActivos(){
-        // agregar la consulta correcta
         $sql = "EXEC sp_listarUsuariosActivos";
 
         $stmt = DataBase::connect()->query($sql);
@@ -192,7 +201,6 @@ class Usuario {
     }
 
     public function listarUsuariosInactivos(){
-        // agregar la consulta correcta
         $sql = "EXEC sp_listarUsuarioInactivos";
 
         $stmt = DataBase::connect()->query($sql);

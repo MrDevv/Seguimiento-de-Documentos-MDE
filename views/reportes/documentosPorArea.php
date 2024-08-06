@@ -29,7 +29,7 @@
                     </select>
                 </div>
             <?php endif; ?>
-            <a href="#" id="filtrarPorArea">Filtrar</a>
+            <a href="#" class="btnFiltrarReportes" id="filtrarPorArea">Filtrar</a>
         </div>
 
     </div>

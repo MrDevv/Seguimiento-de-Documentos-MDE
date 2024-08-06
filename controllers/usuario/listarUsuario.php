@@ -2,14 +2,19 @@
 require_once "../../config/DataBase.php";
 require_once "../../models/Usuario.php";
 
-$estado = $_POST['estado'];
+$estado = isset($_POST['estado']) ? $_POST['estado'] : null;
 
 $usuarioModel = new Usuario();
 
-if ($estado=='Activos'){
-    $response = $usuarioModel->listarUsuariosActivos();
+if ($estado){
+    if ($estado=='Activos'){
+        $response = $usuarioModel->listarUsuariosActivos();
+    }else{
+        $response = $usuarioModel->listarUsuariosInactivos();
+    }
 }else{
-    $response = $usuarioModel->listarUsuariosInactivos();
+    $response = $usuarioModel->listarUsuarios();
 }
+
 
 print json_encode($response);

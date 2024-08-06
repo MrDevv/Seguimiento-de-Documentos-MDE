@@ -933,10 +933,14 @@ table tbody tr .actions .action:hover .tooltipParent{
     background-color: var(--bg-color);
 }
 
-
-
-
-
-
-
-
+.btnFiltrarReportes{
+    background-color: var(--bg-color-principal);
+    color: #fff;
+    cursor: pointer;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    padding: 8px;
+    margin-bottom: 0;
+    border-radius: 4px;
+}
