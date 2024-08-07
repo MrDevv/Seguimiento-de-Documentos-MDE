@@ -1,13 +1,12 @@
 $(document).ready(function(){
-    function obtenerDocumentosPendientesRecepcion() {
+    function obtenerDocumentosPendientesRecepcion(rol = null) {
         $.ajax({
             url: './controllers/documento/listarPendientesRecepcion.php',
             method: 'POST',
+            data: {rol},
             dataType: 'json',
             success: function(response) {
-                console.log(response);
                 let { data } = response;
-                console.log(data);
                 if (Array.isArray(data) && data.length > 0) {
                     let rows = data.map(documento => `
                         <tr>
@@ -115,7 +114,7 @@ $(document).ready(function(){
     }
 
     // Llamar a la función al cargar la página
-    obtenerDocumentosPendientesRecepcion();
+    obtenerDocumentosPendientesRecepcion(null);
 
     // confirmar Recepcion
     $(document).on("click", "#btnConfirmarRecepcion", function(e) {
@@ -269,4 +268,15 @@ $(document).ready(function(){
         })
 
     });
+
+    $(document).off("click", "#filtrarPorRolPendientesRecepcion").on("click", "#filtrarPorRolPendientesRecepcion", function(e) {
+        e.preventDefault()
+        let rol = $(".selectRolPendientesRecepcion").val()
+
+        if (rol == ''){
+            rol = null
+        }
+
+        obtenerDocumentosPendientesRecepcion(rol)
+    })
 });

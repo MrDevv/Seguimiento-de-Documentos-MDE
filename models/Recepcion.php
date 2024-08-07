@@ -57,14 +57,15 @@ class Recepcion{
     }
 
 
-    public function getDocumentosPendientesRecepcion(int $codUsuarioArea){
+    public function getDocumentosPendientesRecepcion(int $codUsuarioArea, int $codArea = null){
 
-        $sql = "{CALL sp_listarDocumentosPendientesRecepcion(:codUsuarioArea)}";
+        $sql = "EXEC sp_listarDocumentosPendientesRecepcion :codUsuarioArea, :codArea";
 
         try {
             $stmt = DataBase::connect()->prepare($sql);
 
             $stmt->bindParam('codUsuarioArea', $codUsuarioArea, PDO::PARAM_INT);
+            $stmt->bindParam('codArea', $codArea, PDO::PARAM_INT);
 
             $stmt->execute();
 

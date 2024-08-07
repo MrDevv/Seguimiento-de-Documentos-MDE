@@ -237,14 +237,15 @@ class Documento{
         }
     }
 
-    public function listarDocumentos(){
-        $sql =  "EXEC sp_listarDocumentos :codUsuario, :numDocumento";
+    public function listarDocumentos(int $codArea = null){
+        $sql =  "EXEC sp_listarDocumentos :codUsuario, :numDocumento, :codArea";
 
         try {
             $stmt = DataBase::connect()->prepare($sql);
 
             $stmt->bindParam('codUsuario', $this->usuario, PDO::PARAM_INT);
             $stmt->bindParam('numDocumento', $this->numDocumento, PDO::PARAM_STR);
+            $stmt->bindParam('codArea', $codArea, PDO::PARAM_INT);
 
             $stmt->execute();
 

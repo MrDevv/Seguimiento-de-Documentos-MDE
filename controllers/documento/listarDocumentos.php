@@ -16,6 +16,8 @@ if(trim($_SESSION['user']['rol']) == 'administrador'){
 }else if(trim($_SESSION['user']['rol']) == 'usuario'){
     $documentoModel->setUsuario((int) $_SESSION['user']['codUsuarioArea']);
     $response = $documentoModel->listarDocumentos();
+}else if(trim($_SESSION['user']['rol']) == 'administrador área'){
+    $response = $documentoModel->listarDocumentos($_SESSION['user']['codArea']);
 }
 
 print json_encode($response);

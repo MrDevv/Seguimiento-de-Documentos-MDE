@@ -4,26 +4,46 @@
 
 -- sp para listar los documentos registrados
 CREATE PROCEDURE sp_listarDocumentos(
-	@codAreaUsuario INT = NULL, @numDocumento VARCHAR(20) = NULL
+	@codAreaUsuario INT = NULL, @numDocumento VARCHAR(20) = NULL, @codArea INT = NULL
 )
 AS 
 BEGIN
 	SET NOCOUNT ON;
 
-	SELECT d.NumDocumento, tp.codTipoDocumento, tp.descripcion 'tipo documento', d.asunto, d.folios, d.fechaRegistro,
-                CONCAT(p.nombres ,' ',p.apellidos) 'usuario registrador', a.codArea ,a.descripcion 'area', e.descripcion 'estado'
-                from Documento d
-                inner join TipoDocumento tp on d.codTipoDocumento = tp.codTipoDocumento
-                inner join UsuarioArea ua on d.codUsuario = ua.codUsuarioArea
-				inner join Area a on ua.codArea  = a.codArea
-                inner join Usuario u on ua.codUsuario = u.codUsuario
-                inner join Persona p on u.codPersona = p.codPersona
-                inner join Estado e on d.codEstado = e.codEstado
-                where 
-				(@codAreaUsuario IS NULL OR ua.codUsuarioArea = @codAreaUsuario) 
-				AND 
-				(@numDocumento IS NULL OR d.NumDocumento = @numDocumento)
-                order by d.fechaRegistro DESC, d.horaRegistro DESC
+	IF @codArea IS NULL
+	BEGIN
+		SELECT d.NumDocumento, tp.codTipoDocumento, tp.descripcion 'tipo documento', d.asunto, d.folios, d.fechaRegistro,
+					CONCAT(p.nombres ,' ',p.apellidos) 'usuario registrador', a.codArea ,a.descripcion 'area', e.descripcion 'estado'
+					from Documento d
+					inner join TipoDocumento tp on d.codTipoDocumento = tp.codTipoDocumento
+					inner join UsuarioArea ua on d.codUsuario = ua.codUsuarioArea
+					inner join Area a on ua.codArea  = a.codArea
+					inner join Usuario u on ua.codUsuario = u.codUsuario
+					inner join Persona p on u.codPersona = p.codPersona
+					inner join Estado e on d.codEstado = e.codEstado
+					where 
+					(@codAreaUsuario IS NULL OR ua.codUsuarioArea = @codAreaUsuario) 
+					AND 
+					(@numDocumento IS NULL OR d.NumDocumento = @numDocumento)
+					order by d.fechaRegistro DESC, d.horaRegistro DESC
+	END
+	ELSE
+	BEGIN
+			SELECT d.NumDocumento, tp.codTipoDocumento, tp.descripcion 'tipo documento', d.asunto, d.folios, d.fechaRegistro,
+					CONCAT(p.nombres ,' ',p.apellidos) 'usuario registrador', a.codArea ,a.descripcion 'area', e.descripcion 'estado'
+					from Documento d
+					inner join TipoDocumento tp on d.codTipoDocumento = tp.codTipoDocumento
+					inner join UsuarioArea ua on d.codUsuario = ua.codUsuarioArea
+					inner join Area a on ua.codArea  = a.codArea
+					inner join Usuario u on ua.codUsuario = u.codUsuario
+					inner join Persona p on u.codPersona = p.codPersona
+					inner join Estado e on d.codEstado = e.codEstado
+					where 
+					(ua.codArea  = @codArea) 
+					AND 
+					(@numDocumento IS NULL OR d.NumDocumento = @numDocumento)
+					order by d.fechaRegistro DESC, d.horaRegistro DESC
+	END
 END
 GO
 
@@ -163,45 +183,82 @@ GO
 -----------------------------------------------------------------------------------------
 
 -- listar los documentos pendientes de recepcion por un usuario
-CREATE PROCEDURE sp_listarDocumentosPendientesRecepcion(
-	@codUsuarioArea INT
+ALTER PROCEDURE sp_listarDocumentosPendientesRecepcion(
+	@codUsuarioArea INT, @codArea INT = NULL
 )
 AS
 BEGIN
 	DECLARE @CodEstadoInactivo INT
 	SELECT @CodEstadoInactivo = codEstado FROM Estado WHERE descripcion = 'i';
-
-	SELECT 
-        r.codRecepcion,
-        e.codEnvio,
-        LEFT(CONVERT(VARCHAR, e.horaEnvio, 108), 5) AS 'hora envio',
-        e.fechaEnvio, 
-        e.folios, 
-        e.observaciones,
-        er.descripcion 'estado recepcion', 
-        e.NumDocumento, 
-        td.descripcion 'tipo documento', 
-        CONCAT(pe.nombres, ' ',pe.apellidos) 'usuario origen', 
-        ae.descripcion 'area origen', 
-        CONCAT(pd.nombres, pd.apellidos) 'usuario destino',
-        ad.descripcion 'area destino',
-		ed.descripcion 'estado documento'
-        FROM Recepcion r
-        INNER JOIN Envio e ON r.codEnvio = e.codEnvio 
-        INNER JOIN Estado er ON r.codEstado = er.codEstado
-        INNER JOIN Documento d ON e.NumDocumento = d.NumDocumento
-        INNER JOIN TipoDocumento td ON d.codTipoDocumento = td.codTipoDocumento
-        INNER JOIN UsuarioArea uae ON e.codUsuarioEnvio = uae.codUsuarioArea
-        INNER JOIN Usuario ue ON uae.codUsuario = ue.codUsuario 
-        INNER JOIN Persona pe ON ue.codPersona = pe.codPersona
-        INNER JOIN Area ae ON uae.codArea = ae.codArea 
-        INNER JOIN UsuarioArea uad ON e.codUsuarioDestino = uad.codUsuarioArea 
-        INNER JOIN Usuario ud ON uad.codUsuario = ud.codUsuario 
-        INNER JOIN Persona pd ON ud.codPersona = pd.codPersona
-        INNER JOIN Area ad ON uad.codArea = ad.codArea				
-		INNER JOIN Estado ed ON d.codEstado = ed.codEstado
-        WHERE r.codUsuarioRecepcion = @codUsuarioArea AND r.codEstado = @CodEstadoInactivo
-        ORDER BY e.fechaEnvio DESC, e.horaEnvio DESC
+	
+	IF @codArea IS NULL
+	BEGIN
+		SELECT 
+			r.codRecepcion,
+			e.codEnvio,
+			LEFT(CONVERT(VARCHAR, e.horaEnvio, 108), 5) AS 'hora envio',
+			e.fechaEnvio, 
+			e.folios, 
+			e.observaciones,
+			er.descripcion 'estado recepcion', 
+			e.NumDocumento, 
+			td.descripcion 'tipo documento', 
+			CONCAT(pe.nombres, ' ',pe.apellidos) 'usuario origen', 
+			ae.descripcion 'area origen', 
+			CONCAT(pd.nombres, pd.apellidos) 'usuario destino',
+			ad.descripcion 'area destino',
+			ed.descripcion 'estado documento'
+			FROM Recepcion r
+			INNER JOIN Envio e ON r.codEnvio = e.codEnvio 
+			INNER JOIN Estado er ON r.codEstado = er.codEstado
+			INNER JOIN Documento d ON e.NumDocumento = d.NumDocumento
+			INNER JOIN TipoDocumento td ON d.codTipoDocumento = td.codTipoDocumento
+			INNER JOIN UsuarioArea uae ON e.codUsuarioEnvio = uae.codUsuarioArea
+			INNER JOIN Usuario ue ON uae.codUsuario = ue.codUsuario 
+			INNER JOIN Persona pe ON ue.codPersona = pe.codPersona
+			INNER JOIN Area ae ON uae.codArea = ae.codArea 
+			INNER JOIN UsuarioArea uad ON e.codUsuarioDestino = uad.codUsuarioArea 
+			INNER JOIN Usuario ud ON uad.codUsuario = ud.codUsuario 
+			INNER JOIN Persona pd ON ud.codPersona = pd.codPersona
+			INNER JOIN Area ad ON uad.codArea = ad.codArea				
+			INNER JOIN Estado ed ON d.codEstado = ed.codEstado
+			WHERE r.codUsuarioRecepcion = @codUsuarioArea AND r.codEstado = @CodEstadoInactivo
+			ORDER BY e.fechaEnvio DESC, e.horaEnvio DESC
+		END
+		ELSE
+		BEGIN
+			SELECT 
+			r.codRecepcion,
+			e.codEnvio,
+			LEFT(CONVERT(VARCHAR, e.horaEnvio, 108), 5) AS 'hora envio',
+			e.fechaEnvio, 
+			e.folios, 
+			e.observaciones,
+			er.descripcion 'estado recepcion', 
+			e.NumDocumento, 
+			td.descripcion 'tipo documento', 
+			CONCAT(pe.nombres, ' ',pe.apellidos) 'usuario origen', 
+			ae.descripcion 'area origen', 
+			CONCAT(pd.nombres, pd.apellidos) 'usuario destino',
+			ad.descripcion 'area destino',
+			ed.descripcion 'estado documento'
+			FROM Recepcion r
+			INNER JOIN Envio e ON r.codEnvio = e.codEnvio 
+			INNER JOIN Estado er ON r.codEstado = er.codEstado
+			INNER JOIN Documento d ON e.NumDocumento = d.NumDocumento
+			INNER JOIN TipoDocumento td ON d.codTipoDocumento = td.codTipoDocumento
+			INNER JOIN UsuarioArea uae ON e.codUsuarioEnvio = uae.codUsuarioArea
+			INNER JOIN Usuario ue ON uae.codUsuario = ue.codUsuario 
+			INNER JOIN Persona pe ON ue.codPersona = pe.codPersona
+			INNER JOIN Area ae ON uae.codArea = ae.codArea 
+			INNER JOIN UsuarioArea uad ON e.codUsuarioDestino = uad.codUsuarioArea 
+			INNER JOIN Usuario ud ON uad.codUsuario = ud.codUsuario 
+			INNER JOIN Persona pd ON ud.codPersona = pd.codPersona
+			INNER JOIN Area ad ON uad.codArea = ad.codArea				
+			INNER JOIN Estado ed ON d.codEstado = ed.codEstado
+			WHERE uad.codArea = @codArea AND r.codEstado = @CodEstadoInactivo
+			ORDER BY e.fechaEnvio DESC, e.horaEnvio DESC
+		END
 END
 GO
 -----------------------------------------------------------------------------------------

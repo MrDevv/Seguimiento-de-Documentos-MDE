@@ -7,6 +7,8 @@ $(document).ready(function(){
             dataType: 'json',
             data: {numDocumento},
             success: function(response) {
+                console.log(response)
+
                 let {data} = response
                 console.log(data)
                 if (data.length > 0 && Array.isArray(data)) {
