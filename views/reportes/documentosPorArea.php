@@ -30,6 +30,10 @@
                 </div>
             <?php endif; ?>
             <a href="#" class="btnFiltrarReportes" id="filtrarPorArea">Filtrar</a>
+
+            <div>
+                <a href="#" id="btnReporteDocAreaPdf">Generar Reporte en PDF</a>
+            </div>
         </div>
 
     </div>
@@ -61,3 +65,4 @@
 <script src="<?= base_url?>ajax/listarAreas.js"></script>
 <script src="<?= base_url?>ajax/documentosPorAreaReporte.js"></script>
 <script src="<?= base_url?>ajax/detalle.js"></script>
+<script src="<?= base_url?>ajax/reporteDocAreasPDF.js"></script>
