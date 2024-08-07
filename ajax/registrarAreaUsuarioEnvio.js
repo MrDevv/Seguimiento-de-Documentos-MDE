@@ -186,6 +186,9 @@ $(document).ready(function(){
                         text: "Se registró correctamente el usuario"
                     }).then(() => {
                         $('#modalRegistrarUsuario').modal('hide');
+
+                        let codArea = $('.selectArea').val();
+
                         $.ajax({
                             url: './controllers/usuario/obtenerUsuariosPorArea.php',
                             method: 'POST',
