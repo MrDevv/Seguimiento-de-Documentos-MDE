@@ -1,1 +1,0 @@
-<p>Registro Exitoso</p>
