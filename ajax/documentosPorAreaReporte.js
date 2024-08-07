@@ -31,10 +31,10 @@ $(document).ready(function() {
                         <td>
                         <span
                                 class="estado
-                                    ${documento.estadoRecepcion == 'a' ? 'recepcionado' : documento.estadoDocumento == 'i' ? 'pendienteRecepcion' : ''}
+                                    ${documento.estadoRecepcion == 'a' ? 'recepcionado' : documento.estadoRecepcion == 'i' ? 'pendienteRecepcion' : ''}
                                 "
                         >
-                                    ${documento.estadoRecepcion == 'a' ? 'Recepcionado' : documento.estadoDocumento == 'i' ? 'Pendiente de Recepcion' : ''}
+                                    ${documento.estadoRecepcion == 'a' ? 'Recepcionado' : documento.estadoRecepcion == 'i' ? 'Pendiente de Recepcion' : ''}
                         </span>
                         </td>
 

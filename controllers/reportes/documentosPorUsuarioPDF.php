@@ -28,7 +28,7 @@ class PDF extends FPDF{
         $this->SetFont('Arial','',12);
         $this->Ln(15);
         $this->SetX(60);
-        $this->Cell(100, 8, mb_convert_encoding('Reporte de Documentos por Áreas','ISO-8859-1', 'UTF-8'), 0, 1, 'C', 0);
+        $this->Cell(100, 8, mb_convert_encoding('Reporte de Documentos por Usuarios','ISO-8859-1', 'UTF-8'), 0, 1, 'C', 0);
         $this->Ln(10);
     }
 
@@ -194,34 +194,31 @@ $documentoModel = new Documento();
 
 $response = [];
 
-$codArea = null;
-$numDocumento = null;
+$numDocumento = null ;
+$codUsuario = null;
 
-if ($_SESSION['user']['rol'] == 'administrador') {
-    if (isset($_POST['area']) && isset($_POST['numDocumento']) && $_POST['area'] != 0) {
-        $codArea = $_POST['area'];
+if ($_SESSION['user']['rol'] == 'administrador'){
+    if (isset($_POST['usuario']) && isset($_POST['numDocumento']) && $_POST['usuario']!= 0){
+        $codUsuario = $_POST['usuario'];
         $numDocumento = $_POST['numDocumento'];
-    } else if (isset($_POST['area']) && isset($_POST['numDocumento']) && $_POST['area'] == 0) {
+    }else if(isset($_POST['usuario']) && isset($_POST['numDocumento']) && $_POST['usuario']== 0){
         $numDocumento = $_POST['numDocumento'];
-    } else {
-        $codArea = null;
-        $numDocumento = null;
     }
-} else if ($_SESSION['user']['rol'] == 'usuario') {
-    $codArea = $_SESSION['user']['codArea'];
-    if (isset($_POST['numDocumento'])) {
+}else if($_SESSION['user']['rol'] == 'usuario'){
+    $codUsuario = $_SESSION['user']['codUsuarioArea'];
+    if(isset($_POST['numDocumento'])){
         $numDocumento = $_POST['numDocumento'];
     }
 }
 
-if ($codArea && $numDocumento) {
-    $response = $documentoModel->reportesPorArea((int)$codArea, $numDocumento);
-} else if ($codArea) {
-    $response = $documentoModel->reportesPorArea((int)$codArea, null);
-} else if ($numDocumento) {
-    $response = $documentoModel->reportesPorArea(null, $numDocumento);
-} else {
-    $response = $documentoModel->reportesPorArea();
+if($codUsuario && $numDocumento) {
+    $response = $documentoModel->reportesPorUsuario(null, $numDocumento,(int) $codUsuario);
+} else if ($numDocumento){
+    $response = $documentoModel->reportesPorUsuario(null, $numDocumento, null);
+}else if ($codUsuario){
+    $response = $documentoModel->reportesPorUsuario(null, null, $codUsuario);
+}else{
+    $response = $documentoModel->reportesPorUsuario();
 }
 
 foreach ($response['data'] as $documento) {
