@@ -180,10 +180,14 @@ class Usuario {
         }
     }
 
-    public function listarUsuarios(){
-        $sql = "EXEC sp_listarUsuarios";
+    public function listarUsuarios(int $codArea = null){
+        $sql = "EXEC sp_listarUsuarios :codArea";
 
-        $stmt = DataBase::connect()->query($sql);
+        $stmt = DataBase::connect()->prepare($sql);
+
+        $stmt->bindParam("codArea", $codArea, PDO::PARAM_INT);
+
+        $stmt->execute();
 
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

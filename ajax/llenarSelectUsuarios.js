@@ -4,12 +4,17 @@ $(document).ready(function(){
         method: 'POST',
         dataType: 'json',
         success: function(response) {
+            console.log(response)
+
             let options = `<option value="0">Seleccionar</option>` + // Agregar la opción "Seleccionar"
                 response.map(usuario =>
                     `<option value="${usuario.codUsuarioArea}">${usuario.nombres + ' ' + usuario.apellidos}</option>`
                 ).join('');
 
             $('.selectFiltroArea').html(options);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error('Error fetching the content:', textStatus, errorThrown);
         }
     });
 })

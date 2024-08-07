@@ -554,7 +554,9 @@ END
 GO
 
 -- listar usuarios
-CREATE PROCEDURE sp_listarUsuarios
+CREATE PROCEDURE sp_listarUsuarios(
+	@codArea INT = NULL
+)
 AS
 BEGIN
 	SELECT ua.codUsuarioArea, ua.codArea, u.codPersona, u.codUsuario, u.codRol, u.nombreUsuario 'usuario', 
@@ -566,7 +568,8 @@ BEGIN
     inner join Area a on ua.codArea = a.codArea 
     inner join Estado e on ua.codEstado = e.codEstado 
     inner join Rol r on u.codRol = r.codRol 
-	WHERE e.descripcion = 'a' OR e.descripcion = 'p'
+	WHERE (e.descripcion = 'a' OR e.descripcion = 'p')
+	AND (@codArea IS NULL OR ua.codArea = @codArea)
 END
 GO
 

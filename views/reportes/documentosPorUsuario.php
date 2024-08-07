@@ -23,14 +23,14 @@ require_once('../../config/parameters.php');
                                 placeholder="Número de Documento">
                     </div>
                 </div>
-                <?php if ($_SESSION['user']['rol'] == 'administrador'): ?>
+                <?php if ($_SESSION['user']['rol'] == 'administrador' || $_SESSION['user']['rol'] == 'administrador área'): ?>
                     <div>
                         <label>Usuario:</label>
                         <select class="selectFiltroArea selectUsuario" name="usuario">
                         </select>
                     </div>
-                <?php endif; ?>
                 <a href="#" class="btnFiltrarReportes" id="filtrarPorUsuario">Filtrar</a>
+                <?php endif; ?>
             </div>
             <div>
                 <a href="#" id="btnReporteDocUsuarioPdf" class="w-100 rounded-2 p-2 bg-white d-flex justify-content-center align-items-center" >

@@ -8,7 +8,7 @@ $(document).ready(function() {
             data: {numDocumento, usuario},
             success: function(response) {
                 let {data} = response
-                console.log(data)
+                //console.log(data)
                 if (data.length > 0 && Array.isArray(data)) {
                     let row = data.map(documento => `
 
