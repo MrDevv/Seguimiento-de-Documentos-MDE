@@ -82,7 +82,7 @@ $(document).ready(function(){
                                     ` : ''
                             }    
             
-                            ${documento.estado == 'i' && localStorage.getItem('rol') == 'administrador' ? `
+                            ${documento.estado == 'i' && (localStorage.getItem('rol') == 'administrador' || localStorage.getItem('rol') == 'administrador área') ? `
                                 <a class="action" id="btnContinuarDocumento" href="#">
                                     <span class="tooltipParent">Continuar seguimiento <span class="triangulo"></span></span>
                                     <svg width="37" height="34" viewBox="0 0 37 34" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -106,7 +106,7 @@ $(document).ready(function(){
                                 </a>
                             ` : ''}
                             
-                            ${documento.estado == 'a' && localStorage.getItem('rol') == 'administrador' ? `
+                            ${documento.estado == 'a' && (localStorage.getItem('rol') == 'administrador' || localStorage.getItem('rol') == 'administrador área') ? `
                                 <a class="action" id="btnCulminarDocumento" href="#">
                                     <span class="tooltipParent">Dar por Culminado <span class="triangulo"></span></span>
                                     <svg width="37" height="34" viewBox="0 0 37 34" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -231,7 +231,7 @@ $(document).ready(function(){
                         let options = `<option value="0">Seleccionar</option>`;
                         $('.selectUsuarioDestino').html(options);
                     });
-                } else if(message == "no se encontraron usuarios en esta area" && codArea != "0" && localStorage.getItem("rol") == 'usuario'){
+                } else if(message == "no se encontraron usuarios en esta area" && codArea != "0" && (localStorage.getItem("rol") == 'usuario' || localStorage.getItem("rol") == 'administrador área')){
                     Swal.fire({
                         title: "¡Advertencia!",
                         text: response.message + ' comuniquese con un administrador.',
