@@ -1,5 +1,6 @@
 <?php
 require_once('../../config/parameters.php');
+session_start();
 ?>
 
 <div class="containerPendientesRecepcion">

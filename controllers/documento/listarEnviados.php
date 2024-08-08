@@ -5,8 +5,12 @@ session_start();
 
 $envioModel = new Envio();
 
-$envioModel->setCodEstado(Estado::getIdEstadoInactivo());
-$envioModel->setCodUsuarioAreaEnvio((int) $_SESSION['user']['codUsuarioArea']);
-$response = $envioModel->obtenerDocumentosEnviados();
+$rol = isset($_POST['rol']) ? $_POST['rol'] : null;
+
+if ($rol == "0" || $rol == null) {
+    $response = $envioModel->obtenerDocumentosEnviados((int) $_SESSION['user']['codUsuarioArea']);
+}else if ($rol == "1") {
+    $response = $envioModel->obtenerDocumentosEnviados((int) $_SESSION['user']['codUsuarioArea'], (int) $_SESSION['user']['codArea']);
+}
 
 print json_encode($response);

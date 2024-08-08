@@ -1,8 +1,9 @@
 $(document).ready(function(){
-    function loadEnviados() {
+    function loadEnviados(rol = null) {
         $.ajax({
             url: './controllers/documento/listarEnviados.php',
             method: 'POST',
+            data: {rol},
             dataType: 'json',
             success: function(response) {
                 let {data} = response
@@ -289,6 +290,18 @@ $(document).ready(function(){
                 })
             }
         })
+    })
+
+    // filtrar documentos enviados para el usuario o de todos los usuarios del area
+    $(document).off("click", "#filtrarPorRolEnviados").on("click", "#filtrarPorRolEnviados", function(e) {
+        e.preventDefault()
+        let rol = $(".selectRolEnviados").val()
+
+        if (rol == ''){
+            rol = null
+        }
+
+        loadEnviados(rol)
     })
 
 })

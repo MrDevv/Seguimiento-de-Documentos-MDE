@@ -1,12 +1,25 @@
 <?php
-require_once "../../config/parameters.php"
+    session_start();
+    require_once "../../config/parameters.php";
 ?>
-
 
 <div class="containerRecepcionados">
     <div class="recepcionados_header">
         <h2>Bandeja de Entrada</h2>
         <p>Lista de documentos recepcionados</p>
+        <div class="containerFiltrado">
+            <div class="d-flex gap-2">
+                <?php if ($_SESSION['user']['rol'] == 'administrador área'): ?>
+                    <div>
+                        <select class="selectFiltroArea selectRolRecepcionados">
+                            <option value="0">Mis documentos recepcionados</option>
+                            <option value="1">Documentos recepcionados por mi área</option>
+                        </select>
+                    </div>
+                    <a href="#" class="btnFiltrarReportes" id="filtrarPorRolRecepcionados">Filtrar</a>
+                <?php endif; ?>
+            </div>
+        </div>
     </div>
     <div class="recepcionados_body">
         <table>

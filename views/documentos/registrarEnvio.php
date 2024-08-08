@@ -1,7 +1,3 @@
-<?php
-    session_start();
-?>
-
 <div id="modalRegistrarEnvio" class="modalArea modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">

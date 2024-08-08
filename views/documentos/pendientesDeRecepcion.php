@@ -12,10 +12,9 @@
             <div class="d-flex gap-2">
                 <?php if ($_SESSION['user']['rol'] == 'administrador área'): ?>
                     <div>
-                        <label>Documentos:</label>
                         <select class="selectFiltroArea selectRolPendientesRecepcion">
-                            <option value="0">Para mi</option>
-                            <option value="1">Todos</option>
+                            <option value="0">Mis documentos pendientes de recepción</option>
+                            <option value="1">Documentos  pendientes de recepción en mi área</option>
                         </select>
                     </div>
                 <a href="#" class="btnFiltrarReportes" id="filtrarPorRolPendientesRecepcion">Filtrar</a>

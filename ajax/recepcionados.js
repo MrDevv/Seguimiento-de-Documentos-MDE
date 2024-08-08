@@ -1,10 +1,9 @@
 $(document).ready(function(){
-
-
-    function obtenerDocumentosRecepcionados() {
+    function obtenerDocumentosRecepcionados(rol = null) {
         $.ajax({
             url: './controllers/documento/listarRecepcionados.php',
             method: 'POST',
+            data: {rol},
             dataType: 'json',
             success: function(response) {
                 console.log('lista recepcionados' + response);
@@ -419,5 +418,18 @@ $(document).ready(function(){
             }
         })
     })
+
+    // filtrar documentos recepcionados para el usuario o de todos los usuarios del area
+    $(document).off("click", "#filtrarPorRolRecepcionados").on("click", "#filtrarPorRolRecepcionados", function(e) {
+        e.preventDefault()
+        let rol = $(".selectRolRecepcionados").val()
+
+        if (rol == ''){
+            rol = null
+        }
+
+        obtenerDocumentosRecepcionados(rol)
+    })
+
 
 });

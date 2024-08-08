@@ -25,6 +25,11 @@ if ($_SESSION['user']['rol'] == 'administrador'){
     if(isset($_POST['numDocumento'])){
         $numDocumento = $_POST['numDocumento'];
     }
+}else if($_SESSION['user']['rol'] == 'administrador área'){
+    $codArea = $_SESSION['user']['codArea'];
+    if(isset($_POST['numDocumento'])){
+        $numDocumento = $_POST['numDocumento'];
+    }
 }
 
 if($codArea && $numDocumento) {
