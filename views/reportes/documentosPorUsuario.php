@@ -29,8 +29,8 @@ require_once('../../config/parameters.php');
                         <select class="selectFiltroArea selectUsuario" name="usuario">
                         </select>
                     </div>
-                <a href="#" class="btnFiltrarReportes" id="filtrarPorUsuario">Filtrar</a>
                 <?php endif; ?>
+                <a href="#" class="btnFiltrarReportes" id="filtrarPorUsuario">Filtrar</a>
             </div>
             <div>
                 <a href="#" id="btnReporteDocUsuarioPdf" class="w-100 rounded-2 p-2 bg-white d-flex justify-content-center align-items-center" >
@@ -38,8 +38,6 @@ require_once('../../config/parameters.php');
                 </a>
             </div>
         </div>
-
-
     </div>
     <div class="listadoDocumentos_body">
         <table>

@@ -11,7 +11,7 @@
                         <span>  <?php echo $_SESSION['user']['area'] ?> - <?php echo $_SESSION['user']['rol'] ?> </span>
                     </div>
                 </div>
-                <a href="<?=base_url?>usuario/editarPerfil">
+                <a href="#" id="btnEditarPerfil">
                 <svg width="56" height="51" viewBox="0 0 56 51" fill="no ne" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <rect y="-3" width="56" height="54" fill="url(#pattern0_2334_17)"/>
                     <defs>
@@ -36,5 +36,4 @@
         <div class="fondo_blanco">
         </div>
     </header>
-
     <div class="main">

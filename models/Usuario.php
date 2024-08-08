@@ -101,6 +101,72 @@ class Usuario {
         }
     }
 
+    public function obtenerDatosUsuarioLogeado($codUsuarioArea){
+        $sql = "EXEC sp_obtenerDatosUsuarioLogeado :codUsuarioArea";
+
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
+            $stmt->bindParam('codUsuarioArea', $codUsuarioArea, PDO::PARAM_INT);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if (count($result) > 0){
+                return [
+                    'status' => 'success',
+                    'message' => 'datos del perfil encontrado',
+                    'action' => 'buscar',
+                    'module' => 'usuario',
+                    'data' => $result,
+                    'info' => '',
+                ];
+            }
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => 'Ocurrio un error al momento de intentar obtener los datos del perfil de usuario',
+                'action' => 'buscar',
+                'module' => '',
+                'data' => [],
+                'info' => $e->getMessage()
+            ];
+        }
+    }
+
+    public function actualizarDatosPerfil($codPersona, $codUsuario, $nombres, $apellidos, $telefono, $dni, $password = null){
+        $sql = "EXEC sp_actualizarPerfilUsuario :codPersona, :codUsuario, :nombres, :apellidos, :telefono, :dni, :password";
+
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
+            $stmt->bindParam('codPersona', $codPersona, PDO::PARAM_INT);
+            $stmt->bindParam('codUsuario', $codUsuario, PDO::PARAM_INT);
+            $stmt->bindParam('nombres', $nombres, PDO::PARAM_STR);
+            $stmt->bindParam('apellidos', $apellidos, PDO::PARAM_STR);
+            $stmt->bindParam('telefono', $telefono, PDO::PARAM_STR);
+            $stmt->bindParam('dni', $dni, PDO::PARAM_STR);
+            $stmt->bindParam('password', $password, PDO::PARAM_STR);
+            $stmt->execute();
+
+            return [
+                'status' => 'success',
+                'message' => 'Los datos del perfil fueron actualizados',
+                'action' => 'actualizar',
+                'module' => 'usuario',
+                'data' => [],
+                'info' => '',
+            ];
+
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => 'Ocurrio un error al momento de intentar actualizar los datos del perfil',
+                'action' => 'actualizar',
+                'module' => 'usuario',
+                'data' => [],
+                'info' => $e->getMessage()
+            ];
+        }
+    }
+
     public function autenticarUsuario(){
         $sql = "EXEC sp_autenticarUsuario :nombreUsuario, :password";
 
