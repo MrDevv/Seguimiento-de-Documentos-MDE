@@ -968,7 +968,7 @@ table tbody tr .actions .action:hover .tooltipParent{
     border: 1px solid var(--bg-color-principal);
 }
 
-.selected{
+.selectedPage{
     background-color: var(--bg-color-principal) !important;
     color: #fff;
 }

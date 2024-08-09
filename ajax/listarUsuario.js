@@ -190,7 +190,7 @@ $(document).ready(function() {
 
                 let paginas = '';
                 for (let i = 0; i < totalPaginas; i++){
-                    paginas+= `<li class="optionPage${i==0 ? ' selected' : ''}" id=${i+1}> ${i+1} </li>`
+                    paginas+= `<li class="optionPage${i==0 ? ' selectedPage' : ''}" id=${i+1}> ${i+1} </li>`
                 }
 
                 $('#opcionesPaginacionUsuarios').html(paginas)
@@ -202,10 +202,13 @@ $(document).ready(function() {
     }
 
     $(document).off("click", ".optionPage").on("click", ".optionPage", function (e) {
+        $(".optionPage").removeClass("selectedPage");
+        $(this).addClass("selectedPage");
         pagina = parseInt($(this).text().trim());
-
         loadUsuarios(estado, apellidosBusqueda, pagina, registrosPorPagina);
     })
+
+
 
     // nuevo
     $(document).off("click", "#btnRegistrarUsuario").on("click", "#btnRegistrarUsuario", function(e) {
