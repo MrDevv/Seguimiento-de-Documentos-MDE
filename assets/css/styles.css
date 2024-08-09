@@ -265,6 +265,10 @@ a{
         transform: rotate(45deg);
     }
 
+    .navbarParent {
+        width: 15%;
+    }
+
     .navbar .menu .option p, .navbar .menu .option a {
         font-size: 13px;
     }
@@ -275,6 +279,18 @@ a{
 
     .menu{
         overflow-y: scroll;
+    }
+
+    ::-webkit-scrollbar {
+        width: 6px;
+        height: 80px;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #085A4B;
+        border-radius: 5px;
+    }
+    ::-webkit-scrollbar-track {
+        background: #085A4B;
     }
 
 }
