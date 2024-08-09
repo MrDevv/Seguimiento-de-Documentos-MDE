@@ -13,6 +13,11 @@ $password = trim($_POST['password']);
 
 $usuarioModel = new Usuario();
 
+
+if ($password == ''){
+    $password = null;
+}
+
 $response = $usuarioModel->actualizarDatosPerfil($codPersona, $codUsuario, $nombres, $apellidos, $telefono, $dni, $password);
 
 print json_encode($response);
