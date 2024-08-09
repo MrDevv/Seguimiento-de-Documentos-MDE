@@ -273,17 +273,8 @@ a{
         gap: 5px;
     }
 
-    .navbarParent .menu .option p,
-    .navbarParent .menu .option a {
-        font-size: 10px;
-    }
-
-    .options a {
-        font-size: 8px;
-    }
-
-    .option svg{
-        width: 20px;
+    .menu{
+        overflow-y: scroll;
     }
 
 }
