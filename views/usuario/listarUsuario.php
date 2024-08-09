@@ -16,7 +16,10 @@ require_once('../../models/Estado.php');
                 </div>
                 <div>
                     <p>Estado:</p>
-                    <select class="form-select selectEstado" name="estado">
+                    <select class="form-select selectEstado">
+                        <option value="0">Todos</option>
+                        <option value="1" selected>Activos</option>
+                        <option value="2">Inactivos</option>
                     </select>
                 </div>
             </div>
@@ -46,6 +49,16 @@ require_once('../../models/Estado.php');
             </tbody>
         </table>
     </div>
+    <div class="d-flex justify-content-between m-2">
+        <div>
+            <p class="fs-6">Total de usuarios:  <span class="fw-bold" id="totalUsuariosRegistrados"></span></p>
+        </div>
+        <div>
+            <ul class="listadoOpcionesPaginacion" id="opcionesPaginacionUsuarios">
+
+            </ul>
+        </div>
+    </div>
 
 </div>
 <?php  require_once "registro.php"?>
@@ -53,5 +66,4 @@ require_once('../../models/Estado.php');
 <?php  require_once "cambiarAreaUsuario.php"?>
 <?php  require_once "cambiarPasswordUsuario.php"?>
 
-<script src="<?= base_url?>ajax/estado.js"></script>
 <script src="<?= base_url?>ajax/listarUsuario.js"></script>

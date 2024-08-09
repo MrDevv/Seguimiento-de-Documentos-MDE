@@ -954,3 +954,21 @@ table tbody tr .actions .action:hover .tooltipParent{
     right: 0;
     z-index: 1;
 }
+
+.listadoOpcionesPaginacion{
+    display: flex;
+    list-style: none;
+    gap: 5px;
+}
+.listadoOpcionesPaginacion li{
+    padding: 3px 10px;
+    background-color: #fff;
+    cursor: pointer;
+    border-radius: 2px;
+    border: 1px solid var(--bg-color-principal);
+}
+
+.selected{
+    background-color: var(--bg-color-principal) !important;
+    color: #fff;
+}

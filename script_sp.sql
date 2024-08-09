@@ -595,59 +595,6 @@ BEGIN
 END
 GO
 
--- listar usuarios
-CREATE PROCEDURE sp_listarUsuarios(
-	@codArea INT = NULL
-)
-AS
-BEGIN
-	SELECT ua.codUsuarioArea, ua.codArea, u.codPersona, u.codUsuario, u.codRol, u.nombreUsuario 'usuario', 
-    e.descripcion 'estado', p.nombres, p.apellidos, p.dni, p.telefono, a.descripcion 'area', 
-    r.descripcion 'rol' 
-    FROM UsuarioArea ua 
-    inner join Usuario u on ua.codUsuario = u.codUsuario 
-    inner join Persona p on u.codPersona = p.codPersona 
-    inner join Area a on ua.codArea = a.codArea 
-    inner join Estado e on ua.codEstado = e.codEstado 
-    inner join Rol r on u.codRol = r.codRol 
-	WHERE (e.descripcion = 'a' OR e.descripcion = 'p')
-	AND (@codArea IS NULL OR ua.codArea = @codArea)
-END
-GO
-
--- listar usuarios activos
-CREATE PROCEDURE sp_listarUsuariosActivos
-AS
-BEGIN
-	SELECT ua.codUsuarioArea, ua.codArea, u.codPersona, u.codUsuario, u.codRol, u.nombreUsuario 'usuario', 
-    e.descripcion 'estado', p.nombres, p.apellidos, p.dni, p.telefono, a.descripcion 'area', 
-    r.descripcion 'rol' 
-    FROM UsuarioArea ua 
-    inner join Usuario u on ua.codUsuario = u.codUsuario 
-    inner join Persona p on u.codPersona = p.codPersona 
-    inner join Area a on ua.codArea = a.codArea 
-    inner join Estado e on ua.codEstado = e.codEstado 
-    inner join Rol r on u.codRol = r.codRol 
-	WHERE e.descripcion = 'a'
-END
-GO
-
--- listar usuarios inactivos
-CREATE PROCEDURE sp_listarUsuarioInactivos
-AS
-BEGIN
-	SELECT ua.codUsuarioArea, ua.codArea, u.codPersona, u.codUsuario, u.codRol, u.nombreUsuario 'usuario', 
-	e.descripcion 'estado', p.nombres, p.apellidos, p.dni, p.telefono, a.descripcion 'area', 
-	r.descripcion 'rol' 
-	FROM UsuarioArea ua 
-	inner join Usuario u on ua.codUsuario = u.codUsuario 
-	inner join Persona p on u.codPersona = p.codPersona 
-	inner join Area a on ua.codArea = a.codArea 
-	inner join Estado e on ua.codEstado = e.codEstado 
-	inner join Rol r on u.codRol = r.codRol 
-	WHERE e.descripcion = 'p'
-END
-GO
 
 CREATE PROCEDURE sp_deshabilitarUsuario(
 	@codUsuarioArea INT
@@ -673,25 +620,6 @@ BEGIN
 
 	UPDATE UsuarioArea SET codEstado = @codEstadoActivo
 	where codUsuarioArea = @codUsuarioArea
-END
-GO
-
-CREATE PROCEDURE sp_buscarUsuarioPorApellido(
-	@apellidos VARCHAR(20)
-)
-AS
-BEGIN
-	SELECT ua.codUsuarioArea, ua.codArea, u.codPersona, u.codUsuario, u.codRol, u.nombreUsuario 'usuario', 
-    e.descripcion 'estado', p.nombres, p.apellidos, p.dni, p.telefono, a.descripcion 'area', 
-    r.descripcion 'rol' 
-    FROM UsuarioArea ua 
-    inner join Usuario u on ua.codUsuario = u.codUsuario 
-    inner join Persona p on u.codPersona = p.codPersona 
-    inner join Area a on ua.codArea = a.codArea 
-    inner join Estado e on ua.codEstado = e.codEstado 
-    inner join Rol r on u.codRol = r.codRol 
-	WHERE p.apellidos LIKE '%' + @apellidos + '%' 
-	AND (e.descripcion = 'a' or e.descripcion = 'p')
 END
 GO
 
@@ -760,21 +688,6 @@ BEGIN
 	UPDATE Documento SET codEstado = @codEstadoInactivo WHERE NumDocumento = @numDocumento
 END
 GO
-
--- continuar el seguimiento de un documento
-CREATE PROCEDURE sp_continuarSeguimientoDocumento(
-	@numDocumento VARCHAR(20)
-)
-AS
-BEGIN
-	DECLARE @codEstadoActivo INT;
-
-	SELECT @codEstadoActivo = codEstado FROM Estado WHERE descripcion = 'a';
-
-	UPDATE Documento SET codEstado = @codEstadoActivo WHERE NumDocumento = @numDocumento
-END
-GO
-
 
 
 -- confirmar recepcion de un documento

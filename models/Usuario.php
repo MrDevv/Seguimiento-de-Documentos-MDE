@@ -167,6 +167,37 @@ class Usuario {
         }
     }
 
+    public function obtenerTotalUsuariosRegistrados($estado = null, $apellidos = ''){
+        $sql = "EXEC sp_totalUsuarios :estado, :apellidos";
+
+        try {
+            $db = DataBase::connect();
+            $stmt =  $db->prepare($sql);
+            $stmt->bindParam("estado", $estado, PDO::PARAM_INT);
+            $stmt->bindParam("apellidos", $apellidos, PDO::PARAM_STR);
+            $stmt->execute();
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return [
+                'status' => 'success',
+                'message' => 'se obtuvo el total de registros',
+                'action' => 'listar',
+                'module' => 'usuario',
+                'data' => $results,
+                'info' => ''
+            ];
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => 'Ocurrio un error al momento de obtener el total de registros',
+                'action' => 'listar',
+                'module' => 'usuario',
+                'data' => [],
+                'info' => $e->getMessage()
+            ];
+        }
+    }
+
     public function autenticarUsuario(){
         $sql = "EXEC sp_autenticarUsuario :nombreUsuario, :password";
 
@@ -246,68 +277,32 @@ class Usuario {
         }
     }
 
-    public function listarUsuarios(int $codArea = null){
-        $sql = "EXEC sp_listarUsuarios :codArea";
+    public function listarUsuarios(int $codArea = null, $estado = null, $apellidos, $pagina = 1, $registrosPorPagina = 10){
+        $sql = "EXEC sp_listarUsuarios :codArea, :estado, :apellidos, :pagina, :registrosPorPagina";
 
-        $stmt = DataBase::connect()->prepare($sql);
-
-        $stmt->bindParam("codArea", $codArea, PDO::PARAM_INT);
-
-        $stmt->execute();
-
-        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        return $results;
-    }
-
-    public function listarUsuariosActivos(){
-        $sql = "EXEC sp_listarUsuariosActivos";
-
-        $stmt = DataBase::connect()->query($sql);
-
-        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        return $results;
-    }
-
-    public function listarUsuariosInactivos(){
-        $sql = "EXEC sp_listarUsuarioInactivos";
-
-        $stmt = DataBase::connect()->query($sql);
-
-        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        return $results;
-    }
-
-    public function buscarUsuarioPorApellidos(string $apellidos){
-        $sql = "EXEC sp_buscarUsuarioPorApellido :apellidos";
-        try {
+        try{
             $stmt = DataBase::connect()->prepare($sql);
+
+            $stmt->bindParam("codArea", $codArea, PDO::PARAM_INT);
+            $stmt->bindParam("estado", $estado, PDO::PARAM_STR);
             $stmt->bindParam("apellidos", $apellidos, PDO::PARAM_STR);
+            $stmt->bindParam("pagina", $pagina, PDO::PARAM_INT);
+            $stmt->bindParam("registrosPorPagina", $registrosPorPagina, PDO::PARAM_INT);
 
             $stmt->execute();
 
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            if (sizeof($results) == 0){
-                return [
-                    'status' => 'not found',
-                    'message' => 'No existe un usuario',
-                    'action' => 'buscar'
-                ];
-            }
-
             return $results;
-
         }catch (PDOException $e){
             return [
                 'status' => 'failed',
-                'message' => 'Ocurrio un error al momento de registrar al usuario',
-                'action' => 'buscar',
+                'message' => 'Ocurrio un error al momento de listar los usuarios',
+                'action' => 'listar',
                 'info' => $e->getMessage()
             ];
         }
+
     }
 
     public function cambiarPassword(){
