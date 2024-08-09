@@ -83,6 +83,10 @@ $(document).ready(function() {
                 icon: "warning",
                 title: "Campos Incompletos",
                 text: "Ingrese los campos requeridos",
+                allowEnterKey: false,
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+                stopKeydownPropagation: false
             });
             return;
         }
@@ -100,14 +104,22 @@ $(document).ready(function() {
                     Swal.fire({
                         icon: "warning",
                         title: "¡Advertencia!",
-                        text: "El área que intenta registrar ya existe"
+                        text: "El área que intenta registrar ya existe",
+                        allowEnterKey: false,
+                        allowEscapeKey: false,
+                        allowOutsideClick: false,
+                        stopKeydownPropagation: false
                     });
                 } else {
                     if (response.status === 'success') {
                         Swal.fire({
                             icon: "success",
                             title: "¡Éxito!",
-                            text: response.message
+                            text: response.message,
+                            allowEnterKey: false,
+                            allowEscapeKey: false,
+                            allowOutsideClick: false,
+                            stopKeydownPropagation: false
                         }).then(() => {
                             $('#modalRegistrarArea').modal('hide');
                             loadAreas();
@@ -116,7 +128,11 @@ $(document).ready(function() {
                         Swal.fire({
                             icon: "error",
                             title: "Error",
-                            text: response.message
+                            text: response.message,
+                            allowEnterKey: false,
+                            allowEscapeKey: false,
+                            allowOutsideClick: false,
+                            stopKeydownPropagation: false
                         });
                     }
                 }
@@ -167,6 +183,10 @@ $(document).ready(function() {
                 icon: "warning",
                 title: "Campos Incompletos",
                 text: "Ingrese los campos requeridos",
+                allowEnterKey: false,
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+                stopKeydownPropagation: false
             });
             return;
         }
@@ -175,7 +195,11 @@ $(document).ready(function() {
             Swal.fire({
                 icon: "warning",
                 title: "¡Advertencia!",
-                text: "Para actualizar el área tiene que tener una nueva descripción."
+                text: "Para actualizar el área tiene que tener una nueva descripción.",
+                allowEnterKey: false,
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+                stopKeydownPropagation: false
             });
             return;
         }
@@ -193,14 +217,22 @@ $(document).ready(function() {
                     Swal.fire({
                         icon: "warning",
                         title: "¡Advertencia!",
-                        text: "La descripción que intenta actualizar ya existe en la base de datos"
+                        text: "La descripción que intenta actualizar ya existe en la base de datos",
+                        allowEnterKey: false,
+                        allowEscapeKey: false,
+                        allowOutsideClick: false,
+                        stopKeydownPropagation: false
                     });
                 } else {
                     if (response.status === 'success') {
                         Swal.fire({
                             icon: "success",
                             title: "Actualización Exitosa",
-                            text: response.message
+                            text: response.message,
+                            allowEnterKey: false,
+                            allowEscapeKey: false,
+                            allowOutsideClick: false,
+                            stopKeydownPropagation: false
                         }).then(() => {
                             $('#modalEditarArea').modal('hide');
                             loadAreas();
@@ -209,7 +241,11 @@ $(document).ready(function() {
                         Swal.fire({
                             icon: "error",
                             title: "Error",
-                            text: response.message
+                            text: response.message,
+                            allowEnterKey: false,
+                            allowEscapeKey: false,
+                            allowOutsideClick: false,
+                            stopKeydownPropagation: false
                         });
                     }
                 }

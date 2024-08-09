@@ -195,9 +195,9 @@ $(document).ready(function(){
                         estadoSpan.removeClass('follow finished').addClass(estadoDocumento === 'a' ? 'estado follow' : 'estado finished');
 
                         if (data.length > 0 && Array.isArray(data)) {
-                            let row = data.map(documento => `
+                            let row = data.map((documento, index) => `
                                 <tr>
-                                    <td> 1 </td>
+                                    <td> ${index + 1} </td>
                                     <td> ${documento.folios} </td>
                                     <td> ${documento["area origen"]} </td>
                                     <td> ${documento["usuario origen"]} </td>
