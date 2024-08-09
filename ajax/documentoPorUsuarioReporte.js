@@ -211,8 +211,6 @@ $(document).ready(function() {
             numDocumento = null;
         }
 
-        console.log({usuario, numDocumento})
-
         loadDocumentosPorUsuario(usuario, numDocumento)
 
     })

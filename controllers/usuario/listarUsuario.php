@@ -15,6 +15,8 @@ if ($estado== 0){
     $estado = "activos";
 }else if ($estado == 2){
     $estado = "inactivos";
+}else if ($estado == ''){
+    $estado = null;
 }
 
 $usuarioModel = new Usuario();
@@ -30,6 +32,8 @@ if ($estado){
 }else{
     if ($_SESSION['user']['rol'] == 'administrador área') {
         $response = $usuarioModel->listarUsuarios((int)$_SESSION['user']['codArea'], null, $apellidosBusqueda, $pagina, $registrosPorPagina);
+    }else if ($_SESSION['user']['rol'] == 'administrador'){
+        $response = $usuarioModel->listarUsuarios(null, null, $apellidosBusqueda, $pagina, $registrosPorPagina);
     }
 }
 

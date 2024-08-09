@@ -3,8 +3,8 @@ $(document).ready(function(){
         url: './controllers/usuario/listarUsuario.php',
         method: 'POST',
         dataType: 'json',
+        data: {estado: null, apellidosBusqueda: '', pagina: 1, registrosPorPagina: 1000},
         success: function(response) {
-            console.log(response)
 
             let options = `<option value="0">Seleccionar</option>` + // Agregar la opción "Seleccionar"
                 response.map(usuario =>
