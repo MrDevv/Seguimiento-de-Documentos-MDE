@@ -625,7 +625,7 @@ GO
 
 -- registrar un envio
 CREATE PROCEDURE sp_registrarEnvio(
-	@codRecepcion INT NULL, @numDocumento INT, @folios INT, @codMovimiento INT, 
+	@codRecepcion INT NULL, @numDocumento VARCHAR(20), @folios INT, @codMovimiento INT, 
 	@observacion VARCHAR(300) NULL, @codUsuarioAreaDestino INT,@codUsuarioAreaEnvio INT, @fechaEnvio DATE, @horaEnvio TIME
 )
 AS

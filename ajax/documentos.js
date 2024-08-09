@@ -288,12 +288,11 @@ $(document).ready(function(){
             dataType: "json",
             data: {codRecepcion, numDocumento, folios, movimiento, usuarioAreaDestino, observacion},
             success: function (response) {
-                console.log(response);
                 if (response.status == 'success'){
                     Swal.fire({
                         icon: "success",
-                        title: "Registro Exitoso",
-                        text: "Se registro correctamente el usuario"
+                        title: "¡Éxito!",
+                        text: response.message
                     }).then(() => {
                         $('#modalRegistrarEnvio').modal('hide');
                         loadDocumentos()

@@ -38,7 +38,7 @@
                     <p>Todos los campos (*) son obligatorios</p>
                 </div>
                 <div class="containerButtonsEditarArea">
-                    <input type="submit" class="btn btn-primary" value="Enviar">
+                    <input type="submit" class="btn btn-primary" value="Registrar">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 </div>
             </form>
