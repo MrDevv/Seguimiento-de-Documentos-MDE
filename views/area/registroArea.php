@@ -8,7 +8,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="descripcionArea" class="form-label">Descripción (*):</label>
-                        <input type="text" id="descripcionAreaNuevo">
+                        <input type="text" id="descripcionAreaNuevo" autocomplete="off">
                     </div>
                     <p>Todos los campos (*) son obligatorios</p>
                 </div>

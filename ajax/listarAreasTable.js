@@ -1,10 +1,15 @@
 $(document).ready(function() {
-    // Función para cargar las áreas en la tabla
-    function loadAreas() {
+    let registrosPorPagina = 10;
+    let pagina = 1;
+
+    generarOpcionesPaginacion()
+
+    function loadAreas(pagina, registrosPorPagina) {
         $.ajax({
             url: './controllers/areas/listarAreas.php',
             method: 'GET',
             dataType: 'json',
+            data: {pagina, registrosPorPagina},
             success: function(data) {
                 if (data && Array.isArray(data)) {
                     let row = data.map(area =>
@@ -51,8 +56,38 @@ $(document).ready(function() {
         });
     }
 
-    // Cargar las áreas cuando se carga la página
-    loadAreas();
+    loadAreas(pagina, registrosPorPagina);
+
+    function generarOpcionesPaginacion() {
+        $.ajax({
+            url: './controllers/areas/totalAreasRegistradas.php',
+            method: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                let totalAreas = response[0]['total']
+                let totalPaginas = Math.ceil(totalAreas/registrosPorPagina);
+
+                $('#totalAreasRegistradas').text(totalAreas)
+
+                let paginas = '';
+                for (let i = 0; i < totalPaginas; i++){
+                    paginas+= `<li class="optionPage${i==0 ? ' selectedPage' : ''}" id=${i+1}> ${i+1} </li>`
+                }
+
+                $('#opcionesPaginacionAreas').html(paginas)
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error('Error fetching the content:', textStatus, errorThrown);
+            }
+        });
+    }
+
+    $(document).off("click", ".optionPage").on("click", ".optionPage", function (e) {
+        $(".optionPage").removeClass("selectedPage");
+        $(this).addClass("selectedPage");
+        pagina = parseInt($(this).text().trim());
+        loadAreas(pagina, registrosPorPagina);
+    })
 
     // nuevo
     $(document).off("click", "#btnRegistrarArea").on("click", "#btnRegistrarArea", function(e) {
@@ -122,7 +157,8 @@ $(document).ready(function() {
                             stopKeydownPropagation: false
                         }).then(() => {
                             $('#modalRegistrarArea').modal('hide');
-                            loadAreas();
+                            generarOpcionesPaginacion();
+                            loadAreas(pagina, registrosPorPagina);
                         });
                     } else {
                         Swal.fire({
@@ -143,10 +179,7 @@ $(document).ready(function() {
         });
     });
 
-
-
     let descripcionDB = '';
-
 // Editar
     $(document).on("click", "#btnEditarArea", function(e) {
         e.preventDefault();
@@ -235,7 +268,7 @@ $(document).ready(function() {
                             stopKeydownPropagation: false
                         }).then(() => {
                             $('#modalEditarArea').modal('hide');
-                            loadAreas();
+                            loadAreas(pagina, registrosPorPagina);
                         });
                     } else {
                         Swal.fire({

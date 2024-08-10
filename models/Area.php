@@ -53,15 +53,29 @@ class Area {
         }
     }
 
-    public function listarArea(){
-        $sql = "SELECT * FROM Area";
+    public function listarArea($page = 1, $registrosPorPagina = 10){
+        $sql = "sp_listarAreas :page, :registrosPorPagina;";
 
-        $stmt = DataBase::connect()->query($sql);
+        $stmt = DataBase::connect()->prepare($sql);
 
-        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt->bindParam('page', $page, PDO::PARAM_INT);
+        $stmt->bindParam('registrosPorPagina', $registrosPorPagina, PDO::PARAM_INT);
 
-        return $results;
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function obtenerTotalAreasRegistradas(){
+        $sql = "SELECT count(codArea) 'total' FROM Area";
+
+        $stmt = DataBase::connect()->prepare($sql);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function buscarArea(){
         $sql = "SELECT * FROM Area WHERE CodArea = :codArea";
         try {

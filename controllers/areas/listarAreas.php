@@ -3,8 +3,11 @@ require_once "../../models/Area.php";
 require_once "../../config/DataBase.php";
 
 $areaObj = new Area();
-$response = $areaObj->listarArea();
 
+$pagina = $_GET['pagina'];
+$registrosPorPagina = $_GET['registrosPorPagina'];
+
+$response = $areaObj->listarArea($pagina, $registrosPorPagina);
 
 if ($response > 0){
     $data = $response;

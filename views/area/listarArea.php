@@ -28,10 +28,19 @@ require_once('../../config/DataBase.php');
             </tbody>
         </table>
     </div>
+    <div class="d-flex justify-content-between m-2">
+        <div>
+            <p class="fs-6">Total de registros:  <span class="fw-bold" id="totalAreasRegistradas"></span></p>
+        </div>
+        <div>
+            <ul class="listadoOpcionesPaginacion" id="opcionesPaginacionAreas">
 
-    <?php  require_once "editarArea.php"?>
-    <?php  require_once "registroArea.php"?>
-
-    <script src="<?= base_url?>ajax/listarAreasTable.js"></script>
-
+            </ul>
+        </div>
+    </div>
 </div>
+
+<?php  require_once "editarArea.php"?>
+<?php  require_once "registroArea.php"?>
+
+<script src="<?= base_url?>ajax/listarAreasTable.js"></script>

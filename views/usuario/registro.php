@@ -71,5 +71,3 @@
 </div>
 
 <script src="<?=base_url?>helpers/generarUserName.js"></script>
-<script src="<?= base_url?>ajax/listarRoles.js"></script>
-<script src="<?= base_url?>ajax/listarAreas.js"></script>

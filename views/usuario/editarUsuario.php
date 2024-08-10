@@ -51,5 +51,3 @@
         </div>
     </div>
 </div>
-
-<script src="<?= base_url?>ajax/listarRoles.js"></script>
