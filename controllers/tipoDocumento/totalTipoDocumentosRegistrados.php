@@ -4,9 +4,6 @@ require_once "../../models/TipoDocumento.php";
 
 $tipoDocumentoModel = new TipoDocumento();
 
-$pagina = $_GET['pagina'];
-$registrosPorPagina = $_GET['registrosPorPagina'];
-
-$response = $tipoDocumentoModel->listarTipoDocumentos($pagina, $registrosPorPagina);
+$response = $tipoDocumentoModel->obtenerTotalTipoDocumentosRegistrados();
 
 print json_encode($response);

@@ -25,6 +25,16 @@ require_once('../../config/parameters.php');
             <tbody id="bodyListaTipoDocumentos"></tbody>
         </table>
     </div>
+    <div class="d-flex justify-content-between m-2">
+        <div>
+            <p class="fs-6">Total de registros:  <span class="fw-bold" id="totalTipoDocumentosRegistrados"></span></p>
+        </div>
+        <div>
+            <ul class="listadoOpcionesPaginacion" id="opcionesPaginacionTipoDocumento">
+
+            </ul>
+        </div>
+    </div>
 </div>
 
 <?php require_once "registrarTipoDeDocumento.php" ?>

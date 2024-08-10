@@ -1,10 +1,18 @@
 $(document).ready(function(){
-    function loadAreas() {
+    let registrosPorPagina = 10;
+    let pagina = 1;
+
+    generarOpcionesPaginacion()
+
+    function loadAreas(pagina, registrosPorPagina) {
         $.ajax({
             url: './controllers/tipoDocumento/listarTipoDocumentos.php',
             method: 'GET',
             dataType: 'json',
+            data: {pagina, registrosPorPagina},
             success: function(response) {
+                // console.log(response)
+                // return
                 if (response && Array.isArray(response)) {
                     let row = response.map(tipoDocumento =>
                         `
@@ -40,7 +48,10 @@ $(document).ready(function(){
                     ).join('');
                     $('#bodyListaTipoDocumentos').html(row);
                 } else {
-                    console.warn('No data received or data is not an array.');
+                    let row = `<tr>
+                        <td colSpan="10" className="mensajeSinRegistros"> No se encontraron registrados</td>
+                    </tr>`
+                    $('#bodyListaTipoDocumentos').html(row);
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -49,7 +60,38 @@ $(document).ready(function(){
         });
     }
 
-    loadAreas();
+    loadAreas(pagina, registrosPorPagina);
+
+    function generarOpcionesPaginacion() {
+        $.ajax({
+            url: './controllers/tipoDocumento/totalTipoDocumentosRegistrados.php',
+            method: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                let totalUsuarios = response[0]['total']
+                let totalPaginas = Math.ceil(totalUsuarios/registrosPorPagina);
+
+                $('#totalTipoDocumentosRegistrados').text(totalUsuarios)
+
+                let paginas = '';
+                for (let i = 0; i < totalPaginas; i++){
+                    paginas+= `<li class="optionPage${i==0 ? ' selectedPage' : ''}" id=${i+1}> ${i+1} </li>`
+                }
+
+                $('#opcionesPaginacionTipoDocumento').html(paginas)
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error('Error fetching the content:', textStatus, errorThrown);
+            }
+        });
+    }
+
+    $(document).off("click", ".optionPage").on("click", ".optionPage", function (e) {
+        $(".optionPage").removeClass("selectedPage");
+        $(this).addClass("selectedPage");
+        pagina = parseInt($(this).text().trim());
+        loadAreas(pagina, registrosPorPagina);
+    })
 
     // nuevo
     $(document).on("click", "#btnRegistrarTipoDocumento", function(e){

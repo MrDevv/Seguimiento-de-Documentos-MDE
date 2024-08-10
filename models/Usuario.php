@@ -277,7 +277,7 @@ class Usuario {
         }
     }
 
-    public function listarUsuarios(int $codArea = null, $estado = null, $apellidos, $pagina = 1, $registrosPorPagina = 10){
+    public function listarUsuarios(int $codArea = null, $estado = null, $apellidos = '', $pagina = 1, $registrosPorPagina = 10){
         $sql = "EXEC sp_listarUsuarios :codArea, :estado, :apellidos, :pagina, :registrosPorPagina";
 
         try{

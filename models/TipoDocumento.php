@@ -53,10 +53,25 @@ class TipoDocumento{
         }
     }
 
-    public function listarTipoDocumentos(){
-        $sql = "SELECT * FROM TipoDocumento";
+    public function listarTipoDocumentos($page = 1, $registrosPorPagina = 10){
+        $sql = "sp_listarTipoDocumento :page, :registrosPorPagina;";
 
-        $stmt = DataBase::connect()->query($sql);
+        $stmt = DataBase::connect()->prepare($sql);
+
+        $stmt->bindParam('page', $page, PDO::PARAM_INT);
+        $stmt->bindParam('registrosPorPagina', $registrosPorPagina, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $results;
+    }
+
+    public function obtenerTotalTipoDocumentosRegistrados(){
+        $sql = "SELECT count(codTipoDocumento) 'total' FROM tipoDocumento";
+
+        $stmt = DataBase::connect()->prepare($sql);
 
         $stmt->execute();
 
