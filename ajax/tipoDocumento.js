@@ -259,6 +259,7 @@ $(document).ready(function(){
         url: './controllers/tipoDocumento/listarTipoDocumentos.php',
         method: 'GET',
         dataType: 'json',
+        data: {pagina: 1, registrosPorPagina: 900},
         success: function(data) {
             console.log(data)
             if (data && Array.isArray(data)) {
