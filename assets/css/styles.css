@@ -471,7 +471,7 @@ input:focus-visible{
 .enviados_header,
 .recepcionados_header{
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .pendientesRecepcion_header h2,

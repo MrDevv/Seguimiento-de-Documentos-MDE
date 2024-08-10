@@ -204,7 +204,7 @@ $(document).ready(function() {
     });
 
     // Actualizar
-    $(document).on('submit', '#editarAreaForm', function(e) {
+    $(document).off('submit', '#editarAreaForm').on('submit', '#editarAreaForm', function(e) {
         e.preventDefault();
         $(this).off('submit'); // Desenganchar el evento de submit
 

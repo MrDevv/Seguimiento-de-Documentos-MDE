@@ -672,6 +672,13 @@ $(document).ready(function(){
 
     });
 
+    // actualiar documentos en la tabla
+    $(document).off("click", "#btnActualizarResultadosTable").on("click", "#btnActualizarResultadosTable", function(e){
+        e.preventDefault();
+        loadDocumentos()
+    });
+
+
     function capitalizeWords(str) {
         const exceptions = new Set(['y', 'de', 'a', 'en', 'o', 'con', 'para', 'por', 'que', 'si', 'el', 'la', 'los', 'las', 'un', 'una', 'del', 'al']);
 
