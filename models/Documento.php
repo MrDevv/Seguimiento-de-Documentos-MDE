@@ -158,13 +158,15 @@ class Documento{
         }
     }
 
-    public function obtenerTotalDocumentosRegistrados($numDocumento = ''){
-        $sql = "EXEC sp_totalDocumentos :numDocumento";
+    public function obtenerTotalDocumentosRegistrados($numDocumento = '', $codArea = null){
+        $sql = "EXEC sp_totalDocumentos :codUsuario, :numDocumento, :codArea";
 
         try {
             $db = DataBase::connect();
             $stmt =  $db->prepare($sql);
             $stmt->bindParam("numDocumento", $numDocumento, PDO::PARAM_STR);
+            $stmt->bindParam('codUsuario', $this->usuario, PDO::PARAM_INT);
+            $stmt->bindParam('codArea', $codArea, PDO::PARAM_INT);
             $stmt->execute();
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

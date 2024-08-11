@@ -717,6 +717,7 @@ $(document).ready(function(){
     $(document).off("click", "#btnActualizarResultadosTable").on("click", "#btnActualizarResultadosTable", function(e){
         e.preventDefault();
         numDocumentoFiltro = $('#numDocumentoListadoDocumentos').val();
+        generarOpcionesPaginacion()
         loadDocumentos(numDocumentoFiltro, pagina, registrosPorPagina)
     });
 
