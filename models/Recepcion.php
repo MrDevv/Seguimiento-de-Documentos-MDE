@@ -56,6 +56,39 @@ class Recepcion{
         $this->codEstado = $codEstado;
     }
 
+    public function obtenerTotalDocumentosRecepcionados(int $codUsuarioArea, int $codArea = null){
+        $sql =  "EXEC sp_totalDocumentosRecepcionados :codUsuarioArea, :codArea";
+
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
+            $stmt->bindParam('codUsuarioArea', $codUsuarioArea, PDO::PARAM_INT);
+            $stmt->bindParam('codArea', $codArea, PDO::PARAM_INT);
+
+            $stmt->execute();
+
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return [
+                'status' => 'success',
+                'message' => 'se obtuvo el total de documentos recepcionados',
+                'action' => 'listar',
+                'module' => 'documento',
+                'data' => $results,
+                'info' => ''
+            ];
+
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => '¡Ocurrio un error al momento de obtener el total de documentos recepcionados!',
+                'action' => 'listar',
+                'module' => 'recepcion',
+                'data' => [],
+                'info' => $e->getMessage()
+            ];
+        }
+    }
+
     public function obtenerTotalDocumentosPendienteRecepcion(int $codUsuarioArea, int $codArea = null){
         $sql =  "EXEC sp_totalDocumentosPendientesRecepcion :codUsuarioArea, :codArea";
 
@@ -134,14 +167,16 @@ class Recepcion{
             ];
         }
     }
-    public function listarDocumentosRecepcionados(int $codUsuarioRecepcion, int $codArea = null){
-        $sql = "EXEC sp_listarDocumentosRecepcionados :codUsuarioArea, :codArea";
+    public function listarDocumentosRecepcionados(int $codUsuarioRecepcion, int $codArea = null, $pagina = 1, $registroPorPagina = 10){
+        $sql = "EXEC sp_listarDocumentosRecepcionados :codUsuarioArea, :codArea, :pagina, :registroPorPagina";
 
         try {
             $stmt = DataBase::connect()->prepare($sql);
 
             $stmt->bindParam('codUsuarioArea', $codUsuarioRecepcion, PDO::PARAM_INT);
             $stmt->bindParam('codArea', $codArea, PDO::PARAM_INT);
+            $stmt->bindParam('pagina', $pagina, PDO::PARAM_INT);
+            $stmt->bindParam('registroPorPagina', $registroPorPagina, PDO::PARAM_INT);
 
             $stmt->execute();
 
@@ -150,7 +185,7 @@ class Recepcion{
             if (count($results) > 0){
                 return [
                     'status' => 'success',
-                    'message' => '¡Documentos encontrados!',
+                    'message' => '¡Documentos recepcionados encontrados!',
                     'action' => 'buscar',
                     'module' => 'documento',
                     'data' => $results,

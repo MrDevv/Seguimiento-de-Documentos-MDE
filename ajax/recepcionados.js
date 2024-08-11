@@ -1,12 +1,18 @@
 $(document).ready(function(){
-    function obtenerDocumentosRecepcionados(rol = null) {
+    let registrosPorPagina = 10;
+    let pagina = 1;
+    let rolFiltro = $(".selectRolRecepcionados").val()
+
+    generarOpcionesPaginacion()
+
+    function obtenerDocumentosRecepcionados(rolFiltro = null, pagina, registrosPorPagina) {
         $.ajax({
             url: './controllers/documento/listarRecepcionados.php',
             method: 'POST',
-            data: {rol},
+            data: {rolFiltro, pagina, registrosPorPagina},
             dataType: 'json',
             success: function(response) {
-                console.log('lista recepcionados' + response);
+                console.log(response)
                 let { data } = response;
                 if (Array.isArray(data) && data.length > 0) {
                     let rows = data.map(documento => `
@@ -145,7 +151,46 @@ $(document).ready(function(){
         });
     }
 
-    obtenerDocumentosRecepcionados();
+    obtenerDocumentosRecepcionados(rolFiltro, pagina, registrosPorPagina);
+
+    // generar botones paginacion
+    function generarOpcionesPaginacion() {
+        $.ajax({
+            url: './controllers/documento/totalDocumentosRecepcionados.php',
+            method: 'GET',
+            dataType: 'json',
+            data: {rolFiltro},
+            success: function(response) {
+                let { data } = response;
+                let totalDocumentos = data[0]['total']
+                let totalPaginas = Math.ceil(totalDocumentos/registrosPorPagina);
+
+                $('#totalDocumentosRecepcionados').text(totalDocumentos)
+
+                let paginas = '';
+                for (let i = 0; i < totalPaginas; i++){
+                    paginas+= `<li class="optionPage${i+1==pagina ? ' selectedPage' : ''}" id=${i+1}> ${i+1} </li>`
+                }
+
+                $('#opcionesPaginacionDocumentosRecepcionados').html(paginas)
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error('Error fetching the content:', textStatus, errorThrown);
+            }
+        });
+    }
+
+    // cambiar de pagina
+    $(document).off("click", ".optionPage").on("click", ".optionPage", function (e) {
+        console.log('pag actual: ' + pagina)
+        console.log('pag nueva: ' + parseInt($(this).text().trim()))
+        if (pagina != parseInt($(this).text().trim())){
+            $(".optionPage").removeClass("selectedPage");
+            $(this).addClass("selectedPage");
+        }
+        pagina = parseInt($(this).text().trim());
+        obtenerDocumentosRecepcionados(rolFiltro, pagina, registrosPorPagina);
+    })
 
     // abrir modal para ver el seguimiento de un documento
     $(document).off("click", "#btnSeguimientoDocumentoRecepcionado").on("click", "#btnSeguimientoDocumentoRecepcionado", function(e) {
@@ -354,7 +399,8 @@ $(document).ready(function(){
                         text: "Se registro correctamente el usuario"
                     }).then(() => {
                         $('#modalRegistrarEnvio').modal('hide');
-                        obtenerDocumentosRecepcionados()
+                        generarOpcionesPaginacion()
+                        obtenerDocumentosRecepcionados(rolFiltro, pagina, registrosPorPagina)
                     })
                 }else{
                     Swal.fire({
@@ -372,6 +418,7 @@ $(document).ready(function(){
 
     // cancelar recepcion
     $(document).off("click", "#btnCancelarRecepcion").on("click", "#btnCancelarRecepcion", function (e){
+        e.preventDefault()
         let fila = $(this).closest("tr");
 
         let codRecepcion = fila.find('td:eq(0)').text();
@@ -400,7 +447,8 @@ $(document).ready(function(){
                                 title: "¡Éxito!",
                                 text: response.message
                             }).then(() => {
-                                obtenerDocumentosRecepcionados()
+                                generarOpcionesPaginacion()
+                                obtenerDocumentosRecepcionados(rolFiltro, pagina, registrosPorPagina)
                             })
                         }else{
                             Swal.fire({
@@ -422,14 +470,27 @@ $(document).ready(function(){
     // filtrar documentos recepcionados para el usuario o de todos los usuarios del area
     $(document).off("click", "#filtrarPorRolRecepcionados").on("click", "#filtrarPorRolRecepcionados", function(e) {
         e.preventDefault()
-        let rol = $(".selectRolRecepcionados").val()
+        rolFiltro = $(".selectRolRecepcionados").val()
+        pagina = 1
 
-        if (rol == ''){
-            rol = null
+        if (rolFiltro == ''){
+            rolFiltro = null
         }
 
-        obtenerDocumentosRecepcionados(rol)
+        generarOpcionesPaginacion()
+        obtenerDocumentosRecepcionados(rolFiltro, pagina, registrosPorPagina)
     })
 
+    // actualiar documentos en la tabla
+    $(document).off("click", "#btnActualizarResultadosTable").on("click", "#btnActualizarResultadosTable", function(e){
+        e.preventDefault();
+        rolFiltro = $(".selectRolRecepcionados").val()
+
+        if (rolFiltro == ''){
+            rolFiltro = null
+        }
+        generarOpcionesPaginacion()
+        obtenerDocumentosRecepcionados(rolFiltro, pagina, registrosPorPagina);
+    });
 
 });
