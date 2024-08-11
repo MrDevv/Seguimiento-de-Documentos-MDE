@@ -1,11 +1,16 @@
 $(document).ready(function(){
-    function loadDocumentos(numDocumento = null) {
+    let registrosPorPagina = 10;
+    let pagina = 1;
+    let numDocumentoFiltro = $('#numDocumentoListadoDocumentos').val();
 
+    generarOpcionesPaginacion()
+
+    function loadDocumentos(numDocumentoFiltro = '', pagina, registrosPorPagina) {
         $.ajax({
             url: './controllers/documento/listarDocumentos.php',
             method: 'POST',
             dataType: 'json',
-            data: {numDocumento},
+            data: {numDocumentoFiltro, pagina, registrosPorPagina},
             success: function(response) {
                 console.log(response)
 
@@ -171,20 +176,51 @@ $(document).ready(function(){
         });
     }
 
-    loadDocumentos()
+    loadDocumentos(numDocumentoFiltro, pagina, registrosPorPagina)
 
+    function generarOpcionesPaginacion() {
+        $.ajax({
+            url: './controllers/documento/totalDocumentosRegistrados.php',
+            method: 'GET',
+            dataType: 'json',
+            data: {numDocumentoFiltro},
+            success: function(response) {
+                let { data } = response;
+                let totalDocumentos = data[0]['total']
+                let totalPaginas = Math.ceil(totalDocumentos/registrosPorPagina);
+
+                $('#totalDocumentosRegistrados').text(totalDocumentos)
+
+                let paginas = '';
+                for (let i = 0; i < totalPaginas; i++){
+                    paginas+= `<li class="optionPage${i==0 ? ' selectedPage' : ''}" id=${i+1}> ${i+1} </li>`
+                }
+
+                $('#opcionesPaginacionDocumentos').html(paginas)
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error('Error fetching the content:', textStatus, errorThrown);
+            }
+        });
+    }
+
+    $(document).off("click", ".optionPage").on("click", ".optionPage", function (e) {
+        if (pagina != parseInt($(this).text().trim())){
+            $(".optionPage").removeClass("selectedPage");
+            $(this).addClass("selectedPage");
+        }
+        pagina = parseInt($(this).text().trim());
+        loadDocumentos(numDocumentoFiltro, pagina, registrosPorPagina)
+    })
 
     // buscarDocumentos
-    $(document).off("click", "#filtrarPorDocumentoListadoDocumentos").on("click", "#filtrarPorDocumentoListadoDocumentos", function(e){
+    $(document).off("input", "#numDocumentoListadoDocumentos").on("input", "#numDocumentoListadoDocumentos", function(e){
         e.preventDefault();
+        numDocumentoFiltro = $('#numDocumentoListadoDocumentos').val();
+        pagina = 1
 
-        let numDocumento = $('#numDocumentoListadoDocumentos').val();
-
-        if (numDocumento.length == 0 || !numDocumento){
-            numDocumento = null;
-        }
-
-        loadDocumentos(numDocumento);
+        generarOpcionesPaginacion()
+        loadDocumentos(numDocumentoFiltro, pagina, registrosPorPagina)
     })
 
     // nuevo Envio
@@ -295,7 +331,7 @@ $(document).ready(function(){
                         text: response.message
                     }).then(() => {
                         $('#modalRegistrarEnvio').modal('hide');
-                        loadDocumentos()
+                        loadDocumentos(numDocumentoFiltro, pagina, registrosPorPagina);
                     })
                 }else{
                     Swal.fire({
@@ -366,7 +402,12 @@ $(document).ready(function(){
                             text: response.message
                         }).then(() => {
                             $('#modalRegistrarDocumento').modal('hide');
-                            loadDocumentos()
+                            numDocumentoFiltro = ''
+                            $('#numDocumentoListadoDocumentos').val(numDocumentoFiltro);
+                            pagina = 1;
+                            registrosPorPagina = 10;
+                            generarOpcionesPaginacion();
+                            loadDocumentos(numDocumentoFiltro, pagina, registrosPorPagina);
                         });
                     } else {
                         Swal.fire({
@@ -440,7 +481,7 @@ $(document).ready(function(){
                         text: response.message
                     }).then(() => {
                         $('#modalEditarDocumento').modal('hide');
-                        loadDocumentos()
+                        loadDocumentos(numDocumentoFiltro, pagina, registrosPorPagina);
                     });
                 } else {
                     Swal.fire({
@@ -486,7 +527,7 @@ $(document).ready(function(){
                                 title: "¡Éxito!",
                                 text: response.message
                             }).then(() => {
-                               loadDocumentos()
+                                loadDocumentos(numDocumentoFiltro, pagina, registrosPorPagina)
                             })
                         }else{
                             Swal.fire({
@@ -539,7 +580,7 @@ $(document).ready(function(){
                                 title: "¡Éxito!",
                                 text: response.message
                             }).then(() => {
-                               loadDocumentos()
+                                loadDocumentos(numDocumentoFiltro, pagina, registrosPorPagina)
                             })
                         }else{
                             Swal.fire({
@@ -675,7 +716,8 @@ $(document).ready(function(){
     // actualiar documentos en la tabla
     $(document).off("click", "#btnActualizarResultadosTable").on("click", "#btnActualizarResultadosTable", function(e){
         e.preventDefault();
-        loadDocumentos()
+        numDocumentoFiltro = $('#numDocumentoListadoDocumentos').val();
+        loadDocumentos(numDocumentoFiltro, pagina, registrosPorPagina)
     });
 
 

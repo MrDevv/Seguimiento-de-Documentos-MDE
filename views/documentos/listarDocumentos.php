@@ -22,7 +22,6 @@ session_start();
                                 autocomplete="off"
                                 placeholder="Número de Documento">
                     </div>
-                    <a href="#" class="btnFiltrarReportes" id="filtrarPorDocumentoListadoDocumentos">Filtrar</a>
                 </div>
             </div>
             <a href="#" class="btnNuevoRegistro" id="btnNuevoRegistro">
@@ -55,7 +54,15 @@ session_start();
             </tbody>
         </table>
     </div>
-
+    <div class="d-flex justify-content-between m-2">
+        <div>
+            <p class="fs-6">Total de registros:  <span class="fw-bold" id="totalDocumentosRegistrados"></span></p>
+        </div>
+        <div>
+            <ul class="listadoOpcionesPaginacion" id="opcionesPaginacionDocumentos">
+            </ul>
+        </div>
+    </div>
 </div>
 
 <?php require_once "registrarEnvio.php"?>

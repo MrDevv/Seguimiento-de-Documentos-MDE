@@ -158,6 +158,36 @@ class Documento{
         }
     }
 
+    public function obtenerTotalDocumentosRegistrados($numDocumento = ''){
+        $sql = "EXEC sp_totalDocumentos :numDocumento";
+
+        try {
+            $db = DataBase::connect();
+            $stmt =  $db->prepare($sql);
+            $stmt->bindParam("numDocumento", $numDocumento, PDO::PARAM_STR);
+            $stmt->execute();
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return [
+                'status' => 'success',
+                'message' => 'se obtuvo el total de documentos',
+                'action' => 'listar',
+                'module' => 'documento',
+                'data' => $results,
+                'info' => ''
+            ];
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => 'Ocurrio un error al momento de obtener el total de registros',
+                'action' => 'listar',
+                'module' => 'documento',
+                'data' => [],
+                'info' => $e->getMessage()
+            ];
+        }
+    }
+
     public function actualizar(){
         $sql = "update Documento set asunto = :asunto, folios = :folios, codTipoDocumento = :codTipoDocumento ".
                 "where NumDocumento = :numDocumento";
@@ -188,57 +218,8 @@ class Documento{
         }
     }
 
-    public function listarDocumentosAdministrador(){
-        $sql = "select d.NumDocumento, tp.descripcion 'tipo documento', d.asunto, d.folios, d.fechaRegistro, ".
-                "CONCAT(p.nombres ,' ',p.apellidos) 'usuario registrador', e.descripcion 'estado' ".
-                "from Documento d ".
-                "inner join TipoDocumento tp on d.codTipoDocumento = tp.codTipoDocumento ".
-                "inner join UsuarioArea ua on d.codUsuario = ua.codUsuario ".
-                "inner join Usuario u on ua.codUsuario = u.codUsuario ".
-                "inner join Persona p on u.codPersona = p.codPersona ".
-                "inner join Estado e on d.codEstado = e.codEstado ".
-                "order by d.fechaRegistro DESC, d.horaRegistro DESC";
-
-        try {
-            $stmt = DataBase::connect()->prepare($sql);
-
-            $stmt->execute();
-
-            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            if (count($results)>0){
-                return [
-                    'status' => 'success',
-                    'message' => 'listado correcto',
-                    'action' => 'listar',
-                    'module' => 'documento',
-                    'data' => $results,
-                    'info' => ''
-                ];
-            }
-
-            return [
-                'status' => 'success',
-                'message' => 'no se encontraron registros',
-                'action' => 'listar',
-                'module' => 'documento',
-                'data' => [],
-                'info' => ''
-            ];
-
-        }catch (PDOException $e){
-            return [
-                'status' => 'failed',
-                'message' => 'Ocurrio un error al momento de listar los documentos',
-                'action' => 'listar',
-                'module' => 'documento',
-                'info' => $e->getMessage()
-            ];
-        }
-    }
-
-    public function listarDocumentos(int $codArea = null){
-        $sql =  "EXEC sp_listarDocumentos :codUsuario, :numDocumento, :codArea";
+    public function listarDocumentos(int $codArea = null, $pagina = 1, $registroPorPagina = 10){
+        $sql =  "EXEC sp_listarDocumentos :codUsuario, :numDocumento, :codArea, :pagina, :registroPorPagina";
 
         try {
             $stmt = DataBase::connect()->prepare($sql);
@@ -246,6 +227,8 @@ class Documento{
             $stmt->bindParam('codUsuario', $this->usuario, PDO::PARAM_INT);
             $stmt->bindParam('numDocumento', $this->numDocumento, PDO::PARAM_STR);
             $stmt->bindParam('codArea', $codArea, PDO::PARAM_INT);
+            $stmt->bindParam('pagina', $pagina, PDO::PARAM_INT);
+            $stmt->bindParam('registroPorPagina', $registroPorPagina, PDO::PARAM_INT);
 
             $stmt->execute();
 

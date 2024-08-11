@@ -594,6 +594,7 @@ $(document).ready(function() {
     // filtrar usuarios por apellidos
     $(document).on("input", "#filtroUsuarioApellidos", function(e){
         apellidosBusqueda = $('#filtroUsuarioApellidos').val().trim();
+        pagina = 1
         generarOpcionesPaginacion();
         loadUsuarios(estado, apellidosBusqueda, pagina, registrosPorPagina)
     })

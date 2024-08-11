@@ -5,19 +5,19 @@ session_start();
 
 $documentoModel = new Documento();
 
-$numDocumento = isset($_POST['numDocumento']) ? $_POST['numDocumento'] : null;
+$numDocumento = isset($_POST['numDocumentoFiltro']) ? $_POST['numDocumentoFiltro'] : null;
+$pagina = isset($_POST['pagina']) ? $_POST['pagina'] : null;
+$registrosPorPagina = isset($_POST['registrosPorPagina']) ? $_POST['registrosPorPagina'] : null;
 
-if ($numDocumento){
-    $documentoModel->setNumDocumento($numDocumento);
-}
+$documentoModel->setNumDocumento($numDocumento);
 
 if(trim($_SESSION['user']['rol']) == 'administrador'){
-    $response = $documentoModel->listarDocumentos();
+    $response = $documentoModel->listarDocumentos(null, $pagina, $registrosPorPagina);
 }else if(trim($_SESSION['user']['rol']) == 'usuario'){
     $documentoModel->setUsuario((int) $_SESSION['user']['codUsuarioArea']);
-    $response = $documentoModel->listarDocumentos();
+    $response = $documentoModel->listarDocumentos(null, $pagina, $registrosPorPagina);
 }else if(trim($_SESSION['user']['rol']) == 'administrador área'){
-    $response = $documentoModel->listarDocumentos($_SESSION['user']['codArea']);
+    $response = $documentoModel->listarDocumentos($_SESSION['user']['codArea'], $pagina, $registrosPorPagina);
 }
 
 print json_encode($response);
