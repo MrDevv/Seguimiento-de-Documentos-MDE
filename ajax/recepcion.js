@@ -1,12 +1,19 @@
 $(document).ready(function(){
-    function obtenerDocumentosPendientesRecepcion(rol = null) {
+    let registrosPorPagina = 10;
+    let pagina = 1;
+    let rolFiltro = $(".selectRolPendientesRecepcion").val()
+
+    generarOpcionesPaginacion()
+
+    function obtenerDocumentosPendientesRecepcion(rolFiltro = null, pagina, registrosPorPagina) {
         $.ajax({
             url: './controllers/documento/listarPendientesRecepcion.php',
             method: 'POST',
-            data: {rol},
+            data: {rolFiltro, pagina, registrosPorPagina},
             dataType: 'json',
             success: function(response) {
                 let { data } = response;
+                console.log(data)
                 if (Array.isArray(data) && data.length > 0) {
                     let rows = data.map(documento => `
                         <tr>
@@ -114,7 +121,44 @@ $(document).ready(function(){
     }
 
     // Llamar a la función al cargar la página
-    obtenerDocumentosPendientesRecepcion(null);
+    obtenerDocumentosPendientesRecepcion(rolFiltro, pagina, registrosPorPagina);
+
+    // generar botones paginacion
+    function generarOpcionesPaginacion() {
+        $.ajax({
+            url: './controllers/documento/totalDocumentosPendientesRecepcion.php',
+            method: 'GET',
+            dataType: 'json',
+            data: {rolFiltro},
+            success: function(response) {
+                let { data } = response;
+                let totalDocumentos = data[0]['total']
+                let totalPaginas = Math.ceil(totalDocumentos/registrosPorPagina);
+
+                $('#totalDocumentosPendientesRecepcion').text(totalDocumentos)
+
+                let paginas = '';
+                for (let i = 0; i < totalPaginas; i++){
+                    paginas+= `<li class="optionPage${i==0 ? ' selectedPage' : ''}" id=${i+1}> ${i+1} </li>`
+                }
+
+                $('#opcionesPaginacionDocumentosPendientesRecepcion').html(paginas)
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error('Error fetching the content:', textStatus, errorThrown);
+            }
+        });
+    }
+
+    // cambiar de pagina
+    $(document).off("click", ".optionPage").on("click", ".optionPage", function (e) {
+        if (pagina != parseInt($(this).text().trim())){
+            $(".optionPage").removeClass("selectedPage");
+            $(this).addClass("selectedPage");
+        }
+        pagina = parseInt($(this).text().trim());
+        obtenerDocumentosPendientesRecepcion(rolFiltro, pagina, registrosPorPagina);
+    })
 
     // confirmar Recepcion
     $(document).on("click", "#btnConfirmarRecepcion", function(e) {
@@ -147,7 +191,8 @@ $(document).ready(function(){
                                 title: "¡Éxito!",
                                 text: response.message
                             }).then(() => {
-                                obtenerDocumentosPendientesRecepcion()
+                                generarOpcionesPaginacion()
+                                obtenerDocumentosPendientesRecepcion(rolFiltro, pagina, registrosPorPagina);
                             })
                         }else{
                             Swal.fire({
@@ -269,14 +314,27 @@ $(document).ready(function(){
 
     });
 
+    // filtrar documentos pendientes de recepcion por rol - Administrador/usuario o administrador area
     $(document).off("click", "#filtrarPorRolPendientesRecepcion").on("click", "#filtrarPorRolPendientesRecepcion", function(e) {
         e.preventDefault()
-        let rol = $(".selectRolPendientesRecepcion").val()
+        rolFiltro = $(".selectRolPendientesRecepcion").val()
 
-        if (rol == ''){
-            rol = null
+        if (rolFiltro == ''){
+            rolFiltro = null
         }
-
-        obtenerDocumentosPendientesRecepcion(rol)
+        generarOpcionesPaginacion()
+        obtenerDocumentosPendientesRecepcion(rolFiltro, pagina, registrosPorPagina)
     })
+
+    // actualiar documentos en la tabla
+    $(document).off("click", "#btnActualizarResultadosTable").on("click", "#btnActualizarResultadosTable", function(e){
+        e.preventDefault();
+        rolFiltro = $(".selectRolPendientesRecepcion").val()
+
+        if (rolFiltro == ''){
+            rolFiltro = null
+        }
+        generarOpcionesPaginacion()
+        obtenerDocumentosPendientesRecepcion(rolFiltro, pagina, registrosPorPagina);
+    });
 });
