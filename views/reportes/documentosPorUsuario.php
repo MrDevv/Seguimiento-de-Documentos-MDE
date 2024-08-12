@@ -58,7 +58,15 @@ require_once('../../config/parameters.php');
             </tbody>
         </table>
     </div>
-
+    <div class="d-flex justify-content-between m-2">
+        <div>
+            <p class="fs-6">Total de registros:  <span class="fw-bold" id="totalDocumentosPorUsuarioRegistradosReporte"></span></p>
+        </div>
+        <div>
+            <ul class="listadoOpcionesPaginacion" id="opcionesPaginacionDocumentosPorUsuarioReporte">
+            </ul>
+        </div>
+    </div>
 </div>
 
 <?php require_once "../documentos/seguimientoDocumento.php"?>

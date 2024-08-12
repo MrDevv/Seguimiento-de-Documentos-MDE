@@ -481,14 +481,17 @@ class Documento{
             ];
         }
     }
-    public function reportesPorUsuario(int $codArea = null, string $numDocumento = null, int $codUsuarioAreaDestino = null){
-        $sql = 'EXEC sp_reporteDocumentosPorUsuario :codArea, :numDocumento, :codUsuarioAreaDestino';
+
+    public function reportesPorUsuario(int $codArea = null, string $numDocumento = null, int $codUsuarioAreaDestino = null, $pagina = 1, $registroPorPagina = 10){
+        $sql = 'EXEC sp_reporteDocumentosPorUsuario :codArea, :numDocumento, :codUsuarioAreaDestino, :pagina, :registroPorPagina';
 
         try {
             $stmt = DataBase::connect()->prepare($sql);
             $stmt->bindParam('codArea', $codArea, PDO::PARAM_INT);
             $stmt->bindParam('numDocumento', $numDocumento, PDO::PARAM_STR);
             $stmt->bindParam('codUsuarioAreaDestino', $codUsuarioAreaDestino, PDO::PARAM_INT);
+            $stmt->bindParam('pagina', $pagina, PDO::PARAM_INT);
+            $stmt->bindParam('registroPorPagina', $registroPorPagina, PDO::PARAM_INT);
             $stmt->execute();
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -510,4 +513,35 @@ class Documento{
             ];
         }
     }
+
+    public function totalDocumentosPorUsuarioReporte(int $codArea = null, string $numDocumento = null, int $codUsuarioAreaDestino = null){
+        $sql = 'EXEC sp_totalDocumentosPorUsuarioReporte :codArea, :numDocumento, :codUsuarioAreaDestino';
+
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
+            $stmt->bindParam('codArea', $codArea, PDO::PARAM_INT);
+            $stmt->bindParam('numDocumento', $numDocumento, PDO::PARAM_STR);
+            $stmt->bindParam('codUsuarioAreaDestino', $codUsuarioAreaDestino, PDO::PARAM_INT);
+            $stmt->execute();
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return [
+                'status' => 'success',
+                'message' => '¡Se obtuvo el total de documentos por area!',
+                'action' => 'listar',
+                'module' => 'documento',
+                'data' => $results,
+                'info' => ''
+            ];
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => 'Ocurrio un error al momento de obtener el total de documentos por areas',
+                'action' => 'listar',
+                'module' => 'documento',
+                'info' => $e->getMessage()
+            ];
+        }
+    }
+
 }

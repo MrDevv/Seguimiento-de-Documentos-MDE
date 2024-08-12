@@ -10,6 +10,8 @@ $response = [];
 $numDocumento = null ;
 $codUsuario = null;
 $codArea = null;
+$pagina = isset($_POST['pagina']) ? $_POST['pagina'] : null;
+$registrosPorPagina = isset($_POST['registrosPorPagina']) ? $_POST['registrosPorPagina'] : null;
 
 if ($_SESSION['user']['rol'] == 'administrador'){
     if (isset($_POST['usuario']) && isset($_POST['numDocumento']) && $_POST['usuario']!= 0){
@@ -34,13 +36,13 @@ if ($_SESSION['user']['rol'] == 'administrador'){
 }
 
 if($codUsuario && $numDocumento) {
-    $response = $documentoModel->reportesPorUsuario($codArea, $numDocumento,(int) $codUsuario);
+    $response = $documentoModel->reportesPorUsuario($codArea, $numDocumento,(int) $codUsuario, $pagina, $registrosPorPagina);
 } else if ($numDocumento){
-    $response = $documentoModel->reportesPorUsuario($codArea, $numDocumento, null);
+    $response = $documentoModel->reportesPorUsuario($codArea, $numDocumento, null, $pagina, $registrosPorPagina);
 }else if ($codUsuario){
-    $response = $documentoModel->reportesPorUsuario($codArea, null, $codUsuario);
+    $response = $documentoModel->reportesPorUsuario($codArea, null, $codUsuario, $pagina, $registrosPorPagina);
 }else{
-    $response = $documentoModel->reportesPorUsuario($codArea);
+    $response = $documentoModel->reportesPorUsuario($codArea, null, null, $pagina, $registrosPorPagina);
 }
 
 print json_encode($response);

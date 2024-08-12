@@ -1,14 +1,21 @@
 $(document).ready(function() {
-    function loadDocumentosPorUsuario(usuario = null, numDocumento = null) {
+    let registrosPorPagina = 10;
+    let pagina = 1;
+    let numDocumento = $("#numDocumentoReportePorUsuario").val()
+    let usuario = $(".selectUsuario").val()
+
+    generarOpcionesPaginacion()
+
+    function loadDocumentosPorUsuario(usuario = null, numDocumento = null, pagina, registrosPorPagina) {
 
         $.ajax({
             url: './controllers/reportes/documentosPorUsuario.php',
             method: 'POST',
             dataType: 'json',
-            data: {numDocumento, usuario},
+            data: {numDocumento, usuario, pagina, registrosPorPagina},
             success: function(response) {
                 let {data} = response
-                //console.log(data)
+                console.log(data)
                 if (data.length > 0 && Array.isArray(data)) {
                     let row = data.map(documento => `
 
@@ -83,7 +90,7 @@ $(document).ready(function() {
         });
     }
 
-    loadDocumentosPorUsuario()
+    loadDocumentosPorUsuario(usuario, numDocumento, pagina, registrosPorPagina)
 
 
     $(document).off("click", "#btnSeguimientoDocumento").on("click", "#btnSeguimientoDocumento", function(e){
@@ -200,8 +207,8 @@ $(document).ready(function() {
 
     $(document).off("click", "#filtrarPorUsuario").on("click", "#filtrarPorUsuario", function(e){
         e.preventDefault();
-        let usuario = $(".selectUsuario").val()
-        let numDocumento = $("#numDocumentoReportePorUsuario").val()
+        usuario = $(".selectUsuario").val()
+        numDocumento = $("#numDocumentoReportePorUsuario").val()
 
         if (usuario == '0'){
             usuario = null;
@@ -211,7 +218,45 @@ $(document).ready(function() {
             numDocumento = null;
         }
 
-        loadDocumentosPorUsuario(usuario, numDocumento)
+        pagina = 1
+        generarOpcionesPaginacion()
+        loadDocumentosPorUsuario(usuario, numDocumento, pagina, registrosPorPagina)
 
+    })
+
+    function generarOpcionesPaginacion() {
+        $.ajax({
+            url: './controllers/reportes/totalDocumentosPorUsuario.php',
+            method: 'GET',
+            dataType: 'json',
+            data: {numDocumento, usuario},
+            success: function(response) {
+                console.log(response)
+                let { data } = response;
+                let totalDocumentos = data[0]['total']
+                let totalPaginas = Math.ceil(totalDocumentos/registrosPorPagina);
+
+                $('#totalDocumentosPorUsuarioRegistradosReporte').text(totalDocumentos)
+
+                let paginas = '';
+                for (let i = 0; i < totalPaginas; i++){
+                    paginas+= `<li class="optionPage${i+1==pagina ? ' selectedPage' : ''}" id=${i+1}> ${i+1} </li>`
+                }
+
+                $('#opcionesPaginacionDocumentosPorUsuarioReporte').html(paginas)
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error('Error fetching the content:', textStatus, errorThrown);
+            }
+        });
+    }
+
+    $(document).off("click", ".optionPage").on("click", ".optionPage", function (e) {
+        if (pagina != parseInt($(this).text().trim())){
+            $(".optionPage").removeClass("selectedPage");
+            $(this).addClass("selectedPage");
+        }
+        pagina = parseInt($(this).text().trim());
+        loadDocumentosPorUsuario(usuario, numDocumento, pagina, registrosPorPagina)
     })
 })

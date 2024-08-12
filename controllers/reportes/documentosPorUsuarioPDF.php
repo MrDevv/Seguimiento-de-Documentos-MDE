@@ -212,13 +212,13 @@ if ($_SESSION['user']['rol'] == 'administrador'){
 }
 
 if($codUsuario && $numDocumento) {
-    $response = $documentoModel->reportesPorUsuario(null, $numDocumento,(int) $codUsuario);
+    $response = $documentoModel->reportesPorUsuario(null, $numDocumento,(int) $codUsuario, null, null);
 } else if ($numDocumento){
-    $response = $documentoModel->reportesPorUsuario(null, $numDocumento, null);
+    $response = $documentoModel->reportesPorUsuario(null, $numDocumento, null, null, null);
 }else if ($codUsuario){
-    $response = $documentoModel->reportesPorUsuario(null, null, $codUsuario);
+    $response = $documentoModel->reportesPorUsuario(null, null, $codUsuario, null, null);
 }else{
-    $response = $documentoModel->reportesPorUsuario();
+    $response = $documentoModel->reportesPorUsuario(null, null, null, null, null);
 }
 
 foreach ($response['data'] as $documento) {

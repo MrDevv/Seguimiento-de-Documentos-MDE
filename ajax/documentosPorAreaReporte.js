@@ -215,6 +215,7 @@ $(document).ready(function() {
             numDocumento = null;
         }
 
+        pagina = 1
         generarOpcionesPaginacion()
         loadDocumentosPorArea(area, numDocumento, pagina, registrosPorPagina)
 
