@@ -9,7 +9,7 @@ insert into Rol(descripcion) values('administrador'), ('administrador área'), ('
 go
 
 -- Movimientos del sistema
-insert into Movimiento(descripcion) values('Solicitar'),('Conocimientos  y Fines'),('Opinar y/o Informar'), ('Inspección Ocular'), ('Adjuntar Antecedentes');
+insert into Indicacion(descripcion) values('Solicitar'),('Conocimientos  y Fines'),('Opinar y/o Informar'), ('Inspección Ocular'), ('Adjuntar Antecedentes');
 go
 
 -- Areas del Sistema

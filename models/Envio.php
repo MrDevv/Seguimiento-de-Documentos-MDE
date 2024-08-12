@@ -95,10 +95,10 @@ class Envio{
         $this->codUsuarioAreaDestino = $codUsuarioAreaDestino;
     }
 
-    public function registrarEnvio(int $codRecepcion = null, string $numDocumento, int $folios, int $codMovimiento,
+    public function registrarEnvio(int    $codRecepcion = null, string $numDocumento, int $folios, int $codIndicacion,
                                    string $observacion = null, int $codUsuarioAreaDestino, int $codUsuarioAreaEnvio, string $fechaEnvio,
                                    string $horaEnvio){
-        $sql = "EXEC sp_registrarEnvio :codRecepcion, :numDocumento, :folios, :codMovimiento, :observacion, :codUsuarioAreaDestino, :codUsuarioAreaEnvio, :fechaEnvio, :horaEnvio";
+        $sql = "EXEC sp_registrarEnvio :codRecepcion, :numDocumento, :folios, :codIndicacion, :observacion, :codUsuarioAreaDestino, :codUsuarioAreaEnvio, :fechaEnvio, :horaEnvio";
 
         try {
             $db = DataBase::connect();
@@ -107,7 +107,7 @@ class Envio{
             $stmt->bindParam('codRecepcion', $codRecepcion, PDO::PARAM_INT);
             $stmt->bindParam('numDocumento', $numDocumento, PDO::PARAM_STR);
             $stmt->bindParam('folios', $folios, PDO::PARAM_INT);
-            $stmt->bindParam('codMovimiento', $codMovimiento, PDO::PARAM_INT);
+            $stmt->bindParam('codIndicacion', $codIndicacion, PDO::PARAM_INT);
             $stmt->bindParam('observacion', $observacion, PDO::PARAM_STR);
             $stmt->bindParam('codUsuarioAreaDestino', $codUsuarioAreaDestino, PDO::PARAM_INT);
             $stmt->bindParam('codUsuarioAreaEnvio', $codUsuarioAreaEnvio, PDO::PARAM_INT);

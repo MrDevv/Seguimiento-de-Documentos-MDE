@@ -1,14 +1,14 @@
 $(document).ready(function() {
     $.ajax({
-        url: "./controllers/movimiento/listarMovimientos.php",
+        url: "./controllers/indicacion/listarIndicaciones.php",
         type: "GET",
         datatype: "json",
-        success: function(movimientos) {
-            movimientos = JSON.parse(movimientos);
-            if (movimientos && Array.isArray(movimientos)) {
+        success: function(indicaciones) {
+            indicaciones = JSON.parse(indicaciones);
+            if (indicaciones && Array.isArray(indicaciones)) {
                 let options = `<option value="0">Seleccionar</option>` +
-                    movimientos.map(movimiento =>
-                        `<option value="${movimiento.codMovimiento}">${movimiento.descripcion}</option>`
+                    indicaciones.map(indicacion =>
+                        `<option value="${indicacion.codIndicacion}">${indicacion.descripcion}</option>`
                     ).join('');
 
                 $('.selectMovimiento').html(options);

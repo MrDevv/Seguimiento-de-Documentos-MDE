@@ -64,10 +64,10 @@ CREATE TABLE UsuarioArea(
 );
 GO
 
-CREATE TABLE Movimiento(
-	codMovimiento INT NOT NULL IDENTITY(1,1),
+CREATE TABLE Indicacion(
+	codIndicacion INT NOT NULL IDENTITY(1,1),
 	descripcion VARCHAR(50) NOT NULL,
-	PRIMARY KEY(codMovimiento)
+	PRIMARY KEY(codIndicacion)
 );
 GO
 
@@ -100,13 +100,13 @@ CREATE TABLE Envio(
 	horaEnvio TIME NOT NULL,
 	folios INT NOT NULL,
 	observaciones VARCHAR(300),
-	codMovimiento INT NOT NULL,
+	codIndicacion INT NOT NULL,
 	NumDocumento VARCHAR(20) NOT NULL,
 	codUsuarioEnvio INT NOT NULL,
 	codUsuarioDestino INT NOT NULL,
 	codEstado INT NOT NULL,
 	PRIMARY KEY(codEnvio),
-	FOREIGN KEY(codMovimiento) REFERENCES Movimiento(codMovimiento),
+	FOREIGN KEY(codIndicacion) REFERENCES Indicacion(codIndicacion),
 	FOREIGN KEY(NumDocumento) REFERENCES Documento(NumDocumento),
 	FOREIGN KEY(codUsuarioEnvio) REFERENCES UsuarioArea(codUsuarioArea),
 	FOREIGN KEY(codUsuarioDestino) REFERENCES UsuarioArea(codUsuarioArea),

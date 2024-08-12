@@ -277,7 +277,11 @@ $(document).ready(function(){
                     Swal.fire({
                         icon: "error",
                         title: "Error",
-                        text: response.message
+                        text: response.message,
+                        allowEnterKey: false,
+                        allowEscapeKey: false,
+                        allowOutsideClick: false,
+                        stopKeydownPropagation: false
                     });
                 }
             },
@@ -332,6 +336,10 @@ $(document).ready(function(){
                         text: response.message + ', puede registrar un usuario dando click en el botón "Registrar nuevo Usuario".',
                         icon: "warning",
                         confirmButtonColor: "#056251",
+                        allowEnterKey: false,
+                        allowEscapeKey: false,
+                        allowOutsideClick: false,
+                        stopKeydownPropagation: false
                     }).then(()=>{
                         let options = `<option value="0">Seleccionar</option>`;
                         $('.selectUsuarioDestino').html(options);
@@ -342,6 +350,10 @@ $(document).ready(function(){
                         text: response.message + ' comuniquese con un administrador.',
                         icon: "warning",
                         confirmButtonColor: "#056251",
+                        allowEnterKey: false,
+                        allowEscapeKey: false,
+                        allowOutsideClick: false,
+                        stopKeydownPropagation: false
                     }).then(()=>{
                         let options = `<option value="0">Seleccionar</option>`;
                         $('.selectUsuarioDestino').html(options);
@@ -369,35 +381,45 @@ $(document).ready(function(){
         let codRecepcion = $.trim($('#codRecepcion').val());
         let numDocumento = $.trim($('#nroDocumentoEnvio').val());
         let folios = $.trim($('#foliosEnvio').val());
-        let movimiento = $.trim($('#movimientoEnvio').val());
+        let indicacion = $.trim($('#movimientoEnvio').val());
         let usuarioAreaDestino = $.trim($('#usuarioDestino').val());
         let observacion = $.trim($('#observacionEnvio').val());
 
 
-        if(numDocumento.length == 0 || folios.length == 0 || movimiento.length == 0 || movimiento == '0' || usuarioAreaDestino.length == 0
+        if(numDocumento.length == 0 || folios.length == 0 || indicacion.length == 0 || indicacion == '0' || usuarioAreaDestino.length == 0
             || usuarioAreaDestino == '0'){
             Swal.fire({
                 icon: "warning",
                 title: "Campos Incompletos",
                 text: "Ingrese los campos requeridos",
+                allowEnterKey: false,
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+                stopKeydownPropagation: false
             });
             return;
         }
-
-        console.log({codRecepcion, nroDocumentoEnvio: numDocumento, foliosEnvio: folios, movimientoEnvio: movimiento, usuarioDestino: usuarioAreaDestino, observacionEnvio: observacion})
 
         $.ajax({
             url: "./controllers/envio/registrarEnvio.php",
             type: "POST",
             dataType: "json",
-            data: {codRecepcion, numDocumento, folios, movimiento, usuarioAreaDestino, observacion},
+            data: {codRecepcion, numDocumento, folios, indicacion, usuarioAreaDestino, observacion},
             success: function (response) {
                 console.log(response);
                 if (response.status == 'success'){
                     Swal.fire({
                         icon: "success",
-                        title: "Registro Exitoso",
-                        text: "Se registro correctamente el usuario"
+                        title: "¡Éxito!",
+                        text: response.message,
+                        allowEnterKey: false,
+                        allowEscapeKey: false,
+                        allowOutsideClick: false,
+                        stopKeydownPropagation: false,
+                        allowEnterKey: false,
+                        allowEscapeKey: false,
+                        allowOutsideClick: false,
+                        stopKeydownPropagation: false
                     }).then(() => {
                         $('#modalRegistrarEnvio').modal('hide');
                         generarOpcionesPaginacion()
@@ -407,7 +429,15 @@ $(document).ready(function(){
                     Swal.fire({
                         icon: "error",
                         title: "Error",
-                        text: response.message + response.info
+                        text: response.message + response.info,
+                        allowEnterKey: false,
+                        allowEscapeKey: false,
+                        allowOutsideClick: false,
+                        stopKeydownPropagation: false,
+                        allowEnterKey: false,
+                        allowEscapeKey: false,
+                        allowOutsideClick: false,
+                        stopKeydownPropagation: false
                     })
                 }
             },
@@ -433,7 +463,11 @@ $(document).ready(function(){
             confirmButtonColor: "#056251",
             cancelButtonColor: "#d33",
             confirmButtonText: "Sí",
-            cancelButtonText: "No"
+            cancelButtonText: "No",
+            allowEnterKey: false,
+            allowEscapeKey: false,
+            allowOutsideClick: false,
+            stopKeydownPropagation: false
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
@@ -446,7 +480,11 @@ $(document).ready(function(){
                             Swal.fire({
                                 icon: "success",
                                 title: "¡Éxito!",
-                                text: response.message
+                                text: response.message,
+                                allowEnterKey: false,
+                                allowEscapeKey: false,
+                                allowOutsideClick: false,
+                                stopKeydownPropagation: false
                             }).then(() => {
                                 generarOpcionesPaginacion()
                                 obtenerDocumentosRecepcionados(rolFiltro, pagina, registrosPorPagina)
@@ -455,7 +493,11 @@ $(document).ready(function(){
                             Swal.fire({
                                 icon: "error",
                                 title: "Error",
-                                text: response.message
+                                text: response.message,
+                                allowEnterKey: false,
+                                allowEscapeKey: false,
+                                allowOutsideClick: false,
+                                stopKeydownPropagation: false
                             })
                         }
 

@@ -405,7 +405,7 @@ GO
 
 -- registrar un envio
 CREATE PROCEDURE sp_registrarEnvio(
-	@codRecepcion INT NULL, @numDocumento VARCHAR(20), @folios INT, @codMovimiento INT, 
+	@codRecepcion INT NULL, @numDocumento VARCHAR(20), @folios INT, @codIndicacion INT, 
 	@observacion VARCHAR(300) NULL, @codUsuarioAreaDestino INT,@codUsuarioAreaEnvio INT, @fechaEnvio DATE, @horaEnvio TIME
 )
 AS
@@ -417,8 +417,8 @@ BEGIN
 	SELECT @codEstadoInactivo = codEstado FROM Estado WHERE descripcion = 'i';
 
 	INSERT INTO Envio 
-		(fechaEnvio, horaEnvio, folios, observaciones, codEstado, codMovimiento, NumDocumento, codUsuarioEnvio, codUsuarioDestino)
-    VALUES (@fechaEnvio, @horaEnvio, @folios, @observacion, @codEstadoActivo, @codMovimiento, @numDocumento, @codUsuarioAreaEnvio, @codUsuarioAreaDestino)
+		(fechaEnvio, horaEnvio, folios, observaciones, codEstado, codIndicacion, NumDocumento, codUsuarioEnvio, codUsuarioDestino)
+    VALUES (@fechaEnvio, @horaEnvio, @folios, @observacion, @codEstadoActivo, @codIndicacion, @numDocumento, @codUsuarioAreaEnvio, @codUsuarioAreaDestino)
 
 	DECLARE @codEnvioInsert INT;
     SET @codEnvioInsert = SCOPE_IDENTITY();

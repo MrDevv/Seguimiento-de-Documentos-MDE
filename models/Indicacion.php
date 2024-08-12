@@ -1,15 +1,15 @@
 <?php
 
-class Movimiento{
-    private int $codMovimiento;
+class Indicacion{
+    private int $codIndicacion;
     private string $descripcion;
 
-    public function getCodMovimiento(): int{
-        return $this->codMovimiento;
+    public function getCodIndicacion(): int{
+        return $this->codIndicacion;
     }
 
-    public function setCodMovimiento(int $codMovimiento): void{
-        $this->codMovimiento = $codMovimiento;
+    public function setCodIndicacion(int $codIndicacion): void{
+        $this->codIndicacion = $codIndicacion;
     }
 
     public function getDescripcion(): string{
@@ -20,8 +20,8 @@ class Movimiento{
         $this->descripcion = $descripcion;
     }
 
-    public static function listarMovimientos(){
-        $sql = "select * from movimiento";
+    public static function listarIndicaciones(){
+        $sql = "select * from Indicacion";
 
         $stmt = DataBase::connect()->query($sql);
 

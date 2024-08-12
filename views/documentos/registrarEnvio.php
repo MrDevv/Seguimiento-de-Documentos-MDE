@@ -46,7 +46,7 @@
                             >
                         </div>
                         <div class="campoMovimiento">
-                            <label for="movimientoEnvio" class="form-label col-sm-4">Movimiento (*):</label>
+                            <label for="movimientoEnvio" class="form-label col-sm-4">Indicación (*):</label>
                             <select class="selectMovimiento" id="movimientoEnvio">
                             </select>
                         </div>
@@ -83,5 +83,6 @@
 <?php require_once "../area/registroArea.php" ?>
 
 <script src="<?= base_url?>ajax/listarAreas.js"></script>
-<script src="<?= base_url?>ajax/movimientos.js"></script>
+<script src="<?= base_url?>ajax/indicaciones.js"></script>
 <script src="<?= base_url?>ajax/registrarAreaUsuarioEnvio.js"></script>
+<script src="<?= base_url?>ajax/listarRoles.js"></script>

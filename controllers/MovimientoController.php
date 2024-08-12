@@ -1,9 +1,9 @@
 <?php
 
-require_once 'models/Movimiento.php';
+require_once 'models/Indicacion.php';
 
 class MovimientoController{
     public function listarMovimientos(){
-        return Movimiento::listarMovimientos();
+        return Indicacion::listarIndicaciones();
     }
 }

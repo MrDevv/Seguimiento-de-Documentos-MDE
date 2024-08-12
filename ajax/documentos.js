@@ -301,12 +301,12 @@ $(document).ready(function(){
         let codRecepcion = $.trim($('#codRecepcion').val());
         let numDocumento = $.trim($('#nroDocumentoEnvio').val());
         let folios = $.trim($('#foliosEnvio').val());
-        let movimiento = $.trim($('#movimientoEnvio').val());
+        let indicacion = $.trim($('#movimientoEnvio').val());
         let usuarioAreaDestino = $.trim($('#usuarioDestino').val());
         let observacion = $.trim($('#observacionEnvio').val());
 
 
-        if(numDocumento.length == 0 || folios.length == 0 || movimiento.length == 0 || movimiento == '0' || usuarioAreaDestino.length == 0
+        if(numDocumento.length == 0 || folios.length == 0 || indicacion.length == 0 || indicacion == '0' || usuarioAreaDestino.length == 0
             || usuarioAreaDestino == '0'){
             Swal.fire({
                 icon: "warning",
@@ -316,13 +316,11 @@ $(document).ready(function(){
             return;
         }
 
-        console.log({codRecepcion, nroDocumentoEnvio: numDocumento, foliosEnvio: folios, movimientoEnvio: movimiento, usuarioDestino: usuarioAreaDestino, observacionEnvio: observacion})
-
         $.ajax({
             url: "./controllers/envio/registrarEnvio.php",
             type: "POST",
             dataType: "json",
-            data: {codRecepcion, numDocumento, folios, movimiento, usuarioAreaDestino, observacion},
+            data: {codRecepcion, numDocumento, folios, indicacion, usuarioAreaDestino, observacion},
             success: function (response) {
                 if (response.status == 'success'){
                     Swal.fire({
