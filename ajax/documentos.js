@@ -193,7 +193,7 @@ $(document).ready(function(){
 
                 let paginas = '';
                 for (let i = 0; i < totalPaginas; i++){
-                    paginas+= `<li class="optionPage${i==0 ? ' selectedPage' : ''}" id=${i+1}> ${i+1} </li>`
+                    paginas+= `<li class="optionPage${i+1==pagina ? ' selectedPage' : ''}" id=${i+1}> ${i+1} </li>`
                 }
 
                 $('#opcionesPaginacionDocumentos').html(paginas)

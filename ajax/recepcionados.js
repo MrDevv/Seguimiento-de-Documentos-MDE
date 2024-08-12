@@ -182,8 +182,6 @@ $(document).ready(function(){
 
     // cambiar de pagina
     $(document).off("click", ".optionPage").on("click", ".optionPage", function (e) {
-        console.log('pag actual: ' + pagina)
-        console.log('pag nueva: ' + parseInt($(this).text().trim()))
         if (pagina != parseInt($(this).text().trim())){
             $(".optionPage").removeClass("selectedPage");
             $(this).addClass("selectedPage");
@@ -301,6 +299,9 @@ $(document).ready(function(){
 
         $("#nroDocumentoEnvio").val(numDocumento.trim());
         $("#codRecepcion").val(codRecepcion.trim());
+
+        let options = `<option value="0">Seleccionar</option>`;
+        $('.selectUsuarioDestino').html(options);
 
         modalRegistrar.modal({
             backdrop: 'static',

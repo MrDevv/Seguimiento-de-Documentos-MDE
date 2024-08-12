@@ -1,13 +1,18 @@
 $(document).ready(function(){
-    function loadEnviados(rol = null) {
+    let registrosPorPagina = 10;
+    let pagina = 1;
+    let rolFiltro = $(".selectRolEnviados").val()
+
+    generarOpcionesPaginacion()
+
+    function loadEnviados(rolFiltro = null, pagina, registrosPorPagina) {
         $.ajax({
             url: './controllers/documento/listarEnviados.php',
             method: 'POST',
-            data: {rol},
+            data: {rolFiltro, pagina, registrosPorPagina},
             dataType: 'json',
             success: function(response) {
                 let {data} = response
-                console.log(data)
 
                 if (data.length > 0 && Array.isArray(data)) {
                     let row = data.map(documento => `
@@ -127,7 +132,44 @@ $(document).ready(function(){
         });
     }
 
-    loadEnviados()
+    loadEnviados(rolFiltro, pagina, registrosPorPagina)
+
+    // generar botones paginacion
+    function generarOpcionesPaginacion() {
+        $.ajax({
+            url: './controllers/documento/totalDocumentosEnviados.php',
+            method: 'GET',
+            dataType: 'json',
+            data: {rolFiltro},
+            success: function(response) {
+                let { data } = response;
+                let totalDocumentos = data[0]['total']
+                let totalPaginas = Math.ceil(totalDocumentos/registrosPorPagina);
+
+                $('#totalDocumentosEnviados').text(totalDocumentos)
+
+                let paginas = '';
+                for (let i = 0; i < totalPaginas; i++){
+                    paginas+= `<li class="optionPage${i+1==pagina ? ' selectedPage' : ''}" id=${i+1}> ${i+1} </li>`
+                }
+
+                $('#opcionesPaginacionDocumentosEnviados').html(paginas)
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error('Error fetching the content:', textStatus, errorThrown);
+            }
+        });
+    }
+
+    // cambiar de pagina
+    $(document).off("click", ".optionPage").on("click", ".optionPage", function (e) {
+        if (pagina != parseInt($(this).text().trim())){
+            $(".optionPage").removeClass("selectedPage");
+            $(this).addClass("selectedPage");
+        }
+        pagina = parseInt($(this).text().trim());
+        loadEnviados(rolFiltro, pagina, registrosPorPagina);
+    })
 
     // abrir modal para ver el seguimiento de un documento
     $(document).off("click", "#btnSeguimientoDocumento").on("click", "#btnSeguimientoDocumento", function(e){
@@ -273,7 +315,8 @@ $(document).ready(function(){
                                 title: "¡Éxito!",
                                 text: response.message
                             }).then(() => {
-                                loadEnviados()
+                                generarOpcionesPaginacion()
+                                loadEnviados(rolFiltro, pagina, registrosPorPagina);
                             })
                         }else{
                             Swal.fire({
@@ -295,13 +338,26 @@ $(document).ready(function(){
     // filtrar documentos enviados para el usuario o de todos los usuarios del area
     $(document).off("click", "#filtrarPorRolEnviados").on("click", "#filtrarPorRolEnviados", function(e) {
         e.preventDefault()
-        let rol = $(".selectRolEnviados").val()
+        rolFiltro = $(".selectRolEnviados").val()
 
-        if (rol == ''){
-            rol = null
+        if (rolFiltro == ''){
+            rolFiltro = null
         }
 
-        loadEnviados(rol)
+        generarOpcionesPaginacion()
+        loadEnviados(rolFiltro, pagina, registrosPorPagina);
     })
+
+    // actualiar documentos en la tabla
+    $(document).off("click", "#btnActualizarResultadosTable").on("click", "#btnActualizarResultadosTable", function(e){
+        e.preventDefault();
+        let rolFiltro = $(".selectRolEnviados").val()
+
+        if (rolFiltro == ''){
+            rolFiltro = null
+        }
+        generarOpcionesPaginacion()
+        loadEnviados(rolFiltro, pagina, registrosPorPagina);
+    });
 
 })

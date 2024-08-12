@@ -1,12 +1,14 @@
 -- listar los documentos enviados por un usuario
 CREATE PROCEDURE sp_listarDocumentosEnviados(
-	@codUsuarioArea INT, @codArea INT = NULL
+	@codUsuarioArea INT, 
+	@codArea INT = NULL,
+	@pagina INT = 1,
+    @registrosPorPagina INT = 10
 )
 AS
 BEGIN
-		DECLARE @CodEstadoActivo INT
-
-		SELECT @CodEstadoActivo = codEstado FROM Estado WHERE descripcion = 'a';
+		DECLARE @offset INT;
+		SET @offset = (@pagina - 1) * @registrosPorPagina;
 
 		IF @codArea IS NULL
 		BEGIN
@@ -22,7 +24,7 @@ BEGIN
             er.descripcion 'estado recepcion', 
             ed.descripcion 'estado documento' 
             from Recepcion r 
-            inner join Envio e on r.codEnvio = e.codEnvio 
+            INNER JOIN Envio e on r.codEnvio = e.codEnvio 
             INNER JOIN Documento d ON e.NumDocumento = d.NumDocumento 
             INNER JOIN TipoDocumento td ON d.codTipoDocumento = td.codTipoDocumento 
             INNER JOIN UsuarioArea uad ON e.codUsuarioDestino = uad.codUsuarioArea 
@@ -33,6 +35,8 @@ BEGIN
             INNER JOIN Estado ed ON d.codEstado = ed.codEstado 
             WHERE e.codUsuarioEnvio =  @codUsuarioArea
 			ORDER BY e.fechaEnvio DESC, e.horaEnvio DESC
+			OFFSET @offset ROWS
+			FETCH NEXT @registrosPorPagina ROWS ONLY;
 		END
 		ELSE
 		BEGIN
@@ -61,6 +65,8 @@ BEGIN
 				INNER JOIN Estado ed ON d.codEstado = ed.codEstado 				
 				WHERE ae.codArea = @codArea
 				ORDER BY e.fechaEnvio DESC, e.horaEnvio DESC
+				OFFSET @offset ROWS
+				FETCH NEXT @registrosPorPagina ROWS ONLY;
 		END
 END
 GO

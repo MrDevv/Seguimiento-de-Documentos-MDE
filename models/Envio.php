@@ -137,14 +137,50 @@ class Envio{
         }
     }
 
-    public function obtenerDocumentosEnviados(int $codUsuarioEnvio, int $codArea = null){
-        $sql = "EXEC sp_listarDocumentosEnviados :codUsuarioEnvio, :codArea";
+    public function obtenerTotalDocumentosEnviados(int $codUsuarioArea, int $codArea = null, $pagina = 1, $registroPorPagina = 10){
+        $sql =  "EXEC sp_totalDocumentosEnviados :codUsuarioArea, :codArea";
+
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
+            $stmt->bindParam('codUsuarioArea', $codUsuarioArea, PDO::PARAM_INT);
+            $stmt->bindParam('codArea', $codArea, PDO::PARAM_INT);
+
+            $stmt->execute();
+
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return [
+                'status' => 'success',
+                'message' => 'se obtuvo el total de documentos enviados',
+                'action' => 'listar',
+                'module' => 'documento',
+                'data' => $results,
+                'info' => ''
+            ];
+
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => '¡Ocurrio un error al momento de obtener el total de documentos enviados!',
+                'action' => 'listar',
+                'module' => 'recepcion',
+                'data' => [],
+                'info' => $e->getMessage()
+            ];
+        }
+    }
+
+
+    public function obtenerDocumentosEnviados(int $codUsuarioEnvio, int $codArea = null, $pagina = 1, $registroPorPagina = 10){
+        $sql = "EXEC sp_listarDocumentosEnviados :codUsuarioEnvio, :codArea, :pagina, :registroPorPagina";
 
         try {
             $stmt = DataBase::connect()->prepare($sql);
 
             $stmt->bindParam('codUsuarioEnvio', $codUsuarioEnvio, PDO::PARAM_INT);
             $stmt->bindParam('codArea', $codArea, PDO::PARAM_INT);
+            $stmt->bindParam('pagina', $pagina, PDO::PARAM_INT);
+            $stmt->bindParam('registroPorPagina', $registroPorPagina, PDO::PARAM_INT);
 
             $stmt->execute();
 
