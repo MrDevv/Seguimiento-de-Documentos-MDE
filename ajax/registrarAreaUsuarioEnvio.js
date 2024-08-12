@@ -59,6 +59,7 @@ $(document).ready(function(){
                                 url: './controllers/areas/listarAreas.php',
                                 method: 'GET',
                                 dataType: 'json', // Asegúrate de que el servidor responda con JSON
+                                data: {pagina: 1, registrosPorPagina: 900},
                                 success: function(data) {
                                     if (data && Array.isArray(data)) {
                                         // Construir las opciones para el select
