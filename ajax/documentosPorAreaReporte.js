@@ -1,15 +1,19 @@
 $(document).ready(function() {
-    function loadDocumentosPorArea(area = null, numDocumento = null) {
+    let registrosPorPagina = 10;
+    let pagina = 1;
+    let numDocumento = $("#numDocumentoReportePorArea").val()
+    let area = $(".selectArea").val()
 
+    generarOpcionesPaginacion()
 
+    function loadDocumentosPorArea(area = null, numDocumento = null, pagina, registrosPorPagina) {
         $.ajax({
             url: './controllers/reportes/documentosPorArea.php',
             method: 'POST',
             dataType: 'json',
-            data: {numDocumento, area},
+            data: {numDocumento, area, pagina, registrosPorPagina},
             success: function(response) {
                 let {data} = response
-                console.log(data)
                 if (data.length > 0 && Array.isArray(data)) {
                     let row = data.map(documento => `
                         <tr>
@@ -83,7 +87,7 @@ $(document).ready(function() {
         });
     }
 
-    loadDocumentosPorArea()
+    loadDocumentosPorArea(area, numDocumento, pagina, registrosPorPagina)
 
 
     $(document).off("click", "#btnSeguimientoDocumento").on("click", "#btnSeguimientoDocumento", function(e){
@@ -98,7 +102,7 @@ $(document).ready(function() {
             data: {numDocumento},
             success: function (response) {
                 let {status, data} = response
-                console.log({info: "log de documentos.js - modal seguimiento" , response})
+                // console.log({info: "log de documentos.js - modal seguimiento" , response})
                 if (status == 'success') {
                     if (data.length == 0) {
                         Swal.fire({
@@ -200,8 +204,8 @@ $(document).ready(function() {
 
     $(document).off("click", "#filtrarPorArea").on("click", "#filtrarPorArea", function(e){
         e.preventDefault();
-        let area = $(".selectArea").val()
-        let numDocumento = $("#numDocumentoReportePorArea").val()
+        area = $(".selectArea").val()
+        numDocumento = $("#numDocumentoReportePorArea").val()
 
         if (area == '0'){
             area = null;
@@ -211,9 +215,45 @@ $(document).ready(function() {
             numDocumento = null;
         }
 
-        console.log({area, numDocumento})
+        generarOpcionesPaginacion()
+        loadDocumentosPorArea(area, numDocumento, pagina, registrosPorPagina)
 
-        loadDocumentosPorArea(area, numDocumento)
+    })
 
+    function generarOpcionesPaginacion() {
+        $.ajax({
+            url: './controllers/reportes/totalDocumentosPorArea.php',
+            method: 'GET',
+            dataType: 'json',
+            data: {numDocumento, area},
+            success: function(response) {
+                console.log(numDocumento, area)
+                console.log(response)
+                let { data } = response;
+                let totalDocumentos = data[0]['total']
+                let totalPaginas = Math.ceil(totalDocumentos/registrosPorPagina);
+
+                $('#totalDocumentosPorAreaRegistradosReporte').text(totalDocumentos)
+
+                let paginas = '';
+                for (let i = 0; i < totalPaginas; i++){
+                    paginas+= `<li class="optionPage${i+1==pagina ? ' selectedPage' : ''}" id=${i+1}> ${i+1} </li>`
+                }
+
+                $('#opcionesPaginacionDocumentosPorAreaReporte').html(paginas)
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error('Error fetching the content:', textStatus, errorThrown);
+            }
+        });
+    }
+
+    $(document).off("click", ".optionPage").on("click", ".optionPage", function (e) {
+        if (pagina != parseInt($(this).text().trim())){
+            $(".optionPage").removeClass("selectedPage");
+            $(this).addClass("selectedPage");
+        }
+        pagina = parseInt($(this).text().trim());
+        loadDocumentosPorArea(area, numDocumento, pagina, registrosPorPagina)
     })
 })

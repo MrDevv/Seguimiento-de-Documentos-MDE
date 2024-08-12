@@ -234,6 +234,9 @@ $(document).ready(function(){
 
         $("#nroDocumentoEnvio").val(numDocumento.trim());
 
+        let options = `<option value="0">Seleccionar</option>`;
+        $('.selectUsuarioDestino').html(options);
+
         modalRegistrar.modal({
             backdrop: 'static', // Evita que se cierre al hacer clic fuera del modal
             keyboard: false // Evita que se cierre al presionar la tecla Esc

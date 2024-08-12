@@ -60,6 +60,15 @@
             </tbody>
         </table>
     </div>
+    <div class="d-flex justify-content-between m-2">
+        <div>
+            <p class="fs-6">Total de registros:  <span class="fw-bold" id="totalDocumentosPorAreaRegistradosReporte"></span></p>
+        </div>
+        <div>
+            <ul class="listadoOpcionesPaginacion" id="opcionesPaginacionDocumentosPorAreaReporte">
+            </ul>
+        </div>
+    </div>
 </div>
 
 <?php require_once "../documentos/seguimientoDocumento.php"?>

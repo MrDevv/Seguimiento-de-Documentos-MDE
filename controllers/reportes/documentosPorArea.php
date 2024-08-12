@@ -9,6 +9,8 @@ $response = [];
 
 $codArea = null;
 $numDocumento = null;
+$pagina = isset($_POST['pagina']) ? $_POST['pagina'] : null;
+$registrosPorPagina = isset($_POST['registrosPorPagina']) ? $_POST['registrosPorPagina'] : null;
 
 if ($_SESSION['user']['rol'] == 'administrador'){
     if (isset($_POST['area']) && isset($_POST['numDocumento']) && $_POST['area']!= 0){
@@ -33,13 +35,13 @@ if ($_SESSION['user']['rol'] == 'administrador'){
 }
 
 if($codArea && $numDocumento) {
-    $response = $documentoModel->reportesPorArea((int)$codArea, $numDocumento);
+    $response = $documentoModel->reportesPorArea((int)$codArea, $numDocumento, $pagina, $registrosPorPagina);
 } else if ($codArea){
-    $response = $documentoModel->reportesPorArea((int) $codArea, null);
+    $response = $documentoModel->reportesPorArea((int) $codArea, null, $pagina, $registrosPorPagina);
 } else if ($numDocumento){
-    $response = $documentoModel->reportesPorArea(null, $numDocumento);
+    $response = $documentoModel->reportesPorArea(null, $numDocumento, $pagina, $registrosPorPagina);
 }else{
-    $response = $documentoModel->reportesPorArea();
+    $response = $documentoModel->reportesPorArea(null, null, $pagina, $registrosPorPagina);
 }
 
 print json_encode($response);

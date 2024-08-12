@@ -215,13 +215,13 @@ if ($_SESSION['user']['rol'] == 'administrador') {
 }
 
 if ($codArea && $numDocumento) {
-    $response = $documentoModel->reportesPorArea((int)$codArea, $numDocumento);
+    $response = $documentoModel->reportesPorArea((int)$codArea, $numDocumento, null, null);
 } else if ($codArea) {
-    $response = $documentoModel->reportesPorArea((int)$codArea, null);
+    $response = $documentoModel->reportesPorArea((int)$codArea, null, null, null);
 } else if ($numDocumento) {
-    $response = $documentoModel->reportesPorArea(null, $numDocumento);
+    $response = $documentoModel->reportesPorArea(null, $numDocumento, null, null);
 } else {
-    $response = $documentoModel->reportesPorArea();
+    $response = $documentoModel->reportesPorArea(null, null, null, null);
 }
 
 foreach ($response['data'] as $documento) {
