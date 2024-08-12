@@ -160,6 +160,7 @@ $(document).ready(function(){
                             stopKeydownPropagation: false
                         }).then(() => {
                             $('#modalRegistrarTipoDocumento').modal('hide');
+                            pagina = 1
                             generarOpcionesPaginacion()
                             loadTipoDocumentos(pagina, registrosPorPagina);
                         });

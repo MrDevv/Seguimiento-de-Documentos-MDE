@@ -157,6 +157,7 @@ $(document).ready(function() {
                             stopKeydownPropagation: false
                         }).then(() => {
                             $('#modalRegistrarArea').modal('hide');
+                            pagina = 1;
                             generarOpcionesPaginacion();
                             loadAreas(pagina, registrosPorPagina);
                         });
