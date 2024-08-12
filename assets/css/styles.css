@@ -992,3 +992,30 @@ table tbody tr .actions .action:hover .tooltipParent{
     background-color: var(--bg-color-principal) !important;
     color: #fff;
 }
+
+.modal-envioDocumento{
+    max-width: 770px;
+}
+
+.modal-envioDocumento label{
+    width: 170px;
+}
+
+.modal-envioDocumento input{
+    width: 350px;
+}
+
+.modal-envioDocumento select{
+    width: 350px;
+    max-width: 350px;
+}
+
+.modal-envioDocumento textarea{
+    width: 350px;
+    max-width: 350px;
+}
+
+.modal-envioDocumento a{
+    width: 200px;
+    margin-left: 10px;
+}
