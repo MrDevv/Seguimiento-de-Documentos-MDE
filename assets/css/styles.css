@@ -1019,3 +1019,10 @@ table tbody tr .actions .action:hover .tooltipParent{
     width: 200px;
     margin-left: 10px;
 }
+
+#btnRegistrarIndicacion{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}

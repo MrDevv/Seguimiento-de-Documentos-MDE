@@ -219,6 +219,116 @@ $(document).ready(function(){
         });
     });
 
+    // nuevo
+    $(document).off("click", "#btnRegistrarIndicacion").on("click", "#btnRegistrarIndicacion", function(e) {
+        e.preventDefault();
+        let modalRegistrar = $("#modalRegistrarIndicacion");
+        $("#registrarIndicacionForm").trigger("reset");
+
+        modalRegistrar.modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+
+        modalRegistrar.modal('show');
+
+        modalRegistrar.on('shown.bs.modal', function() {
+            $("#descripcionIndicacionNuevo").focus();
+        });
+    });
+
+    // Registrar
+    $(document).off('submit', '#registrarIndicacionForm').on('submit', '#registrarIndicacionForm', function(e) {
+        e.preventDefault();
+
+        let descripcion = $.trim($('#descripcionIndicacionNuevo').val());
+
+        if (descripcion.length === 0) {
+            Swal.fire({
+                icon: "warning",
+                title: "Campos Incompletos",
+                text: "Ingrese los campos requeridos",
+                allowEnterKey: false,
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+                stopKeydownPropagation: false
+            });
+            return;
+        }
+
+        descripcion = capitalizeWords(descripcion);
+
+        $.ajax({
+            url: "./controllers/indicacion/registrarIndicacion.php",
+            type: "POST",
+            datatype: "json",
+            data: { descripcion: descripcion },
+            success: function(response) {
+                response = JSON.parse(response);
+                if (response.message === 'indicacion encontrada') {
+                    Swal.fire({
+                        icon: "warning",
+                        title: "¡Advertencia!",
+                        text: "La indicación que intenta registrar ya existe",
+                        allowEnterKey: false,
+                        allowEscapeKey: false,
+                        allowOutsideClick: false,
+                        stopKeydownPropagation: false
+                    });
+                } else {
+                    if (response.status === 'success') {
+                        Swal.fire({
+                            icon: "success",
+                            title: "¡Éxito!",
+                            text: response.message,
+                            allowEnterKey: false,
+                            allowEscapeKey: false,
+                            allowOutsideClick: false,
+                            stopKeydownPropagation: false
+                        }).then(() => {
+                            $('#modalRegistrarIndicacion').modal('hide');
+                            $.ajax({
+                                url: "./controllers/indicacion/listarIndicaciones.php",
+                                type: "GET",
+                                datatype: "json",
+                                data: {pagina: 1, registrosPorPagina: 999},
+                                success: function(indicaciones) {
+                                    indicaciones = JSON.parse(indicaciones);
+                                    if (indicaciones && Array.isArray(indicaciones)) {
+                                        let options = `<option value="0">Seleccionar</option>` +
+                                            indicaciones.map(indicacion =>
+                                                `<option value="${indicacion.codIndicacion}">${indicacion.descripcion}</option>`
+                                            ).join('');
+
+                                        $('.selectMovimiento').html(options);
+                                    } else {
+                                        console.warn('No data received or data is not an array.');
+                                    }
+                                },
+                                error: function(jqXHR, textStatus, errorThrown) {
+                                    console.error('Error fetching the content:', textStatus, errorThrown);
+                                }
+                            });
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: response.message,
+                            allowEnterKey: false,
+                            allowEscapeKey: false,
+                            allowOutsideClick: false,
+                            stopKeydownPropagation: false
+                        });
+                    }
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error('Error updating the area:', textStatus, errorThrown);
+            }
+        });
+    });
+
     function capitalizeWords(str) {
         const exceptions = new Set(['y', 'de', 'a', 'en', 'o', 'con', 'para', 'por', 'que', 'si', 'el', 'la', 'los', 'las', 'un', 'una', 'del', 'al']);
 

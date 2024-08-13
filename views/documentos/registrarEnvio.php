@@ -43,6 +43,9 @@
                             <label for="movimientoEnvio" class="form-label col-sm-4">Indicación (*):</label>
                             <select class="selectMovimiento" id="movimientoEnvio">
                             </select>
+                            <?php if($_SESSION['user']['rol'] == 'administrador'): ?>
+                                <a href="#" class="btnNuevaAreaEnvio p-2 bg-success text-white text-center rounded-1" id="btnRegistrarIndicacion">Registrar nueva Indicación</a>
+                            <?php endif; ?>
                         </div>
                         <div class="campoArea">
                             <label for="areaEnvio" class="form-label col-sm-4">Área (*):</label>
@@ -79,6 +82,7 @@
 
 <?php require_once "../usuario/registro.php" ?>
 <?php require_once "../area/registroArea.php" ?>
+<?php require_once "../indicaciones/registroIndicacion.php" ?>
 
 <script src="<?= base_url?>ajax/listarAreas.js"></script>
 <script src="<?= base_url?>ajax/indicaciones.js"></script>
