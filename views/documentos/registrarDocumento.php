@@ -24,7 +24,7 @@
                         <div class="campoFolios">
                             <label for="foliosEnvio" class="form-label col-sm-4">Folios (*):</label>
                             <input
-                                    type="text"
+                                    type="number"
                                     id="foliosRegistro"
                                     autocomplete="off"
                                     maxlength="20"

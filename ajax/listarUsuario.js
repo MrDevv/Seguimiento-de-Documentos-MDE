@@ -241,6 +241,24 @@ $(document).ready(function() {
         let confirm_password = $.trim($('#passwordConfirmarNuevo').val());
 
         // Validaciones
+        if (/\d/.test(nombre)) {
+            Swal.fire({
+                icon: "warning",
+                title: "Datos no validos",
+                text: "Ingrese nombres validos",
+            });
+            return;
+        }
+
+        if (/\d/.test(apellidos)) {
+            Swal.fire({
+                icon: "warning",
+                title: "Datos no validos",
+                text: "Ingrese apellidos validos",
+            });
+            return;
+        }
+
         if (password !== confirm_password) {
             Swal.fire({
                 icon: "warning",
@@ -260,7 +278,7 @@ $(document).ready(function() {
             return;
         }
 
-        if (dni.length < 8 || dni.length > 8){
+        if (dni.length < 8 || dni.length > 8 || /[a-zA-Z]/.test(dni)){
             Swal.fire({
                 icon: "warning",
                 title: "Campos Incorrectos",
@@ -269,7 +287,7 @@ $(document).ready(function() {
             return;
         }
 
-        if (telefono.length < 9 || telefono.length > 9){
+        if (telefono.length < 9 || telefono.length > 9 || /[a-zA-Z]/.test(telefono)){
             Swal.fire({
                 icon: "warning",
                 title: "Campos Incorrectos",
@@ -364,6 +382,24 @@ $(document).ready(function() {
         let usuario = $.trim($('#usuarioEditar').val());
         let rol = $.trim($('#selectRolEditar').val());
 
+
+        if (/\d/.test(nombre)) {
+            Swal.fire({
+                icon: "warning",
+                title: "Datos no validos",
+                text: "Ingrese nombres validos",
+            });
+            return;
+        }
+
+        if (/\d/.test(apellidos)) {
+            Swal.fire({
+                icon: "warning",
+                title: "Datos no validos",
+                text: "Ingrese apellidos validos",
+            });
+            return;
+        }
 
         if(codPersona.length == 0 || nombre.length == 0 || apellidos.length == 0 || telefono.length == 0 ||
             dni.length == 0 || usuario.length == 0 || rol.length == 0){

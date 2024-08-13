@@ -128,6 +128,24 @@ $(document).ready(function(){
         let confirm_password = $.trim($('#passwordConfirmarNuevo').val());
 
         // Validaciones
+        if (/\d/.test(nombre)) {
+            Swal.fire({
+                icon: "warning",
+                title: "Datos no validos",
+                text: "Ingrese nombres validos",
+            });
+            return;
+        }
+
+        if (/\d/.test(apellidos)) {
+            Swal.fire({
+                icon: "warning",
+                title: "Datos no validos",
+                text: "Ingrese apellidos validos",
+            });
+            return;
+        }
+        
         if (password !== confirm_password) {
             Swal.fire({
                 icon: "warning",
