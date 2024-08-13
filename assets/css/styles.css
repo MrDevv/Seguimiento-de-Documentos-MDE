@@ -246,7 +246,7 @@ a{
     transform: rotate(45deg);
 }
 
-@media screen and (max-width: 1500px){
+@media screen and (max-width: 1600px){
     .header{
         padding: 10px 20px;
     }
