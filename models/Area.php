@@ -76,40 +76,6 @@ class Area {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function buscarArea(){
-        $sql = "SELECT * FROM Area WHERE CodArea = :codArea";
-        try {
-            $stmt = DataBase::connect()->prepare($sql);
-
-            $stmt->bindParam(":codArea", $this->codArea, PDO::PARAM_INT);
-
-            $stmt->execute();
-
-            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            if (sizeof($results) == 0){
-                return [
-                    'status' => 'not found',
-                    'message' => 'No existe una Area con este código',
-                    'action' => 'buscar',
-                    'module' => 'area',
-                    'info' => ''
-                ];
-            }
-
-            return $results;
-
-        }catch (PDOException $e){
-            return [
-                'status' => 'failed',
-                'message' => 'Ocurrio un error al momento de registrar el area',
-                'action' => 'buscar',
-                'module' => 'area',
-                'info' => $e->getMessage()
-            ];
-        }
-    }
-
     public function existeArea(){
         $sql= "SELECT * FROM Area WHERE descripcion = :descripcion";
 
@@ -177,23 +143,6 @@ class Area {
                 'info' => $e->getMessage()
             ];
         }
-    }
-
-    function toCamelCase($str) {
-        // Convertir todo el string a minúsculas
-        $str = strtolower($str);
-
-        // Eliminar caracteres no alfanuméricos y dividir por espacios
-        $str = preg_replace('/[^a-z0-9\s]/', '', $str);
-        $words = explode(' ', $str);
-
-        // Capitalizar cada palabra excepto la primera
-        $camelCase = array_shift($words);
-        foreach ($words as $word) {
-            $camelCase .= ucfirst($word);
-        }
-
-        return $camelCase;
     }
 
 }

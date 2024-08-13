@@ -4,7 +4,7 @@
     </div>
     <div class="menu">
         <div>
-            <div class="option <?= ($_SESSION['optionActive'] == "inicio") ? "selected" : ""?>" id="optionInicio">
+            <div class="option" id="optionInicio">
                 <svg width="31" height="29" viewBox="0 0 31 29" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <rect width="31" height="29" fill="url(#pattern0_2339_10)" />
                     <defs>
@@ -36,7 +36,7 @@
             </div>
 
             <div>
-                <a href="views/area/listarArea.php" class="option <?= ($_SESSION['optionActive'] == "area") ? "selected" : ""?>" id="optionAreas">
+                <a href="views/area/listarArea.php" class="option" id="optionAreas">
                     <div class="containerIconOption">
                         <svg width="31" height="29" viewBox="0 0 31 29" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <rect width="31" height="29" fill="url(#pattern0_2343_11)"/>
@@ -50,6 +50,19 @@
                     </div>
                     <div>
                         <p>Areas</p>
+                    </div>
+                </a>
+            </div>
+
+            <div>
+                <a href="views/indicaciones/listarIndicaciones.php" class="option" id="optionIndicaciones">
+                    <div class="containerIconOption">
+                        <svg width="26" height="24" viewBox="0 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8.35254 3.95996L5.68754 6.42221L4.64754 5.46221L3.47754 6.53996L5.10254 8.03996L5.68754 8.55446L6.27254 8.03921L9.52254 5.03921L8.35254 3.95996ZM12.1875 5.24996V6.74996H22.75V5.24996H12.1875ZM8.35254 9.95996L5.68754 12.423L4.64754 11.46L3.47754 12.54L5.10254 14.04L5.68754 14.5545L6.27254 14.0392L9.52254 11.0392L8.35254 9.95996ZM12.1875 11.25V12.75H22.75V11.25H12.1875ZM8.35254 15.96L5.68754 18.4222L4.64754 17.4622L3.47754 18.54L5.10254 20.04L5.68754 20.5545L6.27254 20.0392L9.52254 17.0392L8.35254 15.9592V15.96ZM12.1875 17.25V18.75H22.75V17.25H12.1875Z" fill="white"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p>Indicaciones</p>
                     </div>
                 </a>
             </div>
@@ -77,7 +90,7 @@
         <?php endif;  ?>
 
         <div>
-            <div class="option <?= ($_SESSION['optionActive'] == "documento") ? "selected" : ""?>" id="optionDocumentos">
+            <div class="option" id="optionDocumentos">
                 <div class="containerIconOption">
                     <svg width="31" height="29" viewBox="0 0 31 29" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                         <rect width="31" height="29" fill="url(#pattern0_2339_5)"/>

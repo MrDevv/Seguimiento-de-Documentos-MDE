@@ -3,6 +3,7 @@ $(document).ready(function() {
         url: "./controllers/indicacion/listarIndicaciones.php",
         type: "GET",
         datatype: "json",
+        data: {pagina: 1, registrosPorPagina: 999},
         success: function(indicaciones) {
             indicaciones = JSON.parse(indicaciones);
             if (indicaciones && Array.isArray(indicaciones)) {

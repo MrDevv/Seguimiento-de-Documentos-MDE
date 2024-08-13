@@ -4,9 +4,6 @@ require_once "../../models/Indicacion.php";
 
 $indicacionModel = new Indicacion();
 
-$pagina = $_GET['pagina'];
-$registrosPorPagina = $_GET['registrosPorPagina'];
-
-$response = $indicacionModel->listarIndicaciones($pagina, $registrosPorPagina);
+$response = $indicacionModel->obtenerTotalIndicacionesRegistradas();
 
 print json_encode($response);
