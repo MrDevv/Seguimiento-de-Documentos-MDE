@@ -26,7 +26,7 @@ BEGIN
 		WHERE p.apellidos LIKE '%' + @apellidos + '%' 
 		AND (e.descripcion = 'a' OR e.descripcion = 'p')
 		AND (@codArea IS NULL OR ua.codArea = @codArea)
-		ORDER BY ua.codUsuarioArea  -- Ordena los resultados para la paginación
+		ORDER BY ua.codUsuarioArea DESC  -- Ordena los resultados para la paginación
 		OFFSET @offset ROWS
 		FETCH NEXT @registrosPorPagina ROWS ONLY;
 	END
@@ -45,7 +45,7 @@ BEGIN
 		WHERE p.apellidos LIKE '%' + @apellidos + '%' 
 		AND e.descripcion = @estado
 		AND (@codArea IS NULL OR ua.codArea = @codArea)
-		ORDER BY ua.codUsuarioArea  -- Ordena los resultados para la paginación
+		ORDER BY ua.codUsuarioArea DESC  -- Ordena los resultados para la paginación
 		OFFSET @offset ROWS
 		FETCH NEXT @registrosPorPagina ROWS ONLY;
 	END

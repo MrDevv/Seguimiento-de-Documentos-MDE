@@ -7,7 +7,8 @@ $(document).ready(function() {
             if (data && Array.isArray(data)) {
 
                 // Construir las opciones para el select
-                let options = data.map(rol =>
+                let options = `<option value="0">Seleccionar</option>` +
+                    data.map(rol =>
                     `<option value="${rol.codRol}">${rol.descripcion}</option>`
                 ).join('');
 

@@ -259,6 +259,15 @@ $(document).ready(function() {
             return;
         }
 
+        if(usuario.length == 0){
+            Swal.fire({
+                icon: "warning",
+                title: "Campos Incompletos",
+                text: "Ingrese los campos requeridos, nombres y apellidos (paterno y materno).",
+            });
+            return;
+        }
+
         if (password !== confirm_password) {
             Swal.fire({
                 icon: "warning",
@@ -269,7 +278,8 @@ $(document).ready(function() {
         }
 
         if(nombre.length == 0 || apellidos.length == 0 || telefono.length == 0 || dni.length == 0
-            || usuario.length == 0 || rol.length == 0 || area.length == 0 || password.length == 0 || confirm_password.length == 0 || area == "0"){
+            || usuario.length == 0 || rol.length == 0 || area.length == 0 || password.length == 0
+            || confirm_password.length == 0 || area == "0" || rol == "0"){
             Swal.fire({
                 icon: "warning",
                 title: "Campos Incompletos",
@@ -401,8 +411,17 @@ $(document).ready(function() {
             return;
         }
 
+        if(usuario.length == 0){
+            Swal.fire({
+                icon: "warning",
+                title: "Campos Incompletos",
+                text: "Ingrese los campos requeridos, nombres y apellidos (paterno y materno).",
+            });
+            return;
+        }
+
         if(codPersona.length == 0 || nombre.length == 0 || apellidos.length == 0 || telefono.length == 0 ||
-            dni.length == 0 || usuario.length == 0 || rol.length == 0){
+            dni.length == 0 || usuario.length == 0 || rol.length == 0 || rol == "0"){
             Swal.fire({
                 icon: "warning",
                 title: "Campos Incompletos",
