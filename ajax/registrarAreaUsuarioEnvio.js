@@ -145,7 +145,7 @@ $(document).ready(function(){
             });
             return;
         }
-        
+
         if (password !== confirm_password) {
             Swal.fire({
                 icon: "warning",
