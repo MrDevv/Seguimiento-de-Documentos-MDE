@@ -755,12 +755,12 @@ table tbody tr .actions .action{
 
 table tbody tr .actions .action .tooltipParent{
     position: absolute;
-    width: 120px;
+    width: 130px;
     border: 1px solid #000;
     font-weight: bold;
     border-radius: 5px;
     top: -30px;
-    left: -45px;
+    left: -48px;
     padding: 5px;
     font-size: 10px;
     cursor: none;
