@@ -1,19 +1,23 @@
-$(document).ready(function(){
+$(document).ready(function() {
     let registrosPorPagina = 10;
     let pagina = 1;
-    let rolFiltro = $(".selectRolPendientesRecepcion").val()
+    let numDocumento = $("#numDocumentoReporteRecepcionados").val()
+    let fechaInicio = $("#fechaInicioReporteRecepcionados").val()
+    let fechaFin = $("#fechaFinReporteRecepcionados").val()
 
     generarOpcionesPaginacion()
+    obtenerDocumentosRecepcionados(numDocumento, fechaInicio, fechaFin, pagina, registrosPorPagina)
 
-    function obtenerDocumentosPendientesRecepcion(rolFiltro = null, pagina, registrosPorPagina) {
+    function obtenerDocumentosRecepcionados(numDocumento, fechaInicio, fechaFin, pagina, registrosPorPagina) {
+        console.log({numDocumento, fechaInicio, fechaFin, pagina, registrosPorPagina})
         $.ajax({
-            url: './controllers/documento/listarPendientesRecepcion.php',
+            url: './controllers/reportes/documentosRecepcionados.php',
             method: 'POST',
-            data: {rolFiltro, pagina, registrosPorPagina},
+            data: {numDocumento, fechaInicio, fechaFin, pagina, registrosPorPagina},
             dataType: 'json',
             success: function(response) {
+                console.log(response)
                 let { data } = response;
-                console.log(data)
                 if (Array.isArray(data) && data.length > 0) {
                     let rows = data.map(documento => `
                         <tr>
@@ -23,43 +27,20 @@ $(document).ready(function(){
                             <td>${documento['tipo documento']}</td>
                             <td>${documento['area origen']}</td>
                             <td>${documento['usuario origen']}</td>
-                            <td>${documento.fechaEnvio}</td>
-                            <td>${documento['hora envio']}</td>
+                            <td>${documento.fechaRecepcion}</td>
+                            <td>${documento['hora recepcion']}</td>
                             <td class="observacionEnvio">${documento.observaciones}</td>
-                            <td class="invisible">${documento['codEnvio']}</td>
+                            <td class="invisible">${documento.codEnvio}</td>
                             <td>
-                                <span class="pendienteRecepcion estado">
+                                <span class="recepcionado estado">
                                     ${documento['estado recepcion'] === 'i' ? 'Pendiente de Recepcion' : 'Recepcionado'}
                                 </span>
                                 ${documento['estado documento'] === 'i' ? '<span class="finished estado mt-1">Seguimiento finalizado</span>' : ''}
                             </td>
-                            <td>
-                                <div class="actions">
-                                    ${documento['estado documento'] === 'a' ? `
-                                    <a class="action" href="#" id="btnConfirmarRecepcion">
-                                        <span class="tooltipParent">Confirmar Recepción <span class="triangulo"></span></span>
-                                        <svg width="37" height="34" viewBox="0 0 37 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <g filter="url(#filter0_d_2424_38)">
-                                                <rect x="4" width="29" height="26" rx="5" fill="#F8F8F8"/>
-                                                <path d="M14.875 22.1216L7.37122 15.3941L10.7908 12.3283L14.875 16.0008L26.8133 5.28662L30.2329 8.35245L14.875 22.1216Z" fill="#36B434"/>
-                                            </g>
-                                            <defs>
-                                                <filter id="filter0_d_2424_38" x="0" y="0" width="37" height="34" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                                                    <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-                                                    <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-                                                    <feOffset dy="4"/>
-                                                    <feGaussianBlur stdDeviation="2"/>
-                                                    <feComposite in2="hardAlpha" operator="out"/>
-                                                    <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-                                                    <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2424_38"/>
-                                                    <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2424_38" result="shape"/>
-                                                </filter>
-                                            </defs>
-                                        </svg>
-                                    </a>` : ''}
-                                    
-                                    ${localStorage.getItem('rol') == 'administrador' || localStorage.getItem('rol') == 'administrador área' ? `
-                                    <a class="action" id="btnSeguimientoDocumentoRecepcion" href="#">
+                            <td>                                      
+                                <div class="actions">                                                                
+                               ${localStorage.getItem('rol') == 'administrador' || localStorage.getItem('rol') == 'administrador área' ? `
+                                    <a class="action" id="btnSeguimientoDocumentoRecepcionadoReporte" href="#">
                                         <span class="tooltipParent">Ver Seguimiento <span class="triangulo"></span></span>
                                         <svg width="39" height="34" viewBox="0 0 39 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <g filter="url(#filter0_d_2424_32)">
@@ -84,7 +65,7 @@ $(document).ready(function(){
                                             </defs>
                                         </svg>
                                     </a>
-                                    ` : ''}
+                               ` : ''}
                                     
                                     <a href="#" class="action" id="btnDetalleEnvio">
                                         <span class="tooltipParent">Ver Detalle <span class="triangulo"></span></span>
@@ -112,9 +93,9 @@ $(document).ready(function(){
                             </td>
                         </tr>
                     `).join('');
-                    $('#bodyPendientesRecepcion').html(rows);
+                    $('#bodyRecepcionados').html(rows);
                 } else {
-                    $('#bodyPendientesRecepcion').html('<tr><td colspan="11">No hay documentos pendientes de recepción.</td></tr>');
+                    $('#bodyRecepcionados').html('<tr><td colspan="11">No hay documentos recepcionados.</td></tr>');
                 }
             },
             error: function(xhr, status, error) {
@@ -123,29 +104,27 @@ $(document).ready(function(){
         });
     }
 
-    // Llamar a la función al cargar la página
-    obtenerDocumentosPendientesRecepcion(rolFiltro, pagina, registrosPorPagina);
-
     // generar botones paginacion
     function generarOpcionesPaginacion() {
+        console.log({numDocumento, fechaInicio, fechaFin})
         $.ajax({
-            url: './controllers/documento/totalDocumentosPendientesRecepcion.php',
+            url: './controllers/reportes/totalDocumentosRecepcionados.php',
             method: 'GET',
             dataType: 'json',
-            data: {rolFiltro},
+            data: {numDocumento, fechaInicio, fechaFin},
             success: function(response) {
                 let { data } = response;
                 let totalDocumentos = data[0]['total']
                 let totalPaginas = Math.ceil(totalDocumentos/registrosPorPagina);
 
-                $('#totalDocumentosPendientesRecepcion').text(totalDocumentos)
+                $('#totalDocumentosRecepcionadosReporte').text(totalDocumentos)
 
                 let paginas = '';
                 for (let i = 0; i < totalPaginas; i++){
-                    paginas+= `<li class="optionPage${i==0 ? ' selectedPage' : ''}" id=${i+1}> ${i+1} </li>`
+                    paginas+= `<li class="optionPage${i+1==pagina ? ' selectedPage' : ''}" id=${i+1}> ${i+1} </li>`
                 }
 
-                $('#opcionesPaginacionDocumentosPendientesRecepcion').html(paginas)
+                $('#opcionesPaginacionDocumentosRecepcionadosReporte').html(paginas)
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.error('Error fetching the content:', textStatus, errorThrown);
@@ -160,63 +139,11 @@ $(document).ready(function(){
             $(this).addClass("selectedPage");
         }
         pagina = parseInt($(this).text().trim());
-        obtenerDocumentosPendientesRecepcion(rolFiltro, pagina, registrosPorPagina);
+        obtenerDocumentosRecepcionados(numDocumento, fechaInicio, fechaFin, pagina, registrosPorPagina)
     })
 
-    // confirmar Recepcion
-    $(document).on("click", "#btnConfirmarRecepcion", function(e) {
-        e.preventDefault();
-
-        let fila = $(this).closest("tr");
-        let codRecepcion = fila.find('td:eq(0)').text();
-        let numDocumento = fila.find('td:eq(1)').text();
-
-        Swal.fire({
-            title: "¡Advertencia!",
-            html: `¿Desea confirmar que recepcionó físicamente el documento <span style="color: red; font-weight: bold;">${numDocumento}</span>?`,
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#056251",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Sí",
-            cancelButtonText: "No"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: "./controllers/documento/confirmarRecepcion.php",
-                    type: "POST",
-                    dataType: "json",
-                    data: {codRecepcion},
-                    success: function (response) {
-                        if (response.status == 'success'){
-                            Swal.fire({
-                                icon: "success",
-                                title: "¡Éxito!",
-                                text: response.message
-                            }).then(() => {
-                                generarOpcionesPaginacion()
-                                obtenerDocumentosPendientesRecepcion(rolFiltro, pagina, registrosPorPagina);
-                            })
-                        }else{
-                            Swal.fire({
-                                icon: "error",
-                                title: "Error",
-                                text: response.message
-                            })
-                        }
-
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        console.error('Error fetching the content:', textStatus, errorThrown);
-                    }
-                })
-            }
-        });
-    });
-
-
     // abrir modal para ver el seguimiento de un documento
-    $(document).on("click", "#btnSeguimientoDocumentoRecepcion", function(e){
+    $(document).off("click", "#btnSeguimientoDocumentoRecepcionadoReporte").on("click", "#btnSeguimientoDocumentoRecepcionadoReporte", function(e) {
         e.preventDefault();
         let fila = $(this).closest("tr");
         let numDocumento = fila.find('td:eq(1)').text();
@@ -225,119 +152,105 @@ $(document).ready(function(){
             url: "./controllers/documento/obtenerSeguimiento.php",
             type: "POST",
             dataType: "json",
-            data: {numDocumento},
-            success: function (response) {
-                let {status, data} = response
-                console.log(response)
+            data: { numDocumento },
+            success: function(response) {
+                let { status, data } = response;
+                console.log(response);
                 if (status == 'success') {
-                        let modalVerSeguimiento = $("#modalSeguimientoDocumento");
+                    let modalVerSeguimiento = $("#modalSeguimientoDocumento");
 
-                        let estadoDocumento = data[0]['Estado Documento']
-                        let tipoDocumento = data[0]['tipo documento']
+                    let estadoDocumento = data[0]['Estado Documento'];
+                    let tipoDocumento = data[0]['tipo documento'];
 
-                        $("#numDocumentoSeguimiento").text(numDocumento);
-                        $("#tipoDocumentoSeguimiento").text(tipoDocumento);
+                    $("#numDocumentoSeguimiento").text(numDocumento);
+                    $("#tipoDocumentoSeguimiento").text(tipoDocumento);
 
-                        let estadoSpan = $("#estadoDocumentoSeguimiento");
-                        estadoSpan.text(estadoDocumento === 'a' ? 'En Seguimiento' : 'Finalizado');
-                        estadoSpan.removeClass('follow finished').addClass(estadoDocumento === 'a' ? 'estado follow' : 'estado finished');
+                    let estadoSpan = $("#estadoDocumentoSeguimiento");
+                    estadoSpan.text(estadoDocumento === 'a' ? 'En Seguimiento' : 'Finalizado');
+                    estadoSpan.removeClass('follow finished').addClass(estadoDocumento === 'a' ? 'estado follow' : 'estado finished');
 
-                        if (data.length > 0 && Array.isArray(data)) {
-                            let row = data.map((documento, index) => `
-                                <tr>
-                                    <td> ${index + 1} </td>
-                                    <td> ${documento.folios} </td>
-                                    <td> ${documento["area origen"]} </td>
-                                    <td> ${documento["usuario origen"]} </td>
-                                    <td> ${documento.fechaEnvio} </td>
-                                    <td class="columArrow"> <svg fill="#056251" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM241 377c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l87-87-87-87c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0L345 239c9.4 9.4 9.4 24.6 0 33.9L241 377z"/></svg> </td>
-                                    <td> ${documento["area destino"]} </td>
-                                    <td> ${documento["usuario destino"]} </td>
-                                    <td> ${documento.fechaRecepcion != null ? documento.fechaRecepcion : ''} </td>
-                                    <td class="invisible"> ${documento["codEnvio"]} </td>
-                                    <td class="observacionEnvio"> ${documento.observaciones} </td>
-                                    <td>
-                                        <span class="estado ${documento["estado recepcion"] == 'i' ? "pendienteRecepcion" : "recepcionado"} ">
-                                            ${documento["estado recepcion"] == 'i' ? "Pendiente de Recepcion" : "Recepcionado"}
-                                        </span>
-                                    </td>
-                                    <td>
-                                    <div class="actions">
-                                        <a href="#" class="action" id="btnDetalleEnvio">
-                                            <span class="tooltipParent">Ver Detalle <span class="triangulo"></span></span>
-                                            <svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <g filter="url(#filter0_d_2424_29)">
-                                                    <rect x="4" width="28" height="26" rx="5" fill="white"/>
-                                                    <path d="M27.3334 3.25H8.66671C7.37987 3.25 6.33337 4.22175 6.33337 5.41667V20.5833C6.33337 21.7783 7.37987 22.75 8.66671 22.75H27.3334C28.6202 22.75 29.6667 21.7783 29.6667 20.5833V5.41667C29.6667 4.22175 28.6202 3.25 27.3334 3.25ZM8.66671 20.5833V5.41667H27.3334L27.3357 20.5833H8.66671Z" fill="black"/>
-                                                    <path d="M11 7.5835H25V9.75016H11V7.5835ZM11 11.9168H25V14.0835H11V11.9168ZM11 16.2502H18V18.4168H11V16.2502Z" fill="black"/>
-                                                </g>
-                                                <defs>
-                                                    <filter id="filter0_d_2424_29" x="0" y="0" width="36" height="34" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                                                        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-                                                        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-                                                        <feOffset dy="4"/>
-                                                        <feGaussianBlur stdDeviation="2"/>
-                                                        <feComposite in2="hardAlpha" operator="out"/>
-                                                        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-                                                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2424_29"/>
-                                                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2424_29" result="shape"/>
-                                                    </filter>
-                                                </defs>
-                                            </svg>
+                    if (data.length > 0 && Array.isArray(data)) {
+                        let row = data.map((documento, index) => `
+                        <tr>
+                            <td> ${index + 1} </td>
+                            <td> ${documento.folios} </td>
+                            <td> ${documento["area origen"]} </td>
+                            <td> ${documento["usuario origen"]} </td>
+                            <td> ${documento.fechaEnvio} </td>
+                            <td class="columArrow"> <svg fill="#056251" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM241 377c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l87-87-87-87c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0L345 239c9.4 9.4 9.4 24.6 0 33.9L241 377z"/></svg> </td>
+                            <td> ${documento["area destino"]} </td>
+                            <td> ${documento["usuario destino"]} </td>
+                            <td> ${documento.fechaRecepcion != null ? documento.fechaRecepcion : ''} </td>
+                            <td class="invisible"> ${documento.codEnvio} </td>
+                            <td class="observacionEnvio"> ${documento.observaciones} </td>
+                            <td>
+                                <span class="estado ${documento["estado recepcion"] == 'i' ? "pendienteRecepcion" : "recepcionado"} ">
+                                    ${documento["estado recepcion"] == 'i' ? "Pendiente de Recepcion" : "Recepcionado"}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="actions">
+                                    <a href="#" class="action" id="btnDetalleEnvio">
+                                        <span class="tooltipParent">Ver Detalle <span class="triangulo"></span></span>
+                                        <svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <g filter="url(#filter0_d_2424_29)">
+                                                <rect x="4" width="28" height="26" rx="5" fill="white"/>
+                                                <path d="M27.3334 3.25H8.66671C7.37987 3.25 6.33337 4.22175 6.33337 5.41667V20.5833C6.33337 21.7783 7.37987 22.75 8.66671 22.75H27.3334C28.6202 22.75 29.6667 21.7783 29.6667 20.5833V5.41667C29.6667 4.22175 28.6202 3.25 27.3334 3.25ZM8.66671 20.5833V5.41667H27.3334L27.3357 20.5833H8.66671Z" fill="black"/>
+                                                <path d="M11 7.5835H25V9.75016H11V7.5835ZM11 11.9168H25V14.0835H11V11.9168ZM11 16.2502H18V18.4168H11V16.2502Z" fill="black"/>
+                                            </g>
+                                            <defs>
+                                                <filter id="filter0_d_2424_29" x="0" y="0" width="36" height="34" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                                    <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                                                    <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                                                    <feOffset dy="4"/>
+                                                    <feGaussianBlur stdDeviation="2"/>
+                                                    <feComposite in2="hardAlpha" operator="out"/>
+                                                    <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+                                                    <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2424_29"/>
+                                                    <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2424_29" result="shape"/>
+                                                </filter>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    `).join('');
+                        $('#bodySeguimiento').html(row);
 
-                                        </a>
-                                    </div>
-                                    </td>
-                                </tr>
-                                
-                                `).join('');
-                            $('#bodySeguimiento').html(row);
+                        modalVerSeguimiento.modal({
+                            backdrop: 'static',
+                            keyboard: false
+                        });
 
-                            modalVerSeguimiento.modal({
-                                backdrop: 'static',
-                                keyboard: false
-                            });
-
-                            modalVerSeguimiento.modal('show');
-                        }
-                }
-                else
-                {
+                        modalVerSeguimiento.modal('show');
+                    }
+                } else {
                     Swal.fire({
                         icon: "error",
                         title: "Error",
-                        text: response.message
-                    })
+                        text: response.message,
+                        allowEnterKey: false,
+                        allowEscapeKey: false,
+                        allowOutsideClick: false,
+                        stopKeydownPropagation: false
+                    });
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.error('Error fetching the content:', textStatus, errorThrown);
             }
-        })
-
+        });
     });
 
-    // filtrar documentos pendientes de recepcion por rol - Administrador/usuario o administrador area
-    $(document).off("click", "#filtrarPorRolPendientesRecepcion").on("click", "#filtrarPorRolPendientesRecepcion", function(e) {
+    // filtrar
+    $(document).off("click", "#filtrarPorDocumentosRecepcionadosReporte").on("click", "#filtrarPorDocumentosRecepcionadosReporte", function(e) {
         e.preventDefault()
-        rolFiltro = $(".selectRolPendientesRecepcion").val()
-
-        if (rolFiltro == ''){
-            rolFiltro = null
-        }
+        numDocumento = $("#numDocumentoReporteRecepcionados").val()
+        fechaInicio = $("#fechaInicioReporteRecepcionados").val()
+        fechaFin = $("#fechaFinReporteRecepcionados").val()
+        pagina = 1
         generarOpcionesPaginacion()
-        obtenerDocumentosPendientesRecepcion(rolFiltro, pagina, registrosPorPagina)
+        obtenerDocumentosRecepcionados(numDocumento, fechaInicio, fechaFin, pagina, registrosPorPagina)
     })
-
-    // actualiar documentos en la tabla
-    $(document).off("click", "#btnActualizarResultadosTable").on("click", "#btnActualizarResultadosTable", function(e){
-        e.preventDefault();
-        rolFiltro = $(".selectRolPendientesRecepcion").val()
-
-        if (rolFiltro == ''){
-            rolFiltro = null
-        }
-        generarOpcionesPaginacion()
-        obtenerDocumentosPendientesRecepcion(rolFiltro, pagina, registrosPorPagina);
-    });
-});
+})

@@ -6,9 +6,9 @@
 <!--            --><?php //var_dump($_SESSION['user']); ?>
             <div class="userDetails">
                 <div>
-                    <span> <?php echo $_SESSION['user']['nombres'] ?> <span class="username">(<?php echo trim($_SESSION['user']['nombreUsuario'])?>)</span> </span>
+                    <span id="nombresUsuarioLog"> <?php echo $_SESSION['user']['nombres'] ?> <span class="username">(<?php echo trim($_SESSION['user']['nombreUsuario'])?>)</span> </span>
                     <div class="username_rol">
-                        <span>  <?php echo $_SESSION['user']['area'] ?> - <?php echo $_SESSION['user']['rol'] ?> </span>
+                        <span id="areaUsuarioLog">  <?php echo $_SESSION['user']['area'] ?> <span id="rolUsuarioLog"> - <?php echo $_SESSION['user']['rol'] ?> </span></span>
                     </div>
                 </div>
                 <a class="position-relative" href="#" id="btnEditarPerfil">

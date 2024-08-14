@@ -133,8 +133,8 @@ $(document).ready(function(){
                                         </defs>
                                     </svg>
                                 </a>` : ''}
-                            ${documento.estado == 'i' && (localStorage.getItem('rol') == 'administrador' || localStorage.getItem('rol') == 'administrador área') ? `
-                            <a href="" class="action" id="btnSeguimientoDocumento" href="#">
+                            ${localStorage.getItem('rol') == 'administrador' || localStorage.getItem('rol') == 'administrador área' ? `
+                                <a href="" class="action" id="btnSeguimientoDocumento" href="#">
                             <span class="tooltipParent">Ver Seguimiento <span class="triangulo"></span></span>
                             <svg width="39" height="34" viewBox="0 0 39 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <g filter="url(#filter0_d_2424_32)">

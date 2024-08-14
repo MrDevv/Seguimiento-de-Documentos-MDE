@@ -167,6 +167,7 @@ class Recepcion{
             ];
         }
     }
+
     public function listarDocumentosRecepcionados(int $codUsuarioRecepcion, int $codArea = null, $pagina = 1, $registroPorPagina = 10){
         $sql = "EXEC sp_listarDocumentosRecepcionados :codUsuarioArea, :codArea, :pagina, :registroPorPagina";
 
@@ -207,6 +208,88 @@ class Recepcion{
                 'message' => '¡Ocurrio un error al momento de buscar los documentos recepcionados!',
                 'action' => 'buscar',
                 'module' => 'documento',
+                'info' => $e->getMessage()
+            ];
+        }
+    }
+
+    public function listarDocumentosRecepcionadosReporte(int $codUsuarioRecepcion, $pagina = 1, $registroPorPagina = 10, $fechaInicio = null, $fechaFin = null, $numDocumento = ''){
+        $sql = "EXEC sp_reporteDocumentosRecepcionados :codUsuarioArea, :pagina, :registroPorPagina, :fechaInicio, :fechaFin, :numDocumento";
+
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
+
+            $stmt->bindParam('codUsuarioArea', $codUsuarioRecepcion, PDO::PARAM_INT);
+            $stmt->bindParam('pagina', $pagina, PDO::PARAM_INT);
+            $stmt->bindParam('registroPorPagina', $registroPorPagina, PDO::PARAM_INT);
+            $stmt->bindParam('fechaInicio', $fechaInicio, PDO::PARAM_STR);
+            $stmt->bindParam('fechaFin', $fechaFin, PDO::PARAM_STR);
+            $stmt->bindParam('numDocumento', $numDocumento, PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if (count($results) > 0){
+                return [
+                    'status' => 'success',
+                    'message' => '¡Reporte de documentos recepcionados encontrados!',
+                    'action' => 'buscar',
+                    'module' => 'documento',
+                    'data' => $results,
+                    'info' => ''
+                ];
+            }
+
+            return [
+                'status' => 'success',
+                'message' => '¡No se encontraron resultados!',
+                'action' => 'buscar',
+                'module' => 'documento',
+                'data' => [],
+                'info' => ''
+            ];
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => '¡Ocurrio un error al momento de buscar los documentos recepcionados!',
+                'action' => 'buscar',
+                'module' => 'documento',
+                'info' => $e->getMessage()
+            ];
+        }
+    }
+
+    public function obtenerTotalDocumentosPendienteRecepcionReporte(int $codUsuarioRecepcion, $fechaInicio = null, $fechaFin = null, $numDocumento = ''){
+        $sql =  "EXEC sp_totalDocumentosRecepcionadosReporte :codUsuarioArea, :fechaInicio, :fechaFin, :numDocumento";
+
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
+            $stmt->bindParam('codUsuarioArea', $codUsuarioRecepcion, PDO::PARAM_INT);
+            $stmt->bindParam('fechaInicio', $fechaInicio, PDO::PARAM_STR);
+            $stmt->bindParam('fechaFin', $fechaFin, PDO::PARAM_STR);
+            $stmt->bindParam('numDocumento', $numDocumento, PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return [
+                'status' => 'success',
+                'message' => 'se obtuvo el total de documentos recepcionados reporte',
+                'action' => 'listar',
+                'module' => 'documento',
+                'data' => $results,
+                'info' => ''
+            ];
+
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => '¡Ocurrio un error al momento de obtener el total de documentos recepcionados reporte!',
+                'action' => 'listar',
+                'module' => 'recepcion',
+                'data' => [],
                 'info' => $e->getMessage()
             ];
         }

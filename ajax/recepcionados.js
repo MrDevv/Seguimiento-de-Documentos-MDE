@@ -15,9 +15,7 @@ $(document).ready(function(){
                 console.log(response)
                 let { data } = response;
                 if (Array.isArray(data) && data.length > 0) {
-                    let rows = data.map(documento => `
-                    <tr>
-                </tr>
+                    let rows = data.map(documento => `                   
                         <tr>
                             <td>${documento.codRecepcion}</td>
                             <td>${documento.NumDocumento}</td>
@@ -88,7 +86,7 @@ $(document).ready(function(){
                                         </a>
                                     ` : ''}
                                
-                               ${documento.estado == 'a' && (localStorage.getItem('rol') == 'administrador' || localStorage.getItem('rol') == 'administrador área') ? `
+                               ${localStorage.getItem('rol') == 'administrador' || localStorage.getItem('rol') == 'administrador área' ? `
                                     <a class="action" id="btnSeguimientoDocumentoRecepcionado" href="#">
                                         <span class="tooltipParent">Ver Seguimiento <span class="triangulo"></span></span>
                                         <svg width="39" height="34" viewBox="0 0 39 34" fill="none" xmlns="http://www.w3.org/2000/svg">

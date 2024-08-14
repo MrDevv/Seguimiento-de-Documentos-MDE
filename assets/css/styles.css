@@ -1026,3 +1026,7 @@ table tbody tr .actions .action:hover .tooltipParent{
     justify-content: center;
     font-size: 14px;
 }
+
+.fechaFiltroReporte input{
+    width: 150px;
+}
