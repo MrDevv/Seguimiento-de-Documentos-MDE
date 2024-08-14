@@ -622,7 +622,7 @@ input:focus-visible{
 .listadoAreas_body table thead tr th,
 .listadoTipoDocumentos_body table thead tr th,
 .listadoUsuarios_body table thead tr th{
-    font-weight: 600;
+    font-weight: 700;
     padding: 10px 5px;
 }
 
