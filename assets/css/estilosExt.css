@@ -252,7 +252,7 @@
 .pendienteRecepcion{
     padding: 5px 5px;
     border-radius: 5px;
-    background-color: #39AFF1;
+    background-color: #6bc8fc;
     border: 1px solid #107fbd;
 }
 
@@ -554,6 +554,19 @@ textarea{
     margin-bottom: 10px;
 }
 
-#bodySeguimiento{
+#bodySeguimiento, #bodyListaDocumentos, #bodyPendientesRecepcion{
     font-weight: 500;
+}
+
+.actionsDocumentos{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.optionVerSeguimiento{
+    grid-column: 3/4;
+}
+
+.actionCulminarDocumento{
+    grid-column: 2/3;
 }

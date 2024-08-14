@@ -741,9 +741,9 @@ input:focus-visible{
 }
 
 table tbody tr .actions{
-    display: flex;
+    /*display: flex;
     justify-content: space-evenly;
-    align-items: center;
+    align-items: center;*/
 }
 
 table tbody tr .actions .action{

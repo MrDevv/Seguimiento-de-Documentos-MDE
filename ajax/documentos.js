@@ -1,7 +1,25 @@
 $(document).ready(function(){
-    let registrosPorPagina = 10;
+    const alturaPantalla = window.innerHeight;
+    let registrosPorPagina = 0;
+
+    console.log(alturaPantalla)
+
+    if (alturaPantalla >= 1000) {
+        registrosPorPagina = 10;  // Pantallas grandes
+    } else if (alturaPantalla >= 900) {
+        registrosPorPagina = 8;  // Tablets
+    } else if (alturaPantalla >= 700) {
+        registrosPorPagina = 7;  // Tablets
+    } else {
+        registrosPorPagina = 5;  // Pantallas pequeñas, móviles
+    }
+
+    console.log(registrosPorPagina)
+
     let pagina = 1;
     let numDocumentoFiltro = $('#numDocumentoListadoDocumentos').val();
+
+
 
     generarOpcionesPaginacion()
 
@@ -34,7 +52,7 @@ $(document).ready(function(){
                             </span>
                         </td>
                         <td>
-                        <div class="actions">
+                        <div class="actions actionsDocumentos">
                              ${documento.estado == 'n' ? `
                                     <a class="action" id="btnEnviarDocumento" href="#">
                                         <span class="tooltipParent">Enviar documento <span class="triangulo"></span></span>
@@ -112,7 +130,7 @@ $(document).ready(function(){
                             ` : ''}
                             
                             ${documento.estado == 'a' && (localStorage.getItem('rol') == 'administrador' || localStorage.getItem('rol') == 'administrador área') ? `
-                                <a class="action" id="btnCulminarDocumento" href="#">
+                                <a class="action actionCulminarDocumento" id="btnCulminarDocumento" href="#">
                                     <span class="tooltipParent">Dar por Culminado <span class="triangulo"></span></span>
                                     <svg width="37" height="34" viewBox="0 0 37 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <g filter="url(#filter0_d_2984_8)">
@@ -134,7 +152,7 @@ $(document).ready(function(){
                                     </svg>
                                 </a>` : ''}
                             ${localStorage.getItem('rol') == 'administrador' || localStorage.getItem('rol') == 'administrador área' ? `
-                                <a href="" class="action" id="btnSeguimientoDocumento" href="#">
+                                <a href="" class="action optionVerSeguimiento" id="btnSeguimientoDocumento" href="#">
                             <span class="tooltipParent">Ver Seguimiento <span class="triangulo"></span></span>
                             <svg width="39" height="34" viewBox="0 0 39 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <g filter="url(#filter0_d_2424_32)">
