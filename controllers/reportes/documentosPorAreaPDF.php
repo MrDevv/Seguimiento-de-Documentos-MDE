@@ -1,5 +1,6 @@
 <?php
 require('../../plugins/fpdf/fpdf.php');
+date_default_timezone_set('America/Lima');
 
 class PDF extends FPDF{
 

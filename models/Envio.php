@@ -206,6 +206,79 @@ class Envio{
         }
     }
 
+    public function obtenerDocumentosEnviadosReporte(int $codUsuarioEnvio, $pagina = 1, $registroPorPagina = 10, $fechaInicio = null, $fechaFin = null, $numDocumento = ''){
+        $sql = "EXEC sp_reporteDocumentosEnviados :codUsuarioEnvio, :pagina, :registroPorPagina, :fechaInicio, :fechaFin, :numDocumento";
+
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
+
+            $stmt->bindParam('codUsuarioEnvio', $codUsuarioEnvio, PDO::PARAM_INT);
+            $stmt->bindParam('pagina', $pagina, PDO::PARAM_INT);
+            $stmt->bindParam('registroPorPagina', $registroPorPagina, PDO::PARAM_INT);
+            $stmt->bindParam('fechaInicio', $fechaInicio, PDO::PARAM_STR);
+            $stmt->bindParam('fechaFin', $fechaFin, PDO::PARAM_STR);
+            $stmt->bindParam('numDocumento', $numDocumento, PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            $response = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return [
+                'status' => 'success',
+                'message' => '¡Se obtuvo correctamente el reporte de los documentos enviados!',
+                'action' => 'listar',
+                'module' => 'envio',
+                'data' => $response,
+                'info' => ''
+            ];
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => '¡Ocurrio un error al momento de listar el reporte documentos enviados!',
+                'action' => 'recepcionar',
+                'module' => 'documento',
+                'data' => [],
+                'info' => $e->getMessage()
+            ];
+        }
+    }
+
+    public function obtenerTotalDocumentosEnviadosReporte(int $codUsuarioArea, $fechaInicio = null, $fechaFin = null, $numDocumento = ''){
+        $sql =  "EXEC sp_totalDocumentosEnviadosReporte :codUsuarioArea, :fechaInicio, :fechaFin, :numDocumento";
+
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
+            $stmt->bindParam('codUsuarioArea', $codUsuarioArea, PDO::PARAM_INT);
+            $stmt->bindParam('fechaInicio', $fechaInicio, PDO::PARAM_STR);
+            $stmt->bindParam('fechaFin', $fechaFin, PDO::PARAM_STR);
+            $stmt->bindParam('numDocumento', $numDocumento, PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return [
+                'status' => 'success',
+                'message' => 'se obtuvo el total de documentos enviados reporte',
+                'action' => 'listar',
+                'module' => 'documento',
+                'data' => $results,
+                'info' => ''
+            ];
+
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => '¡Ocurrio un error al momento de obtener el total de documentos enviados!',
+                'action' => 'listar',
+                'module' => 'recepcion',
+                'data' => [],
+                'info' => $e->getMessage()
+            ];
+        }
+    }
+
+
     public function obtenerDetalleEnvio(){
         $sql = "{CALL sp_verDetalleEnvio(:codEnvio)}";
 

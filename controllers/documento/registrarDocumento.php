@@ -2,6 +2,7 @@
 session_start();
 require_once "../../models/Documento.php";
 require_once "../../config/DataBase.php";
+date_default_timezone_set('America/Lima');
 
 $numDocumento = trim($_POST['numDocumento']);
 $tipoDocumento = trim($_POST['tipoDocumento']);

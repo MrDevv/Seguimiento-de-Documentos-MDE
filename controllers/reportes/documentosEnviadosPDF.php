@@ -6,15 +6,22 @@ class PDF extends FPDF{
 
     private $fechaActual;
     private $horaActual;
+    private $nombreUsuario;
+    private $fechaInicio;
 
-    function __construct($fecha, $hora) {
+    function __construct($fecha, $hora, $nombreUsuario, $fechaInicio) {
         parent::__construct();
         $this->fechaActual = $fecha;
         $this->horaActual = $hora;
+        $this->nombreUsuario = $nombreUsuario;
+        $this->fechaInicio = $fechaInicio;
     }
 
     function Header(){
         $this->SetFont('Arial','',10);
+        $this->SetXY(1, 2);
+        $this->Cell(35, 5,'Sistema de Seguimiento de Documentos Internos y Externos', 0, 1, 'L', 0);
+
         $this->SetXY(175, 2);
         $this->Cell(35, 5,'Fecha: ' .$this->fechaActual, 0, 1, 'L', 0);
         $this->SetX(175);
@@ -29,8 +36,23 @@ class PDF extends FPDF{
         $this->SetFont('Arial','',12);
         $this->Ln(15);
         $this->SetX(60);
-        $this->Cell(100, 8, mb_convert_encoding('Reporte de Documentos por Usuarios','ISO-8859-1', 'UTF-8'), 0, 1, 'C', 0);
+        $this->Cell(100, 8, mb_convert_encoding('Reporte de Documentos Enviados','ISO-8859-1', 'UTF-8'), 0, 1, 'C', 0);
         $this->Ln(10);
+        $this->SetX(5);
+        $this->Cell(110, 8, mb_convert_encoding('Usuario: '.$this->nombreUsuario,'ISO-8859-1', 'UTF-8'), 1, 1, 'C', 0);
+        $this->SetX(5);
+        $this->Cell(110, 8, mb_convert_encoding('Area: '.$_POST['areaUsuario'],'ISO-8859-1', 'UTF-8'), 1, 0, 'C', 0);
+        $this->SetFont('Arial','B',12);
+        $this->SetXY(120, 50);
+        $this->Cell(80, 8, 'Filtros', 1, 1, 'C', 0);
+        $this->SetX(120);
+        $this->SetFont('Arial','',12);
+        $this->Cell(80, 8, 'Fecha Inicio: '.$this->fechaInicio, 1, 1, 'C', 0);
+        $this->SetX(120);
+        $this->Cell(80, 8, 'Fecha Fin: '.$_POST['fechaFin'], 1, 1, 'C', 0);
+        $this->SetX(120);
+        $this->Cell(80, 8, mb_convert_encoding('Documento: ','ISO-8859-1', 'UTF-8').$_POST['numDocumento'], 1, 0, 'C', 0);
+        $this->Ln(15);
     }
 
 
@@ -89,11 +111,11 @@ class PDF extends FPDF{
             $this->Cell(17, 8, 'Nro Doc', 1, 0, 'C', 0);
             $this->Cell(25, 8, 'Tipo Doc', 1, 0, 'C', 0);
             $this->Cell(38, 8, 'Asunto', 1, 0, 'C', 0);
-            $this->Cell(15, 8, 'Folios', 1, 0, 'C', 0);
-            $this->Cell(30, 8, 'Usuario', 1, 0, 'C', 0);
-            $this->Cell(30, 8, mb_convert_encoding('Área','ISO-8859-1', 'UTF-8'), 1, 0, 'C', 0);
-            $this->Cell(25, 8, 'Estado Doc', 1, 0, 'C', 0);
-            $this->Cell(25, 8, mb_convert_encoding('Estado Envío','ISO-8859-1', 'UTF-8'), 1, 1, 'C', 0);
+            $this->Cell(13, 8, 'Folios', 1, 0, 'C', 0);
+            $this->Cell(30, 8, 'Usuario Destino', 1, 0, 'C', 0);
+            $this->Cell(30, 8, mb_convert_encoding('Área Destino','ISO-8859-1', 'UTF-8'), 1, 0, 'C', 0);
+            $this->Cell(30, 8, 'Fecha Envio', 1, 0, 'C', 0);
+            $this->Cell(23, 8, 'Estado Doc', 1, 1, 'C', 0);
 
             $this->SetFont('Arial','',10);
 
@@ -159,11 +181,14 @@ class PDF extends FPDF{
     }
 }
 
+// Obtener la fecha, hora y nombre del usuario desde la sesión
 
-// Obtener la fecha y hora actual
 $fechaActual = date('Y-m-d');
 $horaActual = date('H:i');
-$pdf = new PDF($fechaActual, $horaActual);
+$nombreUsuario = $_POST['nombresUsuario'];
+$fechaInicio = $_POST['fechaInicio'];
+
+$pdf = new PDF($fechaActual, $horaActual, $nombreUsuario, $fechaInicio);
 $pdf->AliasNbPages();
 $pdf->AddPage();
 //$pdf->SetMargins(10, 10, 10);
@@ -173,76 +198,54 @@ $pdf->SetFont('Arial','B',10);
 $pdf->Cell(17, 8, 'Nro Doc', 1, 0, 'C', 0);
 $pdf->Cell(25, 8, 'Tipo Doc', 1, 0, 'C', 0);
 $pdf->Cell(38, 8, 'Asunto', 1, 0, 'C', 0);
-$pdf->Cell(15, 8, 'Folios', 1, 0, 'C', 0);
-$pdf->Cell(30, 8, 'Usuario', 1, 0, 'C', 0);
-$pdf->Cell(30, 8, mb_convert_encoding('Área','ISO-8859-1', 'UTF-8'), 1, 0, 'C', 0);
-$pdf->Cell(25, 8, 'Estado Doc', 1, 0, 'C', 0);
-$pdf->Cell(25, 8, mb_convert_encoding('Estado Envío','ISO-8859-1', 'UTF-8'), 1, 1, 'C', 0);
+$pdf->Cell(13, 8, 'Folios', 1, 0, 'C', 0);
+$pdf->Cell(30, 8, 'Usuario Origen', 1, 0, 'C', 0);
+$pdf->Cell(30, 8, mb_convert_encoding('Área Origen','ISO-8859-1', 'UTF-8'), 1, 0, 'C', 0);
+$pdf->Cell(30, 8, 'Fecha Recepcion', 1, 0, 'C', 0);
+$pdf->Cell(23, 8, 'Estado Doc', 1, 1, 'C', 0);
 
 
 $pdf->SetFillColor(233, 229, 235);
 //$pdf->SetDrawColor(61, 61, 61);
 $pdf->SetFont('Arial','',10);
 
-$pdf->SetWidths(array(17, 25, 38, 15, 30, 30, 25, 25));
+$pdf->SetWidths(array(17, 25, 38, 13, 30, 30, 30, 23));
 
 
 session_start();
 require_once "../../config/DataBase.php";
-require_once "../../models/Documento.php";
+require_once "../../models/Envio.php";
 
-$documentoModel = new Documento();
+$enviadosModel = new Envio();
 
-$response = [];
+$numDocumento = $_POST['numDocumento'];
+$fechaInicio = $_POST['fechaInicio']!='' ? $_POST['fechaInicio'] : null;
+$fechaFin = $_POST['fechaFin']!='' ? $_POST['fechaFin'] : null;
 
-$numDocumento = null ;
-$codUsuario = null;
-
-if ($_SESSION['user']['rol'] == 'administrador'){
-    if (isset($_POST['usuario']) && isset($_POST['numDocumento']) && $_POST['usuario']!= 0){
-        $codUsuario = $_POST['usuario'];
-        $numDocumento = $_POST['numDocumento'];
-    }else if(isset($_POST['usuario']) && isset($_POST['numDocumento']) && $_POST['usuario']== 0){
-        $numDocumento = $_POST['numDocumento'];
-    }
-}else if($_SESSION['user']['rol'] == 'usuario'){
-    $codUsuario = $_SESSION['user']['codUsuarioArea'];
-    if(isset($_POST['numDocumento'])){
-        $numDocumento = $_POST['numDocumento'];
-    }
-}
-
-if($codUsuario && $numDocumento) {
-    $response = $documentoModel->reportesPorUsuario(null, $numDocumento,(int) $codUsuario, null, null);
-} else if ($numDocumento){
-    $response = $documentoModel->reportesPorUsuario(null, $numDocumento, null, null, null);
-}else if ($codUsuario){
-    $response = $documentoModel->reportesPorUsuario(null, null, $codUsuario, null, null);
-}else{
-    $response = $documentoModel->reportesPorUsuario(null, null, null, null, null);
-}
+$response = $enviadosModel->obtenerDocumentosEnviadosReporte(
+    (int) $_SESSION['user']['codUsuarioArea'],
+    null,
+    null,
+    $fechaInicio,
+    $fechaFin,
+    $numDocumento
+);
 
 foreach ($response['data'] as $documento) {
+
+
     $pdf->Row(array(
         $documento['NumDocumento'],
-        mb_convert_encoding( $documento['tipoDocumento'],'ISO-8859-1', 'UTF-8'),
+        mb_convert_encoding( $documento['tipo documento'],'ISO-8859-1', 'UTF-8'),
         mb_convert_encoding($documento['asunto'],'ISO-8859-1', 'UTF-8'),
         $documento['folios'],
-        mb_convert_encoding($documento['usuario'],'ISO-8859-1', 'UTF-8'),
-        mb_convert_encoding($documento['area'],'ISO-8859-1', 'UTF-8'),
-        $documento['estadoDocumento'] == 'a' ? 'En seguimiento' : 'Seguimiento Finalizado',
-        $documento['estadoRecepcion'] == 'a' ? 'Recepcionado' : mb_convert_encoding('Pendiente de Recepción','ISO-8859-1', 'UTF-8')
+        mb_convert_encoding($documento['usuario destino'],'ISO-8859-1', 'UTF-8'),
+        mb_convert_encoding($documento['area destino'],'ISO-8859-1', 'UTF-8'),
+        $documento['fechaEnvio'],
+        $documento['estado documento'] == 'a' ? 'En seguimiento' : 'Seguimiento Finalizado',
     ), 3);
 }
 
 
-//// Configurar las cabeceras para la descarga del PDF
-//header('Content-Type: application/pdf');
-//
-//// Nombre del archivo
-//$filename = 'documentosPorArea.pdf';
-//header('Content-Disposition: inline; filename="' . $filename . '"');
-
-// Enviar el PDF al navegador
 $pdf->Output();
 ?>
