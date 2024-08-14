@@ -1030,3 +1030,7 @@ table tbody tr .actions .action:hover .tooltipParent{
 .fechaFiltroReporte input{
     width: 150px;
 }
+
+.columArrow{
+    display: none;
+}
