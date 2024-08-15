@@ -15,22 +15,30 @@ class PDF extends FPDF{
 
     function Header(){
         $this->SetFont('Arial','',10);
-        $this->SetXY(175, 2);
+        $this->SetXY(1, 2);
+        $this->Cell(35, 5,'Sistema de Seguimiento de Documentos Internos y Externos', 0, 1, 'L', 0);
+
+        $this->SetXY(260, 2);
         $this->Cell(35, 5,'Fecha: ' .$this->fechaActual, 0, 1, 'L', 0);
-        $this->SetX(175);
+        $this->SetX(260);
         $this->Cell(35, 5,'Hora:  '.$this->horaActual, 0, 0, 'L', 0);
 
-        $this->SetFont('Arial','',20);
+        $this->SetFont('Arial','B',20);
         $this->Image('../../assets/logo.png', 10, 8, 40);
         $this->SetXY(60, 20);
 
-        $this->Cell(100, 8, 'Municipalidad Distrital de La Esperanza', 0, 0, 'C', 0);
+        $this->Cell(190, 15, mb_convert_encoding('Reporte de Documentos por Usuarios','ISO-8859-1', 'UTF-8'), 0, 0, 'C', 0);
 
+        $this->SetFont('Arial','B',14);
+        $this->Ln(30);
+        $this->SetX(80);
+        $this->Cell(150, 8, "Filtros", 0, 1, 'C', 0);
         $this->SetFont('Arial','',12);
-        $this->Ln(15);
-        $this->SetX(60);
-        $this->Cell(100, 8, mb_convert_encoding('Reporte de Documentos por Usuarios','ISO-8859-1', 'UTF-8'), 0, 1, 'C', 0);
-        $this->Ln(10);
+        $this->SetX(50);
+        $this->Cell(130, 8, mb_convert_encoding('Usuario: ' . (($_POST['usuarioText'] == 'Seleccionar') ? 'Todos' : $_POST['usuarioText']), 'ISO-8859-1', 'UTF-8'), 0, 0, 'L', 0);
+        $this->Cell(100, 8, mb_convert_encoding('Número documento: '.$_POST['numDocumento'], 'ISO-8859-1', 'UTF-8'), 0, 1, 'L', 0);
+
+        $this->Ln(5);
     }
 
 
@@ -86,16 +94,16 @@ class PDF extends FPDF{
             $this->SetX($setX);
 
             $this->SetFont('Arial','B',10);
-            $this->Cell(17, 8, 'Nro Doc', 1, 0, 'C', 0);
-            $this->Cell(25, 8, 'Tipo Doc', 1, 0, 'C', 0);
-            $this->Cell(38, 8, 'Asunto', 1, 0, 'C', 0);
+            $this->Cell(30, 8, 'Nro Doc', 1, 0, 'C', 0);
+            $this->Cell(30, 8, 'Tipo Doc', 1, 0, 'C', 0);
+            $this->Cell(50, 8, 'Asunto', 1, 0, 'C', 0);
             $this->Cell(15, 8, 'Folios', 1, 0, 'C', 0);
-            $this->Cell(30, 8, 'Usuario', 1, 0, 'C', 0);
-            $this->Cell(30, 8, mb_convert_encoding('Área','ISO-8859-1', 'UTF-8'), 1, 0, 'C', 0);
-            $this->Cell(25, 8, 'Estado Doc', 1, 0, 'C', 0);
-            $this->Cell(25, 8, mb_convert_encoding('Estado Envío','ISO-8859-1', 'UTF-8'), 1, 1, 'C', 0);
+            $this->Cell(40, 8, 'Usuario', 1, 0, 'C', 0);
+            $this->Cell(40, 8, mb_convert_encoding('Área','ISO-8859-1', 'UTF-8'), 1, 0, 'C', 0);
+            $this->Cell(35, 8, 'Estado Doc', 1, 0, 'C', 0);
+            $this->Cell(35, 8, mb_convert_encoding('Estado Envío','ISO-8859-1', 'UTF-8'), 1, 1, 'C', 0);
 
-            $this->SetFont('Arial','',10);
+            $this->SetFont('Arial','',9);
 
         }
 
@@ -165,26 +173,26 @@ $fechaActual = date('Y-m-d');
 $horaActual = date('H:i');
 $pdf = new PDF($fechaActual, $horaActual);
 $pdf->AliasNbPages();
-$pdf->AddPage();
+$pdf->AddPage('L');
 //$pdf->SetMargins(10, 10, 10);
 $pdf->SetAutoPageBreak(true,20);
-$pdf->SetX(3);
+$pdf->SetX(10);
 $pdf->SetFont('Arial','B',10);
-$pdf->Cell(17, 8, 'Nro Doc', 1, 0, 'C', 0);
-$pdf->Cell(25, 8, 'Tipo Doc', 1, 0, 'C', 0);
-$pdf->Cell(38, 8, 'Asunto', 1, 0, 'C', 0);
+$pdf->Cell(30, 8, 'Nro Doc', 1, 0, 'C', 0);
+$pdf->Cell(30, 8, 'Tipo Doc', 1, 0, 'C', 0);
+$pdf->Cell(50, 8, 'Asunto', 1, 0, 'C', 0);
 $pdf->Cell(15, 8, 'Folios', 1, 0, 'C', 0);
-$pdf->Cell(30, 8, 'Usuario', 1, 0, 'C', 0);
-$pdf->Cell(30, 8, mb_convert_encoding('Área','ISO-8859-1', 'UTF-8'), 1, 0, 'C', 0);
-$pdf->Cell(25, 8, 'Estado Doc', 1, 0, 'C', 0);
-$pdf->Cell(25, 8, mb_convert_encoding('Estado Envío','ISO-8859-1', 'UTF-8'), 1, 1, 'C', 0);
+$pdf->Cell(40, 8, 'Usuario', 1, 0, 'C', 0);
+$pdf->Cell(40, 8, mb_convert_encoding('Área','ISO-8859-1', 'UTF-8'), 1, 0, 'C', 0);
+$pdf->Cell(35, 8, 'Estado Doc', 1, 0, 'C', 0);
+$pdf->Cell(35, 8, mb_convert_encoding('Estado Envío','ISO-8859-1', 'UTF-8'), 1, 1, 'C', 0);
 
 
 $pdf->SetFillColor(233, 229, 235);
 //$pdf->SetDrawColor(61, 61, 61);
 $pdf->SetFont('Arial','',10);
 
-$pdf->SetWidths(array(17, 25, 38, 15, 30, 30, 25, 25));
+$pdf->SetWidths(array(30, 30, 50, 15, 40, 40, 35, 35));
 
 
 session_start();
@@ -232,17 +240,8 @@ foreach ($response['data'] as $documento) {
         mb_convert_encoding($documento['area'],'ISO-8859-1', 'UTF-8'),
         $documento['estadoDocumento'] == 'a' ? 'En seguimiento' : 'Seguimiento Finalizado',
         $documento['estadoRecepcion'] == 'a' ? 'Recepcionado' : mb_convert_encoding('Pendiente de Recepción','ISO-8859-1', 'UTF-8')
-    ), 3);
+    ), 10);
 }
 
-
-//// Configurar las cabeceras para la descarga del PDF
-//header('Content-Type: application/pdf');
-//
-//// Nombre del archivo
-//$filename = 'documentosPorArea.pdf';
-//header('Content-Disposition: inline; filename="' . $filename . '"');
-
-// Enviar el PDF al navegador
 $pdf->Output();
 ?>

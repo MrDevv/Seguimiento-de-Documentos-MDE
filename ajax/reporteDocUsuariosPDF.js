@@ -4,6 +4,7 @@ $(document).ready(function(){
 
         let usuario = $(".selectUsuario").val()
         let numDocumento = $("#numDocumentoReportePorUsuario").val()
+        let usuarioText = $(".selectUsuario option:selected").text();
 
         if (usuario == '0'){
             usuario = null;
@@ -18,7 +19,7 @@ $(document).ready(function(){
         $.ajax({
             url: "./controllers/reportes/documentosPorUsuarioPDF.php",
             type: "POST",
-            data: {numDocumento, usuario},
+            data: {numDocumento, usuario, usuarioText},
             xhrFields: {
                 responseType: 'blob'
             },

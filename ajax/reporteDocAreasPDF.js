@@ -3,6 +3,7 @@ $(document).ready(function(){
         e.preventDefault();
 
         let area = $(".selectArea").val()
+        let areaText = $(".selectArea option:selected").text();
         let numDocumento = $("#numDocumentoReportePorArea").val()
 
         if (area == '0'){
@@ -19,7 +20,7 @@ $(document).ready(function(){
         $.ajax({
             url: "./controllers/reportes/documentosPorAreaPDF.php",
             type: "POST",
-            data: {numDocumento, area},
+            data: {numDocumento, area, areaText},
             xhrFields: {
                 responseType: 'blob'
             },
