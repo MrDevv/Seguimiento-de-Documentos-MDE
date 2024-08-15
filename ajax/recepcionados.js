@@ -1,5 +1,17 @@
 $(document).ready(function(){
+    const alturaPantalla = window.innerHeight;
     let registrosPorPagina = 10;
+
+    if (alturaPantalla >= 1000) {
+        registrosPorPagina = 12;
+    } else if (alturaPantalla >= 900) {
+        registrosPorPagina = 10;
+    } else if (alturaPantalla >= 700) {
+        registrosPorPagina = 6;
+    } else {
+        registrosPorPagina = 4;
+    }
+
     let pagina = 1;
     let rolFiltro = $(".selectRolRecepcionados").val()
 
@@ -34,7 +46,7 @@ $(document).ready(function(){
                                 ${documento['estado documento'] === 'i' ? '<span class="finished estado mt-1">Seguimiento finalizado</span>' : ''}
                             </td>
                             <td>                                      
-                                <div class="actions">
+                                <div class="actions actionsRecepcionados">
                                     ${documento['estado recepcion'] === 'a' &&  documento['estado documento'] == "a" ? `
                                         <a class="action" href="#" id="btnCancelarRecepcion">
                                             <span class="tooltipParent"> Cancelar Recepción <span class="triangulo"></span></span>
@@ -87,7 +99,7 @@ $(document).ready(function(){
                                     ` : ''}
                                
                                ${localStorage.getItem('rol') == 'administrador' || localStorage.getItem('rol') == 'administrador área' ? `
-                                    <a class="action" id="btnSeguimientoDocumentoRecepcionado" href="#">
+                                    <a class="action actionVerSeguimientoRecepcionados" id="btnSeguimientoDocumentoRecepcionado" href="#">
                                         <span class="tooltipParent">Ver Seguimiento <span class="triangulo"></span></span>
                                         <svg width="39" height="34" viewBox="0 0 39 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <g filter="url(#filter0_d_2424_32)">
@@ -114,7 +126,7 @@ $(document).ready(function(){
                                     </a>
                                ` : ''}
                                     
-                                    <a href="#" class="action" id="btnDetalleEnvio">
+                                    <a href="#" class="action  actionVerDetalleRecepcionados" id="btnDetalleEnvio">
                                         <span class="tooltipParent">Ver Detalle <span class="triangulo"></span></span>
                                         <svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <g filter="url(#filter0_d_2424_29)">

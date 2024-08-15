@@ -558,15 +558,32 @@ textarea{
     font-weight: 500;
 }
 
-.actionsDocumentos{
+.actionsDocumentos, .actionPendientesRecepcion, .actionsEnviados{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
 }
 
-.optionVerSeguimiento{
+.optionVerSeguimiento, .optionDetalleEnviados{
     grid-column: 3/4;
 }
 
 .actionCulminarDocumento{
     grid-column: 2/3;
+}
+
+.optionVerSeguimientoEnviados{
+    grid-column: 2/3;
+}
+
+.actionsRecepcionados{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.actionVerSeguimientoRecepcionados{
+    grid-column: 3/4;
+}
+
+.actionVerDetalleRecepcionados{
+    grid-column: 4/5;
 }
