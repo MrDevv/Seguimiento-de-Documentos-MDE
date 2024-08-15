@@ -575,7 +575,7 @@ textarea{
     grid-column: 2/3;
 }
 
-.actionsRecepcionados{
+.actionsRecepcionados, .actionsUsuarios{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
 }
@@ -587,3 +587,12 @@ textarea{
 .actionVerDetalleRecepcionados{
     grid-column: 4/5;
 }
+
+.actionDeshabilitarUsuario{
+    grid-column: 4/5;
+}
+
+#bodyListaUsuarios, #bodyListaDocumentosPorArea, #bodyListaDocumentosPorUsuario, #bodyRecepcionados, #bodyEnviadosReporte{
+    font-weight: 500;
+}
+

@@ -39,7 +39,7 @@ $(document).ready(function() {
                                 ${usuario.estado === 'a' ? 'Activo' : 'Inactivo'}
                             </span>
                         </td>
-                        <td class="actions">
+                        <td class="actions actionsUsuarios">
                             ${usuario.estado === 'a' ? `
                                 <a class="action" id="btnEditarUsuario" href="#">
                                     <span class="tooltipParent">Editar <span class="triangulo"></span></span>
@@ -130,7 +130,7 @@ $(document).ready(function() {
 
                                 </a>
                             ` : `
-                                <a href="#" id="btnActivarUsuario" class="action">
+                                <a href="#" id="btnActivarUsuario" class="action actionDeshabilitarUsuario">
                                     <span class="tooltipParent">Habilitar <span class="triangulo"></span></span>
                                     <svg width="38" height="34" viewBox="0 0 38 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <g filter="url(#filter0_d_2971_18)">
@@ -158,7 +158,6 @@ $(document).ready(function() {
                     </tr>
                     `
                     ).join('');
-                    // Actualizar el contenido del select
                     $('#bodyListaUsuarios').html(row);
                 } else {
                     let row = `<tr>

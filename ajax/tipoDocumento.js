@@ -19,7 +19,7 @@ $(document).ready(function(){
                             <tr>
                                 <td> ${tipoDocumento.codTipoDocumento} </td>
                                 <td> ${tipoDocumento.descripcion} </td>
-                                <td class="actions">
+                                <td class="actions d-flex justify-content-center">
                                     <a class="action" id="btnEditarTipoDocumento" href="#">
                                         <span class="tooltipParent">Editar <span class="triangulo"></span></span>
                                         <svg width="38" height="34" viewBox="0 0 38 34" fill="none" xmlns="http://www.w3.org/2000/svg">

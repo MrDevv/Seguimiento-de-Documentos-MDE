@@ -46,7 +46,7 @@ $(document).ready(function() {
                         </td>
 
                         <td>
-                            <div class="actions">
+                            <div class="actions d-flex justify-content-center">
                                 <a href="#" class="action" id="btnSeguimientoDocumento">
                                 <span class="tooltipParent">Ver Seguimiento <span class="triangulo"></span></span>
                                 <svg width="39" height="34" viewBox="0 0 39 34" fill="none" xmlns="http://www.w3.org/2000/svg">
