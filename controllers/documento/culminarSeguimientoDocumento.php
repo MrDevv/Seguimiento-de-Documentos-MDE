@@ -6,6 +6,11 @@ $numDocumento = trim($_POST['numDocumento']);
 
 $documentoModel = new Documento();
 $documentoModel->setNumDocumento($numDocumento);
-$response = $documentoModel->finalizarSeguimiento();
+$response = $documentoModel->existeDocumento();
 
-print json_encode($response);
+if ($response['message'] == '¡No se encontraron resultados!') {
+    print json_encode($response);
+} else {
+    $response = $documentoModel->finalizarSeguimiento();
+    print json_encode($response);
+}

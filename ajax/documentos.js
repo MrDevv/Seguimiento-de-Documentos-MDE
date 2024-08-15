@@ -100,53 +100,7 @@ $(document).ready(function(){
                                     </a>
                                     ` : ''
                             }    
-            
-                            ${documento.estado == 'i' && (localStorage.getItem('rol') == 'administrador' || localStorage.getItem('rol') == 'administrador área') ? `
-                                <a class="action" id="btnContinuarDocumento" href="#">
-                                    <span class="tooltipParent">Continuar seguimiento <span class="triangulo"></span></span>
-                                    <svg width="37" height="34" viewBox="0 0 37 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <g filter="url(#filter0_d_2991_2)">
-                                        <rect x="4" width="29" height="26" rx="5" fill="#F8F8F8"/>
-                                        <path d="M24.4383 10.7176C24.4383 12.4207 23.8853 13.9939 22.9538 15.2703L27.6521 19.9713C28.116 20.4351 28.116 21.1884 27.6521 21.6522C27.1882 22.116 26.4348 22.116 25.9709 21.6522L21.2727 16.9511C19.996 17.8861 18.4225 18.4352 16.7191 18.4352C12.4551 18.4352 9 14.9809 9 10.7176C9 6.45438 12.4551 3 16.7191 3C20.9832 3 24.4383 6.45438 24.4383 10.7176ZM17.9438 7.41537C17.595 7.06659 17.0309 7.06659 16.6857 7.41537C16.3406 7.76415 16.3369 8.32813 16.6857 8.67319L17.8362 9.82341L13.4533 9.82712C12.9598 9.82712 12.5627 10.2241 12.5627 10.7176C12.5627 11.2111 12.9598 11.6081 13.4533 11.6081H17.8362L16.6857 12.7583C16.3369 13.1071 16.3369 13.6711 16.6857 14.0162C17.0346 14.3612 17.5987 14.3649 17.9438 14.0162L20.6158 11.3447C20.9646 10.9959 20.9646 10.4319 20.6158 10.0869L17.9438 7.41537Z" fill="black"/>
-                                        </g>
-                                        <defs>
-                                        <filter id="filter0_d_2991_2" x="0" y="0" width="37" height="34" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                                        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-                                        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-                                        <feOffset dy="4"/>
-                                        <feGaussianBlur stdDeviation="2"/>
-                                        <feComposite in2="hardAlpha" operator="out"/>
-                                        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-                                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2991_2"/>
-                                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2991_2" result="shape"/>
-                                        </filter>
-                                        </defs>
-                                    </svg>
-                                </a>
-                            ` : ''}
                             
-                            ${documento.estado == 'a' && (localStorage.getItem('rol') == 'administrador' || localStorage.getItem('rol') == 'administrador área') ? `
-                                <a class="action actionCulminarDocumento" id="btnCulminarDocumento" href="#">
-                                    <span class="tooltipParent">Dar por Culminado <span class="triangulo"></span></span>
-                                    <svg width="37" height="34" viewBox="0 0 37 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <g filter="url(#filter0_d_2984_8)">
-                                        <rect x="4" width="29" height="26" rx="5" fill="#F8F8F8"/>
-                                        <path d="M21.4 7H27V17H20L19.6 15H14V22H12V5H21L21.4 7ZM21 15H23V13H25V11H23V9H21V11L20 9V7H18V9H16V7H14V9H16V11H14V13H16V11H18V13H20V11L21 13V15ZM18 11V9H20V11H18ZM21 11H23V13H21V11Z" fill="black"/>
-                                        </g>
-                                        <defs>
-                                        <filter id="filter0_d_2984_8" x="0" y="0" width="37" height="34" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                                        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-                                        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-                                        <feOffset dy="4"/>
-                                        <feGaussianBlur stdDeviation="2"/>
-                                        <feComposite in2="hardAlpha" operator="out"/>
-                                        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-                                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2984_8"/>
-                                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2984_8" result="shape"/>
-                                        </filter>
-                                        </defs>
-                                    </svg>
-                                </a>` : ''}
                             ${localStorage.getItem('rol') == 'administrador' || localStorage.getItem('rol') == 'administrador área' ? `
                                 <a href="" class="action optionVerSeguimiento" id="btnSeguimientoDocumento" href="#">
                             <span class="tooltipParent">Ver Seguimiento <span class="triangulo"></span></span>
@@ -227,6 +181,90 @@ $(document).ready(function(){
         pagina = parseInt($(this).text().trim());
         loadDocumentos(numDocumentoFiltro, pagina, registrosPorPagina)
     })
+
+    // mostrar modal para culminar el seguimiento de un documento
+    $(document).off("click", "#btnCulminarSeguimiento").on("click", "#btnCulminarSeguimiento", function (e) {
+        e.preventDefault();
+        let modalRegistrar = $("#modalCulminarSeguimientroDocumento");
+        $("#culminarSeguimientoDocumentoForm").trigger("reset");
+
+        modalRegistrar.modal({
+            backdrop: 'static',
+            keyboard: false
+        }).modal('show');
+
+        modalRegistrar.on('shown.bs.modal', function () {
+            $("#nroDocumentoCulminarSeguimiento").focus();
+        });
+    })
+
+    // culminar el seguimiento de un documento por modal
+    $(document).off('submit', '#culminarSeguimientoDocumentoForm').on('submit', '#culminarSeguimientoDocumentoForm', function(e){
+        e.preventDefault();
+        let numDocumento = $.trim($('#nroDocumentoCulminarSeguimiento').val());
+
+        if(numDocumento.length == 0){
+            Swal.fire({
+                icon: "warning",
+                title: "Campos Incompletos",
+                text: "Ingrese el número del documento que desea dar por culminado su seguimiento",
+            });
+            return;
+        }
+
+        Swal.fire({
+            title: "¡Advertencia!",
+            html: `¿Desea dar por culminado el seguimiento del documento <span style="color: red; font-weight: bold;">${numDocumento}</span>? Ya no se podrá enviar ni recepcionar.`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#056251",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sí",
+            cancelButtonText: "No"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "./controllers/documento/culminarSeguimientoDocumento.php",
+                    type: "POST",
+                    dataType: "json",
+                    data: {numDocumento},
+                    success: function (response) {
+                        console.log(response)
+                        if (response.status == 'success' && response.message == '¡No se encontraron resultados!') {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error",
+                                text: "No existe el documento con el número ingresado"
+                            })
+                            return
+                        }else{
+                            if (response.status == 'success') {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "¡Éxito!",
+                                    text: response.message
+                                }).then(() => {
+                                    $('#modalCulminarSeguimientroDocumento').modal('hide');
+                                    loadDocumentos(numDocumentoFiltro, pagina, registrosPorPagina)
+                                })
+                            } else {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Error",
+                                    text: response.message
+                                })
+                            }
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error('Error fetching the content:', textStatus, errorThrown);
+                    }
+                })
+
+
+            }
+        })
+    });
 
     // buscarDocumentos
     $(document).off("input", "#numDocumentoListadoDocumentos").on("input", "#numDocumentoListadoDocumentos", function(e){

@@ -596,3 +596,16 @@ textarea{
     font-weight: 500;
 }
 
+.btnCulminarSeguimiento{
+    display: flex;
+    align-items: center;
+    background-color: #fa7575;
+    padding: 5px 12px;
+    font-weight: 500;
+    color: #000;
+    border-radius: 5px;
+    cursor: pointer;
+    height: fit-content;
+}
+
+
