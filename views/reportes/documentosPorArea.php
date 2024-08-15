@@ -52,7 +52,6 @@
                 <th>Area</th>
                 <th>Estado Documento</th>
                 <th>Estado Envio</th>
-                <th>Acciones</th>
             </tr>
             </thead>
             <tbody id="bodyListaDocumentosPorArea">
@@ -71,10 +70,6 @@
     </div>
 </div>
 
-<?php require_once "../documentos/seguimientoDocumento.php"?>
-<?php require_once "../documentos/detalleEnvio.php"?>
-
 <script src="<?= base_url?>ajax/listarAreas.js"></script>
 <script src="<?= base_url?>ajax/documentosPorAreaReporte.js"></script>
-<script src="<?= base_url?>ajax/detalle.js"></script>
 <script src="<?= base_url?>ajax/reporteDocAreasPDF.js"></script>

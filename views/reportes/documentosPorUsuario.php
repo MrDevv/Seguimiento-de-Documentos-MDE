@@ -51,7 +51,6 @@ require_once('../../config/parameters.php');
                 <th>Area</th>
                 <th>Estado Documento</th>
                 <th>Estado Envio</th>
-                <th>Acciones</th>
             </tr>
             </thead>
             <tbody id="bodyListaDocumentosPorUsuario">
@@ -69,10 +68,6 @@ require_once('../../config/parameters.php');
     </div>
 </div>
 
-<?php require_once "../documentos/seguimientoDocumento.php"?>
-<?php require_once "../documentos/detalleEnvio.php"?>
-
 <script src="<?= base_url?>ajax/documentoPorUsuarioReporte.js"></script>
 <script src="<?= base_url?>ajax/llenarSelectUsuarios.js"></script>
-<script src="<?= base_url?>ajax/detalle.js"></script>
 <script src="<?= base_url?>ajax/reporteDocUsuariosPDF.js"></script>
