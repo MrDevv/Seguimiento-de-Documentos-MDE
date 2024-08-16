@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Actualizar Indicación</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Editar Indicación</h5>
             </div>
             <form class="formArea" id="editarIndicacionForm" action="" method="post">
                 <div class="modal-body">

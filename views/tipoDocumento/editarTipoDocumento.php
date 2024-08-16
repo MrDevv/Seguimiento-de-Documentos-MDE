@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Actualizar Tipo Documento</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Editar Tipo Documento</h5>
             </div>
             <form class="formArea" id="editarTipoDocumentoForm" action="" method="post">
                 <div class="modal-body">
