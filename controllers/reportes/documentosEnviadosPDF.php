@@ -210,7 +210,7 @@ class PDF extends FPDF{
 
 // Obtener la fecha, hora y nombre del usuario desde la sesión
 
-$fechaActual = date('Y-m-d');
+$fechaActual = date('d/m/Y');
 $horaActual = date('H:i');
 $nombreUsuario = $_POST['nombresUsuario'];
 $fechaInicio = $_POST['fechaInicio'];
