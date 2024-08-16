@@ -30,10 +30,10 @@ $(document).ready(function() {
                             <td class="observacionEnvio">${documento.observaciones}</td>
                             <td class="invisible">${documento.codEnvio}</td>
                             <td>
-                                <span class="estado ${ documento["estado recepcion"] == 'i' ? "pendienteRecepcion" : "recepcionado" }">
-                                    ${documento['estado recepcion'] === 'i' ? 'Pendiente de Recepcion' : 'Recepcionado'}
-                                </span>
-                                ${documento['estado documento'] === 'i' ? '<span class="finished estado mt-1">Seguimiento finalizado</span>' : ''}
+                                ${documento['estado documento'] === 'i' ? 
+                                    '<span class="finished estado mt-1">Seguimiento finalizado</span>' 
+                                : 
+                                    '<span class="follow estado mt-1">En Seguimiento</span>'}
                             </td>
                         </tr>
                     `).join('');
