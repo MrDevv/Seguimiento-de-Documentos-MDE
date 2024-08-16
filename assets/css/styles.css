@@ -665,6 +665,10 @@ input:focus-visible{
     width: 100px;
 }
 
+.listadoDocumentos_body table thead tr th:nth-child(2) {
+    width: 70px;
+}
+
 .listadoDocumentos_body table thead tr th:nth-child(3){
     width: 250px;
 }
