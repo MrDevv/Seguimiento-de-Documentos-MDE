@@ -20,7 +20,7 @@
                     <p>Todos los campos (*) son obligatorios</p>
                 </div>
                 <div class="containerButtonsEditarArea">
-                    <input type="submit" class="btn btn-primary" value="Dar por culminado">
+                    <input type="submit" class="btn btn-primary" value="Culminar">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 </div>
             </form>

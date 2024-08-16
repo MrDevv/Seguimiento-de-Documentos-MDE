@@ -11,6 +11,11 @@ $response = $documentoModel->existeDocumento();
 if ($response['message'] == '¡No se encontraron resultados!') {
     print json_encode($response);
 } else {
-    $response = $documentoModel->finalizarSeguimiento();
-    print json_encode($response);
+    $response = $documentoModel->documentoEnseguimiento($numDocumento);
+    if ($response['message'] == 'En seguimiento') {
+        $response = $documentoModel->finalizarSeguimiento();
+        print json_encode($response);
+    }else{
+        print json_encode($response);
+    }
 }

@@ -234,24 +234,37 @@ $(document).ready(function(){
                             Swal.fire({
                                 icon: "error",
                                 title: "Error",
-                                text: "No existe el documento con el número ingresado"
+                                text: "No existe el documento con el número ingresado",
+                                allowEnterKey: false,
+                                allowEscapeKey: false,
+                                allowOutsideClick: false,
+                                stopKeydownPropagation: false
                             })
                             return
                         }else{
-                            if (response.status == 'success') {
+                            if (response.status == 'success' && response.message == 'Se finalizó el seguimiento del documento') {
+                                console.log(response)
                                 Swal.fire({
                                     icon: "success",
                                     title: "¡Éxito!",
-                                    text: response.message
+                                    text: response.message,
+                                    allowEnterKey: false,
+                                    allowEscapeKey: false,
+                                    allowOutsideClick: false,
+                                    stopKeydownPropagation: false
                                 }).then(() => {
                                     $('#modalCulminarSeguimientroDocumento').modal('hide');
                                     loadDocumentos(numDocumentoFiltro, pagina, registrosPorPagina)
                                 })
-                            } else {
+                            }else{
                                 Swal.fire({
-                                    icon: "error",
-                                    title: "Error",
-                                    text: response.message
+                                    icon: "warning",
+                                    title: "¡Advertencia!",
+                                    text: response.message,
+                                    allowEnterKey: false,
+                                    allowEscapeKey: false,
+                                    allowOutsideClick: false,
+                                    stopKeydownPropagation: false
                                 })
                             }
                         }

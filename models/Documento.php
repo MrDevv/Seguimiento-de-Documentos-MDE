@@ -394,6 +394,47 @@ class Documento{
         }
     }
 
+    public function documentoEnseguimiento($numDocumento){
+        $sql = "SELECT e.descripcion 'estado' FROM Documento d INNER JOIN Estado e ON e.codEstado = d.codEstado WHERE d.NumDocumento = :numDocumento";
+
+        try {
+            $stmt = DataBase::connect()->prepare($sql);
+            $stmt->bindParam('numDocumento', $numDocumento, PDO::PARAM_STR);
+            $stmt->execute();
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+            if ($results[0]['estado'] == 'n'){
+                return [
+                    'status' => 'success',
+                    'message' => 'No se puede culminar el seguimiento de este documento porque aún no está en seguimiento.',
+                    'action' => 'buscar',
+                    'module' => 'documento',
+                    'data' => [],
+                    'info' => ''
+                ];
+            }else{
+                return [
+                    'status' => 'success',
+                    'message' => 'En seguimiento',
+                    'action' => 'buscar',
+                    'module' => 'documento',
+                    'data' => [],
+                    'info' => ''
+                ];
+            }
+        }catch (PDOException $e){
+            return [
+                'status' => 'failed',
+                'message' => 'Ocurrio un error al momento de ver el seguimiento del documento',
+                'action' => 'ver',
+                'module' => 'documento',
+                'info' => $e->getMessage()
+            ];
+        }
+    }
+
+
     public function verSeguimientoDocumento(){
         $sql = "EXEC sp_verSeguimientoDocumento :numDocumento";
 

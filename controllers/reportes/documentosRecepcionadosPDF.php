@@ -19,8 +19,8 @@ class PDF extends FPDF{
 
     function Header(){
         $this->SetFont('Arial','',10);
-        $this->SetXY(1, 2);
-        $this->Cell(35, 5,'Sistema de Seguimiento de Documentos Internos y Externos', 0, 1, 'L', 0);
+//        $this->SetXY(1, 2);
+//        $this->Cell(35, 5,'Sistema de Seguimiento de Documentos Internos y Externos', 0, 1, 'L', 0);
 
         $this->SetXY(260, 2);
         $this->Cell(35, 5,'Fecha: ' .$this->fechaActual, 0, 1, 'L', 0);
@@ -28,28 +28,59 @@ class PDF extends FPDF{
         $this->Cell(35, 5,'Hora:  '.$this->horaActual, 0, 0, 'L', 0);
 
         $this->SetFont('Arial','B',20);
-        $this->Image('../../assets/logo.png', 10, 8, 40);
-        $this->SetXY(60, 20);
+        $this->Image('../../assets/logo.png', 5, 2, 35);
+        $this->SetXY(80, 12);
 
-        $this->Cell(190, 15, mb_convert_encoding('Reporte de Documentos Recepcionados','ISO-8859-1', 'UTF-8'), 0, 0, 'C', 0);
+        $this->Cell(150, 15, mb_convert_encoding('REPORTE DE DOCUMENTOS','ISO-8859-1', 'UTF-8'), 0, 1, 'C', 0);
+        $this->Ln(10);
 
-
-        $this->Ln(30);
         $this->SetX(80);
 
         $this->SetFont('Arial','',12);
         $this->SetX(50);
         $this->Cell(130, 8, mb_convert_encoding('Usuario: '.$this->nombreUsuario,'ISO-8859-1', 'UTF-8'), 0, 0, 'L', 0);
         $this->Cell(130, 8, mb_convert_encoding('Área: '.$_POST['areaUsuario'],'ISO-8859-1', 'UTF-8'), 0, 1, 'L', 0);
-
-        $this->SetX(80);
-        $this->SetFont('Arial','B',14);
-        $this->Cell(150, 8, "Filtros", 0, 1, 'C', 0);
-        $this->SetX(50);
         $this->SetFont('Arial','',12);
-        $this->Cell(90, 8, 'Desde: '.$this->fechaInicio, 0, 0, 'L', 0);
-        $this->Cell(90, 8, 'Hasta: '.$_POST['fechaFin'], 0, 0, 'L', 0);
-        $this->Cell(90, 8, mb_convert_encoding('Documento: '.$_POST['numDocumento'], 'ISO-8859-1', 'UTF-8'), 0, 1, 'L', 0);
+
+        if ($_POST['fechaInicio'] != '' && $_POST['fechaFin'] != '' && $_POST['numDocumento'] != '') {
+            $this->SetX(50);
+            $this->Cell(90, 8, 'Desde: '.$this->fechaInicio, 0, 0, 'L', 0);
+            $this->Cell(90, 8, 'Hasta: '.$_POST['fechaFin'], 0, 0, 'L', 0);
+            $this->Cell(90, 8, mb_convert_encoding('Documento: '.$_POST['numDocumento'], 'ISO-8859-1', 'UTF-8'), 0, 1, 'L', 0);
+        }
+
+        if ($_POST['fechaInicio'] != '' && $_POST['fechaFin'] == '' && $_POST['numDocumento'] == '') {
+            $this->SetX(50);
+            $this->Cell(90, 8, 'Desde: '.$this->fechaInicio, 0, 1, 'L', 0);
+        }
+
+        if ($_POST['fechaInicio'] == '' && $_POST['fechaFin'] != '' && $_POST['numDocumento'] == '') {
+            $this->SetX(50);
+            $this->Cell(90, 8, 'Hasta: '.$_POST['fechaFin'], 0, 1, 'L', 0);
+        }
+
+        if ($_POST['fechaInicio'] == '' && $_POST['fechaFin'] == '' && $_POST['numDocumento'] != '') {
+            $this->SetX(50);
+            $this->Cell(90, 8, mb_convert_encoding('Documento: '.$_POST['numDocumento'], 'ISO-8859-1', 'UTF-8'), 0, 1, 'L', 0);
+        }
+
+        if ($_POST['fechaInicio'] != '' && $_POST['fechaFin'] == '' && $_POST['numDocumento'] != '') {
+            $this->SetX(50);
+            $this->Cell(90, 8, 'Desde: '.$this->fechaInicio, 0, 0, 'L', 0);
+            $this->Cell(90, 8, mb_convert_encoding('Documento: '.$_POST['numDocumento'], 'ISO-8859-1', 'UTF-8'), 0, 1, 'L', 0);
+        }
+
+        if ($_POST['fechaInicio'] == '' && $_POST['fechaFin'] != '' && $_POST['numDocumento'] != '') {
+            $this->SetX(50);
+            $this->Cell(90, 8, 'Hasta: '.$_POST['fechaFin'], 0, 0, 'L', 0);
+            $this->Cell(90, 8, mb_convert_encoding('Documento: '.$_POST['numDocumento'], 'ISO-8859-1', 'UTF-8'), 0, 1, 'L', 0);
+        }
+
+        if ($_POST['fechaInicio'] != '' && $_POST['fechaFin'] != '' && $_POST['numDocumento'] == '') {
+            $this->SetX(50);
+            $this->Cell(90, 8, 'Desde: '.$this->fechaInicio, 0, 0, 'L', 0);
+            $this->Cell(90, 8, 'Hasta: '.$_POST['fechaFin'], 0, 1, 'L', 0);
+        }
 
         $this->Ln(5);
     }
@@ -74,12 +105,13 @@ class PDF extends FPDF{
         $this->aligns = $a;
     }
 
-    function Row($data, $setX){
+    function Row($data, $setX, $minHeight = 10){
         // Calculate the height of the row
         $nb = 0;
         for($i=0;$i<count($data);$i++)
             $nb = max($nb,$this->NbLines($this->widths[$i],$data[$i]));
-        $h = 5*$nb;
+        $h = max(5*$nb, $minHeight); // Use the greater value between calculated height and minimum height
+
         // Issue a page break first if needed
         $this->CheckPageBreak($h, $setX);
         // Draw the cells of the row
@@ -107,8 +139,8 @@ class PDF extends FPDF{
             $this->SetX($setX);
 
             $this->SetFont('Arial','B',10);
-            $this->Cell(30, 8, 'Nro Doc', 1, 0, 'C', 0);
             $this->Cell(30, 8, 'Tipo Doc', 1, 0, 'C', 0);
+            $this->Cell(30, 8, 'Nro Doc', 1, 0, 'C', 0);
             $this->Cell(50, 8, 'Asunto', 1, 0, 'C', 0);
             $this->Cell(15, 8, 'Folios', 1, 0, 'C', 0);
             $this->Cell(40, 8, 'Usuario Origen', 1, 0, 'C', 0);
@@ -180,7 +212,7 @@ class PDF extends FPDF{
     }
 }
 
-$fechaActual = date('Y-m-d');
+$fechaActual = date('d/m/Y');
 $horaActual = date('H:i');
 $nombreUsuario = $_POST['nombresUsuario'];
 $fechaInicio = $_POST['fechaInicio'];
@@ -191,8 +223,8 @@ $pdf->AddPage('L');
 $pdf->SetAutoPageBreak(true,20);
 $pdf->SetX(10);
 $pdf->SetFont('Arial','B',10);
-$pdf->Cell(30, 8, 'Nro Doc', 1, 0, 'C', 0);
 $pdf->Cell(30, 8, 'Tipo Doc', 1, 0, 'C', 0);
+$pdf->Cell(30, 8, 'Nro Doc', 1, 0, 'C', 0);
 $pdf->Cell(50, 8, 'Asunto', 1, 0, 'C', 0);
 $pdf->Cell(15, 8, 'Folios', 1, 0, 'C', 0);
 $pdf->Cell(40, 8, 'Usuario Origen', 1, 0, 'C', 0);
@@ -230,8 +262,8 @@ foreach ($response['data'] as $documento) {
 
 
     $pdf->Row(array(
-        $documento['NumDocumento'],
         mb_convert_encoding( $documento['tipo documento'],'ISO-8859-1', 'UTF-8'),
+        $documento['NumDocumento'],
         mb_convert_encoding($documento['asunto'],'ISO-8859-1', 'UTF-8'),
         $documento['folios'],
         mb_convert_encoding($documento['usuario origen'],'ISO-8859-1', 'UTF-8'),
