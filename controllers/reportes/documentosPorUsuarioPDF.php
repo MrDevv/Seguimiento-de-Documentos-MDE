@@ -15,32 +15,40 @@ class PDF extends FPDF{
 
     function Header(){
         $this->SetFont('Arial','',10);
-        $this->SetXY(1, 2);
-        $this->Cell(35, 5,'Sistema de Seguimiento de Documentos Internos y Externos', 0, 1, 'L', 0);
+//        $this->SetXY(1, 2);
+//        $this->Cell(35, 5,'Sistema de Seguimiento de Documentos Internos y Externos', 0, 1, 'L', 0);
 
         $this->SetXY(260, 2);
         $this->Cell(35, 5,'Fecha: ' .$this->fechaActual, 0, 1, 'L', 0);
         $this->SetX(260);
-        $this->Cell(35, 5,'Hora:  '.$this->horaActual, 0, 0, 'L', 0);
+        $this->Cell(35, 5,'Hora  :  '.$this->horaActual, 0, 0, 'L', 0);
 
         $this->SetFont('Arial','B',20);
-        $this->Image('../../assets/logo.png', 10, 8, 40);
-        $this->SetXY(60, 20);
+        $this->Image('../../assets/logo.png', 5, 2, 35);
+        $this->SetXY(80, 12);
 
-        $this->Cell(190, 15, mb_convert_encoding('Reporte de Documentos por Usuarios','ISO-8859-1', 'UTF-8'), 0, 0, 'C', 0);
+        $this->Cell(150, 15, mb_convert_encoding('REPORTE DE DOCUMENTOS','ISO-8859-1', 'UTF-8'), 0, 1, 'C', 0);
+        $this->Ln(10);
 
-        $this->SetFont('Arial','B',14);
-        $this->Ln(30);
-        $this->SetX(80);
-        $this->Cell(150, 8, "Filtros", 0, 1, 'C', 0);
         $this->SetFont('Arial','',12);
-        $this->SetX(50);
-        $this->Cell(130, 8, mb_convert_encoding('Usuario: ' . (($_POST['usuarioText'] == 'Seleccionar') ? 'Todos' : $_POST['usuarioText']), 'ISO-8859-1', 'UTF-8'), 0, 0, 'L', 0);
-        $this->Cell(100, 8, mb_convert_encoding('Número documento: '.$_POST['numDocumento'], 'ISO-8859-1', 'UTF-8'), 0, 1, 'L', 0);
+        $this->SetX(10);
 
-        $this->Ln(5);
+        if ($_POST['usuarioText'] != 'Seleccionar' && $_POST['numDocumento'] != ''){
+            $this->SetX(50);
+            $this->Cell(130, 8, mb_convert_encoding('Usuario: ' .$_POST['usuarioText'], 'ISO-8859-1', 'UTF-8'), 0, 0, 'L', 0);
+            $this->Cell(100, 8, mb_convert_encoding('Número documento: '.$_POST['numDocumento'], 'ISO-8859-1', 'UTF-8'), 0, 1, 'L', 0);
+        }
+
+        if ($_POST['usuarioText'] != 'Seleccionar' && $_POST['numDocumento'] == ''){
+            $this->Cell(130, 8, mb_convert_encoding('Usuario: ' . (($_POST['usuarioText'] == 'Seleccionar') ? 'Todos' : $_POST['usuarioText']), 'ISO-8859-1', 'UTF-8'), 0, 1, 'L', 0);
+        }
+
+        if ($_POST['numDocumento'] != '' && $_POST['usuarioText'] == 'Seleccionar'){
+            $this->Cell(100, 8, mb_convert_encoding('Número documento: '.$_POST['numDocumento'], 'ISO-8859-1', 'UTF-8'), 0, 1, 'L', 0);
+        }
+
+            $this->Ln(5);
     }
-
 
     function Footer(){
         $this->SetY(-15);
@@ -92,16 +100,28 @@ class PDF extends FPDF{
         if($this->GetY()+$h>$this->PageBreakTrigger){
             $this->AddPage($this->CurOrientation);
             $this->SetX($setX);
-
             $this->SetFont('Arial','B',10);
-            $this->Cell(30, 8, 'Nro Doc', 1, 0, 'C', 0);
-            $this->Cell(30, 8, 'Tipo Doc', 1, 0, 'C', 0);
-            $this->Cell(50, 8, 'Asunto', 1, 0, 'C', 0);
-            $this->Cell(15, 8, 'Folios', 1, 0, 'C', 0);
-            $this->Cell(40, 8, 'Usuario', 1, 0, 'C', 0);
-            $this->Cell(40, 8, mb_convert_encoding('Área','ISO-8859-1', 'UTF-8'), 1, 0, 'C', 0);
-            $this->Cell(35, 8, 'Estado Doc', 1, 0, 'C', 0);
-            $this->Cell(35, 8, mb_convert_encoding('Estado Envío','ISO-8859-1', 'UTF-8'), 1, 1, 'C', 0);
+
+            if ($_POST['usuarioText'] == 'Seleccionar') {
+                $this->Cell(30, 8, 'Nro Doc', 1, 0, 'C', 0);
+                $this->Cell(30, 8, 'Tipo Doc', 1, 0, 'C', 0);
+                $this->Cell(50, 8, 'Asunto', 1, 0, 'C', 0);
+                $this->Cell(15, 8, 'Folios', 1, 0, 'C', 0);
+                $this->Cell(40, 8, 'Usuario', 1, 0, 'C', 0);
+                $this->Cell(40, 8, mb_convert_encoding('Área','ISO-8859-1', 'UTF-8'), 1, 0, 'C', 0);
+                $this->Cell(35, 8, 'Estado Doc', 1, 0, 'C', 0);
+                $this->Cell(35, 8, mb_convert_encoding('Estado Envío','ISO-8859-1', 'UTF-8'), 1, 1, 'C', 0);
+            }else if ($_POST['usuarioText'] != 'Seleccionar'){
+                $this->Cell(30, 8, 'Nro Doc', 1, 0, 'C', 0);
+                $this->Cell(30, 8, 'Tipo Doc', 1, 0, 'C', 0);
+                $this->Cell(70, 8, 'Asunto', 1, 0, 'C', 0);
+                $this->Cell(15, 8, 'Folios', 1, 0, 'C', 0);
+                $this->Cell(50, 8, mb_convert_encoding('Área','ISO-8859-1', 'UTF-8'), 1, 0, 'C', 0);
+                $this->Cell(40, 8, 'Estado Doc', 1, 0, 'C', 0);
+                $this->Cell(45, 8, mb_convert_encoding('Estado Envío','ISO-8859-1', 'UTF-8'), 1, 1, 'C', 0);
+            }
+
+
 
             $this->SetFont('Arial','',9);
 
@@ -169,30 +189,62 @@ class PDF extends FPDF{
 
 
 // Obtener la fecha y hora actual
-$fechaActual = date('Y-m-d');
+$fechaActual = date('d/m/Y');
 $horaActual = date('H:i');
 $pdf = new PDF($fechaActual, $horaActual);
 $pdf->AliasNbPages();
 $pdf->AddPage('L');
-//$pdf->SetMargins(10, 10, 10);
 $pdf->SetAutoPageBreak(true,20);
 $pdf->SetX(10);
 $pdf->SetFont('Arial','B',10);
-$pdf->Cell(30, 8, 'Nro Doc', 1, 0, 'C', 0);
-$pdf->Cell(30, 8, 'Tipo Doc', 1, 0, 'C', 0);
-$pdf->Cell(50, 8, 'Asunto', 1, 0, 'C', 0);
-$pdf->Cell(15, 8, 'Folios', 1, 0, 'C', 0);
-$pdf->Cell(40, 8, 'Usuario', 1, 0, 'C', 0);
-$pdf->Cell(40, 8, mb_convert_encoding('Área','ISO-8859-1', 'UTF-8'), 1, 0, 'C', 0);
-$pdf->Cell(35, 8, 'Estado Doc', 1, 0, 'C', 0);
-$pdf->Cell(35, 8, mb_convert_encoding('Estado Envío','ISO-8859-1', 'UTF-8'), 1, 1, 'C', 0);
+
+if ($_POST['usuarioText'] != 'Seleccionar' && $_POST['numDocumento'] != ''){
+    $pdf->Cell(40, 8, 'Tipo Documento', 1, 0, 'C', 0);
+    $pdf->Cell(70, 8, 'Asunto', 1, 0, 'C', 0);
+    $pdf->Cell(15, 8, 'Folios', 1, 0, 'C', 0);
+    $pdf->Cell(60, 8, mb_convert_encoding('Área','ISO-8859-1', 'UTF-8'), 1, 0, 'C', 0);
+    $pdf->Cell(45, 8, 'Estado Documento', 1, 0, 'C', 0);
+    $pdf->Cell(45, 8, mb_convert_encoding('Estado Envío','ISO-8859-1', 'UTF-8'), 1, 1, 'C', 0);
+} else if ($_POST['usuarioText'] == 'Seleccionar' && $_POST['numDocumento'] != '') {
+    $pdf->Cell(30, 8, 'Tipo Doc', 1, 0, 'C', 0);
+    $pdf->Cell(50, 8, 'Asunto', 1, 0, 'C', 0);
+    $pdf->Cell(15, 8, 'Folios', 1, 0, 'C', 0);
+    $pdf->Cell(50, 8, 'Usuario', 1, 0, 'C', 0);
+    $pdf->Cell(60, 8, mb_convert_encoding('Área','ISO-8859-1', 'UTF-8'), 1, 0, 'C', 0);
+    $pdf->Cell(35, 8, 'Estado Doc', 1, 0, 'C', 0);
+    $pdf->Cell(35, 8, mb_convert_encoding('Estado Envío','ISO-8859-1', 'UTF-8'), 1, 1, 'C', 0);
+}else if ($_POST['usuarioText'] != 'Seleccionar' && $_POST['numDocumento'] == ''){
+    $pdf->Cell(30, 8, 'Tipo Documento', 1, 0, 'C', 0);
+    $pdf->Cell(30, 8, 'Nro Documento', 1, 0, 'C', 0);
+    $pdf->Cell(70, 8, 'Asunto', 1, 0, 'C', 0);
+    $pdf->Cell(15, 8, 'Folios', 1, 0, 'C', 0);
+    $pdf->Cell(50, 8, mb_convert_encoding('Área','ISO-8859-1', 'UTF-8'), 1, 0, 'C', 0);
+    $pdf->Cell(40, 8, 'Estado Documento', 1, 0, 'C', 0);
+    $pdf->Cell(45, 8, mb_convert_encoding('Estado Envío','ISO-8859-1', 'UTF-8'), 1, 1, 'C', 0);
+}else{
+    $pdf->Cell(30, 8, 'Tipo Doc', 1, 0, 'C', 0);
+    $pdf->Cell(30, 8, 'Nro Doc', 1, 0, 'C', 0);
+    $pdf->Cell(50, 8, 'Asunto', 1, 0, 'C', 0);
+    $pdf->Cell(15, 8, 'Folios', 1, 0, 'C', 0);
+    $pdf->Cell(40, 8, 'Usuario', 1, 0, 'C', 0);
+    $pdf->Cell(40, 8, mb_convert_encoding('Área','ISO-8859-1', 'UTF-8'), 1, 0, 'C', 0);
+    $pdf->Cell(35, 8, 'Estado Doc', 1, 0, 'C', 0);
+    $pdf->Cell(35, 8, mb_convert_encoding('Estado Envío','ISO-8859-1', 'UTF-8'), 1, 1, 'C', 0);
+}
 
 
 $pdf->SetFillColor(233, 229, 235);
-//$pdf->SetDrawColor(61, 61, 61);
 $pdf->SetFont('Arial','',10);
 
-$pdf->SetWidths(array(30, 30, 50, 15, 40, 40, 35, 35));
+if ($_POST['usuarioText'] != 'Seleccionar' && $_POST['numDocumento'] != ''){
+    $pdf->SetWidths(array(40, 70, 15, 60, 45, 45));
+} else if ($_POST['usuarioText'] == 'Seleccionar' && $_POST['numDocumento'] != '') {
+    $pdf->SetWidths(array(30, 50, 15, 50, 60, 35, 35));
+}else if ($_POST['usuarioText'] != 'Seleccionar' && $_POST['numDocumento'] == ''){
+    $pdf->SetWidths(array(30, 30, 70, 15, 50, 40, 45));
+}else{
+    $pdf->SetWidths(array(30, 30, 50, 15, 40, 40, 35, 35));
+}
 
 
 session_start();
@@ -231,16 +283,49 @@ if($codUsuario && $numDocumento) {
 }
 
 foreach ($response['data'] as $documento) {
-    $pdf->Row(array(
-        $documento['NumDocumento'],
-        mb_convert_encoding( $documento['tipoDocumento'],'ISO-8859-1', 'UTF-8'),
-        mb_convert_encoding($documento['asunto'],'ISO-8859-1', 'UTF-8'),
-        $documento['folios'],
-        mb_convert_encoding($documento['usuario'],'ISO-8859-1', 'UTF-8'),
-        mb_convert_encoding($documento['area'],'ISO-8859-1', 'UTF-8'),
-        $documento['estadoDocumento'] == 'a' ? 'En seguimiento' : 'Seguimiento Finalizado',
-        $documento['estadoRecepcion'] == 'a' ? 'Recepcionado' : mb_convert_encoding('Pendiente de Recepción','ISO-8859-1', 'UTF-8')
-    ), 10);
+    if ($_POST['usuarioText'] != 'Seleccionar' && $_POST['numDocumento'] != ''){
+        $pdf->Row(array(
+            mb_convert_encoding( $documento['tipoDocumento'],'ISO-8859-1', 'UTF-8'),
+            mb_convert_encoding($documento['asunto'],'ISO-8859-1', 'UTF-8'),
+            $documento['folios'],
+            mb_convert_encoding($documento['area'],'ISO-8859-1', 'UTF-8'),
+            $documento['estadoDocumento'] == 'a' ? 'En seguimiento' : 'Seguimiento Finalizado',
+            $documento['estadoRecepcion'] == 'a' ? 'Recepcionado' : mb_convert_encoding('Pendiente de Recepción','ISO-8859-1', 'UTF-8')
+        ), 10);
+    } else if ($_POST['usuarioText'] == 'Seleccionar' && $_POST['numDocumento'] != '') {
+        $pdf->Row(array(
+            mb_convert_encoding( $documento['tipoDocumento'],'ISO-8859-1', 'UTF-8'),
+            mb_convert_encoding($documento['asunto'],'ISO-8859-1', 'UTF-8'),
+            $documento['folios'],
+            mb_convert_encoding($documento['usuario'],'ISO-8859-1', 'UTF-8'),
+            mb_convert_encoding($documento['area'],'ISO-8859-1', 'UTF-8'),
+            $documento['estadoDocumento'] == 'a' ? 'En seguimiento' : 'Seguimiento Finalizado',
+            $documento['estadoRecepcion'] == 'a' ? 'Recepcionado' : mb_convert_encoding('Pendiente de Recepción','ISO-8859-1', 'UTF-8')
+        ), 10);
+    }else if ($_POST['usuarioText'] != 'Seleccionar' && $_POST['numDocumento'] == ''){
+        $pdf->Row(array(
+            mb_convert_encoding( $documento['tipoDocumento'],'ISO-8859-1', 'UTF-8'),
+            $documento['NumDocumento'],
+            mb_convert_encoding($documento['asunto'],'ISO-8859-1', 'UTF-8'),
+            $documento['folios'],
+            mb_convert_encoding($documento['area'],'ISO-8859-1', 'UTF-8'),
+            $documento['estadoDocumento'] == 'a' ? 'En seguimiento' : 'Seguimiento Finalizado',
+            $documento['estadoRecepcion'] == 'a' ? 'Recepcionado' : mb_convert_encoding('Pendiente de Recepción','ISO-8859-1', 'UTF-8')
+        ), 10);
+    }else{
+        $pdf->Row(array(
+            mb_convert_encoding( $documento['tipoDocumento'],'ISO-8859-1', 'UTF-8'),
+            $documento['NumDocumento'],
+            mb_convert_encoding($documento['asunto'],'ISO-8859-1', 'UTF-8'),
+            $documento['folios'],
+            mb_convert_encoding($documento['usuario'],'ISO-8859-1', 'UTF-8'),
+            mb_convert_encoding($documento['area'],'ISO-8859-1', 'UTF-8'),
+            $documento['estadoDocumento'] == 'a' ? 'En seguimiento' : 'Seguimiento Finalizado',
+            $documento['estadoRecepcion'] == 'a' ? 'Recepcionado' : mb_convert_encoding('Pendiente de Recepción','ISO-8859-1', 'UTF-8')
+        ), 10);
+    }
+
+
 }
 
 $pdf->Output();
