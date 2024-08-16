@@ -9,14 +9,12 @@ $(document).ready(function() {
     obtenerDocumentosRecepcionados(numDocumento, fechaInicio, fechaFin, pagina, registrosPorPagina)
 
     function obtenerDocumentosRecepcionados(numDocumento, fechaInicio, fechaFin, pagina, registrosPorPagina) {
-        console.log({numDocumento, fechaInicio, fechaFin, pagina, registrosPorPagina})
         $.ajax({
             url: './controllers/reportes/documentosRecepcionados.php',
             method: 'POST',
             data: {numDocumento, fechaInicio, fechaFin, pagina, registrosPorPagina},
             dataType: 'json',
             success: function(response) {
-                console.log(response)
                 let { data } = response;
                 if (Array.isArray(data) && data.length > 0) {
                     let rows = data.map(documento => `
@@ -51,7 +49,6 @@ $(document).ready(function() {
 
     // generar botones paginacion
     function generarOpcionesPaginacion() {
-        console.log({numDocumento, fechaInicio, fechaFin})
         $.ajax({
             url: './controllers/reportes/totalDocumentosRecepcionados.php',
             method: 'GET',
@@ -100,7 +97,6 @@ $(document).ready(function() {
             data: { numDocumento },
             success: function(response) {
                 let { status, data } = response;
-                console.log(response);
                 if (status == 'success') {
                     let modalVerSeguimiento = $("#modalSeguimientoDocumento");
 

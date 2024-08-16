@@ -25,7 +25,6 @@ $(document).ready(function(){
             dataType: 'json',
             success: function(response) {
                 let { data } = response;
-                console.log(data)
                 if (Array.isArray(data) && data.length > 0) {
                     let rows = data.map(documento => `
                         <tr>
@@ -240,7 +239,6 @@ $(document).ready(function(){
             data: {numDocumento},
             success: function (response) {
                 let {status, data} = response
-                console.log(response)
                 if (status == 'success') {
                         let modalVerSeguimiento = $("#modalSeguimientoDocumento");
 

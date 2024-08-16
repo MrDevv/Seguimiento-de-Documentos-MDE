@@ -15,7 +15,6 @@ $(document).ready(function() {
             data: {numDocumento, usuario, pagina, registrosPorPagina},
             success: function(response) {
                 let {data} = response
-                console.log(data)
                 if (data.length > 0 && Array.isArray(data)) {
                     let row = data.map(documento => `
 
@@ -75,7 +74,6 @@ $(document).ready(function() {
             data: {numDocumento},
             success: function (response) {
                 let {status, data} = response
-                console.log({info: "log de documentos.js - modal seguimiento" , response})
                 if (status == 'success') {
                     if (data.length == 0) {
                         Swal.fire({
@@ -201,7 +199,6 @@ $(document).ready(function() {
             dataType: 'json',
             data: {numDocumento, usuario},
             success: function(response) {
-                console.log(response)
                 let { data } = response;
                 let totalDocumentos = data[0]['total']
                 let totalPaginas = Math.ceil(totalDocumentos/registrosPorPagina);

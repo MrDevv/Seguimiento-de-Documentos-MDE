@@ -41,7 +41,6 @@ class UsuarioController{
             <script>
                 let rol = '{$_SESSION['user']['rol']}';
                 localStorage.setItem('rol', rol);
-                console.log(localStorage.getItem('rol'));
             </script>
         ";
             echo "

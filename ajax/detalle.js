@@ -11,7 +11,6 @@ $(document).ready(function(){
             dataType: "json",
             data: { codEnvio },
             success: function(response) {
-                console.log(response)
                 let { status, data } = response;
                 if (status == 'success') {
                     let modalVerDetalleEnvio = $("#modalDetalleEnvio");
@@ -19,8 +18,6 @@ $(document).ready(function(){
                     let numDocumento = data[0]['NumDocumento'];
                     let estadoDocumento = data[0]['estado documento'];
                     let tipoDocumento = data[0]['tipo documento'];
-
-                    console.log(estadoDocumento)
 
                     $("#numDocumentoDetalle").text(numDocumento);
                     $("#tipoDocumentoDetalle").text(tipoDocumento);

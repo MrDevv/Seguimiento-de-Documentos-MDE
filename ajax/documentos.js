@@ -26,10 +26,7 @@ $(document).ready(function(){
             dataType: 'json',
             data: {numDocumentoFiltro, pagina, registrosPorPagina},
             success: function(response) {
-                console.log(response)
-
                 let {data} = response
-                console.log(data)
                 if (data.length > 0 && Array.isArray(data)) {
                     let row = data.map(documento => `
                     <tr>
@@ -229,7 +226,6 @@ $(document).ready(function(){
                     dataType: "json",
                     data: {numDocumento},
                     success: function (response) {
-                        console.log(response)
                         if (response.status == 'success' && response.message == '¡No se encontraron resultados!') {
                             Swal.fire({
                                 icon: "error",
@@ -243,7 +239,6 @@ $(document).ready(function(){
                             return
                         }else{
                             if (response.status == 'success' && response.message == 'Se finalizó el seguimiento del documento') {
-                                console.log(response)
                                 Swal.fire({
                                     icon: "success",
                                     title: "¡Éxito!",
@@ -681,7 +676,6 @@ $(document).ready(function(){
             data: {numDocumento},
             success: function (response) {
                 let {status, data} = response
-                console.log({info: "log de documentos.js - modal seguimiento" , response})
                 if (status == 'success') {
                     if (data.length == 0) {
                         Swal.fire({

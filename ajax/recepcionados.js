@@ -24,7 +24,6 @@ $(document).ready(function(){
             data: {rolFiltro, pagina, registrosPorPagina},
             dataType: 'json',
             success: function(response) {
-                console.log(response)
                 let { data } = response;
                 if (Array.isArray(data) && data.length > 0) {
                     let rows = data.map(documento => `                   
@@ -215,7 +214,6 @@ $(document).ready(function(){
             data: { numDocumento },
             success: function(response) {
                 let { status, data } = response;
-                console.log(response);
                 if (status == 'success') {
                     let modalVerSeguimiento = $("#modalSeguimientoDocumento");
 
@@ -418,7 +416,6 @@ $(document).ready(function(){
             dataType: "json",
             data: {codRecepcion, numDocumento, folios, indicacion, usuarioAreaDestino, observacion},
             success: function (response) {
-                console.log(response);
                 if (response.status == 'success'){
                     Swal.fire({
                         icon: "success",

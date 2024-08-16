@@ -5,7 +5,6 @@ $(document).ready(function() {
         dataType: 'json',
         data: {pagina: 1, registrosPorPagina: 900},
         success: function(data) {
-            // console.log(data)
             if (data && Array.isArray(data)) {
                 let options = `<option value="0">Seleccionar</option>` +
                     data.map(area =>

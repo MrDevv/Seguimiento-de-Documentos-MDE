@@ -199,9 +199,7 @@ $(document).ready(function(){
                 data: {numDocumento},
                 success: function (response) {
                     let {status, data} = response
-                    console.log(response)
                     if (status == 'success') {
-                        console.log(data.length)
                         if (data.length == 0) {
                             Swal.fire({
                                 icon: "warning",
