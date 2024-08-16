@@ -1,13 +1,6 @@
 <?php
 
 class DataBase{
-    // Variables para my sql
-    private static $serverNameMySql = "monorail.proxy.rlwy.net";
-    private static $databaseMySql = "railway";
-    private static $usernameMySql = "root";
-    private static $passwordMySql = "ieEQptuHBRhLWJfpBUDdVfXgboUPzTda";
-    private static $portMySql = "40079";
-
     // variables para sql server
     private static $serverName = "localhost";
     private static $database = "Sistema_Seguimiento_Documentos";
@@ -24,25 +17,3 @@ class DataBase{
         }
     }
 }
-
-
-/*
-$serverName = "localhost"; // o el nombre/IP del servidor SQL Server
-$connectionOptions = array(
-    "Database" => "Sistema_Seguimiento_Documentos", // Nombre de la base de datos
-    "Uid" => "sa", // Usuario
-    "PWD" => "admin" // Contraseña
-);
-
-// Establecer la conexión
-$conn = sqlsrv_connect($serverName, $connectionOptions);
-
-// Verificar si la conexión se estableció correctamente
-if ($conn === false) {
-    die(print_r(sqlsrv_errors(), true));
-} else {
-    echo "Conexión exitosa.";
-}
-
-return $conn;
-*/
