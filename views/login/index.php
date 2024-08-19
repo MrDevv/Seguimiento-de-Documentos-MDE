@@ -8,7 +8,7 @@
             <p>Ingresa tus datos para iniciar sesión</p>
             <form id="formLogin" action="" method="post">
                 <label for="username">Usuario:</label>
-                <input type="text" id="username" name="username">
+                <input type="text" id="username" name="username" autocomplete="off">
 
                 <label for="password">Contraseña:</label>
                 <input type="password" id="password" name="password"> </br>
