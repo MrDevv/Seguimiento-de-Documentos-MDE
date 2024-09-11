@@ -4,7 +4,7 @@ CREATE PROCEDURE sp_cancelarEnvio(
 AS BEGIN
 	DECLARE @codEstado INT;
 	DECLARE @codUltimaRecepcion INT;
-	DECLARE @NumDocumento VARCHAR(20);
+	DECLARE @NumDocumento VARCHAR(40);
 
 	SELECT @NumDocumento = NumDocumento FROM Envio WHERE codEnvio = @codEnvio;
 

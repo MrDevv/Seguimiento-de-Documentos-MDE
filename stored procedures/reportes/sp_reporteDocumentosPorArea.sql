@@ -1,7 +1,7 @@
 -- Obtener documentos por area
 CREATE PROCEDURE sp_reporteDocumentosPorArea
     @codArea INT = NULL, 
-	@numDocumento VARCHAR(20) = NULL,
+	@numDocumento VARCHAR(40) = NULL,
 	@pagina INT = NULL,
     @registrosPorPagina INT = NULL
 AS

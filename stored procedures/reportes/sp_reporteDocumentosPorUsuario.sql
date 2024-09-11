@@ -1,7 +1,7 @@
 -- Obtener documentos por usuario
 CREATE PROCEDURE sp_reporteDocumentosPorUsuario
     @codArea INT = NULL, 
-	@numDocumento VARCHAR(20) = NULL, 
+	@numDocumento VARCHAR(40) = NULL, 
 	@codUsuarioAreaDestino INT = NULL,
 	@pagina INT = NULL,
     @registrosPorPagina INT = NULL

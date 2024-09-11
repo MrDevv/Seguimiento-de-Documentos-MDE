@@ -1,6 +1,6 @@
 CREATE PROCEDURE sp_totalDocumentosPorUsuarioReporte(
     @codArea INT = NULL, 
-	@numDocumento VARCHAR(20) = NULL, 
+	@numDocumento VARCHAR(40) = NULL, 
 	@codUsuarioAreaDestino INT = NULL
 )
 AS

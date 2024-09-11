@@ -1,5 +1,5 @@
 CREATE PROCEDURE sp_registrarDocumento(
-	@numDocumento VARCHAR(20), @asunto VARCHAR(300), @folios INT, @codTipoDocumento INT, 
+	@numDocumento VARCHAR(40), @asunto VARCHAR(300), @folios INT, @codTipoDocumento INT, 
 	@usuario INT, @fechaRegistro DATE, @horaRegistro TIME
 )
 AS

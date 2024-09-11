@@ -5,7 +5,7 @@ CREATE PROCEDURE sp_reporteDocumentosEnviados(
     @registrosPorPagina INT = 10,
 	@fechaInicio DATE = NULL,
 	@fechaFin DATE = NULL,
-	@numDocumento VARCHAR(20) = ''
+	@numDocumento VARCHAR(40) = ''
 )
 AS
 BEGIN

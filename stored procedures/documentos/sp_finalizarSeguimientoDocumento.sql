@@ -1,5 +1,5 @@
 CREATE PROCEDURE sp_finalizarSeguimientoDocumento(
-	@numDocumento VARCHAR(20)
+	@numDocumento VARCHAR(40)
 )
 AS
 BEGIN

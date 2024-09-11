@@ -1,5 +1,5 @@
 CREATE PROCEDURE sp_registrarEnvio(
-	@codRecepcion INT NULL, @numDocumento VARCHAR(20), @folios INT, @codIndicacion INT, 
+	@codRecepcion INT NULL, @numDocumento VARCHAR(40), @folios INT, @codIndicacion INT, 
 	@observacion VARCHAR(300) NULL, @codUsuarioAreaDestino INT,@codUsuarioAreaEnvio INT, @fechaEnvio DATE, @horaEnvio TIME
 )
 AS

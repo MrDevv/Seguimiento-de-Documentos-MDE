@@ -3,7 +3,7 @@ CREATE PROCEDURE sp_totalDocumentosRecepcionadosReporte(
 	@codUsuarioArea INT, 
 	@fechaInicio DATE = NULL,
 	@fechaFin DATE = NULL,
-	@numDocumento VARCHAR(20) = ''
+	@numDocumento VARCHAR(40) = ''
 )
 AS
 BEGIN

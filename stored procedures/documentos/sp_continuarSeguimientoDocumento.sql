@@ -1,7 +1,7 @@
 /** procedimiento para continuar con el seguimiento de un documento,
 recibe como parametro el número del documento **/
 CREATE PROCEDURE sp_continuarSeguimientoDocumento(
-	@numDocumento VARCHAR(20)
+	@numDocumento VARCHAR(40)
 )
 AS
 BEGIN

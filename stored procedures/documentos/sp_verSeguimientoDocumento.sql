@@ -1,6 +1,6 @@
 -- procedimiento almacenado para ver el seguimiento de un documento
 CREATE PROCEDURE sp_verSeguimientoDocumento(
-	@NumDocumento VARCHAR(20)
+	@NumDocumento VARCHAR(40)
 )
 AS BEGIN
 	SELECT  e.codEnvio, 

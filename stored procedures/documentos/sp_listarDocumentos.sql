@@ -1,7 +1,7 @@
 -- procedimiento almacenado para listar los documentos registrados
 CREATE PROCEDURE sp_listarDocumentos(
 	@codAreaUsuario INT = NULL, 
-	@numDocumento VARCHAR(20), 
+	@numDocumento VARCHAR(40), 
 	@codArea INT = NULL,
 	@pagina INT,
     @registrosPorPagina INT

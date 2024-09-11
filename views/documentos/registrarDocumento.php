@@ -13,7 +13,7 @@
                                     type="text"
                                     id="nroDocumentoRegistro"
                                     autocomplete="off"
-                                    maxlength="20"
+                                    maxlength="40"
                             >
                         </div>
                         <div class="campoArea">
