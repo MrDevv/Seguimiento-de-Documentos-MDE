@@ -15,7 +15,7 @@ BEGIN
 
 	IF @codArea IS NULL
 	BEGIN
-		SELECT d.NumDocumento, tp.codTipoDocumento, tp.descripcion 'tipo documento', d.asunto, d.folios, d.fechaRegistro,
+		SELECT d.numRegistro, d.NumDocumento, tp.codTipoDocumento, tp.descripcion 'tipo documento', d.asunto, d.folios, d.fechaRegistro,
 					CONCAT(p.nombres ,' ',p.apellidos) 'usuario registrador', a.codArea ,a.descripcion 'area', e.descripcion 'estado'
 					from Documento d
 					inner join TipoDocumento tp on d.codTipoDocumento = tp.codTipoDocumento
@@ -34,7 +34,7 @@ BEGIN
 	END
 	ELSE
 	BEGIN
-			SELECT d.NumDocumento, tp.codTipoDocumento, tp.descripcion 'tipo documento', d.asunto, d.folios, d.fechaRegistro,
+			SELECT d.numRegistro, d.NumDocumento, tp.codTipoDocumento, tp.descripcion 'tipo documento', d.asunto, d.folios, d.fechaRegistro,
 					CONCAT(p.nombres ,' ',p.apellidos) 'usuario registrador', a.codArea ,a.descripcion 'area', e.descripcion 'estado'
 					from Documento d
 					inner join TipoDocumento tp on d.codTipoDocumento = tp.codTipoDocumento

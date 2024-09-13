@@ -4,16 +4,16 @@ CREATE PROCEDURE sp_cancelarEnvio(
 AS BEGIN
 	DECLARE @codEstado INT;
 	DECLARE @codUltimaRecepcion INT;
-	DECLARE @NumDocumento VARCHAR(40);
+	DECLARE @numRegistro INT;
 
-	SELECT @NumDocumento = NumDocumento FROM Envio WHERE codEnvio = @codEnvio;
+	SELECT @numRegistro = numRegistro FROM Envio WHERE codEnvio = @codEnvio;
 
 	DELETE FROM Recepcion where codEnvio = @codEnvio;
 	DELETE FROM Envio where codEnvio = @codEnvio
 
 	SELECT TOP 1 @codUltimaRecepcion = r.codRecepcion
 	FROM Recepcion r INNER JOIN envio e on r.codEnvio = e.codEnvio
-	WHERE e.NumDocumento = @NumDocumento
+	WHERE e.numRegistro = @numRegistro
 	ORDER BY r.fechaRecepcion DESC, r.horaRecepcion DESC;
 
 	IF @codUltimaRecepcion IS NOT NULL
@@ -24,7 +24,7 @@ AS BEGIN
 	ELSE 
 	BEGIN
 		SELECT @codEstado = codEstado FROM Estado WHERE descripcion = 'n';
-		UPDATE Documento SET codEstado = @codEstado WHERE NumDocumento = @NumDocumento;
+		UPDATE Documento SET codEstado = @codEstado WHERE numRegistro = @numRegistro;
 	END
 END
 GO

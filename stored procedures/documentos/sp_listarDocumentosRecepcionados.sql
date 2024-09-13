@@ -17,6 +17,7 @@ BEGIN
 		IF @codArea IS NULL
 		BEGIN
 			SELECT 
+			e.numRegistro,
 			r.codRecepcion,
 			e.codEnvio,
 			LEFT(CONVERT(VARCHAR, e.horaEnvio, 108), 5) AS 'hora envio',
@@ -24,7 +25,7 @@ BEGIN
 			e.folios, 
 			e.observaciones,
 			er.descripcion 'estado recepcion',
-			e.NumDocumento,
+			d.NumDocumento,
 			td.descripcion 'tipo documento',
 			CONCAT(pe.nombres, ' ',pe.apellidos) 'usuario origen', 
 			ae.descripcion 'area origen',
@@ -34,7 +35,7 @@ BEGIN
 			FROM Recepcion r
 			INNER JOIN Envio e ON r.codEnvio = e.codEnvio
 			INNER JOIN Estado er ON r.codEstado = er.codEstado
-			INNER JOIN Documento d ON e.NumDocumento = d.NumDocumento
+			INNER JOIN Documento d ON e.numRegistro = d.numRegistro
 			INNER JOIN TipoDocumento td ON d.codTipoDocumento = td.codTipoDocumento
 			-- Usuario origen
 			INNER JOIN UsuarioArea uae ON e.codUsuarioEnvio = uae.codUsuarioArea
@@ -58,6 +59,7 @@ BEGIN
 		ELSE
 		BEGIN
 			SELECT 
+				e.numRegistro,
 				r.codRecepcion,
 				e.codEnvio,
 				LEFT(CONVERT(VARCHAR, e.horaEnvio, 108), 5) AS 'hora envio',
@@ -65,7 +67,7 @@ BEGIN
 				e.folios, 
 				e.observaciones,
 				er.descripcion 'estado recepcion',
-				e.NumDocumento,
+				d.NumDocumento,
 				td.descripcion 'tipo documento',
 				CONCAT(pe.nombres, ' ',pe.apellidos) 'usuario origen', 
 				ae.descripcion 'area origen',
@@ -75,7 +77,7 @@ BEGIN
 				FROM Recepcion r
 				INNER JOIN Envio e ON r.codEnvio = e.codEnvio
 				INNER JOIN Estado er ON r.codEstado = er.codEstado
-				INNER JOIN Documento d ON e.NumDocumento = d.NumDocumento
+				INNER JOIN Documento d ON e.numRegistro = d.numRegistro
 				INNER JOIN TipoDocumento td ON d.codTipoDocumento = td.codTipoDocumento
 				-- Usuario origen
 				INNER JOIN UsuarioArea uae ON e.codUsuarioEnvio = uae.codUsuarioArea

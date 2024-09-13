@@ -1,6 +1,7 @@
 CREATE PROCEDURE sp_registrarEnvio(
-	@codRecepcion INT NULL, @numDocumento VARCHAR(40), @folios INT, @codIndicacion INT, 
-	@observacion VARCHAR(300) NULL, @codUsuarioAreaDestino INT,@codUsuarioAreaEnvio INT, @fechaEnvio DATE, @horaEnvio TIME
+	@codRecepcion INT NULL, @folios INT, @codIndicacion INT, 
+	@observacion VARCHAR(300) NULL, @codUsuarioAreaDestino INT,@codUsuarioAreaEnvio INT, @fechaEnvio DATE, @horaEnvio TIME,
+	@numRegistro INT
 )
 AS
 BEGIN
@@ -11,13 +12,13 @@ BEGIN
 	SELECT @codEstadoInactivo = codEstado FROM Estado WHERE descripcion = 'i';
 
 	INSERT INTO Envio 
-		(fechaEnvio, horaEnvio, folios, observaciones, codEstado, codIndicacion, NumDocumento, codUsuarioEnvio, codUsuarioDestino)
-    VALUES (@fechaEnvio, @horaEnvio, @folios, @observacion, @codEstadoActivo, @codIndicacion, @numDocumento, @codUsuarioAreaEnvio, @codUsuarioAreaDestino)
+		(fechaEnvio, horaEnvio, folios, observaciones, codEstado, codIndicacion, numRegistro, codUsuarioEnvio, codUsuarioDestino)
+    VALUES (@fechaEnvio, @horaEnvio, @folios, @observacion, @codEstadoActivo, @codIndicacion, @numRegistro, @codUsuarioAreaEnvio, @codUsuarioAreaDestino)
 
 	DECLARE @codEnvioInsert INT;
     SET @codEnvioInsert = SCOPE_IDENTITY();
 
-	UPDATE Documento SET codEstado = @codEstadoActivo where NumDocumento = @numDocumento
+	UPDATE Documento SET codEstado = @codEstadoActivo where numRegistro = @numRegistro
 
 	IF @codRecepcion IS NOT NULL
 	BEGIN

@@ -25,7 +25,7 @@ BEGIN
 			e.folios, 
 			e.observaciones,
 			er.descripcion 'estado recepcion',
-			e.NumDocumento,
+			d.NumDocumento,
 			d.asunto,
 			td.descripcion 'tipo documento',
 			CONCAT(pe.nombres, ' ',pe.apellidos) 'usuario origen', 
@@ -36,7 +36,7 @@ BEGIN
 			FROM Recepcion r
 			INNER JOIN Envio e ON r.codEnvio = e.codEnvio
 			INNER JOIN Estado er ON r.codEstado = er.codEstado
-			INNER JOIN Documento d ON e.NumDocumento = d.NumDocumento
+			INNER JOIN Documento d ON e.numRegistro = d.numRegistro
 			INNER JOIN TipoDocumento td ON d.codTipoDocumento = td.codTipoDocumento
 			-- Usuario origen
 			INNER JOIN UsuarioArea uae ON e.codUsuarioEnvio = uae.codUsuarioArea
@@ -55,7 +55,7 @@ BEGIN
 			WHERE r.codUsuarioRecepcion = @codUsuarioArea AND r.codEstado = @CodEstadoActivo
 			AND (@fechaInicio IS NULL OR r.fechaRecepcion >= @fechaInicio)
 			AND (@fechaFin IS NULL OR r.fechaRecepcion <= @fechaFin)
-			AND e.NumDocumento LIKE '%'+@numDocumento+'%'
+			AND d.NumDocumento LIKE '%'+@numDocumento+'%'
 			ORDER BY e.fechaEnvio DESC, e.horaEnvio DESC			
 		END
 		ELSE
@@ -73,7 +73,7 @@ BEGIN
 		e.folios, 
 		e.observaciones,
 		er.descripcion 'estado recepcion',
-		e.NumDocumento,
+		d.NumDocumento,
 		d.asunto,
 		td.descripcion 'tipo documento',
 		CONCAT(pe.nombres, ' ',pe.apellidos) 'usuario origen', 
@@ -84,7 +84,7 @@ BEGIN
 		FROM Recepcion r
 		INNER JOIN Envio e ON r.codEnvio = e.codEnvio
 		INNER JOIN Estado er ON r.codEstado = er.codEstado
-		INNER JOIN Documento d ON e.NumDocumento = d.NumDocumento
+		INNER JOIN Documento d ON e.numRegistro = d.numRegistro
 		INNER JOIN TipoDocumento td ON d.codTipoDocumento = td.codTipoDocumento
 		-- Usuario origen
 		INNER JOIN UsuarioArea uae ON e.codUsuarioEnvio = uae.codUsuarioArea
@@ -103,7 +103,7 @@ BEGIN
 		WHERE r.codUsuarioRecepcion = @codUsuarioArea AND r.codEstado = @CodEstadoActivo
 		AND (@fechaInicio IS NULL OR r.fechaRecepcion >= @fechaInicio)
         AND (@fechaFin IS NULL OR r.fechaRecepcion <= @fechaFin)
-		AND e.NumDocumento LIKE '%'+@numDocumento+'%'
+		AND d.NumDocumento LIKE '%'+@numDocumento+'%'
 		ORDER BY e.fechaEnvio DESC, e.horaEnvio DESC
 		OFFSET @offset ROWS
 		FETCH NEXT @registrosPorPagina ROWS ONLY;

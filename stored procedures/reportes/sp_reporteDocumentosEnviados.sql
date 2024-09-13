@@ -25,7 +25,7 @@ BEGIN
             ed.descripcion 'estado documento' 
             from Recepcion r 
             INNER JOIN Envio e on r.codEnvio = e.codEnvio 
-            INNER JOIN Documento d ON e.NumDocumento = d.NumDocumento 
+            INNER JOIN Documento d ON e.numRegistro = d.numRegistro
             INNER JOIN TipoDocumento td ON d.codTipoDocumento = td.codTipoDocumento 
             INNER JOIN UsuarioArea uad ON e.codUsuarioDestino = uad.codUsuarioArea 
             INNER JOIN Usuario ud ON uad.codUsuario = ud.codUsuario 
@@ -36,7 +36,7 @@ BEGIN
             WHERE e.codUsuarioEnvio =  @codUsuarioArea
 			AND (@fechaInicio IS NULL OR e.fechaEnvio >= @fechaInicio)
 			AND (@fechaFin IS NULL OR e.fechaEnvio <= @fechaFin)
-			AND e.NumDocumento LIKE '%'+@numDocumento+'%'
+			AND d.NumDocumento LIKE '%'+@numDocumento+'%'
 			ORDER BY e.fechaEnvio DESC, e.horaEnvio DESC	
 		END
 		ELSE
@@ -58,7 +58,7 @@ BEGIN
             ed.descripcion 'estado documento' 
             from Recepcion r 
             INNER JOIN Envio e on r.codEnvio = e.codEnvio 
-            INNER JOIN Documento d ON e.NumDocumento = d.NumDocumento 
+            INNER JOIN Documento d ON e.numRegistro = d.numRegistro
             INNER JOIN TipoDocumento td ON d.codTipoDocumento = td.codTipoDocumento 
             INNER JOIN UsuarioArea uad ON e.codUsuarioDestino = uad.codUsuarioArea 
             INNER JOIN Usuario ud ON uad.codUsuario = ud.codUsuario 
@@ -69,7 +69,7 @@ BEGIN
             WHERE e.codUsuarioEnvio =  @codUsuarioArea
 			AND (@fechaInicio IS NULL OR e.fechaEnvio >= @fechaInicio)
 			AND (@fechaFin IS NULL OR e.fechaEnvio <= @fechaFin)
-			AND e.NumDocumento LIKE '%'+@numDocumento+'%'
+			AND d.NumDocumento LIKE '%'+@numDocumento+'%'
 			ORDER BY e.fechaEnvio DESC, e.horaEnvio DESC
 			OFFSET @offset ROWS
 			FETCH NEXT @registrosPorPagina ROWS ONLY;	

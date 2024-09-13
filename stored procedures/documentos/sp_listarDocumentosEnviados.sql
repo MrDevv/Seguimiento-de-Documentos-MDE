@@ -13,6 +13,7 @@ BEGIN
 		IF @codArea IS NULL
 		BEGIN
 			SELECT e.codEnvio,
+			e.numRegistro,
             LEFT(CONVERT(VARCHAR, e.horaEnvio, 108), 5) AS 'hora envio', 
             e.fechaEnvio, 
             e.folios, 
@@ -25,7 +26,7 @@ BEGIN
             ed.descripcion 'estado documento' 
             from Recepcion r 
             INNER JOIN Envio e on r.codEnvio = e.codEnvio 
-            INNER JOIN Documento d ON e.NumDocumento = d.NumDocumento 
+            INNER JOIN Documento d ON e.numRegistro = d.numRegistro
             INNER JOIN TipoDocumento td ON d.codTipoDocumento = td.codTipoDocumento 
             INNER JOIN UsuarioArea uad ON e.codUsuarioDestino = uad.codUsuarioArea 
             INNER JOIN Usuario ud ON uad.codUsuario = ud.codUsuario 
@@ -41,6 +42,7 @@ BEGIN
 		ELSE
 		BEGIN
 			SELECT e.codEnvio,
+				e.numRegistro,
 				LEFT(CONVERT(VARCHAR, e.horaEnvio, 108), 5) AS 'hora envio', 
 				e.fechaEnvio, 
 				e.folios, 
@@ -53,7 +55,7 @@ BEGIN
 				ed.descripcion 'estado documento' 
 				from Recepcion r 
 				INNER JOIN Envio e on r.codEnvio = e.codEnvio 
-				INNER JOIN Documento d ON e.NumDocumento = d.NumDocumento 
+				INNER JOIN Documento d ON e.numRegistro = d.numRegistro
 				INNER JOIN TipoDocumento td ON d.codTipoDocumento = td.codTipoDocumento 
 				INNER JOIN UsuarioArea uad ON e.codUsuarioDestino = uad.codUsuarioArea 
 				INNER JOIN Usuario ud ON uad.codUsuario = ud.codUsuario 

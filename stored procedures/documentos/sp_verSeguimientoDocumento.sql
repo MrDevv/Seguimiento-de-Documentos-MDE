@@ -1,6 +1,6 @@
 -- procedimiento almacenado para ver el seguimiento de un documento
 CREATE PROCEDURE sp_verSeguimientoDocumento(
-	@NumDocumento VARCHAR(40)
+	@numRegistro INT
 )
 AS BEGIN
 	SELECT  e.codEnvio, 
@@ -18,11 +18,11 @@ AS BEGIN
 			   r.fechaRecepcion,
 			   er.descripcion 'estado recepcion',
 			   (SELECT e.descripcion FROM Documento AS d INNER JOIN Estado e ON d.codEstado = e.codEstado
-				WHERE NumDocumento = @NumDocumento) AS 'Estado Documento'
+				WHERE numRegistro = @numRegistro) AS 'Estado Documento'
 				from Recepcion r
 				inner join Envio e on r.codEnvio = e.codEnvio
 				-- Datos del documento
-				INNER JOIN Documento d ON e.NumDocumento = d.NumDocumento
+				INNER JOIN Documento d ON e.numRegistro = d.numRegistro
 				-- Datos del tipo documento
 				INNER JOIN TipoDocumento td ON d.codTipoDocumento = td.codTipoDocumento
 				-- Usuario origen
@@ -39,7 +39,7 @@ AS BEGIN
 				INNER JOIN Area ad ON uad.codArea = ad.codArea
 				-- Estado de la recepcion
 				INNER JOIN Estado er ON r.codEstado = er.codEstado
-				where e.NumDocumento = @NumDocumento
+				where e.numRegistro = @numRegistro
 				ORDER BY e.fechaEnvio ASC, e.horaEnvio ASC
 END
 GO

@@ -10,10 +10,10 @@ BEGIN
 	BEGIN
 		WITH UltimosEnvios AS (
         SELECT
-            NumDocumento,
+            numRegistro,
             MAX(codEnvio) AS UltimoCodEnvio
         FROM Envio
-        GROUP BY NumDocumento
+        GROUP BY numRegistro
 		)    
 		SELECT
 			e.codEnvio,
@@ -29,7 +29,7 @@ BEGIN
 		FROM
 			Documento d
 		INNER JOIN
-			UltimosEnvios ue ON d.NumDocumento = ue.NumDocumento
+			UltimosEnvios ue ON d.numRegistro = ue.numRegistro
 		INNER JOIN
 			Envio e ON ue.UltimoCodEnvio = e.codEnvio
 		INNER JOIN
@@ -46,7 +46,7 @@ BEGIN
 			INNER JOIN Recepcion r on e.codEnvio = r.codEnvio
 			INNER JOIN Estado er on r.codEstado = er.codEstado
 		WHERE (@codArea IS NULL OR ua.codArea = @codArea) 
-		AND (@numDocumento IS NULL OR e.NumDocumento = @numDocumento)
+		AND (@numDocumento IS NULL OR d.NumDocumento = @numDocumento)
 		ORDER BY a.descripcion ASC
 	END
 	ELSE
@@ -56,10 +56,10 @@ BEGIN
 
 		WITH UltimosEnvios AS (
 			SELECT
-				NumDocumento,
+				numRegistro,
 				MAX(codEnvio) AS UltimoCodEnvio
 			FROM Envio
-			GROUP BY NumDocumento
+			GROUP BY numRegistro
 		)    
 		SELECT
 			e.codEnvio,
@@ -75,7 +75,7 @@ BEGIN
 		FROM
 			Documento d
 		INNER JOIN
-			UltimosEnvios ue ON d.NumDocumento = ue.NumDocumento
+			UltimosEnvios ue ON d.numRegistro = ue.numRegistro
 		INNER JOIN
 			Envio e ON ue.UltimoCodEnvio = e.codEnvio
 		INNER JOIN
@@ -92,7 +92,7 @@ BEGIN
 			INNER JOIN Recepcion r on e.codEnvio = r.codEnvio
 			INNER JOIN Estado er on r.codEstado = er.codEstado
 		WHERE (@codArea IS NULL OR ua.codArea = @codArea) 
-		AND (@numDocumento IS NULL OR e.NumDocumento = @numDocumento)
+		AND (@numDocumento IS NULL OR d.NumDocumento = @numDocumento)
 		ORDER BY a.descripcion ASC
 		OFFSET @offset ROWS
 		FETCH NEXT @registrosPorPagina ROWS ONLY;

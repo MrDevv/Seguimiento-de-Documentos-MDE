@@ -22,7 +22,7 @@ BEGIN
 				from Recepcion r
 				inner join Envio e on r.codEnvio = e.codEnvio
 				-- Datos del documento
-				INNER JOIN Documento d ON e.NumDocumento = d.NumDocumento
+				INNER JOIN Documento d ON e.numRegistro = d.numRegistro
 				-- Datos del tipo documento
 				INNER JOIN TipoDocumento td ON d.codTipoDocumento = td.codTipoDocumento
 				-- Estado del documento

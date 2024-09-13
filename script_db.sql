@@ -79,7 +79,8 @@ CREATE TABLE TipoDocumento(
 GO
 
 CREATE TABLE Documento(
-	NumDocumento VARCHAR(20) NOT NULL,
+	numRegistro INT NOT NULL IDENTITY(1,1),
+	NumDocumento VARCHAR(40) NOT NULL,
 	asunto VARCHAR(300) NOT NULL,
 	folios INT NOT NULL,
 	horaRegistro TIME NOT NULL,
@@ -87,7 +88,7 @@ CREATE TABLE Documento(
 	codUsuario INT NOT NULL,
 	codTipoDocumento INT NOT NULL,
 	codEstado INT NOT NULL,
-	PRIMARY KEY(NumDocumento),
+	PRIMARY KEY(numRegistro),
 	FOREIGN KEY(codUsuario) REFERENCES UsuarioArea(codUsuarioArea),
 	FOREIGN KEY(codTipoDocumento) REFERENCES TipoDocumento(codTipoDocumento),
 	FOREIGN KEY(codEstado) REFERENCES Estado(codEstado)
@@ -96,18 +97,18 @@ GO
 
 CREATE TABLE Envio(
 	codEnvio INT NOT NULL IDENTITY(1,1),
+	numRegistro INT NOT NULL,
 	fechaEnvio DATE NOT NULL,
 	horaEnvio TIME NOT NULL,
 	folios INT NOT NULL,
 	observaciones VARCHAR(300),
 	codIndicacion INT NOT NULL,
-	NumDocumento VARCHAR(20) NOT NULL,
 	codUsuarioEnvio INT NOT NULL,
 	codUsuarioDestino INT NOT NULL,
 	codEstado INT NOT NULL,
 	PRIMARY KEY(codEnvio),
 	FOREIGN KEY(codIndicacion) REFERENCES Indicacion(codIndicacion),
-	FOREIGN KEY(NumDocumento) REFERENCES Documento(NumDocumento),
+	FOREIGN KEY(numRegistro) REFERENCES Documento(numRegistro),
 	FOREIGN KEY(codUsuarioEnvio) REFERENCES UsuarioArea(codUsuarioArea),
 	FOREIGN KEY(codUsuarioDestino) REFERENCES UsuarioArea(codUsuarioArea),
 	FOREIGN KEY(codEstado) REFERENCES Estado(codEstado)

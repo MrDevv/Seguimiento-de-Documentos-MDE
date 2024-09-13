@@ -1,5 +1,5 @@
 -- Obtener documentos por usuario
-CREATE PROCEDURE sp_reporteDocumentosPorUsuario
+ALTER PROCEDURE sp_reporteDocumentosPorUsuario
     @codArea INT = NULL, 
 	@numDocumento VARCHAR(40) = NULL, 
 	@codUsuarioAreaDestino INT = NULL,
@@ -11,10 +11,10 @@ BEGIN
 	BEGIN    
 		WITH UltimosEnvios AS (
 			SELECT
-				NumDocumento,
+				numRegistro,
 				MAX(codEnvio) AS UltimoCodEnvio
 			FROM Envio
-			GROUP BY NumDocumento
+			GROUP BY numRegistro
 		)
 		-- Seleccionar los documentos que están en el área especificada o en todas las áreas si @codArea es NULL
 		SELECT
@@ -31,7 +31,7 @@ BEGIN
 		FROM
 			Documento d
 		INNER JOIN
-			UltimosEnvios ue ON d.NumDocumento = ue.NumDocumento
+			UltimosEnvios ue ON d.numRegistro = ue.numRegistro
 		INNER JOIN
 			Envio e ON ue.UltimoCodEnvio = e.codEnvio
 		INNER JOIN
@@ -49,7 +49,7 @@ BEGIN
 			INNER JOIN Estado er on r.codEstado = er.codEstado
 		WHERE
 			(@codArea IS NULL OR ua.codArea = @codArea) 
-			AND (@numDocumento IS NULL OR e.NumDocumento = @numDocumento) 
+			AND (@numDocumento IS NULL OR d.NumDocumento = @numDocumento) 
 			AND (@codUsuarioAreaDestino IS NULL OR uae.codUsuarioArea = @codUsuarioAreaDestino)
 		ORDER BY pd.nombres
 	END
@@ -60,10 +60,10 @@ BEGIN
 
 		WITH UltimosEnvios AS (
 		SELECT
-			NumDocumento,
+			numRegistro,
 			MAX(codEnvio) AS UltimoCodEnvio
 		FROM Envio
-		GROUP BY NumDocumento
+		GROUP BY numRegistro
 		)
 		-- Seleccionar los documentos que están en el área especificada o en todas las áreas si @codArea es NULL
 		SELECT
@@ -80,7 +80,7 @@ BEGIN
 		FROM
 			Documento d
 		INNER JOIN
-			UltimosEnvios ue ON d.NumDocumento = ue.NumDocumento
+			UltimosEnvios ue ON d.numRegistro = ue.numRegistro
 		INNER JOIN
 			Envio e ON ue.UltimoCodEnvio = e.codEnvio
 		INNER JOIN
@@ -98,7 +98,7 @@ BEGIN
 			INNER JOIN Estado er on r.codEstado = er.codEstado
 		WHERE
 			(@codArea IS NULL OR ua.codArea = @codArea) 
-			AND (@numDocumento IS NULL OR e.NumDocumento = @numDocumento) 
+			AND (@numDocumento IS NULL OR d.NumDocumento = @numDocumento) 
 			AND (@codUsuarioAreaDestino IS NULL OR uae.codUsuarioArea = @codUsuarioAreaDestino)
 		ORDER BY pd.nombres
 		OFFSET @offset ROWS

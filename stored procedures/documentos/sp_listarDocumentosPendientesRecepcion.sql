@@ -23,7 +23,7 @@ BEGIN
 			e.folios, 
 			e.observaciones,
 			er.descripcion 'estado recepcion', 
-			e.NumDocumento, 
+			d.NumDocumento, 
 			td.descripcion 'tipo documento', 
 			CONCAT(pe.nombres, ' ',pe.apellidos) 'usuario origen', 
 			ae.descripcion 'area origen', 
@@ -33,7 +33,7 @@ BEGIN
 			FROM Recepcion r
 			INNER JOIN Envio e ON r.codEnvio = e.codEnvio 
 			INNER JOIN Estado er ON r.codEstado = er.codEstado
-			INNER JOIN Documento d ON e.NumDocumento = d.NumDocumento
+			INNER JOIN Documento d ON e.numRegistro = d.numRegistro
 			INNER JOIN TipoDocumento td ON d.codTipoDocumento = td.codTipoDocumento
 			INNER JOIN UsuarioArea uae ON e.codUsuarioEnvio = uae.codUsuarioArea
 			INNER JOIN Usuario ue ON uae.codUsuario = ue.codUsuario 
@@ -59,7 +59,7 @@ BEGIN
 			e.folios, 
 			e.observaciones,
 			er.descripcion 'estado recepcion', 
-			e.NumDocumento, 
+			d.NumDocumento, 
 			td.descripcion 'tipo documento', 
 			CONCAT(pe.nombres, ' ',pe.apellidos) 'usuario origen', 
 			ae.descripcion 'area origen', 
@@ -69,7 +69,7 @@ BEGIN
 			FROM Recepcion r
 			INNER JOIN Envio e ON r.codEnvio = e.codEnvio 
 			INNER JOIN Estado er ON r.codEstado = er.codEstado
-			INNER JOIN Documento d ON e.NumDocumento = d.NumDocumento
+			INNER JOIN Documento d ON e.numRegistro = d.numRegistro
 			INNER JOIN TipoDocumento td ON d.codTipoDocumento = td.codTipoDocumento
 			INNER JOIN UsuarioArea uae ON e.codUsuarioEnvio = uae.codUsuarioArea
 			INNER JOIN Usuario ue ON uae.codUsuario = ue.codUsuario 

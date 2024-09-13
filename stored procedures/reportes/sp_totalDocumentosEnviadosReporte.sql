@@ -10,10 +10,11 @@ BEGIN
 		SELECT
         COUNT (e.codEnvio) 'total'
         from Recepcion r 
-        INNER JOIN Envio e on r.codEnvio = e.codEnvio 
+        INNER JOIN Envio e on r.codEnvio = e.codEnvio
+		INNER JOIN Documento d on e.numRegistro = d.numRegistro
         WHERE e.codUsuarioEnvio =  @codUsuarioArea
 		AND (@fechaInicio IS NULL OR e.fechaEnvio >= @fechaInicio)
 		AND (@fechaFin IS NULL OR e.fechaEnvio <= @fechaFin)
-		AND e.NumDocumento LIKE '%'+@numDocumento+'%'
+		AND d.NumDocumento LIKE '%'+@numDocumento+'%'
 END
 GO
